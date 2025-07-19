@@ -6,6 +6,7 @@
 /node_modules/
 .env
 .env.*
+!.env.example
 /storage/*.key
 /public/hot
 /public/storage
