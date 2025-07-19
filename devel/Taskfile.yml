@@ -1,0 +1,34 @@
+version: '3'
+
+dotenv: ['.env', '{{.HOME}}/.env']
+
+vars:
+  docker_cmd: '{{.DOCKER_CMD | default "docker compose"}}'
+
+tasks:
+  hello:
+    silent: true
+    desc: "Confirm that Task is working and print DOCKER_CMD"
+    cmds:
+      - echo "✅ Hello from Task."
+      - echo "🔧 DOCKER_CMD = {{.DOCKER_CMD}}"
+    
+  build:
+    desc: "Build Docker/Lima containers"
+    cmds:
+      - '{{.docker_cmd}} build'
+
+  up:
+    desc: "Start Docker/Lima containers"
+    cmds:
+      - '{{.docker_cmd}} up -d'
+
+  down:
+    desc: "Stop Docker/Lima containers"
+    cmds:
+      - '{{.docker_cmd}} down'
+
+  logs:
+    desc: "Tail logs from Docker/Lima containers"
+    cmds:
+      - '{{.docker_cmd}} logs -f'
