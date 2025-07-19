@@ -29,4 +29,3 @@ Route::prefix('beta')->group(function () {
     Route::get('/positions', [PositionController::class, 'index']);
     Route::post('/trades/import', [StoreConfirmationController::class, 'store']);
 });
-
