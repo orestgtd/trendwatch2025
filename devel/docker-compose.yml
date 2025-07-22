@@ -1,9 +1,7 @@
-version: '3.8'
-
 services:
   php:
     build:
-      context: ./laravel
+      context: ./docker/php-8.2-fpm
       dockerfile: Dockerfile
       args:
         user: laravel
@@ -11,7 +9,7 @@ services:
     container_name: laravel-php
     working_dir: /var/www/html
     volumes:
-      - ./laravel:/var/www/html
+      - ./devel/laravel:/var/www/html
     ports:
       - "9000:9000"
     networks:
