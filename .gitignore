@@ -69,3 +69,7 @@ docker-compose.override.yml
 *.ipr
 *.iws
 
+# Ignore bare repo storage (local-only)
+repos/*
+!repos/.gitkeep
+!repo/sREADME.md
