@@ -2,7 +2,8 @@
 
 namespace App\Domain\Security\Outcome;
 
-interface SecurityOutcome
+use App\Domain\Outcome\Outcome;
+
+interface SecurityOutcome extends Outcome
 {
-    public function requiresPersistence(): bool;
 }

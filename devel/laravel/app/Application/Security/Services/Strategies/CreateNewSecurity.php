@@ -9,9 +9,10 @@ use App\Application\Security\{
 use App\Domain\Security\{
     Builders\BuildNewSecurity,
     Model\Security,
+    Outcome\NewSecurityCreated,
     ValueObjects\Variations\NoVariations,
 };
-use App\Domain\Security\Outcome\NewSecurityCreated;
+
 use App\Shared\Result;
 
 final class CreateNewSecurity

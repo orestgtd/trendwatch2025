@@ -9,10 +9,6 @@ use App\Application\Security\{
     Services\Strategies\UpdateExistingSecurity,
 };
 
-use App\Domain\Security\{
-    Model\Security,
-};
-
 use App\Shared\Result;
 
 class SecurityService

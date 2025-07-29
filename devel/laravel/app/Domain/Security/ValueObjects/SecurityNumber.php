@@ -2,6 +2,8 @@
 
 namespace App\Domain\Security\ValueObjects;
 
+use App\Domain\Common\ValueObjects\AbstractValueObject;
+
 use App\Shared\Result;
 
 final class SecurityNumber extends AbstractValueObject

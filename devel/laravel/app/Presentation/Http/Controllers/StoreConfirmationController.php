@@ -10,43 +10,46 @@ use Illuminate\Http\{
 use App\Application\{
     UseCases\StoreConfirmation,
 };
-
+use App\Application\Summary\OutcomeSummary;
 use App\Domain\Security\{
-    Model\Security,
     Outcome\SecurityOutcome,
 };
 
 use App\Infrastructure\Laravel\Eloquent\{
     UnitOfWork,
 };
-use App\Presentation\Http\Presenters\SecurityPresenter;
+
+use App\Presentation\Http\Presenters\SummaryPresenter;
 
 final class StoreConfirmationController extends Controller
 {
     public function __construct(
         private StoreConfirmation $usecase,
-        private UnitOfWork $unitOfWork
+        private UnitOfWork $unitOfWork,
+        private SummaryPresenter $presenter,
     ) {}
 
     public function store(Request $request): JsonResponse
     {
-        return
-            $this->usecase->handle($request->all())
-            ->match(
-                fn (SecurityOutcome $context) => $this->success($context->security),
-                fn (string $error) => $this->failure($error, 422)
-            );
+        return $this->usecase->handle($request->all())
+        ->match(
+            fn (OutcomeSummary $outcome) => $this->success($outcome),
+            fn (string $error) => $this->failure($error)
+        );
     }
 
-    private function success(Security $security): JsonResponse
+    private function success(OutcomeSummary $summary): JsonResponse
     {
         return response()->json([
                 'status' => 'ok',
-                'security' => SecurityPresenter::toArray($security),
+                'thing' => $this->presenter->toArray(
+                    $summary->confirmationOutcome,
+                    $summary->securityOutcome
+                ),
         ]);
     }
 
-    private function failure(string $error, int $code): JsonResponse
+    private function failure(string $error, int $code = 422): JsonResponse
     {
         return response()->json(
             [

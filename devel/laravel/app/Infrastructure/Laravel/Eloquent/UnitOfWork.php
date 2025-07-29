@@ -2,23 +2,27 @@
 
 namespace App\Infrastructure\Laravel\Eloquent;
 
-use App\Domain\Security\{
-    Model\Security,
+use App\Domain\{
+    Confirmation\Model\Confirmation,
+    Security\Model\Security,
 };
 
-use App\Infrastructure\Laravel\Eloquent\Security\{
-    Repositories\EloquentSecurityRepository as SecurityRepository,
+use App\Infrastructure\Laravel\Eloquent\{
+    Trade\Repositories\EloquentTradeRepository as TradeRepository,
+    Security\Repositories\EloquentSecurityRepository as SecurityRepository,
 };
 
 use Illuminate\Support\Facades\DB;
 
 class UnitOfWork
 {
+    private ?Confirmation $confirmation = null;
     private ?Security $security = null;
 
     // private Position $position; // for future use
 
     public function __construct(
+        private TradeRepository $tradeRepository,
         private SecurityRepository $securityRepository
     ) {}
 
@@ -28,6 +32,12 @@ class UnitOfWork
 
     //     return $this;
     // }
+
+    public function withConfirmation(Confirmation $confirmation): self
+    {
+        $this->confirmation = $confirmation;
+        return $this;
+    }
 
     public function withSecurity(Security $security): self
     {
@@ -43,14 +53,14 @@ class UnitOfWork
 
     public function persist(): void
     {
-        if ($this->security) {
-            DB::beginTransaction();
-            // if ($this->position) {
-            //     $this->position->save();
-            // }
-            $this->securityRepository->save($this->security);
-            DB::commit();
+        DB::beginTransaction();
+        if ($this->confirmation) {
+            $this->tradeRepository->save($this->confirmation);
         }
+        if ($this->security) {
+            $this->securityRepository->save($this->security);
+        }
+        DB::commit();
     }
 
     public function rollback(): void

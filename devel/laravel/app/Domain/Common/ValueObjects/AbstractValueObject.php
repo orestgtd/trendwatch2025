@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Security\ValueObjects;
+namespace App\Domain\Common\ValueObjects;
 
 use App\Shared\Result;
 

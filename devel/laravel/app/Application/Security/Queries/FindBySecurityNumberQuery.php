@@ -9,7 +9,7 @@ use App\Domain\Security\{
 };
 
 use App\Infrastructure\Laravel\Eloquent\Security\{
-    DTO\PersistedSecurityDTO,
+    Dto\PersistedSecurityDTO,
     Repositories\EloquentSecurityRepository as SecurityRepository,
 };
 
@@ -38,5 +38,17 @@ final class FindBySecurityNumberQuery
             $persisted->unitType,
             $persisted->expirationDate
         );
+        $eloquent = $this->repository->findBySecurityNumber($securityNumber);
+
+        return $eloquent
+            ? BuildSecurityFrom::from(
+                $eloquent['security_number'],
+                $eloquent['symbol'],
+                $eloquent['canonical_description'],
+                $eloquent['variations'],
+                $eloquent['unit_type'],
+                $eloquent['expiration_date'],
+            )
+            : null;
     }
 }

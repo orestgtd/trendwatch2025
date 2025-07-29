@@ -18,6 +18,7 @@ class StoreConfirmationTest extends TestCase
     {
         // GIVEN: first trade
         $trade1 = [
+            'trade_number' => '001733',
             'transaction_date' => '2022-05-16',
             'security_number' => '7653ZG',
             'symbol' => 'SPX',
@@ -31,6 +32,7 @@ class StoreConfirmationTest extends TestCase
 
         // GIVEN: second trade
         $trade2 = [
+            'trade_number' => '333499',
             'transaction_date' => '2022-05-23',
             'security_number' => '151447',
             'symbol' => 'CVE',
