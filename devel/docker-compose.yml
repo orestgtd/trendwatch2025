@@ -15,6 +15,21 @@ services:
     networks:
       - laravel
 
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile.dev
+    container_name: laravel-nginx
+    ports:
+      - "8080:80"  # Expose Nginx to host
+    volumes:
+      - ./docker/nginx/nginx.dev.conf:/etc/nginx/nginx.conf:ro
+      - ./laravel:/var/www/html
+    depends_on:
+      - php
+    networks:
+      - laravel
+
 networks:
   laravel:
     driver: bridge
