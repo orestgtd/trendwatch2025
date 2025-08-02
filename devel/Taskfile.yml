@@ -33,6 +33,11 @@ tasks:
     cmds:
       - '{{.docker_cmd}} logs -f'
 
+  elmsh:
+    desc: "Open a shell into the Elm container"
+    cmds:
+      - '{{.docker_cmd}} exec -it elm /bin/bash || true'
+
   phpsh:
     desc: "Open a shell into the PHP container"
     cmds:

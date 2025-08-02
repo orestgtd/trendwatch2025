@@ -27,6 +27,3 @@ RUN mkdir -p /app/static/css && \
 RUN echo 'echo "Elm version: $(elm --version)"' >> /home/elmuser/.bashrc \
   && echo 'echo "elm-test version: $(elm-test --version)"' >> /home/elmuser/.bashrc \
   && echo 'export PATH="$HOME/node_modules/.bin:$PATH"' >> /home/elmuser/.bashrc
-
-# Set the default shell (bash) for the user
-CMD ["/bin/bash"]

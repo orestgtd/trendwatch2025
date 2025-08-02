@@ -1,4 +1,16 @@
 services:
+  elm:
+    build:
+      context: ./docker/elm
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    working_dir: /app/elm
+    networks:
+      - laravel
+    tty: true
+    stdin_open: true
+
   php:
     build:
       context: ./docker/php-8.2-fpm
