@@ -37,6 +37,7 @@ services:
     volumes:
       - ./docker/nginx/nginx.dev.conf:/etc/nginx/nginx.conf:ro
       - ./laravel:/var/www/html
+      - ./elm/public:/app/devel/elm/public:ro
     depends_on:
       - php
     networks:
