@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Http\Request;
-use \App\Presentation\Http\Controllers\HelloController;
+use \App\Presentation\Http\Controllers\{
+    HelloController,
+    PositionController,
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -20,4 +23,5 @@ use \App\Presentation\Http\Controllers\HelloController;
 
 Route::prefix('beta')->group(function () {
     Route::get('/hello', [HelloController::class, 'index']);
+    Route::get('/positions', [PositionController::class, 'index']);
 });
