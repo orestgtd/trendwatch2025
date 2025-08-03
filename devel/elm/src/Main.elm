@@ -6,6 +6,8 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Http
 
+import Types exposing (Model, Msg(..))
+import View.Main exposing (viewBody)
 
 -- MAIN
 
@@ -22,13 +24,6 @@ main =
 
 -- MODEL
 
-
-type alias Model =
-    { output : String
-    , loading : Bool
-    }
-
-
 initialModel : Model
 initialModel =
     { output = ""
@@ -37,12 +32,6 @@ initialModel =
 
 
 -- UPDATE
-
-
-type Msg
-    = ClickHello
-    | GotResponse (Result Http.Error String)
-
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -63,18 +52,12 @@ update msg model =
 
 -- VIEW
 
-
 view : Model -> Html Msg
 view model =
-    div []
-        [ button [ onClick ClickHello, disabled model.loading ] [ text "Hello" ]
-        , div [ style "margin-top" "1em" ]
-            [ text (if model.loading then "Loading..." else model.output) ]
-        ]
+    viewBody model
 
 
 -- HTTP
-
 
 getHello : Cmd Msg
 getHello =
@@ -82,7 +65,6 @@ getHello =
         { url = "/trendwatch"
         , expect = Http.expectString GotResponse
         }
-
 
 httpErrorToString : Http.Error -> String
 httpErrorToString error =
