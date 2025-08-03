@@ -24,7 +24,8 @@
 # Elm
 # =====================
 
-/elm-stuff/
+/devel/elm/public/
+/devel/elm/elm-stuff/
 /node_modules/
 /dist/
 
