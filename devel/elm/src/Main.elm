@@ -11,12 +11,13 @@ import Url exposing (Url)
 
 import Main.Route exposing (Page(..), urlToPage)
 import Types exposing (Model, Msg(..))
--- import View.Main exposing (viewBody)
 
-import View.Confirmation
-import View.Positions
-import View.Hello
-import View.NotFound
+import Page.Confirmation
+import Page.Hello
+import Page.Positions
+import Page.NotFound
+
+import Util.Http exposing (httpErrorToString)
 
 -- MAIN
 
@@ -44,6 +45,10 @@ init _ url key =
       , page = page
       , output = ""
       , loading = False
+      , helloModel = Page.Hello.init
+      , confirmationModel = Page.Confirmation.init
+      , positionsModel = Page.Positions.init
+      , notFoundModel = Page.NotFound.init
       }
     , Cmd.none
     )
@@ -53,10 +58,6 @@ init _ url key =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        ClickHello ->
-            ( { model | loading = True, output = "" }
-            , getHello
-            )
 
         GotResponse result ->
             case result of
@@ -65,6 +66,13 @@ update msg model =
 
                 Err error ->
                     ( { model | output = httpErrorToString error, loading = False }, Cmd.none )
+
+        PageHelloMsg subMsg ->
+            let
+                (updatedHelloModel, cmd) =
+                    Page.Hello.update subMsg model.helloModel
+            in
+            ( { model | helloModel = updatedHelloModel }, Cmd.map PageHelloMsg cmd )
 
         UrlChanged newUrl ->
             let
@@ -80,6 +88,31 @@ update msg model =
                 Browser.External href ->
                     ( model, Nav.load href )
 
+        PageConfirmationMsg subMsg ->
+            let
+                ( updatedConfirmationModel, cmd ) =
+                    Page.Confirmation.update subMsg model.confirmationModel
+            in
+            ( { model | confirmationModel = updatedConfirmationModel }
+            , Cmd.map PageConfirmationMsg cmd
+            )
+
+        PagePositionsMsg subMsg ->
+            let
+                ( updatedPositionsModel, cmd ) =
+                    Page.Positions.update subMsg model.positionsModel
+            in
+            ( { model | positionsModel = updatedPositionsModel }
+            , Cmd.map PagePositionsMsg cmd
+            )
+
+        PageNotFoundMsg _ ->
+            ( model, Cmd.none )
+
+        NoOp ->
+            ( model, Cmd.none )
+
+
 -- VIEW
 
 view : Model -> Browser.Document Msg
@@ -88,19 +121,24 @@ view model =
         pageContent =
             case model.page of
                 ConfirmationPage ->
-                    View.Confirmation.view
+                    Page.Confirmation.view model.confirmationModel
+                        |> Html.map PageConfirmationMsg
+
 
                 PositionsPage ->
-                    View.Positions.view
+                    Page.Positions.view model.positionsModel
+                        |> Html.map PagePositionsMsg
 
                 HelloPage ->
-                    View.Hello.view
+                    Page.Hello.view model.helloModel
+                        |> Html.map PageHelloMsg
 
                 BuyWritePage ->
                     Html.text "BuyWrite page not implemented yet"
 
                 NotFound ->
-                    View.NotFound.view
+                    Page.NotFound.view model.notFoundModel
+                        |> Html.map PageNotFoundMsg
     in
     { title = "My App"
     , body =
@@ -138,21 +176,3 @@ getHello =
         { url = "/trendwatch"
         , expect = Http.expectString GotResponse
         }
-
-httpErrorToString : Http.Error -> String
-httpErrorToString error =
-    case error of
-        Http.BadUrl url ->
-            "Bad URL: " ++ url
-
-        Http.Timeout ->
-            "Request timed out"
-
-        Http.NetworkError ->
-            "Network error"
-
-        Http.BadStatus statusCode ->
-            "Bad status: " ++ String.fromInt statusCode
-
-        Http.BadBody msg ->
-            "Bad body: " ++ msg
