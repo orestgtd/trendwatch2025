@@ -11,7 +11,12 @@ import Url exposing (Url)
 
 import Main.Route exposing (Page(..), urlToPage)
 import Types exposing (Model, Msg(..))
-import View.Main exposing (viewBody)
+-- import View.Main exposing (viewBody)
+
+import View.Confirmation
+import View.Positions
+import View.Hello
+import View.NotFound
 
 -- MAIN
 
@@ -77,68 +82,30 @@ update msg model =
 
 -- VIEW
 
-{--
-view : Model -> Browser.Document Msg
-view model =
-    { title = "Trendwatch"
-    , body = [ viewBody model ]
-    }
---}
-
-{--
-view : Model -> Browser.Document Msg
-view model =
-    case model.page of
-        ConfirmationPage ->
-            { title = "Confirmation"
-            , body = [ Html.h1 [] [ text "Confirmation Page" ] ]
-            }
-
-        PositionsPage ->
-            { title = "Positions"
-            , body = [ Html.h1 [] [ text "Positions Page" ] ]
-            }
-
-        BuyWritePage ->
-            { title = "BuyWrite"
-            , body = [ Html.h1 [] [ text "BuyWrite Page" ] ]
-            }
-
-        HelloPage ->
-            { title = "Hello"
-            , body = [ Html.h1 [] [ text "Hello Page" ] ]
-            }
-
-        NotFound ->
-            { title = "Page Not Found"
-            , body = [ Html.h1 [] [ text "404 - Page Not Found" ] ]
-            }
---}
-
 view : Model -> Browser.Document Msg
 view model =
     let
         pageContent =
             case model.page of
                 ConfirmationPage ->
-                    Html.h1 [] [ Html.text "Confirmation Page" ]
+                    View.Confirmation.view
 
                 PositionsPage ->
-                    Html.h1 [] [ Html.text "Positions Page" ]
-
-                BuyWritePage ->
-                    Html.h1 [] [ Html.text "BuyWrite Page" ]
+                    View.Positions.view
 
                 HelloPage ->
-                    Html.h1 [] [ Html.text "Hello Page" ]
+                    View.Hello.view
+
+                BuyWritePage ->
+                    Html.text "BuyWrite page not implemented yet"
 
                 NotFound ->
-                    Html.h1 [] [ Html.text "404 - Page Not Found" ]
+                    View.NotFound.view
     in
     { title = "My App"
     , body =
-        [ viewLinks  -- <-- Insert navigation links here
-        , Html.div [] [ pageContent ]  -- Your page-specific content below the links
+        [ viewLinks
+        , Html.div [] [ pageContent ]
         ]
     }
 
@@ -159,7 +126,7 @@ viewLinks =
     Html.div []
         [ link "/" "Confirmation"
         , link "/positions" "Positions"
-        , link "/buywrite" "BuyWrite"
+        , link "/hello" "Hello"
         ]
 
 
