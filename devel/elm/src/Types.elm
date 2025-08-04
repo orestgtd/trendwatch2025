@@ -1,12 +1,19 @@
 module Types exposing (Model, Msg(..))
 
+import Browser
+import Browser.Navigation as Nav
 import Http exposing (Error)
+import Url exposing (Url)
 
 type alias Model =
-    { output : String
+    { key : Nav.Key
+    , url : Url
+    , output : String
     , loading : Bool
     }
 
 type Msg
     = ClickHello
-    | GotResponse (Result Error String)
+    | GotResponse (Result Http.Error String)
+    | UrlChanged Url
+    | LinkClicked Browser.UrlRequest
