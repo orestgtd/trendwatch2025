@@ -5,9 +5,12 @@ import Browser.Navigation as Nav
 import Http exposing (Error)
 import Url exposing (Url)
 
+import Main.Route exposing (Page)
+
 type alias Model =
     { key : Nav.Key
     , url : Url
+    , page : Page
     , output : String
     , loading : Bool
     }
