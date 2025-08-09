@@ -1,9 +1,8 @@
-module Page.Positions exposing (Model, Msg, init, update, view)
+module Page.Positions exposing (Model, Msg, init, update, view, fetchPositions)
 
 import Html exposing (Html, button, div, text)
 import Html.Events exposing (onClick)
 import Http
-
 import Util.Http exposing (httpErrorToString)
 
 -- MODEL
@@ -22,18 +21,18 @@ init =
 -- MESSAGES
 
 type Msg
-    = NoOp
-    | GotResponse (Result Http.Error String)
+    = GotResponse (Result Http.Error String)
+    | FetchPositions
 
 
 -- UPDATE
 
-update : Msg -> Model -> (Model, Cmd Msg)
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        NoOp ->
-            (model, Cmd.none)
-        
+        FetchPositions ->
+            ( { model | loading = True }, getPositions )
+
         GotResponse result ->
             case result of
                 Ok response ->
@@ -43,14 +42,21 @@ update msg model =
                     ( { model | output = httpErrorToString error, loading = False }, Cmd.none )
 
 
-{--
-getHello : Cmd Msg
-getHello =
+-- HTTP
+
+getPositions : Cmd Msg
+getPositions =
     Http.get
-        { url = "/trendwatch"
+        { url = "/api/positions" -- change to full URL if needed
         , expect = Http.expectString GotResponse
         }
---}
+
+
+-- PUBLIC ACTION
+
+fetchPositions : Msg
+fetchPositions =
+    FetchPositions
 
 
 -- VIEW
@@ -58,4 +64,9 @@ getHello =
 view : Model -> Html Msg
 view model =
     div []
-        [ text "Positions Page content here" ]
+        [ button [ onClick FetchPositions ] [ text "Fetch Positions" ]
+        , if model.loading then
+            div [] [ text "Loading..." ]
+          else
+            div [] [ text model.output ]
+        ]
