@@ -10,6 +10,7 @@ class PositionController
     public function index(Request $request): JsonResponse
     {
         // Placeholder: will eventually return filtered positions
-        return response()->json([]);
+        return response()->json(['message' => 'There are no positions in Laravel.']);
+
     }
 }
