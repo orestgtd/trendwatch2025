@@ -7,6 +7,9 @@ RUN apk add --no-cache curl nodejs npm bash build-base
 # Install Elm and elm-test globally
 RUN npm install -g elm@0.19.1 elm-test
 
+# Install elm-review globally
+RUN npm install -g elm-review
+
 # Create a non-root user 'elmuser'
 RUN adduser -D elmuser
 

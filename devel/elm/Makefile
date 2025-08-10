@@ -10,7 +10,7 @@ TAILWIND_OUTPUT = public/output.css
 # Default content for input.css
 TAILWIND_DEFAULT = '@tailwind base;\n@tailwind components;\n@tailwind utilities;'
 
-.PHONY: all clean test css elm build init
+.PHONY: all clean test css elm build init review-init review
 
 # Default build: Elm + Tailwind
 all: build
@@ -46,3 +46,11 @@ clean:
 # Run Elm tests
 test:
 	elm-test
+
+# Initialize elm-review in this folder
+review-init:
+	npx elm-review init
+
+# Run elm-review
+review:
+	npx elm-review
