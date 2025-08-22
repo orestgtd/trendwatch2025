@@ -41,7 +41,7 @@ tasks:
   phpsh:
     desc: "Open a shell into the PHP container"
     cmds:
-      - '{{.docker_cmd}} exec -it php /bin/bash'
+      - '{{.docker_cmd}} exec -it php /bin/bash || true'
 
   install-laravel:
     desc: Install Laravel into the PHP container
@@ -52,3 +52,8 @@ tasks:
         -w /app \
         php \
         composer create-project laravel/laravel .
+
+  git-status:
+    desc: "Show short status of all modified/untracked files"
+    cmds:
+      - git status -s
