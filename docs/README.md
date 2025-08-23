@@ -10,3 +10,6 @@ This project uses Docker Compose for development and deployment. It is designed 
 
 ## Business Rules
 - [Business Rules for Positions](docs/position-business-rules.md): 
+
+## Architecture & Design
+- 🧩 [Pipeline Design](docs/pipeline-design.md): Principles for building pure, testable pipelines
