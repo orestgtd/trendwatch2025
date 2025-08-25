@@ -6,6 +6,7 @@ This project uses Docker Compose for development and deployment. It is designed 
 
 - 🛠 [Environment Setup](docs/env-setup.md): `.env` file, `DOCKER_CMD`, and usage
 - 📦 [Elm Container Setup](docs/elm-container.md): Shell access, working directory, and volume notes
+- 📝 [Commit Message Conventions](docs/COMMIT_CONVENTIONS.md): Prefixes and formatting guidelines
 
 ## Business Rules
 - [Business Rules for Positions](docs/position-business-rules.md): 
