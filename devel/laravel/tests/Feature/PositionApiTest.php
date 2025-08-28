@@ -15,6 +15,6 @@ class PositionApiTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertExactJson([]);
+            ->assertJson(['message' => 'There are no positions in Laravel.']);
     }
 }
