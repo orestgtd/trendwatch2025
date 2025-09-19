@@ -2,6 +2,15 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Security\Model;
 
+use App\Infrastructure\Laravel\Eloquent\Security\Casts\{
+    DescriptionCast,
+    ExpirationDateCast,
+    SecurityNumberCast,
+    SymbolCast,
+    UnitTypeCast,
+    VariationsCast,
+};
+
 use Illuminate\Database\Eloquent\Model;
 
 class Security extends Model
@@ -18,6 +27,11 @@ class Security extends Model
     ];
 
     protected $casts = [
-        'variations'  => 'array',
+        'canonical_description' => DescriptionCast::class,
+        'expiration_date' => ExpirationDateCast::class,
+        'security_number' => SecurityNumberCast::class,
+        'symbol' => SymbolCast::class,
+        'unit_type' => UnitTypeCast::class,
+        'variations'  => VariationsCast::class,
     ];
 }

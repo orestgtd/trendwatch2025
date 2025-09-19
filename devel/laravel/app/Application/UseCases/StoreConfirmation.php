@@ -3,19 +3,18 @@
 namespace App\Application\UseCases;
 
 use App\Application\Security\{
-    Dto\ParsedSecurityDto,
+    Dto\ParsedSecurityRequestDto,
     Dto\ValidatedSecurityDto,
     Services\SecurityService,
 };
 
 use App\Domain\Security\{
-    Context\SecurityContextWithOutcome,
+    Outcome\SecurityOutcome,
 };
 
 use App\Infrastructure\Laravel\Eloquent\UnitOfWork;
 
 use App\Shared\Result;
-use Illuminate\Auth\Events\Validated;
 
 final class StoreConfirmation
 {
@@ -28,27 +27,27 @@ final class StoreConfirmation
     public function handle(array $data): Result
     {
         return $this->securityDtoFromData($data)
-            ->bind(fn (ParsedSecurityDto $parsed) => $this->securityService->processSecurityRequestDto($parsed))
-            ->tap(fn(SecurityContextWithOutcome $context) => $this->processOutcome($context))
+            ->bind(fn (ParsedSecurityRequestDto $parsed) => $this->securityService->processSecurityRequest($parsed))
+            ->tap(fn(SecurityOutcome $outcome) => $this->registerSecurityOutcome($outcome))
             ->tap(fn() => $this->uow->persist())
         ;
     }
 
-    /** @return Result<ParsedSecurityDto> */
+    /** @return Result<ParsedSecurityRequestDto> */
     private function securityDtoFromData(array $data): Result
     {
         return
             ValidatedSecurityDto::fromArray($data)
             ->bind(
-                fn (ValidatedSecurityDto $validatedDto): Result => ParsedSecurityDto::fromValidatedSecurityDto($validatedDto)
+                fn (ValidatedSecurityDto $validatedDto): Result => ParsedSecurityRequestDto::fromValidatedSecurityDto($validatedDto)
             );
     }
 
-    private function processOutcome(SecurityContextWithOutcome $context): void
+    private function registerSecurityOutcome(SecurityOutcome $outcome): void
     {
-        if($context->outcome->requiresPersistence())
+        if($outcome->requiresPersistence())
         {
-            $this->uow->withSecurity($context->security);
+            $this->uow->withSecurity($outcome->security);
         }
     }
 }

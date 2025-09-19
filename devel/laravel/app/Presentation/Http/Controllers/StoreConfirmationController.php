@@ -12,8 +12,8 @@ use App\Application\{
 };
 
 use App\Domain\Security\{
-    Context\SecurityContextWithOutcome,
     Model\Security,
+    Outcome\SecurityOutcome,
 };
 
 use App\Infrastructure\Laravel\Eloquent\{
@@ -30,15 +30,12 @@ final class StoreConfirmationController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $response =
+        return
             $this->usecase->handle($request->all())
             ->match(
-                fn (SecurityContextWithOutcome $context) => $this->success($context->security),
+                fn (SecurityOutcome $context) => $this->success($context->security),
                 fn (string $error) => $this->failure($error, 422)
-            )
-            ;
-
-        return $response;
+            );
     }
 
     private function success(Security $security): JsonResponse

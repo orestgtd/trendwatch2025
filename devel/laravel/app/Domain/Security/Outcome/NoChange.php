@@ -2,7 +2,9 @@
 
 namespace App\Domain\Security\Outcome;
 
-final class NoChange implements SecurityOutcome
+use App\Domain\Security\Outcome\AbstractOutcome;
+
+final class NoChange extends AbstractOutcome
 {
     public function requiresPersistence(): bool
     {

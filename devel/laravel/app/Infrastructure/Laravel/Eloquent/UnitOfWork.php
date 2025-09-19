@@ -2,8 +2,13 @@
 
 namespace App\Infrastructure\Laravel\Eloquent;
 
-use App\Domain\Security\Model\Security;
-use App\Domain\Security\Repositories\SecurityRepository;
+use App\Domain\Security\{
+    Model\Security,
+};
+
+use App\Infrastructure\Laravel\Eloquent\Security\{
+    Repositories\EloquentSecurityRepository as SecurityRepository,
+};
 
 use Illuminate\Support\Facades\DB;
 

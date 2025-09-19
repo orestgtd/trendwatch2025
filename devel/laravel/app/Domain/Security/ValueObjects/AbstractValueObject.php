@@ -10,6 +10,11 @@ abstract class AbstractValueObject
         protected readonly string $value
     ) {}
 
+    public static function fromString(string $value)
+    {
+        return new static($value);
+    }
+
     protected static function tryKind(string $kind, string $value): Result
     {
         $trimmed = trim($value);

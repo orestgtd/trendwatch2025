@@ -2,6 +2,8 @@
 
 namespace App\Domain\Security\Model;
 
+use App\Domain\Security\Outcome\SecurityOutcome;
+
 use App\Domain\Security\ValueObjects\{
     Description,
     ExpirationDate\ExpirationDateInterface,
@@ -19,4 +21,5 @@ interface Security
     public function variations(): VariationsInterface;
     public function expirationDate(): ExpirationDateInterface;
     public function unitType(): UnitType;
+    public function recordDescription(Description $incomingDescription): SecurityOutcome;
 }

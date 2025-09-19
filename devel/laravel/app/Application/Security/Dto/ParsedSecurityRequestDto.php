@@ -16,7 +16,7 @@ use App\Shared\{
     Result
 };
 
-final class ParsedSecurityDto
+final class ParsedSecurityRequestDto
 {
     private function __construct(
         public readonly SecurityNumber $securityNumber,
@@ -26,28 +26,30 @@ final class ParsedSecurityDto
         public readonly ExpirationDateInterface $expirationDate
     ) {}
 
-    /** @return Result<ParsedSecurityDto> */
+    /** @return Result<ParsedSecurityRequestDto> */
     public static function fromValidatedSecurityDto(ValidatedSecurityDto $validatedDto): Result
     {
-        return self::doCollection(Collection::from([
+        $a = [
             'security_number' => SecurityNumber::tryFrom($validatedDto->securityNumber),
             'symbol' => Symbol::tryFrom($validatedDto->symbol),
             'description' => Description::tryFrom($validatedDto->description),
             'unit_type' => UnitType::tryFrom($validatedDto->unitType),
             'expiration_date' => ExpirationDate::tryFrom($validatedDto->expirationDate)
-        ]))->map(
-            fn (array $values) => new self(
+        ];
+
+        $mapFn = fn (array $values) => new self(
                 $values['security_number'],
                 $values['symbol'],
                 $values['description'],
                 $values['unit_type'],
                 $values['expiration_date']
-            )
         );
+
+        return self::sequence(Collection::from($a))->map($mapFn);
     }
 
     /** @return Result<array> */
-    private static function doCollection(Collection $collection): Result
+    private static function sequence(Collection $collection): Result
     {
         return $collection->reduce(
             fn (Result $resSanitized, Result $resValueObject, string $key) =>
@@ -71,7 +73,7 @@ final class ParsedSecurityDto
 
     /**
      * @param $reSanitized Result<array>
-     * @return Rsult<array>
+     * @return Result<array>
      */
     private static function pushValueObject(Result $resSanitized, mixed $valueObject, string $key): Result
     {

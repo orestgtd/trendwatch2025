@@ -2,6 +2,12 @@
 
 namespace App\Domain\Security\Model;
 
+use App\Domain\Security\Outcome\{
+    NoChange,
+    SecurityOutcome,
+    VariationAdded,
+};
+
 use App\Domain\Security\ValueObjects\{
     Description,
     SecurityNumber,
@@ -32,6 +38,25 @@ abstract class AbstractSecurity implements Security
     public function securityNumber(): SecurityNumber { return $this->securityNumber; }
     public function canonicalDescription(): Description { return $this->canonicalDescription; }
     public function variations(): VariationsInterface { return $this->variations; }
+
+    public function recordDescription(Description $incomingDescription): SecurityOutcome
+    {
+        // Already canonical
+        if ($incomingDescription->equals($this->canonicalDescription)) {
+            return new NoChange($this);
+        }
+
+        // Already exists in variations
+        if ($this->variations->contains($incomingDescription)) {
+            return new NoChange($this);
+        }
+
+        // Add to variations
+        $this->variations = $this->variations->add($incomingDescription);
+
+        return new VariationAdded($this);
+
+    }
 
     /**
      * Apply a draft and return a domain-specific result.

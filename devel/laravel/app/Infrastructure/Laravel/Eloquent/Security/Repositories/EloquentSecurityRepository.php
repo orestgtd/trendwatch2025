@@ -4,32 +4,52 @@ namespace App\Infrastructure\Laravel\Eloquent\Security\Repositories;
 
 use App\Domain\Security\{
     Model\Security,
-    Dto\SecurityData,
-    Repositories\SecurityRepository,
     ValueObjects\SecurityNumber,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Security\{
-    Mapper\SecurityMapper,
+    DTO\PersistedSecurityDTO,
     Model\Security as EloquentSecurity,
 };
 
+use App\Infrastructure\Laravel\Contracts\SecurityRepository;
+
 final class EloquentSecurityRepository implements SecurityRepository
 {
-    public function findBySecurityNumber(SecurityNumber $securityNumber): ?SecurityData
+    public function findBySecurityNumber(SecurityNumber $securityNumber): ?PersistedSecurityDTO
     {
-        /** @var \App\Infrastructure\Laravel\Eloquent\Security\Model\Security|null $record */
-        $record = EloquentSecurity::where('security_number', (string) $securityNumber)->first();
+        $eloquent = EloquentSecurity::where('security_number', (string) $securityNumber)->first();
 
-        return $record
-            ? SecurityMapper::toDto($record)
-            : null;
+        return $eloquent
+            ? new PersistedSecurityDTO(
+                $eloquent->security_number,
+                $eloquent->symbol,
+                $eloquent->canonical_description,
+                $eloquent->variations,
+                $eloquent->unit_type,
+                $eloquent->expiration_date,
+            )
+            : $eloquent;
     }
 
     public function save(Security $security): void
     {
-        $eloquent = SecurityMapper::toEloquent($security);
-        $eloquent->save();
+        $this
+            ->toEloquent($security)
+            ->save();
     }
 
+    private function toEloquent(Security $security): EloquentSecurity
+    {
+        $eloquent = new EloquentSecurity();
+
+        $eloquent->security_number = $security->securityNumber();
+        $eloquent->symbol = $security->symbol();
+        $eloquent->canonical_description = $security->canonicalDescription();
+        $eloquent->variations = $security->variations();
+        $eloquent->unit_type = $security->unitType();
+        $eloquent->expiration_date = $security->expirationDate();
+
+        return $eloquent;
+    }
 }

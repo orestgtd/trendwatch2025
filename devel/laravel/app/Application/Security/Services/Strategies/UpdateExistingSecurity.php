@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Application\Security\Services\Strategies;
+
+use App\Application\Security\{
+    Dto\ParsedSecurityRequestDto,
+};
+
+use App\Domain\Security\{
+    Model\Security,
+};
+
+use App\Shared\Result;
+
+final class UpdateExistingSecurity
+{
+    /** @return Result<SecurityOutome> */
+    public function updateSecurityFromDto(Security $security, ParsedSecurityRequestDto $requestDto): Result
+    {
+        return Result::success(
+            $security->recordDescription($requestDto->description)
+        );
+    }
+}
