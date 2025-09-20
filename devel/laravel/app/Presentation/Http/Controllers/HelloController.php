@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Presentation\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Presentation\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 
 class HelloController extends Controller

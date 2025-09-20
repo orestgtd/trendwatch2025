@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-use \App\Http\Controllers\HelloController;
+use \App\Presentation\Http\Controllers\HelloController;
 
 /*
 |--------------------------------------------------------------------------
