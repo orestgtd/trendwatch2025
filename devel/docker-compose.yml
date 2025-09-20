@@ -9,9 +9,9 @@ services:
     container_name: laravel-php
     working_dir: /var/www/html
     volumes:
-      - ./devel/laravel:/var/www/html
-    ports:
-      - "9000:9000"
+      - ./laravel:/var/www/html
+    # ports:
+    #   - "8000:8000"
     networks:
       - laravel
 
