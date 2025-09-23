@@ -1,0 +1,46 @@
+<?php
+
+namespace Tests\Support;
+
+use Illuminate\Testing\TestResponse;
+
+trait ConfirmationsApiGivenWhenThen
+{
+    protected array $tradePayload = [];
+    protected TestResponse $response;
+
+    /** ---------------- GIVEN ---------------- */
+
+    protected function givenTradeData(array $trades): void
+    {
+        $this->tradePayload = $trades;
+    }
+
+    /** ---------------- WHEN ---------------- */
+
+    protected function whenSubmittingTrades(): void
+    {
+        $this->response = $this->postJson('/api/beta/trades/import', $this->tradePayload);
+    }
+
+    /** ---------------- THEN ---------------- */
+
+    protected function thenTheResponseIsSuccessful(): void
+    {
+        $this->response->assertStatus(200);
+    }
+
+    protected function thenTheDatabaseContainsTrades(array $expectedTrades): void
+    {
+        foreach ($expectedTrades as $trade) {
+            $this->assertDatabaseHas('trades', $trade);
+        }
+    }
+
+    protected function thenTheDatabaseContainsSecurities(array $expectedSecurities): void
+    {
+        foreach ($expectedSecurities as $security) {
+            $this->assertDatabaseHas('securities', $security);
+        }
+    }
+}

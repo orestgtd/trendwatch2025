@@ -1,0 +1,11 @@
+# nginx/Dockerfile.prod
+FROM alpine:3.21
+
+RUN apk add --no-cache nginx
+
+COPY nginx.prod.conf /etc/nginx/nginx.conf
+COPY ../dist/ /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

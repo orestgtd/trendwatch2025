@@ -1,4 +1,16 @@
 services:
+  elm:
+    build:
+      context: ./docker/elm
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    working_dir: /app/elm
+    networks:
+      - laravel
+    tty: true
+    stdin_open: true
+
   php:
     build:
       context: ./docker/php-8.2-fpm
@@ -12,6 +24,22 @@ services:
       - ./laravel:/var/www/html
     # ports:
     #   - "8000:8000"
+    networks:
+      - laravel
+
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile.dev
+    container_name: laravel-nginx
+    ports:
+      - "8080:80"  # Expose Nginx to host
+    volumes:
+      - ./docker/nginx/nginx.dev.conf:/etc/nginx/nginx.conf:ro
+      - ./laravel:/var/www/html
+      - ./elm/public:/app/devel/elm/public:ro
+    depends_on:
+      - php
     networks:
       - laravel
 

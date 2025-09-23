@@ -24,7 +24,9 @@
 # Elm
 # =====================
 
-/elm-stuff/
+/devel/elm/public/
+/devel/elm/elm-stuff/
+/devel/elm/review/elm-stuff/
 /node_modules/
 /dist/
 
@@ -69,3 +71,7 @@ docker-compose.override.yml
 *.ipr
 *.iws
 
+# Ignore bare repo storage (local-only)
+repos/*
+!repos/.gitkeep
+!repo/sREADME.md

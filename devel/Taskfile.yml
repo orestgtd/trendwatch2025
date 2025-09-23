@@ -33,10 +33,15 @@ tasks:
     cmds:
       - '{{.docker_cmd}} logs -f'
 
+  elmsh:
+    desc: "Open a shell into the Elm container"
+    cmds:
+      - '{{.docker_cmd}} exec -it elm /bin/bash || true'
+
   phpsh:
     desc: "Open a shell into the PHP container"
     cmds:
-      - '{{.docker_cmd}} run --rm --remove-orphans php /bin/bash'
+      - '{{.docker_cmd}} exec -it php /bin/bash || true'
 
   install-laravel:
     desc: Install Laravel into the PHP container
@@ -47,3 +52,8 @@ tasks:
         -w /app \
         php \
         composer create-project laravel/laravel .
+
+  git-status:
+    desc: "Show short status of all modified/untracked files"
+    cmds:
+      - git status -s

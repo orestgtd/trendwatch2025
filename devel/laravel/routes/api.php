@@ -1,7 +1,13 @@
 <?php
 
-use Illuminate\Http\Request;
-use \App\Http\Controllers\HelloController;
+use Illuminate\Support\Facades\Route;
+// use Illuminate\Http\Request;
+
+use \App\Presentation\Http\Controllers\{
+    HelloController,
+    PositionController,
+    StoreConfirmationController
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -20,4 +26,7 @@ use \App\Http\Controllers\HelloController;
 
 Route::prefix('beta')->group(function () {
     Route::get('/hello', [HelloController::class, 'index']);
+    Route::get('/positions', [PositionController::class, 'index']);
+    Route::post('/trades/import', [StoreConfirmationController::class, 'store']);
 });
+
