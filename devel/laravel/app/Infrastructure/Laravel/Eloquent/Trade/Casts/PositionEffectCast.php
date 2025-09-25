@@ -2,22 +2,10 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Trade\Casts;
 
-use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-
 use App\Domain\Confirmation\ValueObjects\PositionEffect;
+use App\Infrastructure\Laravel\Eloquent\Casts\AbstractValueObjectCast;
 
-final class PositionEffectCast implements CastsAttributes
+final class PositionEffectCast extends AbstractValueObjectCast
 {
-    public function get($model, string $key, $value, array $attributes): PositionEffect
-    {
-        return PositionEffect::fromString($value);
-    }
-
-    public function set($model, string $key, $value, array $attributes): string
-    {
-        return match (true) {
-            ($value instanceof PositionEffect) => (string) $value,
-            default => $value,
-        };
-    }
+    protected const VALUE_OBJECT_CLASS = PositionEffect::class;
 }
