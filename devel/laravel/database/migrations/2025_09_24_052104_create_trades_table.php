@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('security_number');
             $table->string('trade_number')->unique();
+            $table->string('trade_action');
+            $table->string('position_effect');
             $table->timestamps();
         });
     }

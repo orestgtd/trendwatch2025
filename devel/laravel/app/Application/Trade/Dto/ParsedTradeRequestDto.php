@@ -3,6 +3,8 @@
 namespace App\Application\Trade\Dto;
 
 use App\Domain\Confirmation\ValueObjects\{
+    PositionEffect,
+    TradeAction,
     TradeNumber,
 };
 
@@ -20,6 +22,8 @@ final class ParsedTradeRequestDto
     private function __construct(
         public readonly SecurityNumber $securityNumber,
         public readonly TradeNumber $tradeNumber,
+        public readonly TradeAction $tradeAction,
+        public readonly PositionEffect $positionEffect,
     ) {}
 
     /** @return Result<ParsedConfirmationDto> */
@@ -28,10 +32,14 @@ final class ParsedTradeRequestDto
         return self::doCollection(Collection::from([
             'security_number' => SecurityNumber::tryFrom($validatedDto->securityNumber),
             'trade_number' => TradeNumber::tryFrom($validatedDto->tradeNumber),
+            'trade_action' => TradeAction::tryFrom($validatedDto->tradeAction),
+            'position_effect' => PositionEffect::tryFrom($validatedDto->positionEffect),
         ]))->map(
             fn (array $values) => new self(
                 $values['security_number'],
                 $values['trade_number'],
+                $values['trade_action'],
+                $values['position_effect'],
             )
         );
     }

@@ -7,13 +7,18 @@ use App\Domain\Security\ValueObjects\{
 };
 
 use App\Domain\Confirmation\ValueObjects\{
+    PositionEffect,
+    TradeAction,
     TradeNumber,
 };
+use Ramsey\Uuid\Type\Integer;
 
 final class PersistedTradeDto
 {
     public function __construct(
         public readonly SecurityNumber $securityNumber,
         public readonly TradeNumber $tradeNumber,
+        public readonly TradeAction $tradeAction,
+        public readonly PositionEffect $positionEffect,
     ) {}
 }

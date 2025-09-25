@@ -12,6 +12,8 @@ final class ValidatedTradeDto
     private function __construct(
         public readonly string $securityNumber,
         public readonly string $tradeNumber,
+        public readonly string $tradeAction,
+        public readonly string $positionEffect,
     ) {}
 
     /**
@@ -24,12 +26,16 @@ final class ValidatedTradeDto
         return Collection::from([
             'security_number',
             'trade_number',
+            'trade_action',
+            'position_effect',
         ])->reduce(
             fn (Result $result, string $key): Result => self::allRequiredFieldsReduction($result, $key),
             Result::success(self::sanitizeInput($input))
         )->map(fn (array $allValues) => new self(
             $allValues['security_number'],
             $allValues['trade_number'],
+            $allValues['trade_action'],
+            $allValues['position_effect'],
         ));
     }
 
@@ -55,4 +61,5 @@ final class ValidatedTradeDto
             fn (?string $item, string $key) => [$key => $sanitize($item)]
         )->all();
     }
+
 }
