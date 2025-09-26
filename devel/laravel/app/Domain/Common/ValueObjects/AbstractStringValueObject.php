@@ -26,9 +26,4 @@ abstract class AbstractStringValueObject extends AbstractValueObject
     }
 
     abstract public static function tryFrom(string $value): Result;
-
-    public function __toString(): string
-    {
-        return $this->value;
-    }
 }
