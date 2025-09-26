@@ -2,11 +2,11 @@
 
 namespace App\Domain\Confirmation\ValueObjects;
 
-use App\Domain\Common\ValueObjects\AbstractValueObject;
+use App\Domain\Common\ValueObjects\AbstractStringValueObject;
 
 use App\Shared\Result;
 
-final class PositionEffect extends AbstractValueObject
+final class PositionEffect extends AbstractStringValueObject
 {
     public const OPEN = 'OPEN';
     public const CLOSE = 'CLOSE';
@@ -28,10 +28,5 @@ final class PositionEffect extends AbstractValueObject
     public static function close(): self
     {
         return new self(self::CLOSE);
-    }
-
-    public function equals(self $other): bool
-    {
-        return $this->value === $other->value;
     }
 }

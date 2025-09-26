@@ -2,11 +2,11 @@
 
 namespace App\Domain\Confirmation\ValueObjects;
 
-use App\Domain\Common\ValueObjects\AbstractValueObject;
+use App\Domain\Common\ValueObjects\AbstractStringValueObject;
 
 use App\Shared\Result;
 
-final class TradeAction extends AbstractValueObject
+final class TradeAction extends AbstractStringValueObject
 {
     public const BUY = 'BUY';
     public const SELL = 'SELL';
@@ -28,10 +28,5 @@ final class TradeAction extends AbstractValueObject
     public static function sell(): self
     {
         return new self(self::SELL);
-    }
-
-    public function equals(self $other): bool
-    {
-        return $this->value === $other->value;
     }
 }

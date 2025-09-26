@@ -2,11 +2,11 @@
 
 namespace App\Domain\Confirmation\ValueObjects;
 
-use App\Domain\Common\ValueObjects\AbstractValueObject;
+use App\Domain\Common\ValueObjects\AbstractStringValueObject;
 
 use App\Shared\Result;
 
-final class TradeNumber extends AbstractValueObject
+final class TradeNumber extends AbstractStringValueObject
 {
     public static function tryFrom(string $value): Result
     {
