@@ -8,11 +8,11 @@ use App\Domain\Confirmation\{
 };
 
 use App\Infrastructure\Laravel\Eloquent\Trade\{
-    DTO\PersistedTradeDTO,
+    Dto\PersistedTradeDto,
 };
 
 interface TradeRepository
 {
-    public function findByTradeNumber(TradeNumber $tradeNumber): ?PersistedTradeDTO;
+    public function findByTradeNumber(TradeNumber $tradeNumber): ?PersistedTradeDto;
     public function save(Confirmation $confirmation): void;
 }

@@ -9,7 +9,7 @@ use App\Domain\Security\{
 };
 
 use App\Infrastructure\Laravel\Eloquent\Security\{
-    Dto\PersistedSecurityDTO,
+    Dto\PersistedSecurityDto,
     Repositories\EloquentSecurityRepository as SecurityRepository,
 };
 
@@ -28,7 +28,7 @@ final class FindBySecurityNumberQuery
         : $persisted;
     }
 
-    private function buildSecurity(PersistedSecurityDTO $persisted): Security
+    private function buildSecurity(PersistedSecurityDto $persisted): Security
     {
         return BuildSecurityFrom::from(
             $persisted->securityNumber,
