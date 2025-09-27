@@ -2,36 +2,24 @@
 
 namespace App\Domain\Common\ValueObjects;
 
-use App\Shared\Result;
-
 abstract class AbstractValueObject
 {
     protected function __construct(
-        protected readonly string $value
+        protected readonly mixed $value
     ) {}
 
-    public static function fromString(string $value)
+    public function value(): mixed
     {
-        return new static($value);
+        return $this->value;
     }
 
-    protected static function tryKind(string $kind, string $value): Result
+    public function equals(self $other): bool
     {
-        $trimmed = trim($value);
-        return ($trimmed === '')
-            ? Result::failure('{$kind} cannot be empty.')
-            : Result::success(new static($value));
+        return $this->value === $other->value;
     }
-
-    abstract public static function tryFrom(string $value): Result;
 
     public function __toString(): string
     {
         return $this->value;
     }
-
-    // public function equals(SecurityNumber $other): bool
-    // {
-    //     return $this->value === $other->value;
-    // }
 }

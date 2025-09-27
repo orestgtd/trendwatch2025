@@ -24,6 +24,9 @@ final class EloquentTradeRepository implements TradeRepository
             ? new PersistedTradeDto(
                 $eloquent->security_number,
                 $eloquent->trade_number,
+                $eloquent->trade_action,
+                $eloquent->positionEffect,
+                $eloquent->tradeQuantity
             )
             : $eloquent;
     }
@@ -41,6 +44,9 @@ final class EloquentTradeRepository implements TradeRepository
 
         $eloquent->security_number = $confirmation->getSecurityNumber();
         $eloquent->trade_number = $confirmation->getTradeNumber();
+        $eloquent->trade_action = $confirmation->getTradeAction();
+        $eloquent->position_effect = $confirmation->getPositionEffect();
+        $eloquent->trade_quantity = $confirmation->getTradeQuantity();
 
         return $eloquent;
     }

@@ -24,7 +24,8 @@ class RecordDescriptionTest extends TestCase
             'symbol' => 'CVE',
             'description' => "CENOVUS ENERGY INC",
             'trade_action' => 'BUY',
-            'quantity' => 200,
+            'position_effect' => 'OPEN',
+            'trade_quantity' => 200,
             'price' => 21.94,
             'unit_type' => 'SHARES',
             'expiration_date' => null,
@@ -38,7 +39,8 @@ class RecordDescriptionTest extends TestCase
             'symbol' => 'CVE',
             'description' => "CENOVUS ENERGY INCORPORATED",
             'trade_action' => 'BUY',
-            'quantity' => 100,
+            'position_effect' => 'OPEN',
+            'trade_quantity' => 100,
             'price' => 25.00,
             'unit_type' => 'SHARES',
             'expiration_date' => null,
@@ -56,8 +58,8 @@ class RecordDescriptionTest extends TestCase
 
         // THEN: verify database contains both trades
         // $this->thenTheDatabaseContainsTrades([
-        //     ['trade_number' => '001733', 'quantity' => 1],
-        //     ['trade_number' => '333499', 'quantity' => 200],
+        //     ['trade_number' => '001733', 'trade_quantity' => 1],
+        //     ['trade_number' => '333499', 'trade_quantity' => 200],
         // ]);
 
         $this->thenTheDatabaseContainsSecurities([

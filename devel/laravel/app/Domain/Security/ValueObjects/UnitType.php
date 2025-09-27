@@ -2,11 +2,11 @@
 
 namespace App\Domain\Security\ValueObjects;
 
-use App\Domain\Common\ValueObjects\AbstractValueObject;
+use App\Domain\Common\ValueObjects\AbstractStringValueObject;
 
 use App\Shared\Result;
 
-final class UnitType extends AbstractValueObject
+final class UnitType extends AbstractStringValueObject
 {
     public const SHARES = 'SHARES';
     public const CONTRACTS = 'CONTRACTS';
@@ -28,10 +28,5 @@ final class UnitType extends AbstractValueObject
     public static function contracts(): self
     {
         return new self(self::CONTRACTS);
-    }
-
-    public function equals(UnitType $other): bool
-    {
-        return $this->value === $other->value;
     }
 }
