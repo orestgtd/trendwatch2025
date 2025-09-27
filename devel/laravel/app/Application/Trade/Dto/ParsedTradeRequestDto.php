@@ -7,6 +7,7 @@ use App\Domain\Confirmation\ValueObjects\{
     PositionEffect,
     TradeAction,
     TradeNumber,
+    TradeQuantity,
 };
 
 use App\Domain\Security\ValueObjects\{
@@ -25,6 +26,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
         public readonly TradeNumber $tradeNumber,
         public readonly TradeAction $tradeAction,
         public readonly PositionEffect $positionEffect,
+        public readonly TradeQuantity $tradeQuantity,
     ) {}
 
     /** @return Result<ParsedConfirmationDto> */
@@ -35,6 +37,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
             'trade_number'     => TradeNumber::tryFrom($validatedDto->tradeNumber),
             'trade_action'     => TradeAction::tryFrom($validatedDto->tradeAction),
             'position_effect'  => PositionEffect::tryFrom($validatedDto->positionEffect),
+            'trade_quantity'   => TradeQuantity::tryFrom($validatedDto->tradeQuantity),
         ]);
 
         return self::processCollection($collection)->map(
@@ -43,6 +46,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
                 $values['trade_number'],
                 $values['trade_action'],
                 $values['position_effect'],
+                $values['trade_quantity'],
             )
         );
     }

@@ -23,7 +23,8 @@ final class CreateNewTrade
                     $dto->securityNumber,
                     $dto->tradeNumber,
                     $dto->tradeAction,
-                    $dto->positionEffect
+                    $dto->positionEffect,
+                    $dto->tradeQuantity
                 )
             )
         );

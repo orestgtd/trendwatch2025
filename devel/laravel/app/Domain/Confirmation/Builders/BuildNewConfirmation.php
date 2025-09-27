@@ -7,6 +7,7 @@ use App\Domain\Confirmation\{
     ValueObjects\PositionEffect,
     ValueObjects\TradeAction,
     ValueObjects\TradeNumber,
+    ValueObjects\TradeQuantity,
 };
 
 use App\Domain\Security\{
@@ -20,9 +21,14 @@ final class BuildNewConfirmation
         TradeNumber $tradeNumber,
         TradeAction $tradeAction,
         PositionEffect $positionEffect,
+        TradeQuantity $tradeQuantity,
     ): Confirmation {
         return Confirmation::create(
-            $securityNumber, $tradeNumber, $tradeAction, $positionEffect
+            $securityNumber,
+            $tradeNumber,
+            $tradeAction,
+            $positionEffect,
+            $tradeQuantity
         );
     }
 }

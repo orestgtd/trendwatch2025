@@ -25,7 +25,7 @@ class StoreConfirmationTest extends TestCase
             'description' => "CALL-100 SPX'22 JN@4245",
             'trade_action' => 'BUY',
             'position_effect' => 'OPEN',
-            'unit_quantity' => 1,
+            'trade_quantity' => 1,
             'price' => 21,
             'unit_type' => 'CONTRACTS',
             'expiration_date' => '2022-06-10',
@@ -40,7 +40,7 @@ class StoreConfirmationTest extends TestCase
             'description' => "CENOVUS ENERGY INC",
             'trade_action' => 'BUY',
             'position_effect' => 'OPEN',
-            'unit_quantity' => 200,
+            'trade_quantity' => 200,
             'price' => 21.94,
             'unit_type' => 'SHARES',
             'expiration_date' => null,
@@ -58,8 +58,8 @@ class StoreConfirmationTest extends TestCase
 
         // THEN: verify database contains both trades
         $this->thenTheDatabaseContainsTrades([
-            ['trade_number' => '001733', 'security_number' => '7653ZG', 'trade_action' => 'BUY', 'position_effect' => 'OPEN'],
-            ['trade_number' => '333499', 'security_number' => '151447', 'trade_action' => 'BUY', 'position_effect' => 'OPEN'],
+            ['trade_number' => '001733', 'security_number' => '7653ZG', 'trade_action' => 'BUY', 'position_effect' => 'OPEN', 'trade_quantity' => 1],
+            ['trade_number' => '333499', 'security_number' => '151447', 'trade_action' => 'BUY', 'position_effect' => 'OPEN', 'trade_quantity' => 200],
         ]);
 
         $this->thenTheDatabaseContainsSecurities([

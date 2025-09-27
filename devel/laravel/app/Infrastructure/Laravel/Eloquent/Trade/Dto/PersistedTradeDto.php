@@ -10,8 +10,8 @@ use App\Domain\Confirmation\ValueObjects\{
     PositionEffect,
     TradeAction,
     TradeNumber,
+    TradeQuantity,
 };
-use Ramsey\Uuid\Type\Integer;
 
 final class PersistedTradeDto
 {
@@ -20,5 +20,6 @@ final class PersistedTradeDto
         public readonly TradeNumber $tradeNumber,
         public readonly TradeAction $tradeAction,
         public readonly PositionEffect $positionEffect,
+        public readonly TradeQuantity $tradeQuantity,
     ) {}
 }

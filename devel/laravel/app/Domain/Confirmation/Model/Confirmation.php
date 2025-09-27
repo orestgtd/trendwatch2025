@@ -6,6 +6,7 @@ use App\Domain\Confirmation\ValueObjects\{
     PositionEffect,
     TradeAction,
     TradeNumber,
+    TradeQuantity,
 };
 
 use App\Domain\Security\ValueObjects\{
@@ -37,11 +38,13 @@ final class Confirmation
         private TradeNumber $tradeNumber,
         private TradeAction $tradeAction,
         private PositionEffect $positionEffect,
+        private TradeQuantity $tradeQuantity,
     ) {
         $this->securityNumber = $securityNumber;
         $this->tradeNumber = $tradeNumber;
         $this->tradeAction = $tradeAction;
         $this->positionEffect = $positionEffect;
+        $this->tradeQuantity = $tradeQuantity;
     }
 
     public static function create(
@@ -49,12 +52,14 @@ final class Confirmation
         TradeNumber $tradeNumber,
         TradeAction $tradeAction,
         PositionEffect $positionEffect,
+        TradeQuantity $tradeQuantity,
     ): self {
         return new self(
             $securityNumber,
             $tradeNumber,
             $tradeAction,
             $positionEffect,
+            $tradeQuantity
         );
 
     }
@@ -63,4 +68,5 @@ final class Confirmation
     public function getTradeNumber(): TradeNumber { return $this->tradeNumber; }
     public function getTradeAction(): TradeAction { return $this->tradeAction; }
     public function getPositionEffect(): PositionEffect { return $this->positionEffect; }
+    public function getTradeQuantity(): TradeQuantity { return $this->tradeQuantity; }
 }

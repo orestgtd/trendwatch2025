@@ -11,8 +11,13 @@ final class ValidatedTradeDto extends AbstractValidatedDto
         public readonly string $tradeNumber,
         public readonly string $tradeAction,
         public readonly string $positionEffect,
-    ) {}
+        public readonly string $tradeQuantity,
+    ) {
+    }
 
+    /**
+     * @return array<string>
+     */
     protected static function requiredFields(): array
     {
         return [
@@ -20,9 +25,13 @@ final class ValidatedTradeDto extends AbstractValidatedDto
             'trade_number',
             'trade_action',
             'position_effect',
+            'trade_quantity',
         ];
     }
 
+    /**
+     * @param array<string> $allValues
+     */
     protected static function build(array $allValues): self
     {
         return new self(
@@ -30,6 +39,7 @@ final class ValidatedTradeDto extends AbstractValidatedDto
             $allValues['trade_number'],
             $allValues['trade_action'],
             $allValues['position_effect'],
+            $allValues['trade_quantity'],
         );
     }
 }

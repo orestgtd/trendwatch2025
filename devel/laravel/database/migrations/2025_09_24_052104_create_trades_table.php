@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('trade_number')->unique();
             $table->string('trade_action');
             $table->string('position_effect');
+            $table->integer('trade_quantity');
             $table->timestamps();
         });
     }
