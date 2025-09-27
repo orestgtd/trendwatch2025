@@ -25,24 +25,25 @@ abstract class AbstractValidatedDto
     abstract protected static function build(array $allValues): self;
 
     /**
-     * Factory for building the DTO from fully-validated domain value objects.
+     * Factory for building the DTO from an input source such as request.
      * 
-     * @return Result<static>
+     * @param array<?string> $input
+     * @return Result<string>
      */
     public static function fromArray(array $input): Result
     {
         return Collection::from(static::requiredFields())
         ->reduce(
-            self::validateRequiredField(...),
+            self::validateKeyExists(...),
             Result::success(self::sanitizeInput($input))
         )->map(fn (array $allValues) => static::build($allValues));
     }
 
     /**
-     * @param $result Result<array>
-     * @return Result<array>
+     * @param Result<array<string>> $result
+     * @return Result<array<string>>
      * */
-    private static function validateRequiredField(Result $result, string $key): Result
+    private static function validateKeyExists(Result $result, string $key): Result
     {
         return $result->bind(
             fn (array $input) => array_key_exists($key, $input)
@@ -51,6 +52,10 @@ abstract class AbstractValidatedDto
         );
     }
 
+    /**
+     * @param array<?string> $input
+     * @return array<string>
+     */
     private static function sanitizeInput(array $input): array
     {
         $sanitize = fn (?string $value): string =>
@@ -60,5 +65,4 @@ abstract class AbstractValidatedDto
             fn (?string $item, string $key) => [$key => $sanitize($item)]
         )->all();
     }
-
 }
