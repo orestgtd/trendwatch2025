@@ -7,6 +7,9 @@ use App\Domain\Confirmation\ValueObjects\{
     TradeAction,
     TradeNumber,
     TradeQuantity,
+    UnitPrice,
+    Commission,
+    UsTax,
 };
 
 use App\Domain\Security\ValueObjects\{
@@ -24,7 +27,7 @@ use App\Domain\Security\ValueObjects\{
     // public readonly string $description;
     // public readonly UnitQuantity $unit_quantity;
     // public readonly UnitType $unit_type;
-    // public readonly Money $price;
+    // public readonly Money $unit_price;
     // public readonly Money $commission;
     // public readonly Money $us_tax;
     // public readonly ExpirationDate $expiration_date;
@@ -39,12 +42,18 @@ final class Confirmation
         private TradeAction $tradeAction,
         private PositionEffect $positionEffect,
         private TradeQuantity $tradeQuantity,
+        private UnitPrice $unitPrice,
+        private Commission $commission,
+        private UsTax $usTax,
     ) {
         $this->securityNumber = $securityNumber;
         $this->tradeNumber = $tradeNumber;
         $this->tradeAction = $tradeAction;
         $this->positionEffect = $positionEffect;
         $this->tradeQuantity = $tradeQuantity;
+        $this->unitPrice = $unitPrice;
+        $this->commission = $commission;
+        $this->usTax = $usTax;
     }
 
     public static function create(
@@ -53,13 +62,19 @@ final class Confirmation
         TradeAction $tradeAction,
         PositionEffect $positionEffect,
         TradeQuantity $tradeQuantity,
+        UnitPrice $unitPrice,
+        Commission $commission,
+        UsTax $usTax,
     ): self {
         return new self(
             $securityNumber,
             $tradeNumber,
             $tradeAction,
             $positionEffect,
-            $tradeQuantity
+            $tradeQuantity,
+            $unitPrice,
+            $commission,
+            $usTax,
         );
 
     }
@@ -69,4 +84,7 @@ final class Confirmation
     public function getTradeAction(): TradeAction { return $this->tradeAction; }
     public function getPositionEffect(): PositionEffect { return $this->positionEffect; }
     public function getTradeQuantity(): TradeQuantity { return $this->tradeQuantity; }
+    public function getUnitPrice(): UnitPrice { return $this->unitPrice; }
+    public function getCommission(): Commission { return $this->commission; }
+    public function getUsTax(): UsTax { return $this->usTax; }
 }

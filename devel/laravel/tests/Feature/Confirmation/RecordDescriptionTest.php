@@ -26,8 +26,10 @@ class RecordDescriptionTest extends TestCase
             'trade_action' => 'BUY',
             'position_effect' => 'OPEN',
             'trade_quantity' => 200,
-            'price' => 21.94,
             'unit_type' => 'SHARES',
+            'unit_price' => '21.94',
+            'commission' => '4.99',
+            'us_tax' => '0.00',
             'expiration_date' => null,
         ];
 
@@ -41,8 +43,10 @@ class RecordDescriptionTest extends TestCase
             'trade_action' => 'BUY',
             'position_effect' => 'OPEN',
             'trade_quantity' => 100,
-            'price' => 25.00,
             'unit_type' => 'SHARES',
+            'unit_price' => '25.00',
+            'commission' => '1.99',
+            'us_tax' => '0.80',
             'expiration_date' => null,
         ];
 
@@ -55,12 +59,6 @@ class RecordDescriptionTest extends TestCase
         $this->givenTradeData($trade2);
         $this->whenSubmittingTrades();
         $this->thenTheResponseIsSuccessful('Second trade failed: ' . $trade2['symbol']);
-
-        // THEN: verify database contains both trades
-        // $this->thenTheDatabaseContainsTrades([
-        //     ['trade_number' => '001733', 'trade_quantity' => 1],
-        //     ['trade_number' => '333499', 'trade_quantity' => 200],
-        // ]);
 
         $this->thenTheDatabaseContainsSecurities([
             ['canonical_description' => 'CENOVUS ENERGY INC'],

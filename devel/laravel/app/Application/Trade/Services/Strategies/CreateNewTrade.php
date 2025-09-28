@@ -24,7 +24,10 @@ final class CreateNewTrade
                     $dto->tradeNumber,
                     $dto->tradeAction,
                     $dto->positionEffect,
-                    $dto->tradeQuantity
+                    $dto->tradeQuantity,
+                    $dto->unitPrice,
+                    $dto->commission,
+                    $dto->usTax,
                 )
             )
         );

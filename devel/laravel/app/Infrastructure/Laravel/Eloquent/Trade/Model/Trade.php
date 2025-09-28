@@ -8,6 +8,9 @@ use App\Infrastructure\Laravel\Eloquent\{
     Trade\Casts\TradeActionCast,
     Trade\Casts\TradeNumberCast,
     Trade\Casts\TradeQuantityCast,
+    Trade\Casts\UnitPriceCast,
+    Trade\Casts\CommissionCast,
+    Trade\Casts\UsTaxCast,
 };
 
 use Illuminate\Database\Eloquent\Model;
@@ -22,6 +25,9 @@ class Trade extends Model
         'trade_action',
         'position_effect',
         'trade_quantity',
+        'unit_price',
+        'commission',
+        'us_tax',
     ];
 
     protected $casts = [
@@ -30,5 +36,8 @@ class Trade extends Model
         'trade_action' => TradeActionCast::class,
         'position_effect' => PositionEffectCast::class,
         'trade_quantity' => TradeQuantityCast::class,
+        'unit_price' => UnitPriceCast::class,
+        'commission' => CommissionCast::class,
+        'us_tax' => UsTaxCast::class,
     ];
 }

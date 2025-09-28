@@ -12,6 +12,9 @@ final class ValidatedTradeDto extends AbstractValidatedDto
         public readonly string $tradeAction,
         public readonly string $positionEffect,
         public readonly string $tradeQuantity,
+        public readonly string $unitPrice,
+        public readonly string $commission,
+        public readonly string $usTax,
     ) {
     }
 
@@ -26,6 +29,9 @@ final class ValidatedTradeDto extends AbstractValidatedDto
             'trade_action',
             'position_effect',
             'trade_quantity',
+            'unit_price',
+            'commission',
+            'us_tax',
         ];
     }
 
@@ -40,6 +46,9 @@ final class ValidatedTradeDto extends AbstractValidatedDto
             $allValues['trade_action'],
             $allValues['position_effect'],
             $allValues['trade_quantity'],
+            $allValues['unit_price'],
+            $allValues['commission'],
+            $allValues['us_tax'],
         );
     }
 }

@@ -11,6 +11,9 @@ use App\Domain\Confirmation\ValueObjects\{
     TradeAction,
     TradeNumber,
     TradeQuantity,
+    UnitPrice,
+    Commission,
+    UsTax,
 };
 
 final class PersistedTradeDto
@@ -21,5 +24,8 @@ final class PersistedTradeDto
         public readonly TradeAction $tradeAction,
         public readonly PositionEffect $positionEffect,
         public readonly TradeQuantity $tradeQuantity,
+        public readonly UnitPrice $unitPrice,
+        public readonly Commission $commission,
+        public readonly UsTax $usTax,
     ) {}
 }

@@ -18,6 +18,12 @@ return new class extends Migration
             $table->string('trade_action');
             $table->string('position_effect');
             $table->integer('trade_quantity');
+            $table->string('unit_price_amount');
+            $table->string('unit_price_currency');
+            $table->string('commission_amount');
+            $table->string('commission_currency');
+            $table->string('us_tax_amount');
+            $table->string('us_tax_currency');
             $table->timestamps();
         });
     }

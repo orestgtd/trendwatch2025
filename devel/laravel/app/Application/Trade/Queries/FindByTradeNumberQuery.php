@@ -35,7 +35,10 @@ final class FindByTradeNumberQuery
             $persisted->tradeNumber,
             $persisted->tradeAction,
             $persisted->positionEffect,
-            $persisted->tradeQuantity
+            $persisted->tradeQuantity,
+            $persisted->unitPrice,
+            $persisted->commission,
+            $persisted->usTax,
         );
     }
 }
