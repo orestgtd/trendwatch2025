@@ -17,7 +17,7 @@ use App\Shared\Result;
 
 final class CreateNewSecurity
 {
-    /** @return Result<SecurityOutome> */
+    /** @return Result<\App\Domain\Security\Outcome\SecurityOutcome> */
     public function createNewSecurityFromDto(ParsedSecurityRequestDto $dto): Result
     {
         return BuildNewSecurity::tryFrom(

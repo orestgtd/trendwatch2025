@@ -2,9 +2,9 @@
 
 namespace App\Domain\Security\Outcome;
 
-use App\Domain\Security\Outcome\AbstractOutcome;
+use App\Domain\Security\Outcome\AbstractSecurityOutcome;
 
-final class NoChange extends AbstractOutcome
+final class NoChange extends AbstractSecurityOutcome
 {
     public function requiresPersistence(): bool
     {

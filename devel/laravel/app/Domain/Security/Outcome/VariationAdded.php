@@ -2,9 +2,9 @@
 
 namespace App\Domain\Security\Outcome;
 
-use App\Domain\Security\Outcome\AbstractOutcome;
+use App\Domain\Security\Outcome\AbstractSecurityOutcome;
 
-final class VariationAdded extends AbstractOutcome
+final class VariationAdded extends AbstractSecurityOutcome
 {
     public function requiresPersistence(): bool
     {

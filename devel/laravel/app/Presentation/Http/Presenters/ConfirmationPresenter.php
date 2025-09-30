@@ -8,7 +8,7 @@ final class ConfirmationPresenter
 {
     public static function toArray(ConfirmationOutcome $outcome): array
     {
-        $confirmation = $outcome->confirmation;
+        $confirmation = $outcome->getConfirmation();
 
         return [
             'security_number' => (string) $confirmation->getSecurityNumber(),

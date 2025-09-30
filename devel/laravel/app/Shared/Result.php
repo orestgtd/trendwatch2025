@@ -2,6 +2,9 @@
 
 namespace App\Shared;
 
+/**
+ * @template T
+ */
 class Result
 {
     private function __construct(
@@ -47,12 +50,18 @@ class Result
     /**
      * Bind: chain another Result-producing function.
      * Like flatMap/then.
+     *
+     * @template U
+     * @param callable(T):Result<U> $fn
+     * @return self<T>|Result<U>
+     * 
      */
-    public function bind(callable $fn): self
+    public function bind(callable $fn): Result
     {
         if ($this->isFailure()) {
             return $this;
         }
+
         $next = $fn($this->value);
         if (! $next instanceof self) {
             throw new \LogicException("bind() callable must return a Result");
@@ -60,6 +69,13 @@ class Result
         return $next;
     }
 
+    /**
+     * Map: transform the value inside Result if success.
+     *
+     * @template U
+     * @param callable(T):U $fn
+     * @return self<T>|Result<U>
+     */
     public function map(callable $fn): Result {
         return $this->isSuccess()
             ? Result::success($fn($this->value))
@@ -68,6 +84,11 @@ class Result
 
     /**
      * Match: fold the Result into one of two values.
+     * 
+     * @template R
+     * @param callable(T):R $onSuccess
+     * @param callable(?string):R $onFailure
+     * @return R
      */
     public function match(callable $onSuccess, callable $onFailure): mixed
     {
@@ -76,10 +97,16 @@ class Result
             : $onFailure($this->error);
     }
 
+    /**
+     * Tap: perform a side-effect on the value if Result is success.
+     *
+     * @param callable(T):void $fn
+     * @return self<T>
+     */
     public function tap(callable $fn): self
     {
         if ($this->isSuccess()) {
-            Result::success($fn($this->value));
+            $fn($this->value);
         }
 
         return $this;

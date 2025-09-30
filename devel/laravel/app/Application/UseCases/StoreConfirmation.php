@@ -95,7 +95,7 @@ final class StoreConfirmation
     {
         if($outcome->requiresPersistence())
         {
-            $this->uow->withConfirmation($outcome->confirmation);
+            $this->uow->withConfirmation($outcome->getConfirmation());
         }
     }
 
@@ -103,7 +103,7 @@ final class StoreConfirmation
     {
         if($outcome->requiresPersistence())
         {
-            $this->uow->withSecurity($outcome->security);
+            $this->uow->withSecurity($outcome->getSecurity());
         }
     }
 }

@@ -5,8 +5,9 @@ namespace App\Shared;
 use \Illuminate\Support\Collection as LaravelCollection;
 
 /**
- * @template TKey
+ * @template TKey of array-key
  * @template TValue
+ * @mixin LaravelCollection<TKey,TValue>
  */
 class Collection
 {
@@ -31,10 +32,10 @@ class Collection
     }
 
    /**
+     * @template TKey2 of array-key
+     * @template TValue2
      * @param callable(TValue, TKey): array<TKey2, TValue2> $callback
      * @return Collection<TKey2, TValue2>
-     * @template TKey2
-     * @template TValue2
      */
     public function mapWithKeys(callable $callback): self
     {

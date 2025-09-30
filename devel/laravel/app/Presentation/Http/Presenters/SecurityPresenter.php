@@ -10,7 +10,7 @@ final class SecurityPresenter
 {
     public static function toArray(SecurityOutcome $outcome): array
     {
-        $security = $outcome->security;
+        $security = $outcome->getSecurity();
 
         return [
             'security_number' => (string) $security->securityNumber(),

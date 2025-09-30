@@ -2,6 +2,17 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Trade\Model;
 
+use App\Domain\Confirmation\ValueObjects\{
+    TradeNumber,
+    TradeAction, PositionEffect,
+    TradeQuantity,
+    UnitPrice, Commission, UsTax,
+};
+
+use App\Domain\Security\ValueObjects\{
+    SecurityNumber,
+};
+
 use App\Infrastructure\Laravel\Eloquent\{
     Security\Casts\SecurityNumberCast,
     Trade\Casts\PositionEffectCast,
@@ -14,6 +25,19 @@ use App\Infrastructure\Laravel\Eloquent\{
 };
 
 use Illuminate\Database\Eloquent\Model;
+
+/**
+ * App\Infrastructure\Laravel\Eloquent\Trade\Model\Trade
+ *
+ * @property SecurityNumber $security_number
+ * @property TradeNumber $trade_number
+ * @property TradeAction $trade_action
+ * @property PositionEffect $position_effect
+ * @property TradeQuantity    $trade_quantity
+ * @property UnitPrice  $unit_price
+ * @property Commission  $commission
+ * @property UsTax  $us_tax
+ */
 
 class Trade extends Model
 {

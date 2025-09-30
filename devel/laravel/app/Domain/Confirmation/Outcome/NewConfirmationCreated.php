@@ -18,4 +18,10 @@ final class NewConfirmationCreated extends AbstractConfirmationOutcome
     {
         return true; // incoming confirmation must be persisted
     }
+
+    public function getConfirmation(): Confirmation
+    {
+        return $this->confirmation;
+    }
+
 }

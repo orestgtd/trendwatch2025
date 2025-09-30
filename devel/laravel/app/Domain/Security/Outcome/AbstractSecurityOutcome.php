@@ -5,7 +5,7 @@ namespace App\Domain\Security\Outcome;
 use App\Domain\Outcome\OutcomeKind;
 use App\Domain\Security\Model\Security;
 
-abstract class AbstractOutcome implements SecurityOutcome
+abstract class AbstractSecurityOutcome implements SecurityOutcome
 {
     public function __construct(
         public readonly Security $security
@@ -14,5 +14,10 @@ abstract class AbstractOutcome implements SecurityOutcome
     public function kind(): OutcomeKind
     {
         return OutcomeKind::SECURITY;
+    }
+
+    public function getSecurity(): Security
+    {
+        return $this->security;
     }
 }

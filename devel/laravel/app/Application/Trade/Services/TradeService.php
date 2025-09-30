@@ -4,9 +4,11 @@ namespace App\Application\Trade\Services;
 
 use App\Application\Trade\{
     Dto\ParsedTradeRequestDto,
-    Queries\FindByTradeNumberQuery
+    Queries\FindByTradeNumberQuery,
+    Services\Strategies\CreateNewTrade,
 };
-use App\Application\Trade\Services\Strategies\CreateNewTrade;
+
+use App\Domain\Confirmation\Outcome\ConfirmationOutcome;
 use App\Shared\Result;
 
 class TradeService

@@ -14,7 +14,7 @@ use App\Shared\Result;
 
 final class UpdateExistingSecurity
 {
-    /** @return Result<SecurityOutome> */
+    /** @return Result<\App\Domain\Security\Outcome\SecurityOutcome> */
     public function updateSecurityFromDto(Security $security, ParsedSecurityRequestDto $requestDto): Result
     {
         return Result::success(

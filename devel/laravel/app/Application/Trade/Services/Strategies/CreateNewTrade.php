@@ -7,6 +7,7 @@ use App\Application\Trade\{
 };
 use App\Domain\Confirmation\{
     Builders\BuildNewConfirmation,
+    Outcome\ConfirmationOutcome,
     Outcome\NewConfirmationCreated,
 };
 
@@ -14,7 +15,7 @@ use App\Shared\Result;
 
 final class CreateNewTrade
 {
-    /** @return Result<ConfirmationOutome> */
+    /** @return Result<ConfirmationOutcome> */
     public function createNewTradeFromDto(ParsedTradeRequestDto $dto): Result
     {
         return Result::success(

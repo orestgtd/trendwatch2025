@@ -35,7 +35,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
         public readonly UsTax $usTax,
     ) {}
 
-    /** @return Result<ParsedConfirmationDto> */
+    /** @return Result<self> */
     public static function fromValidatedConfirmationDto(ValidatedTradeDto $validatedDto): Result
     {
        $collection = Collection::from([

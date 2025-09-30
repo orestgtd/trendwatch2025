@@ -2,9 +2,11 @@
 
 namespace App\Domain\Security\Outcome;
 
-use App\Domain\Security\Outcome\AbstractOutcome;
+use App\Domain\Security\{
+    Outcome\AbstractSecurityOutcome,
+};
 
-final class NewSecurityCreated extends AbstractOutcome
+final class NewSecurityCreated extends AbstractSecurityOutcome
 {
     public function requiresPersistence(): bool
     {

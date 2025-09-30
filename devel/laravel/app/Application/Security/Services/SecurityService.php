@@ -9,6 +9,8 @@ use App\Application\Security\{
     Services\Strategies\UpdateExistingSecurity,
 };
 
+use App\Domain\Security\Outcome\SecurityOutcome;
+
 use App\Shared\Result;
 
 class SecurityService
@@ -19,7 +21,7 @@ class SecurityService
         private UpdateExistingSecurity $updateSecurity,
     ) {}
 
-    /** @return Result<SecurityOutcome> */
+    /** @return Result<\App\Domain\Security\Outcome\SecurityOutcome> */
     public function processSecurityRequest(ParsedSecurityRequestDto $requestDto): Result
     {
         $security = $this->findSecurity->findBySecurityNumber($requestDto->securityNumber);
