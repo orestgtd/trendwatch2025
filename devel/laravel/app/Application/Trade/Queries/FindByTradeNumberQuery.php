@@ -33,6 +33,12 @@ final class FindByTradeNumberQuery
         return BuildNewConfirmation::from(
             $persisted->securityNumber,
             $persisted->tradeNumber,
+            $persisted->tradeAction,
+            $persisted->positionEffect,
+            $persisted->tradeQuantity,
+            $persisted->unitPrice,
+            $persisted->commission,
+            $persisted->usTax,
         );
     }
 }

@@ -25,8 +25,11 @@ final class EloquentTradeRepository implements TradeRepository
                 $eloquent->security_number,
                 $eloquent->trade_number,
                 $eloquent->trade_action,
-                $eloquent->positionEffect,
-                $eloquent->tradeQuantity
+                $eloquent->position_effect,
+                $eloquent->trade_quantity,
+                $eloquent->unit_price,
+                $eloquent->commission,
+                $eloquent->us_tax,
             )
             : $eloquent;
     }
@@ -47,6 +50,9 @@ final class EloquentTradeRepository implements TradeRepository
         $eloquent->trade_action = $confirmation->getTradeAction();
         $eloquent->position_effect = $confirmation->getPositionEffect();
         $eloquent->trade_quantity = $confirmation->getTradeQuantity();
+        $eloquent->unit_price = $confirmation->getUnitPrice();
+        $eloquent->commission = $confirmation->getCommission();
+        $eloquent->us_tax = $confirmation->getUsTax();
 
         return $eloquent;
     }

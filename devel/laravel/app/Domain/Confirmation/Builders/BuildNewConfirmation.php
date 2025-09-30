@@ -2,12 +2,16 @@
 
 namespace App\Domain\Confirmation\Builders;
 
-use App\Domain\Confirmation\{
-    Model\Confirmation,
-    ValueObjects\PositionEffect,
-    ValueObjects\TradeAction,
-    ValueObjects\TradeNumber,
-    ValueObjects\TradeQuantity,
+use App\Domain\Confirmation\Model\Confirmation;
+
+use App\Domain\Confirmation\ValueObjects\{
+    PositionEffect,
+    TradeAction,
+    TradeNumber,
+    TradeQuantity,
+    UnitPrice,
+    Commission,
+    UsTax,
 };
 
 use App\Domain\Security\{
@@ -22,13 +26,19 @@ final class BuildNewConfirmation
         TradeAction $tradeAction,
         PositionEffect $positionEffect,
         TradeQuantity $tradeQuantity,
+        UnitPrice $unitPrice,
+        Commission $commission,
+        UsTax $usTax,
     ): Confirmation {
         return Confirmation::create(
             $securityNumber,
             $tradeNumber,
             $tradeAction,
             $positionEffect,
-            $tradeQuantity
+            $tradeQuantity,
+            $unitPrice,
+            $commission,
+            $usTax,
         );
     }
 }

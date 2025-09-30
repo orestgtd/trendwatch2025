@@ -30,10 +30,23 @@ trait ConfirmationsApiGivenWhenThen
         $this->response->assertStatus(200);
     }
 
+    protected function thenTheResponseFails(int $code = 422): void
+    {
+        // Expect validation failure (adjust status if your app uses a different one)
+        $this->response->assertStatus($code);
+    }
+
     protected function thenTheDatabaseContainsTrades(array $expectedTrades): void
     {
         foreach ($expectedTrades as $trade) {
             $this->assertDatabaseHas('trades', $trade);
+        }
+    }
+
+    protected function thenTheDatabaseDoesNotContainTrades(array $unexpectedTrades): void
+    {
+        foreach ($unexpectedTrades as $trade) {
+            $this->assertDatabaseMissing('trades', $trade);
         }
     }
 

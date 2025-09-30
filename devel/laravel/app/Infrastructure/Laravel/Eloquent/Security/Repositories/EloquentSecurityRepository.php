@@ -8,7 +8,7 @@ use App\Domain\Security\{
 };
 
 use App\Infrastructure\Laravel\Eloquent\Security\{
-    DTO\PersistedSecurityDTO,
+    Dto\PersistedSecurityDto,
     Model\Security as EloquentSecurity,
 };
 
@@ -16,7 +16,7 @@ use App\Infrastructure\Laravel\Contracts\SecurityRepository;
 
 final class EloquentSecurityRepository implements SecurityRepository
 {
-    public function findBySecurityNumber(SecurityNumber $securityNumber): ?PersistedSecurityDTO
+    public function findBySecurityNumber(SecurityNumber $securityNumber): ?PersistedSecurityDto
     {
         $eloquent = EloquentSecurity::where('security_number', (string) $securityNumber)->first();
 

@@ -1,4 +1,4 @@
-.PHONY: test serve autoload
+.PHONY: test serve autoload stan
 
 test:
 	php artisan test $(if $(TEST),--filter=$(TEST))
@@ -17,3 +17,7 @@ serve:
 # Example usage: make autoload, make dump, make reload
 autoload dump reload:
 	composer dump-autoload
+
+stan:
+	./vendor/bin/phpstan analyse --memory-limit=2G
+

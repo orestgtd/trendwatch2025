@@ -6,7 +6,7 @@ use App\Shared\Result;
 
 abstract class AbstractIntValueObject extends AbstractValueObject
 {
-    protected function __construct(int $value)
+    final protected function __construct(int $value)
     {
         parent::__construct($value);
     }

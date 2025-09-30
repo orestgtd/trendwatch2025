@@ -29,7 +29,7 @@ final class Variations implements VariationsInterface
     public static function fromStrings(array $strings): VariationsInterface
     {
         return empty($strings)
-            ? new NoVariations()
+            ? NoVariations::create()
             : new self(array_map(fn(string $s) => Description::fromString($s), $strings));
     }
 

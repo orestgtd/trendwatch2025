@@ -8,11 +8,11 @@ use App\Domain\Security\{
 };
 
 use App\Infrastructure\Laravel\Eloquent\Security\{
-    DTO\PersistedSecurityDTO,
+    Dto\PersistedSecurityDto,
 };
 
 interface SecurityRepository
 {
-    public function findBySecurityNumber(SecurityNumber $securityNumber): ?PersistedSecurityDTO;
+    public function findBySecurityNumber(SecurityNumber $securityNumber): ?PersistedSecurityDto;
     public function save(Security $security): void;
 }
