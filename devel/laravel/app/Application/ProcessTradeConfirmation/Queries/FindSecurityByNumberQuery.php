@@ -13,7 +13,7 @@ use App\Infrastructure\Laravel\Eloquent\Security\{
     Repositories\EloquentSecurityRepository as SecurityRepository,
 };
 
-final class FindBySecurityNumberQuery
+final class FindSecurityByNumberQuery
 {
     public function __construct(
         private readonly SecurityRepository $repository

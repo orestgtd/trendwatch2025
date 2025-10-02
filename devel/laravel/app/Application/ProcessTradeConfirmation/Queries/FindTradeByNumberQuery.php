@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Trade\Queries;
+namespace App\Application\ProcessTradeConfirmation\Queries;
 
 use App\Domain\Confirmation\{
     Builders\BuildNewConfirmation,
@@ -13,7 +13,7 @@ use App\Infrastructure\Laravel\Eloquent\Trade\{
     Repositories\EloquentTradeRepository as TradeRepository,
 };
 
-final class FindByTradeNumberQuery
+final class FindTradeByNumberQuery
 {
     public function __construct(
         private readonly TradeRepository $repository
