@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Trade\Dto;
+namespace App\Application\ProcessTradeConfirmation\Dto;
 
 use App\Application\Common\AbstractParsedRequestDto;
 use App\Domain\Confirmation\ValueObjects\{
