@@ -4,6 +4,7 @@ namespace App\Application\ProcessTradeConfirmation;
 
 use App\Application\ProcessTradeConfirmation\{
     Dto\ParsedSecurityRequestDto,
+    Dto\ParsedTradeRequestDto,
 };
 
 use App\Application\ProcessTradeConfirmation\Services\{
@@ -17,10 +18,6 @@ use App\Application\ProcessTradeConfirmation\Services\{
 
 use App\Application\Summary\{
     OutcomeSummary,
-};
-
-use App\Application\Trade\{
-    Dto\ParsedTradeRequestDto,
 };
 
 use App\Domain\{
