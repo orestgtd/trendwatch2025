@@ -7,7 +7,7 @@ use App\Application\Security\{
     Services\SecurityService,
 };
 
-use App\Application\Services\{
+use App\Application\ProcessTradeConfirmation\Services\{
     Parser\SecurityParser,
     Parser\TradeParser,
     PositionService,

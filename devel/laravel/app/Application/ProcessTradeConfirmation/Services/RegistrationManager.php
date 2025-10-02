@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Services;
+namespace App\Application\ProcessTradeConfirmation\Services;
 
 use App\Domain\Confirmation\Outcome\ConfirmationOutcome;
 use App\Domain\Security\Outcome\SecurityOutcome;
