@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Trade\Services\Strategies;
+namespace App\Application\Trade\Actions;
 
 use App\Application\Trade\{
     Dto\ParsedTradeRequestDto,

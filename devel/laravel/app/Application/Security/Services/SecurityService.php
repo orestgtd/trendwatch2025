@@ -5,8 +5,8 @@ namespace App\Application\Security\Services;
 use App\Application\Security\{
     Dto\ParsedSecurityRequestDto,
     Queries\FindBySecurityNumberQuery,
-    Services\Strategies\CreateNewSecurity,
-    Services\Strategies\UpdateExistingSecurity,
+    Actions\CreateNewSecurity,
+    Actions\UpdateExistingSecurity,
 };
 
 use App\Domain\Security\Outcome\SecurityOutcome;

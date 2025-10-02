@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Security\Services\Strategies;
+namespace App\Application\Security\Actions;
 
 use App\Application\Security\{
     Dto\ParsedSecurityRequestDto,

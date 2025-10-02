@@ -5,7 +5,7 @@ namespace App\Application\Trade\Services;
 use App\Application\Trade\{
     Dto\ParsedTradeRequestDto,
     Queries\FindByTradeNumberQuery,
-    Services\Strategies\CreateNewTrade,
+    Actions\CreateNewTrade,
 };
 
 use App\Domain\Confirmation\Outcome\ConfirmationOutcome;
