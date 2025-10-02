@@ -12,6 +12,7 @@ use App\Application\ProcessTradeConfirmation\Services\{
     PositionService,
     RegistrationManager,
     SecurityService,
+    TradeService,
 };
 
 use App\Application\Summary\{
@@ -20,7 +21,6 @@ use App\Application\Summary\{
 
 use App\Application\Trade\{
     Dto\ParsedTradeRequestDto,
-    Services\TradeService,
 };
 
 use App\Domain\{
