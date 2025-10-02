@@ -18,7 +18,7 @@ use App\Infrastructure\Laravel\Eloquent\{
 
 use App\Presentation\Http\Presenters\SummaryPresenter;
 
-final class StoreConfirmationController extends Controller
+final class TradeConfirmationController extends Controller
 {
     public function __construct(
         private ProcessTradeConfirmation $usecase,
