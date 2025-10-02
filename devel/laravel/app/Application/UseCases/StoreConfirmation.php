@@ -2,31 +2,30 @@
 
 namespace App\Application\UseCases;
 
-use App\Application\Trade\{
-    Dto\ParsedTradeRequestDto,
-    Dto\ValidatedTradeDto,
-    Services\TradeService,
-};
-
 use App\Application\Security\{
     Dto\ParsedSecurityRequestDto,
     Dto\ValidatedSecurityDto,
     Services\SecurityService,
 };
 
+use App\Application\Services\{
+    RegistrationManager,
+};
+
 use App\Application\Summary\{
     OutcomeSummary,
 };
 
+use App\Application\Trade\{
+    Dto\ParsedTradeRequestDto,
+    Dto\ValidatedTradeDto,
+    Services\TradeService,
+};
+
 use App\Domain\{
     Confirmation\Outcome\ConfirmationOutcome,
+    Security\Outcome\SecurityOutcome,
 };
-
-use App\Domain\Security\{
-    Outcome\SecurityOutcome,
-};
-
-use App\Infrastructure\Laravel\Eloquent\UnitOfWork;
 
 use App\Shared\Result;
 
@@ -35,7 +34,7 @@ final class StoreConfirmation
     public function __construct(
         private TradeService $tradeService,
         private SecurityService $securityService,
-        private UnitOfWork $uow,
+        private RegistrationManager $registrationManager,
      ) {}
 
     /** @return Result<OutcomeSummary> */
@@ -56,12 +55,12 @@ final class StoreConfirmation
         }
 
         $resultConfirmationOutcome
-        ->tap(fn (ConfirmationOutcome $outcome) => $this->registerConfirmationOutcome($outcome));
+        ->tap(fn (ConfirmationOutcome $outcome) => $this->registrationManager->registerConfirmation($outcome));
 
         $resultSecurityOutcome
-        ->tap(fn (SecurityOutcome $outcome) => $this->registerSecurityOutcome($outcome));
+        ->tap(fn (SecurityOutcome $outcome) => $this->registrationManager->registerSecurity($outcome));
 
-        $this->uow->persist();
+        $this->registrationManager->persist();
 
         return Result::success(
             new OutcomeSummary(
@@ -89,21 +88,5 @@ final class StoreConfirmation
             ->bind(
                 fn (ValidatedTradeDto $validatedDto): Result => ParsedTradeRequestDto::fromValidatedConfirmationDto($validatedDto)
             );
-    }
-
-    private function registerConfirmationOutcome(ConfirmationOutcome $outcome): void
-    {
-        if($outcome->requiresPersistence())
-        {
-            $this->uow->withConfirmation($outcome->getConfirmation());
-        }
-    }
-
-    private function registerSecurityOutcome(SecurityOutcome $outcome): void
-    {
-        if($outcome->requiresPersistence())
-        {
-            $this->uow->withSecurity($outcome->getSecurity());
-        }
     }
 }
