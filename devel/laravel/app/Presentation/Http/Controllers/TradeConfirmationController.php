@@ -9,7 +9,7 @@ use Illuminate\Http\{
 
 use App\Application\{
     Summary\OutcomeSummary,
-    UseCases\ProcessTradeConfirmation,
+    ProcessTradeConfirmation\ProcessTradeConfirmation,
 };
 
 use App\Infrastructure\Laravel\Eloquent\{
