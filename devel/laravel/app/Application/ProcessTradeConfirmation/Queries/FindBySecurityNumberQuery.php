@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Security\Queries;
+namespace App\Application\ProcessTradeConfirmation\Queries;
 
 use App\Domain\Security\{
     Builders\BuildSecurityFrom,

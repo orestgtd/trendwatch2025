@@ -2,9 +2,8 @@
 
 namespace App\Application\ProcessTradeConfirmation;
 
-use App\Application\Security\{
+use App\Application\ProcessTradeConfirmation\{
     Dto\ParsedSecurityRequestDto,
-    Services\SecurityService,
 };
 
 use App\Application\ProcessTradeConfirmation\Services\{
@@ -12,6 +11,7 @@ use App\Application\ProcessTradeConfirmation\Services\{
     Parser\TradeParser,
     PositionService,
     RegistrationManager,
+    SecurityService,
 };
 
 use App\Application\Summary\{
