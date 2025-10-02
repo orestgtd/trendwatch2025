@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Application\Security\Services;
+namespace App\Application\ProcessTradeConfirmation\Services;
 
-use App\Application\Security\{
+use App\Application\ProcessTradeConfirmation\{
     Dto\ParsedSecurityRequestDto,
     Queries\FindBySecurityNumberQuery,
     Actions\CreateNewSecurity,
@@ -21,11 +21,11 @@ class SecurityService
         private UpdateExistingSecurity $updateSecurity,
     ) {}
 
-    /** @return Result<\App\Domain\Security\Outcome\SecurityOutcome> */
+    /** @return Result<SecurityOutcome> */
     public function processSecurityRequest(ParsedSecurityRequestDto $requestDto): Result
     {
         $security = $this->findSecurity->findBySecurityNumber($requestDto->securityNumber);
-        
+
         return $security
         ? $this->updateSecurity->updateSecurityFromDto($security, $requestDto)
         : $this->createSecurity->createNewSecurityFromDto($requestDto);

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Application\Security\Actions;
+namespace App\Application\ProcessTradeConfirmation\Actions;
 
-use App\Application\Security\{
+use App\Application\ProcessTradeConfirmation\{
     Dto\ParsedSecurityRequestDto,
 };
 
