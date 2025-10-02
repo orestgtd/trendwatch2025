@@ -13,19 +13,19 @@ use App\Infrastructure\Laravel\Eloquent\Trade\{
     Repositories\EloquentTradeRepository as TradeRepository,
 };
 
-final class FindTradeByNumberQuery
+final class FindTradeQuery
 {
     public function __construct(
         private readonly TradeRepository $repository
-        ){}
+    ) {}
 
     public function findByTradeNumber(TradeNumber $tradeNumber): ?Confirmation
     {
         $persisted = $this->repository->findByTradeNumber($tradeNumber);
 
         return $persisted
-        ? $this->buildConfirmation($persisted)
-        : $persisted;
+            ? $this->buildConfirmation($persisted)
+            : $persisted;
     }
 
     private function buildConfirmation(PersistedTradeDto $persisted): Confirmation
@@ -36,6 +36,7 @@ final class FindTradeByNumberQuery
             $persisted->tradeAction,
             $persisted->positionEffect,
             $persisted->tradeQuantity,
+            // $persisted->tradeUnitType,
             $persisted->unitPrice,
             $persisted->commission,
             $persisted->usTax,
