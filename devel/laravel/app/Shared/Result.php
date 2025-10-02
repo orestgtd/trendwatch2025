@@ -3,7 +3,7 @@
 namespace App\Shared;
 
 /**
- * @template T
+ * @template-covariant T
  */
 class Result
 {
