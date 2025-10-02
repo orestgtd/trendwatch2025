@@ -10,6 +10,7 @@ use App\Application\Security\{
 use App\Application\Services\{
     Parser\SecurityParser,
     Parser\TradeParser,
+    PositionService,
     RegistrationManager,
 };
 
@@ -34,6 +35,7 @@ final class StoreConfirmation
     public function __construct(
         private TradeService $tradeService,
         private SecurityService $securityService,
+        private PositionService $positionService,
         private RegistrationManager $registrationManager,
         private TradeParser $tradeParser,
         private SecurityParser $securityParser,
@@ -55,6 +57,11 @@ final class StoreConfirmation
         if ($resultSecurityOutcome->isFailure()) {
             return $resultSecurityOutcome;
         }
+
+       $resultPositionOutcome = $resultConfirmationOutcome
+            ->bind(fn(ConfirmationOutcome $confirmationOutcome) =>
+                $this->positionService->updatePosition($confirmationOutcome)
+            );
 
         $resultConfirmationOutcome
         ->tap(fn (ConfirmationOutcome $outcome) => $this->registrationManager->registerConfirmation($outcome));
