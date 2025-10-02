@@ -8,11 +8,8 @@ use Illuminate\Http\{
 };
 
 use App\Application\{
-    UseCases\StoreConfirmation,
-};
-use App\Application\Summary\OutcomeSummary;
-use App\Domain\Security\{
-    Outcome\SecurityOutcome,
+    Summary\OutcomeSummary,
+    UseCases\ProcessTradeConfirmation,
 };
 
 use App\Infrastructure\Laravel\Eloquent\{
@@ -24,7 +21,7 @@ use App\Presentation\Http\Presenters\SummaryPresenter;
 final class StoreConfirmationController extends Controller
 {
     public function __construct(
-        private StoreConfirmation $usecase,
+        private ProcessTradeConfirmation $usecase,
         private UnitOfWork $unitOfWork,
         private SummaryPresenter $presenter,
     ) {}

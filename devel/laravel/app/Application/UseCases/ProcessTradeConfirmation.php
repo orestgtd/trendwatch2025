@@ -30,7 +30,7 @@ use App\Domain\{
 
 use App\Shared\Result;
 
-final class StoreConfirmation
+final class ProcessTradeConfirmation
 {
     public function __construct(
         private TradeService $tradeService,
