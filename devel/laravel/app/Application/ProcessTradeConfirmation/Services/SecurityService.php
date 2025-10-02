@@ -4,7 +4,7 @@ namespace App\Application\ProcessTradeConfirmation\Services;
 
 use App\Application\ProcessTradeConfirmation\{
     Dto\ParsedSecurityRequestDto,
-    Queries\FindBySecurityNumberQuery,
+    Queries\FindSecurityByNumberQuery,
     Actions\CreateNewSecurity,
     Actions\UpdateExistingSecurity,
 };
@@ -16,7 +16,7 @@ use App\Shared\Result;
 class SecurityService
 {
     public function __construct(
-        private FindBySecurityNumberQuery $findSecurity,
+        private FindSecurityByNumberQuery $findSecurity,
         private CreateNewSecurity $createSecurity,
         private UpdateExistingSecurity $updateSecurity,
     ) {}

@@ -2,13 +2,10 @@
 
 namespace App\Application\ProcessTradeConfirmation\Services;
 
-use App\Application\Trade\{
-    Queries\FindByTradeNumberQuery,
-};
-
 use App\Application\ProcessTradeConfirmation\{
-    Dto\ParsedTradeRequestDto,
     Actions\CreateNewTrade,
+    Dto\ParsedTradeRequestDto,
+    Queries\FindTradeByNumberQuery,
 };
 
 use App\Domain\Confirmation\Outcome\ConfirmationOutcome;
@@ -17,7 +14,7 @@ use App\Shared\Result;
 class TradeService
 {
     public function __construct(
-        private readonly FindByTradeNumberQuery $findTrade,
+        private readonly FindTradeByNumberQuery $findTrade,
         private readonly CreateNewTrade $createTrade,
     ) {}
 
