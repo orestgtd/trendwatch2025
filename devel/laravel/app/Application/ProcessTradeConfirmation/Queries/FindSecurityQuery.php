@@ -13,7 +13,7 @@ use App\Infrastructure\Laravel\Eloquent\Security\{
     Repositories\EloquentSecurityRepository as SecurityRepository,
 };
 
-final class FindSecurityByNumberQuery
+final class FindSecurityQuery
 {
     public function __construct(
         private readonly SecurityRepository $repository
@@ -38,17 +38,5 @@ final class FindSecurityByNumberQuery
             $persisted->unitType,
             $persisted->expirationDate
         );
-        $eloquent = $this->repository->findBySecurityNumber($securityNumber);
-
-        return $eloquent
-            ? BuildSecurityFrom::from(
-                $eloquent['security_number'],
-                $eloquent['symbol'],
-                $eloquent['canonical_description'],
-                $eloquent['variations'],
-                $eloquent['unit_type'],
-                $eloquent['expiration_date'],
-            )
-            : null;
     }
 }
