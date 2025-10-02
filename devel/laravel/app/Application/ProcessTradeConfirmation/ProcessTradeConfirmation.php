@@ -16,7 +16,7 @@ use App\Application\ProcessTradeConfirmation\Services\{
     TradeService,
 };
 
-use App\Application\Summary\{
+use App\Application\ProcessTradeConfirmation\Summary\{
     OutcomeSummary,
 };
 
