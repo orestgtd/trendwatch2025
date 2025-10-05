@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Security\Queries;
+namespace App\Application\ProcessTradeConfirmation\Queries;
 
 use App\Domain\Security\{
     Builders\BuildSecurityFrom,
@@ -13,7 +13,7 @@ use App\Infrastructure\Laravel\Eloquent\Security\{
     Repositories\EloquentSecurityRepository as SecurityRepository,
 };
 
-final class FindBySecurityNumberQuery
+final class FindSecurityByNumberQuery
 {
     public function __construct(
         private readonly SecurityRepository $repository

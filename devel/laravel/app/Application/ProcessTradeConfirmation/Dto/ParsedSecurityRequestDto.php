@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Security\Dto;
+namespace App\Application\ProcessTradeConfirmation\Dto;
 
 use App\Application\Common\AbstractParsedRequestDto;
 
