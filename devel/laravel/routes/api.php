@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use \App\Presentation\Http\Controllers\{
     HelloController,
     PositionController,
-    StoreConfirmationController
+    TradeConfirmationController
 };
 
 /*
@@ -27,5 +27,5 @@ use \App\Presentation\Http\Controllers\{
 Route::prefix('beta')->group(function () {
     Route::get('/hello', [HelloController::class, 'index']);
     Route::get('/positions', [PositionController::class, 'index']);
-    Route::post('/trades/import', [StoreConfirmationController::class, 'store']);
+    Route::post('/trades/import', [TradeConfirmationController::class, 'store']);
 });

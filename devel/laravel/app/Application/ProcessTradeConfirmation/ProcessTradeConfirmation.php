@@ -1,26 +1,23 @@
 <?php
 
-namespace App\Application\UseCases;
+namespace App\Application\ProcessTradeConfirmation;
 
-use App\Application\Security\{
+use App\Application\ProcessTradeConfirmation\{
     Dto\ParsedSecurityRequestDto,
-    Services\SecurityService,
+    Dto\ParsedTradeRequestDto,
 };
 
-use App\Application\Services\{
+use App\Application\ProcessTradeConfirmation\Services\{
     Parser\SecurityParser,
     Parser\TradeParser,
     PositionService,
     RegistrationManager,
+    SecurityService,
+    TradeService,
 };
 
-use App\Application\Summary\{
+use App\Application\ProcessTradeConfirmation\Summary\{
     OutcomeSummary,
-};
-
-use App\Application\Trade\{
-    Dto\ParsedTradeRequestDto,
-    Services\TradeService,
 };
 
 use App\Domain\{
@@ -30,7 +27,7 @@ use App\Domain\{
 
 use App\Shared\Result;
 
-final class StoreConfirmation
+final class ProcessTradeConfirmation
 {
     public function __construct(
         private TradeService $tradeService,

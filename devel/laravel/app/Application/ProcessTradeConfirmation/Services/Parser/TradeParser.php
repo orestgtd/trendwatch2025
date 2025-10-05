@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Application\Services\Parser;
+namespace App\Application\ProcessTradeConfirmation\Services\Parser;
 
-use App\Application\Trade\Dto\{
+use App\Application\ProcessTradeConfirmation\Dto\{
     ParsedTradeRequestDto,
     ValidatedTradeDto
 };

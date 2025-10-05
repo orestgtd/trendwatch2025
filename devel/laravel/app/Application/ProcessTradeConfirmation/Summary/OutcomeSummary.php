@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Summary;
+namespace App\Application\ProcessTradeConfirmation\Summary;
 
 use App\Domain\{
     Confirmation\Outcome\ConfirmationOutcome,

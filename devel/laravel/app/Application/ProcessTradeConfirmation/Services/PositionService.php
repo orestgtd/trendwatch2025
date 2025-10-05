@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Services;
+namespace App\Application\ProcessTradeConfirmation\Services;
 
 use App\Domain\{
     Confirmation\Outcome\ConfirmationOutcome,
@@ -22,9 +22,9 @@ final class PositionService
      */
     public function updatePosition(ConfirmationOutcome $confirmationOutcome): Result
     {
-        $x = $this->processConfirmation($confirmationOutcome->getConfirmation());
+        // $x = $this->processConfirmation($confirmationOutcome->getConfirmation());
 
-        dd($x);
+        // dd($x);
 
         return Result::success(
             new PositionOutcomePlaceholder()
