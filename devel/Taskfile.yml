@@ -57,3 +57,18 @@ tasks:
     desc: "Show short status of all modified/untracked files"
     cmds:
       - git status -s
+
+  bundle:
+    # Example: task bundle -- feature-position
+    # Note the need for -- to separate CLI arguments from the task name
+    desc: "Create a git bundle for the specified branch or tag"
+    cmds:
+      - |
+        name="{{.CLI_ARGS}}"
+        if [ -z "$name" ]; then
+          name=$(git rev-parse --abbrev-ref HEAD)
+          echo "📦 No name provided — using current branch: $name"
+        fi
+        date=$(date +%Y-%m-%d)
+        git bundle create "${name}-${date}.bundle" "${name}"
+    silent: true
