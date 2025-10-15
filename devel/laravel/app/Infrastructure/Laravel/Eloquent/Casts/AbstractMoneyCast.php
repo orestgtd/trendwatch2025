@@ -3,8 +3,11 @@
 namespace App\Infrastructure\Laravel\Eloquent\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use App\Domain\Common\ValueObjects\Money\MoneyDto;
-use App\Domain\Common\ValueObjects\Money\MoneyInterface;
+use App\Domain\Common\Money\{
+    Currency,
+    Monetary,
+    MoneyAmount,
+};
 
 abstract class AbstractMoneyCast implements CastsAttributes
 {
@@ -15,7 +18,7 @@ abstract class AbstractMoneyCast implements CastsAttributes
      */
     protected const VALUE_OBJECT_CLASS = '';
 
-    public function get($model, string $key, $value, array $attributes): ?MoneyInterface
+    public function get($model, string $key, $value, array $attributes): ?Monetary
     {
         $class = static::VALUE_OBJECT_CLASS;
 
@@ -27,15 +30,14 @@ abstract class AbstractMoneyCast implements CastsAttributes
         }
 
         return $class::create(
-            MoneyDto::create(
-                $attributes[$amountKey],
-                $attributes[$currencyKey]
-            )
+            MoneyAmount::fromString($attributes[$amountKey]),
+            Currency::fromString($attributes[$currencyKey])
         );
     }
 
     public function set($model, string $key, $value, array $attributes): array
     {
+
         $class = static::VALUE_OBJECT_CLASS;
 
         $amountKey   = $key . '_amount';
@@ -48,7 +50,7 @@ abstract class AbstractMoneyCast implements CastsAttributes
             ];
         }
 
-        /** @var MoneyInterface $value */
+        /** @var Monetary $value */
         return [
             $amountKey   => $value->getAmount(),
             $currencyKey => $value->getCurrency(),

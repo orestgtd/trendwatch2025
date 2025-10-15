@@ -2,6 +2,10 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Security\Repositories;
 
+use App\Domain\Outcome\{
+    Persistence\PersistenceScope,
+};
+
 use App\Domain\Security\{
     Model\Security,
     ValueObjects\SecurityNumber,
@@ -12,9 +16,7 @@ use App\Infrastructure\Laravel\Eloquent\Security\{
     Model\Security as EloquentSecurity,
 };
 
-use App\Infrastructure\Laravel\Contracts\SecurityRepository;
-
-final class EloquentSecurityRepository implements SecurityRepository
+class EloquentSecurityRepository
 {
     public function findBySecurityNumber(SecurityNumber $securityNumber): ?PersistedSecurityDto
     {
@@ -32,11 +34,27 @@ final class EloquentSecurityRepository implements SecurityRepository
             : $eloquent;
     }
 
-    public function save(Security $security): void
+    public function insert(Security $security): void
     {
         $this
             ->toEloquent($security)
             ->save();
+    }
+
+    public function update(Security $security, PersistenceScope $scope): void
+    {
+        $toUpdate = collect($scope->fields())
+            ->mapWithKeys(fn(string $field) => [
+                $field => match ($field) {
+                    'variations' => $security->variations()
+                },
+            ])
+            ->toArray();
+
+        $security_number = (string) $security->securityNumber();
+
+        EloquentSecurity::where('security_number', $security_number)->first()
+            ->update($toUpdate);
     }
 
     private function toEloquent(Security $security): EloquentSecurity

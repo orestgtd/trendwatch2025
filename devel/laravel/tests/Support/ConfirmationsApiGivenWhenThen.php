@@ -56,4 +56,11 @@ trait ConfirmationsApiGivenWhenThen
             $this->assertDatabaseHas('securities', $security);
         }
     }
+
+    protected function thenTheDatabaseContainsPositions(array $expectedPositions): void
+    {
+        foreach ($expectedPositions as $position) {
+            $this->assertDatabaseHas('positions', $position);
+        }
+    }
 }

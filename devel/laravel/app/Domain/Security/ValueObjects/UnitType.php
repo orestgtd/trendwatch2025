@@ -29,4 +29,12 @@ final class UnitType extends AbstractStringValueObject
     {
         return new self(self::CONTRACTS);
     }
+
+    public function multiplier(): int
+    {
+        return match($this->value) {
+            self::SHARES => 1,
+            self::CONTRACTS => 100,
+        };
+    }
 }

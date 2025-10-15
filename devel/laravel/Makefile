@@ -9,7 +9,16 @@ unit:
 
 # Example usage: make feature TEST=TradesImportTest
 feature:
-	php artisan test --testsuite=Feature $(if $(TEST),--filter=$(TEST))
+	php artisan test --testsuite=Api $(if $(TEST),--filter=$(TEST))
+	php artisan test --testsuite=Integration $(if $(TEST),--filter=$(TEST))
+
+# Example usage: make api TEST=TradesImportTest
+api:
+	php artisan test --testsuite=Api $(if $(TEST),--filter=$(TEST))
+
+# Example usage: make integration TEST=TradesImportTest
+integration:
+	php artisan test --testsuite=Integration $(if $(TEST),--filter=$(TEST))
 
 serve:
 	php artisan serve

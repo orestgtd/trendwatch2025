@@ -9,5 +9,5 @@ use App\Domain\{
 
 interface SecurityOutcome extends Outcome
 {
-    public function getSecurity(): ?Security;
+    public function getSecurity(): Security;
 }

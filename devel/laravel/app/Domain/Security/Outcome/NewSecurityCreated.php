@@ -2,14 +2,23 @@
 
 namespace App\Domain\Security\Outcome;
 
+use App\Domain\Outcome\{
+    Persistence\PersistenceIntent,
+};
+
 use App\Domain\Security\{
+    Model\Security,
     Outcome\AbstractSecurityOutcome,
 };
 
 final class NewSecurityCreated extends AbstractSecurityOutcome
 {
-    public function requiresPersistence(): bool
-    {
-        return true; // new security must be persisted
+    public function __construct(
+        Security $security,
+    ) {
+        parent::__construct(
+            $security,
+            PersistenceIntent::insertAll()
+        );
     }
 }

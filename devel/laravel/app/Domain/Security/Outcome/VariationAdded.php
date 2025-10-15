@@ -2,12 +2,23 @@
 
 namespace App\Domain\Security\Outcome;
 
-use App\Domain\Security\Outcome\AbstractSecurityOutcome;
+use App\Domain\Outcome\{
+    Persistence\PersistenceIntent,
+};
+
+use App\Domain\Security\{
+    Model\Security,
+    Outcome\AbstractSecurityOutcome,
+};
 
 final class VariationAdded extends AbstractSecurityOutcome
 {
-    public function requiresPersistence(): bool
-    {
-        return true; // new variations always require persistence
+    public function __construct(
+        Security $security,
+    ) {
+        parent::__construct(
+            $security,
+            PersistenceIntent::update(['variations'])
+        );
     }
 }

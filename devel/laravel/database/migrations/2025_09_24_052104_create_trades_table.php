@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('trade_action');
             $table->string('position_effect');
             $table->integer('trade_quantity');
+            $table->string('trade_unit_type');
             $table->string('unit_price_amount');
             $table->string('unit_price_currency');
             $table->string('commission_amount');
