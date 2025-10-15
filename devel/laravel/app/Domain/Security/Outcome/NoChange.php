@@ -2,12 +2,23 @@
 
 namespace App\Domain\Security\Outcome;
 
-use App\Domain\Security\Outcome\AbstractSecurityOutcome;
+use App\Domain\Outcome\{
+    Persistence\PersistenceIntent,
+};
+
+use App\Domain\Security\{
+    Model\Security,
+    Outcome\AbstractSecurityOutcome,
+};
 
 final class NoChange extends AbstractSecurityOutcome
 {
-    public function requiresPersistence(): bool
-    {
-        return false; // no changes, no persistence needed
+    public function __construct(
+        Security $security,
+    ) {
+        parent::__construct(
+            $security,
+            PersistenceIntent::none()
+        );
     }
 }

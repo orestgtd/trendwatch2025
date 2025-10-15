@@ -2,14 +2,16 @@
 
 namespace App\Domain\Confirmation\ValueObjects;
 
-use App\Domain\Common\ValueObjects\Money\MoneyDto;
-
-use App\Domain\Common\ValueObjects\Money\AbstractMoney;
+use App\Domain\Common\Money\{
+    AbstractMoney,
+    Currency,
+    MoneyAmount,
+};
 
 final class UsTax extends AbstractMoney
 {
-    public static function create(MoneyDto $dto): static
+    public static function create(MoneyAmount $amount, Currency $currency): static
     {
-        return new self($dto);
+        return new self($amount, $currency);
     }
 }

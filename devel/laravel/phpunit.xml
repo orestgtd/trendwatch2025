@@ -8,8 +8,11 @@
         <testsuite name="Unit">
             <directory>tests/Unit</directory>
         </testsuite>
-        <testsuite name="Feature">
-            <directory>tests/Feature</directory>
+        <testsuite name="Api">
+            <directory>tests/Feature/Api</directory>
+        </testsuite>
+        <testsuite name="Integration">
+            <directory>tests/Feature/Integration</directory>
         </testsuite>
     </testsuites>
     <source>

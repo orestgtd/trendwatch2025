@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Integration;
 
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -8,7 +8,7 @@ use Tests\Support\ConfirmationsApiGivenWhenThen;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class StoreConfirmationTest extends TestCase
+class ProcessTradeConfirmationTest extends TestCase
 {
     use RefreshDatabase;
     use ConfirmationsApiGivenWhenThen;
@@ -54,7 +54,7 @@ class StoreConfirmationTest extends TestCase
         $this->givenTradeData($trade1);
         $this->whenSubmittingTrades();
         $this->thenTheResponseIsSuccessful('First trade failed: ' . $trade1['symbol']);
-    
+
         // WHEN & THEN: submit second trade
         $this->givenTradeData($trade2);
         $this->whenSubmittingTrades();
@@ -63,26 +63,51 @@ class StoreConfirmationTest extends TestCase
         // THEN: verify database contains both trades
         $this->thenTheDatabaseContainsTrades([
             [
-                'trade_number' => '001733', 'security_number' => '7653ZG',
-                'trade_action' => 'BUY', 'position_effect' => 'OPEN',
+                'trade_number' => '001733',
+                'security_number' => '7653ZG',
+                'trade_action' => 'BUY',
+                'position_effect' => 'OPEN',
                 'trade_quantity' => 1,
-                'unit_price_amount' => '21', 'unit_price_currency' => 'USD',
-                'commission_amount' => '9.99', 'commission_currency' => 'USD',
-                'us_tax_amount' => '0.02', 'us_tax_currency' => 'USD',
+                'unit_price_amount' => '21',
+                'unit_price_currency' => 'USD',
+                'commission_amount' => '9.99',
+                'commission_currency' => 'USD',
+                'us_tax_amount' => '0.02',
+                'us_tax_currency' => 'USD',
             ],
             [
-                'trade_number' => '333499', 'security_number' => '151447',
-                'trade_action' => 'BUY', 'position_effect' => 'OPEN',
+                'trade_number' => '333499',
+                'security_number' => '151447',
+                'trade_action' => 'BUY',
+                'position_effect' => 'OPEN',
                 'trade_quantity' => 200,
-                'unit_price_amount' => '21.94', 'unit_price_currency' => 'USD',
-                'commission_amount' => '12.40', 'commission_currency' => 'USD',
-                'us_tax_amount' => '0.49', 'us_tax_currency' => 'USD',
+                'unit_price_amount' => '21.94',
+                'unit_price_currency' => 'USD',
+                'commission_amount' => '12.40',
+                'commission_currency' => 'USD',
+                'us_tax_amount' => '0.49',
+                'us_tax_currency' => 'USD',
             ],
         ]);
 
         $this->thenTheDatabaseContainsSecurities([
             ['canonical_description' => 'CALL-100 SPX\'22 JN@4245'],
             ['canonical_description' => 'CENOVUS ENERGY INC'],
+        ]);
+
+        $this->thenTheDatabaseContainsPositions([
+            [
+                'security_number' => '7653ZG',
+                'position_quantity' => 1,
+                'total_cost_amount' => '31.01',
+                'total_cost_currency' => 'USD',
+            ],
+            [
+                'security_number' => '151447',
+                'position_quantity' => 200,
+                'total_cost_amount' => '4400.89',
+                'total_cost_currency' => 'USD',
+            ],
         ]);
     }
 
@@ -136,12 +161,12 @@ class StoreConfirmationTest extends TestCase
         // THEN: verify database contains only the first trade
         $this->thenTheDatabaseContainsTrades([
             [
-                'trade_number' => '001733', 
+                'trade_number' => '001733',
                 'security_number' => '7653ZG',
-                'trade_action' => 'BUY', 
+                'trade_action' => 'BUY',
                 'position_effect' => 'OPEN',
-                'trade_quantity' => 1, 
-                'unit_price_amount' => '21', 
+                'trade_quantity' => 1,
+                'unit_price_amount' => '21',
                 'unit_price_currency' => 'USD',
                 'commission_amount' => '9.99',
                 'commission_currency' => 'USD',
@@ -157,6 +182,4 @@ class StoreConfirmationTest extends TestCase
             ]
         ]);
     }
-
-
 }

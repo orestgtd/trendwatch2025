@@ -5,12 +5,13 @@ namespace App\Domain\Confirmation\Builders;
 use App\Domain\Confirmation\Model\Confirmation;
 
 use App\Domain\Confirmation\ValueObjects\{
+    Commission,
     PositionEffect,
     TradeAction,
     TradeNumber,
     TradeQuantity,
+    TradeUnitType,
     UnitPrice,
-    Commission,
     UsTax,
 };
 
@@ -26,6 +27,7 @@ final class BuildNewConfirmation
         TradeAction $tradeAction,
         PositionEffect $positionEffect,
         TradeQuantity $tradeQuantity,
+        TradeUnitType $tradeUnitType,
         UnitPrice $unitPrice,
         Commission $commission,
         UsTax $usTax,
@@ -36,6 +38,7 @@ final class BuildNewConfirmation
             $tradeAction,
             $positionEffect,
             $tradeQuantity,
+            $tradeUnitType,
             $unitPrice,
             $commission,
             $usTax,

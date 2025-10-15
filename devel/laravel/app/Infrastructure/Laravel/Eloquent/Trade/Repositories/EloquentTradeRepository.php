@@ -12,9 +12,7 @@ use App\Infrastructure\Laravel\Eloquent\Trade\{
     Model\Trade as EloquentTrade,
 };
 
-use App\Infrastructure\Laravel\Contracts\TradeRepository;
-
-final class EloquentTradeRepository implements TradeRepository
+class EloquentTradeRepository
 {
     public function findByTradeNumber(TradeNumber $tradeNumber): ?PersistedTradeDto
     {
@@ -27,6 +25,7 @@ final class EloquentTradeRepository implements TradeRepository
                 $eloquent->trade_action,
                 $eloquent->position_effect,
                 $eloquent->trade_quantity,
+                $eloquent->trade_unit_type,
                 $eloquent->unit_price,
                 $eloquent->commission,
                 $eloquent->us_tax,
@@ -34,7 +33,7 @@ final class EloquentTradeRepository implements TradeRepository
             : $eloquent;
     }
 
-    public function save(Confirmation $confirmation): void
+    public function insert(Confirmation $confirmation): void
     {
         $this
             ->toEloquent($confirmation)
@@ -50,6 +49,7 @@ final class EloquentTradeRepository implements TradeRepository
         $eloquent->trade_action = $confirmation->getTradeAction();
         $eloquent->position_effect = $confirmation->getPositionEffect();
         $eloquent->trade_quantity = $confirmation->getTradeQuantity();
+        $eloquent->trade_unit_type = $confirmation->getTradeUnitType();
         $eloquent->unit_price = $confirmation->getUnitPrice();
         $eloquent->commission = $confirmation->getCommission();
         $eloquent->us_tax = $confirmation->getUsTax();

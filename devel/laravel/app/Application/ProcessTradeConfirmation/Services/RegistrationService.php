@@ -2,11 +2,15 @@
 
 namespace App\Application\ProcessTradeConfirmation\Services;
 
-use App\Domain\Confirmation\Outcome\ConfirmationOutcome;
-use App\Domain\Security\Outcome\SecurityOutcome;
+use App\Domain\{
+    Confirmation\Outcome\ConfirmationOutcome,
+    Position\Outcome\PositionOutcome,
+    Security\Outcome\SecurityOutcome,
+};
+
 use App\Infrastructure\Laravel\Eloquent\UnitOfWork;
 
-final class RegistrationManager
+final class RegistrationService
 {
     public function __construct(
         private UnitOfWork $uow
@@ -14,16 +18,17 @@ final class RegistrationManager
 
     public function registerConfirmation(ConfirmationOutcome $outcome): void
     {
-        if ($outcome->requiresPersistence()) {
-            $this->uow->withConfirmation($outcome->getConfirmation());
-        }
+        $this->uow->withConfirmation($outcome);
     }
 
     public function registerSecurity(SecurityOutcome $outcome): void
     {
-        if ($outcome->requiresPersistence()) {
-            $this->uow->withSecurity($outcome->getSecurity());
-        }
+        $this->uow->withSecurity($outcome);
+    }
+
+    public function registerPosition(PositionOutcome $outcome): void
+    {
+        $this->uow->withPosition($outcome);
     }
 
     public function persist(): void

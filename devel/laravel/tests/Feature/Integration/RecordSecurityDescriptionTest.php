@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Confirmation;
+namespace Tests\Feature\Integration;
 
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -8,7 +8,7 @@ use Tests\Support\ConfirmationsApiGivenWhenThen;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class RecordDescriptionTest extends TestCase
+class RecordSecurityDescriptionTest extends TestCase
 {
     use RefreshDatabase;
     use ConfirmationsApiGivenWhenThen;
@@ -54,15 +54,21 @@ class RecordDescriptionTest extends TestCase
         $this->givenTradeData($trade1);
         $this->whenSubmittingTrades();
         $this->thenTheResponseIsSuccessful('First trade failed: ' . $trade1['symbol']);
-    
+
         // WHEN & THEN: submit second trade
         $this->givenTradeData($trade2);
         $this->whenSubmittingTrades();
         $this->thenTheResponseIsSuccessful('Second trade failed: ' . $trade2['symbol']);
 
         $this->thenTheDatabaseContainsSecurities([
-            ['canonical_description' => 'CENOVUS ENERGY INC'],
-            ['variations' => json_encode(['CENOVUS ENERGY INCORPORATED'])],
+            [
+                'canonical_description' => 'CENOVUS ENERGY INC',
+                'unit_type' => 'SHARES',
+            ],
+            [
+                'variations' => json_encode(['CENOVUS ENERGY INCORPORATED']),
+                'unit_type' => 'SHARES',
+            ],
         ]);
     }
 }

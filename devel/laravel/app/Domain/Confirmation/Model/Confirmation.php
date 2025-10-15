@@ -2,11 +2,19 @@
 
 namespace App\Domain\Confirmation\Model;
 
+use App\Domain\Calculations\{
+    GrossTransactionAmount,
+    NetCost,
+    TradeBrokerFees,
+};
+
 use App\Domain\Confirmation\ValueObjects\{
+    CostAmount,
     PositionEffect,
     TradeAction,
     TradeNumber,
     TradeQuantity,
+    TradeUnitType,
     UnitPrice,
     Commission,
     UsTax,
@@ -14,25 +22,8 @@ use App\Domain\Confirmation\ValueObjects\{
 
 use App\Domain\Security\ValueObjects\{
     SecurityNumber,
+    UnitType,
 };
-
-/** */
-
-    // public readonly TradeAction $trade_action;
-    // public readonly PositionEffect $position_effect;
-    // public readonly SecurityNumber $security_number;
-    // public readonly Symbol $symbol;
-    // public readonly Date $transaction_date;
-    // public readonly TradeNumber $trade_number;
-    // public readonly string $description;
-    // public readonly UnitQuantity $unit_quantity;
-    // public readonly UnitType $unit_type;
-    // public readonly Money $unit_price;
-    // public readonly Money $commission;
-    // public readonly Money $us_tax;
-    // public readonly ExpirationDate $expiration_date;
-
-/** */
 
 final class Confirmation
 {
@@ -42,6 +33,7 @@ final class Confirmation
         private TradeAction $tradeAction,
         private PositionEffect $positionEffect,
         private TradeQuantity $tradeQuantity,
+        private TradeUnitType $tradeUnitType,
         private UnitPrice $unitPrice,
         private Commission $commission,
         private UsTax $usTax,
@@ -51,6 +43,7 @@ final class Confirmation
         $this->tradeAction = $tradeAction;
         $this->positionEffect = $positionEffect;
         $this->tradeQuantity = $tradeQuantity;
+        $this->tradeUnitType = $tradeUnitType;
         $this->unitPrice = $unitPrice;
         $this->commission = $commission;
         $this->usTax = $usTax;
@@ -62,6 +55,7 @@ final class Confirmation
         TradeAction $tradeAction,
         PositionEffect $positionEffect,
         TradeQuantity $tradeQuantity,
+        TradeUnitType $tradeUnitType,
         UnitPrice $unitPrice,
         Commission $commission,
         UsTax $usTax,
@@ -72,19 +66,63 @@ final class Confirmation
             $tradeAction,
             $positionEffect,
             $tradeQuantity,
+            $tradeUnitType,
             $unitPrice,
             $commission,
             $usTax,
         );
-
     }
 
-    public function getSecurityNumber(): SecurityNumber { return $this->securityNumber; }
-    public function getTradeNumber(): TradeNumber { return $this->tradeNumber; }
-    public function getTradeAction(): TradeAction { return $this->tradeAction; }
-    public function getPositionEffect(): PositionEffect { return $this->positionEffect; }
-    public function getTradeQuantity(): TradeQuantity { return $this->tradeQuantity; }
-    public function getUnitPrice(): UnitPrice { return $this->unitPrice; }
-    public function getCommission(): Commission { return $this->commission; }
-    public function getUsTax(): UsTax { return $this->usTax; }
+    public function getSecurityNumber(): SecurityNumber
+    {
+        return $this->securityNumber;
+    }
+    public function getTradeNumber(): TradeNumber
+    {
+        return $this->tradeNumber;
+    }
+    public function getTradeAction(): TradeAction
+    {
+        return $this->tradeAction;
+    }
+    public function getPositionEffect(): PositionEffect
+    {
+        return $this->positionEffect;
+    }
+    public function getTradeQuantity(): TradeQuantity
+    {
+        return $this->tradeQuantity;
+    }
+    public function getTradeUnitType(): TradeUnitType
+    {
+        return $this->tradeUnitType;
+    }
+    public function getUnitPrice(): UnitPrice
+    {
+        return $this->unitPrice;
+    }
+    public function getCommission(): Commission
+    {
+        return $this->commission;
+    }
+    public function getUsTax(): UsTax
+    {
+        return $this->usTax;
+    }
+
+    public function netCost(): CostAmount
+    {
+        $totalBrokerFees = TradeBrokerFees::calculate(
+            $this->commission,
+            $this->usTax
+        );
+
+        $grossTransactionFees = GrossTransactionAmount::calculate(
+            $this->tradeQuantity,
+            UnitType::shares(),
+            $this->unitPrice
+        );
+
+        return NetCost::calculate($grossTransactionFees, $totalBrokerFees);
+    }
 }

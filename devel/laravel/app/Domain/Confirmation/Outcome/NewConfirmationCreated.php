@@ -4,24 +4,16 @@ namespace App\Domain\Confirmation\Outcome;
 
 use App\Domain\Confirmation\Model\Confirmation;
 
+use App\Domain\Outcome\Persistence\PersistenceIntent;
+
 final class NewConfirmationCreated extends AbstractConfirmationOutcome
 {
-    public readonly Confirmation $confirmation;
-
     public function __construct(
-        Confirmation $confirmation
+        Confirmation $confirmation,
     ) {
-        $this->confirmation = $confirmation;
+        parent::__construct(
+            $confirmation,
+            PersistenceIntent::insertAll()
+        );
     }
-
-    public function requiresPersistence(): bool
-    {
-        return true; // incoming confirmation must be persisted
-    }
-
-    public function getConfirmation(): Confirmation
-    {
-        return $this->confirmation;
-    }
-
 }
