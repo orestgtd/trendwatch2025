@@ -49,7 +49,7 @@ class Date
 
     public function year(): string
     {
-        return $this->carbon->year;
+        return (string) $this->carbon->year;
     }
 
     public function equalTo(string $value): bool
