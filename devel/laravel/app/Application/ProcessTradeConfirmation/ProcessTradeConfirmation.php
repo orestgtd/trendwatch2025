@@ -32,7 +32,7 @@ final class ProcessTradeConfirmation
         // Step 1: Parse and process trade & security outcomes
         $parseResult = $this->processParsedOutcomes($request);
         if ($parseResult->isFailure()) {
-            return $parseResult;
+            return Result::failure($parseResult->getError());
         }
         [$resultConfirmationOutcome, $resultSecurityOutcome] = $parseResult->getValue();
 
