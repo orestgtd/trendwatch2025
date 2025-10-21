@@ -8,10 +8,4 @@ use App\Domain\Common\Money\{
     MoneyAmount,
 };
 
-final class CostAmount extends AbstractMoney
-{
-    // public static function create(MoneyAmount $amount, Currency $currency): static
-    // {
-    //     return new self($amount, $currency);
-    // }
-}
+final class CostAmount extends AbstractMoney {}
