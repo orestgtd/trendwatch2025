@@ -3,34 +3,38 @@
 namespace App\Application\ProcessTradeConfirmation\Services;
 
 use App\Application\ProcessTradeConfirmation\{
-    Actions\CreateNewPosition,
-    Actions\EvaluateTradeContext,
     Queries\FindPositionQuery,
 };
 
-use App\Domain\{
-    Confirmation\Model\Confirmation,
-    Confirmation\Outcome\ConfirmationOutcome,
-    Position\Model\Position,
-    Position\Outcome\PositionOutcome,
-    Security\ValueObjects\SecurityNumber,
-};
 use App\Domain\Common\Money\Currency;
-use App\Domain\Confirmation\ValueObjects\PositionEffect;
-use App\Domain\Confirmation\ValueObjects\ProceedsAmount;
-use App\Domain\Confirmation\ValueObjects\TradeAction;
-use App\Domain\Position\Model\LongPosition;
-use App\Domain\Position\Outcome\IncreasedHolding;
-use App\Domain\Position\Outcome\NewPositionCreated;
-use App\Domain\Position\ValueObjects\PositionQuantity;
+
+use App\Domain\Confirmation\{
+    Model\Confirmation,
+    ValueObjects\CostAmount,
+    ValueObjects\ProceedsAmount,
+};
+
+use App\Domain\Position\{
+    Model\LongPosition,
+    Model\ShortPosition,
+    Model\Position,
+    Outcome\DecreasedHolding,
+    Outcome\IncreasedHolding,
+    Outcome\NewPositionCreated,
+    Outcome\PositionOutcome,
+    ValueObjects\PositionQuantity,
+};
+
+use App\Domain\Security\{
+    ValueObjects\SecurityNumber,
+};
+
 use App\Shared\Result;
 
 final class PositionService
 {
     public function __construct(
         private FindPositionQuery $findPosition,
-        // private CreateNewPosition $createPosition,
-        // private UpdateExistingPosition $updatePosition,
     ) {}
 
     /**
@@ -41,19 +45,20 @@ final class PositionService
     public function createOrUpdatePosition(Confirmation $confirmation): Result
     {
         return Result::success(
-            match ($confirmation->getPositionEffect()->value()) {
-                PositionEffect::OPEN => $this->addToNewOrExistingPosition($confirmation),
-                PositionEffect::CLOSE => $this->reduceExistingPosition($confirmation),
-            }
+            $confirmation->matchPositionEffect(
+                onOpen: fn(Confirmation $confirmation) => $this->addToNewOrExistingPosition($confirmation),
+                onClose: fn(Confirmation $confirmation) => $this->reduceExistingPosition($confirmation),
+            )
         );
     }
 
     private function addToNewOrExistingPosition(Confirmation $confirmation): PositionOutcome
     {
-        return match ($confirmation->getTradeAction()->value()) {
-            TradeAction::BUY => $this->addToNewOrExistingLongPosition($confirmation),
-            TradeAction::SELL => $this->addToNewOrExistingShortPosition($confirmation),
-        };
+        return
+            $confirmation->matchTradeAction(
+                onBuy: fn(Confirmation $confirmation) => $this->addToNewOrExistingLongPosition($confirmation),
+                onSell: fn(Confirmation $confirmation) => $this->addToNewOrExistingShortPosition($confirmation),
+            );
     }
 
     private function addToNewOrExistingLongPosition(Confirmation $confirmation): PositionOutcome
@@ -77,23 +82,76 @@ final class PositionService
         );
     }
 
-    private function addToExistingLongPosition(Confirmation $confirmation, Position $position): IncreasedHolding
+    private function createNewShortPosition(Confirmation $confirmation): NewPositionCreated
     {
-        return new IncreasedHolding(
-            $position->increaseHolding(
-                $confirmation->getTradeQuantity()
+        return new NewPositionCreated(
+            ShortPosition::create(
+                $confirmation->getSecurityNumber(),
+                PositionQuantity::fromTradeQuantity($confirmation->getTradeQuantity()),
+                CostAmount::zero(Currency::default()),
+                $confirmation->netProceeds(),
             )
         );
     }
 
-    private function addToNewOrExistingShortPosition(Confirmation $confirmation)
+    private function addToExistingLongPosition(Confirmation $confirmation, LongPosition $position): IncreasedHolding
     {
-        dd('addToNewOrExistingShortPosition');
+        return new IncreasedHolding(
+            $position->increaseHolding(
+                $confirmation->getTradeQuantity(),
+                $confirmation->netCost()
+            )
+        );
     }
 
-    private function reduceExistingPosition(Confirmation $confirmation)
+    private function addToExistingShortPosition(Confirmation $confirmation, ShortPosition $position): IncreasedHolding
     {
-        dd('Reduce existing position');
+        return new IncreasedHolding(
+            $position->increaseHolding(
+                $confirmation->getTradeQuantity(),
+                $confirmation->netProceeds()
+            )
+        );
+    }
+
+    private function addToNewOrExistingShortPosition(Confirmation $confirmation): PositionOutcome
+    {
+        $position = $this->lookupPosition($confirmation->getSecurityNumber());
+
+        return $position
+            ? $this->addToExistingShortPosition($confirmation, $position)
+            : $this->createNewShortPosition($confirmation);
+    }
+
+    private function reduceExistingPosition(Confirmation $confirmation): PositionOutcome
+    {
+        $position = $this->lookupPosition($confirmation->getSecurityNumber());
+
+        return
+            $confirmation->matchTradeAction(
+                onBuy: fn(Confirmation $confirmation) => $this->reduceExistingShortPosition($confirmation, $position),
+                onSell: fn(Confirmation $confirmation) => $this->reduceExistingLongPosition($confirmation, $position),
+            );
+    }
+
+    private function reduceExistingLongPosition(Confirmation $confirmation, LongPosition $position): PositionOutcome
+    {
+        return new DecreasedHolding(
+            $position->decreaseHolding(
+                $confirmation->getTradeQuantity(),
+                $confirmation->netProceeds()
+            )
+        );
+    }
+
+    private function reduceExistingShortPosition(Confirmation $confirmation, ShortPosition $position): PositionOutcome
+    {
+        return new DecreasedHolding(
+            $position->decreaseHolding(
+                $confirmation->getTradeQuantity(),
+                $confirmation->netCost()
+            )
+        );
     }
 
     private function lookupPosition(SecurityNumber $securityNumber): ?Position

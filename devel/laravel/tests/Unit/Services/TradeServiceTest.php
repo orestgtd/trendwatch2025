@@ -4,8 +4,8 @@ namespace Tests\Unit\Services;
 
 use Mockery;
 use Tests\TestCase;
-use Tests\Unit\Factories\{
-    TradeRequestBuilder,
+use Tests\Unit\Support\{
+    Builders\TradeRequestBuilder,
 };
 
 use PHPUnit\Framework\Attributes\Test;

@@ -4,9 +4,9 @@ namespace Tests\Unit\Services;
 
 use Mockery;
 use Tests\TestCase;
-use Tests\Unit\Factories\{
-    PersistedSecurityFactory,
-    SecurityRequestBuilder,
+use Tests\Unit\Support\{
+    Builders\SecurityRequestBuilder,
+    Factories\PersistedSecurityFactory,
 };
 
 use PHPUnit\Framework\Attributes\Test;

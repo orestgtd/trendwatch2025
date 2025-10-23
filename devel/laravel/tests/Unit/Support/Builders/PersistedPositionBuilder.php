@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Factories;
+namespace Tests\Unit\Support\Builders;
 
 use App\Domain\Common\{
     Money\Currency,
@@ -46,6 +46,17 @@ final class PersistedPositionBuilder
         );
     }
 
+    public static function YYZShort(): self
+    {
+        return new self(
+            SecurityNumber::fromString('2112'),
+            PositionType::short(),
+            PositionQuantity::fromInt(0),
+            CostAmount::zero(Currency::default()),
+            ProceedsAmount::zero(Currency::default())
+        );
+    }
+
     public function withQuantity(int $value): self
     {
         $this->positionQuantity = PositionQuantity::fromInt($value);
@@ -55,6 +66,15 @@ final class PersistedPositionBuilder
     public function withTotalCost(string $value): self
     {
         $this->totalCost = CostAmount::create(
+            MoneyAmount::fromString($value),
+            Currency::default()
+        );
+        return $this;
+    }
+
+    public function withTotalProceeds(string $value): self
+    {
+        $this->totalProceeds = ProceedsAmount::create(
             MoneyAmount::fromString($value),
             Currency::default()
         );

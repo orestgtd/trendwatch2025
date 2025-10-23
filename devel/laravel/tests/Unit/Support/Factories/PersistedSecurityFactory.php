@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Factories;
+namespace Tests\Unit\Support\Factories;
 
 use App\Domain\Security\ValueObjects\{
     Description,
