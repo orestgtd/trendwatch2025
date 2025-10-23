@@ -5,7 +5,6 @@ namespace App\Domain\Position\Model;
 use App\Domain\Confirmation\{
     ValueObjects\CostAmount,
     ValueObjects\ProceedsAmount,
-    ValueObjects\TradeQuantity,
 };
 
 use App\Domain\Position\{
@@ -25,6 +24,4 @@ interface Position
 
     public function getTotalCost(): CostAmount;
     public function getTotalProceeds(): ProceedsAmount;
-
-    public function increaseHolding(TradeQuantity $change): static;
 }

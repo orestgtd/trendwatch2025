@@ -35,7 +35,12 @@ final class BrickMoneyCalculator implements MoneyCalculator
 
     public function subtract(Monetary $money1, Monetary $money2): Monetary
     {
-        return Money::zero(Currency::default());
+        $brick1 = $this->makeBrick($money1);
+        $brick2 = $this->makeBrick($money2);
+
+        return $this->fromBrick(
+            $brick1->minus($brick2)
+        );
     }
 
     private function makeBrick(Monetary $money): Brick

@@ -3,9 +3,7 @@
 namespace App\Domain\Position\Model;
 
 use App\Domain\Confirmation\{
-    Model\Confirmation,
     ValueObjects\CostAmount,
-    ValueObjects\TradeQuantity,
     ValueObjects\ProceedsAmount,
 };
 
@@ -14,8 +12,6 @@ use App\Domain\Position\ValueObjects\{
     PositionType,
 };
 use App\Domain\Security\ValueObjects\SecurityNumber;
-
-// use App\Shared\Result;
 
 abstract class AbstractPosition implements Position
 {
@@ -32,8 +28,6 @@ abstract class AbstractPosition implements Position
 
     public function getTotalCost(): CostAmount { return $this->totalCost; }
     public function getTotalProceeds(): ProceedsAmount { return $this->totalProceeds; }
-
-    abstract public function increaseHolding(TradeQuantity $change): static;
 
     // abstract public static function create(): static;
     // abstract public function applyTrade(Confirmation $confirmation): Result;

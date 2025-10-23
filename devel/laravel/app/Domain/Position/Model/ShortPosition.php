@@ -2,6 +2,11 @@
 
 namespace App\Domain\Position\Model;
 
+use App\Domain\Calculations\{
+    AddCost,
+    AddProceeds,
+};
+
 use App\Domain\Confirmation\{
     ValueObjects\CostAmount,
     ValueObjects\ProceedsAmount,
@@ -18,8 +23,6 @@ use App\Domain\Security\{
     ValueObjects\SecurityNumber,
 };
 
-use App\Shared\Result;
-
 final class ShortPosition extends AbstractPosition
 {
     private function __construct(
@@ -27,7 +30,7 @@ final class ShortPosition extends AbstractPosition
         PositionQuantity $positionQuantity,
         CostAmount $totalCost,
         ProceedsAmount $totalProceeds,
-    ){
+    ) {
         $this->securityNumber = $securityNumber;
         $this->positionQuantity = $positionQuantity;
         $this->totalCost = $totalCost;
@@ -39,8 +42,7 @@ final class ShortPosition extends AbstractPosition
         PositionQuantity $positionQuantity,
         CostAmount $totalCost,
         ProceedsAmount $totalProceeds,
-    ): self
-    {
+    ): self {
         return new self(
             $securityNumber,
             $positionQuantity,
@@ -54,12 +56,27 @@ final class ShortPosition extends AbstractPosition
         return PositionType::short();
     }
 
-    public function increaseHolding(TradeQuantity $change): static
+    public function increaseHolding(TradeQuantity $change, ProceedsAmount $tradeProceeds): static
     {
         $this->positionQuantity = PositionQuantity::fromInt(
             $this->positionQuantity->value()
-            + $change->value()
+                + $change->value()
         );
+
+        $this->totalProceeds = AddProceeds::calculate($this->totalProceeds, $tradeProceeds);
+
+        return $this;
+    }
+
+    public function decreaseHolding(TradeQuantity $change, CostAmount $tradeCost): static
+    {
+        $this->positionQuantity = PositionQuantity::fromInt(
+            $this->positionQuantity->value()
+                - $change->value()
+        );
+
+        $this->totalCost = AddCost::calculate($this->totalCost, $tradeCost);
+
         return $this;
     }
 
@@ -88,10 +105,7 @@ final class ShortPosition extends AbstractPosition
     //     return Result::success($this);
     // }
 
-    public function markClosed(): void
-    {
-
-    }
+    public function markClosed(): void {}
 
     public function isClosed(): bool
     {

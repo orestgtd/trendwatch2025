@@ -2,10 +2,15 @@
 
 namespace App\Domain\Position\Model;
 
-use App\Domain\Confirmation\{
-    ValueObjects\CostAmount,
-    ValueObjects\ProceedsAmount,
-    ValueObjects\TradeQuantity,
+use App\Domain\Calculations\{
+    AddCost,
+    AddProceeds,
+};
+
+use App\Domain\Confirmation\ValueObjects\{
+    CostAmount,
+    ProceedsAmount,
+    TradeQuantity,
 };
 
 use App\Domain\Position\{
@@ -18,8 +23,6 @@ use App\Domain\Security\{
     ValueObjects\SecurityNumber,
 };
 
-use App\Shared\Result;
-
 final class LongPosition extends AbstractPosition
 {
     private function __construct(
@@ -27,7 +30,7 @@ final class LongPosition extends AbstractPosition
         PositionQuantity $positionQuantity,
         CostAmount $totalCost,
         ProceedsAmount $totalProceeds,
-    ){
+    ) {
         $this->securityNumber = $securityNumber;
         $this->positionQuantity = $positionQuantity;
         $this->totalCost = $totalCost;
@@ -39,8 +42,7 @@ final class LongPosition extends AbstractPosition
         PositionQuantity $positionQuantity,
         CostAmount $totalCost,
         ProceedsAmount $totalProceeds,
-    ): self
-    {
+    ): self {
         return new self(
             $securityNumber,
             $positionQuantity,
@@ -54,49 +56,38 @@ final class LongPosition extends AbstractPosition
         return PositionType::long();
     }
 
-
-    // /** @return Result<LongPosition> */
-    // public function applyTrade(Confirmation $confirmation): Result
-    // {
-    //     if ($confirmation->isOpen()) {
-    //         $this->increase($confirmation->getTradeQuantity());
-    //     } else {
-    //         $result = $this->decrease($confirmation->getTradeQuantity());
-    //         if ($this->quantity->isZero()) {
-    //             $this->markClosed();
-    //         }
-    //         return $result;
-    //     }
-    //     return Result::success($this);
-    // }
-
-    public function increaseHolding(TradeQuantity $change): static
+    public function increaseHolding(TradeQuantity $change, CostAmount $tradeCost): static
     {
         $this->positionQuantity = PositionQuantity::fromInt(
             $this->positionQuantity->value()
             + $change->value()
         );
+
+        $this->totalCost = AddCost::calculate($this->totalCost, $tradeCost);
+
         return $this;
     }
 
-    public function decrease(TradeQuantity $change): Result
+    public function decreaseHolding(TradeQuantity $change, ProceedsAmount $tradeProceeds): static
     {
-        return Result::success($this);
+        $this->positionQuantity = PositionQuantity::fromInt(
+            $this->positionQuantity->value()
+            - $change->value()
+        );
+
+        // if ($this->positionQuantity->isZero()) {
+        //     $this->markClosed();
+        // }
+
+        $this->totalProceeds = AddProceeds::calculate($this->totalProceeds, $tradeProceeds);
+
+        return $this;
     }
 
-    public function markClosed(): void
-    {
-
-    }
+    public function markClosed(): void {}
 
     public function isClosed(): bool
     {
         return false;
     }
-
-    // public function type(): string
-    // {
-    //     return 'long';
-    // }
-
 }

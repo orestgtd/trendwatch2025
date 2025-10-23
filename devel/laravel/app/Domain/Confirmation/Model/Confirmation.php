@@ -3,14 +3,16 @@
 namespace App\Domain\Confirmation\Model;
 
 use App\Domain\Calculations\{
-    GrossTransactionAmount,
     NetCost,
+    NetProceeds,
     TradeBrokerFees,
+    TransactionValue,
 };
 
 use App\Domain\Confirmation\ValueObjects\{
     CostAmount,
     PositionEffect,
+    ProceedsAmount,
     TradeAction,
     TradeNumber,
     TradeQuantity,
@@ -117,12 +119,58 @@ final class Confirmation
             $this->usTax
         );
 
-        $grossTransactionFees = GrossTransactionAmount::calculate(
+        $grossTransactionFees = TransactionValue::calculate(
             $this->tradeQuantity,
             UnitType::shares(),
             $this->unitPrice
         );
 
-        return NetCost::calculate($grossTransactionFees, $totalBrokerFees);
+        return NetCost::calculate($grossTransactionFees->toCost(), $totalBrokerFees);
+    }
+
+    public function netProceeds(): ProceedsAmount
+    {
+        $totalBrokerFees = TradeBrokerFees::calculate(
+            $this->commission,
+            $this->usTax
+        );
+
+        $grossTransactionFees = TransactionValue::calculate(
+            $this->tradeQuantity,
+            UnitType::shares(),
+            $this->unitPrice
+        );
+
+        return NetProceeds::calculate($grossTransactionFees->toProceeds(), $totalBrokerFees);
+    }
+
+    /**
+     * @template T
+     * @param callable(Confirmation):T $onOpen
+     * @param callable(Confirmation):T $onClose
+     * @return T
+     */
+    public function matchPositionEffect(callable $onOpen, callable $onClose)
+    {
+        return match ($this->positionEffect->value()) {
+            PositionEffect::OPEN => $onOpen($this),
+            PositionEffect::CLOSE => $onClose($this),
+            default => throw new \LogicException("Unhandled PositionEffect: {$this->positionEffect->value()}"),
+        };
+    }
+
+    /**
+     * @template T
+     * @param callable(Confirmation):T $onBuy
+     * @param callable(Confirmation):T $onSell
+     * @return T
+     */
+    public function matchTradeAction(callable $onBuy, callable $onSell)
+    {
+        return match ($this->tradeAction->value()) {
+            TradeAction::BUY => $onBuy($this),
+            TradeAction::SELL => $onSell($this),
+            default => throw new \LogicException("Unhandled TradeAction: {$this->tradeAction->value()}"),
+        };
     }
 }

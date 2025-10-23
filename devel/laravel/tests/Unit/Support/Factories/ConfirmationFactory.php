@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Factories;
+namespace Tests\Unit\Support\Factories;
 
 use App\Domain\Confirmation\Model\Confirmation;
 use App\Domain\Confirmation\ValueObjects\{
@@ -42,6 +42,21 @@ final class ConfirmationFactory
             TradeQuantity::fromInt(100),
             TradeUnitType::shares(),
             UnitPrice::tryFrom('150.25')->getValue(),
+            Commission::tryFrom('4.95')->getValue(),
+            UsTax::tryFrom('0.00')->getValue(),
+        );
+    }
+
+    public static function TShort1(): Confirmation
+    {
+        return Confirmation::create(
+            SecurityNumber::fromString('AAPL'),
+            TradeNumber::fromString('TShort1'),
+            TradeAction::sell(),
+            PositionEffect::open(),
+            TradeQuantity::fromInt(400),
+            TradeUnitType::shares(),
+            UnitPrice::tryFrom('400')->getValue(),
             Commission::tryFrom('4.95')->getValue(),
             UsTax::tryFrom('0.00')->getValue(),
         );
