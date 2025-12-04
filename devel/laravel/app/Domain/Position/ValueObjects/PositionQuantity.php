@@ -5,6 +5,7 @@ namespace App\Domain\Position\ValueObjects;
 use App\Domain\{
     Common\ValueObjects\AbstractIntValueObject,
     Confirmation\ValueObjects\TradeQuantity,
+    Position\ValueObjects\BaseQuantity,
 };
 
 use App\Shared\Result;
@@ -22,5 +23,10 @@ final class PositionQuantity extends AbstractIntValueObject
     public static function fromTradeQuantity(TradeQuantity $tradeQuantity): self
     {
         return self::fromInt($tradeQuantity->toInt());
+    }
+
+    public static function fromBaseQuantity(BaseQuantity $baseQuantity): self
+    {
+        return self::fromInt($baseQuantity->toInt());
     }
 }

@@ -95,6 +95,12 @@ final class ConfirmationBuilder
         );
     }
 
+    public function withTradeNumber(string $value): self
+    {
+        $this->tradeNumber = TradeNumber::fromString($value);
+        return $this;
+    }
+
     public function withQuantity(int $value): self
     {
         $this->tradeQuantity = TradeQuantity::fromInt($value);

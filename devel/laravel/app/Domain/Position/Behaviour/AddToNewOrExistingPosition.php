@@ -1,0 +1,120 @@
+<?php
+
+namespace App\Domain\Position\Behaviour;
+
+use App\Domain\Common\Money\Currency;
+
+use App\Domain\Confirmation\{
+    Model\Confirmation,
+    ValueObjects\CostAmount,
+    ValueObjects\ProceedsAmount,
+};
+
+use App\Domain\Position\{
+    Model\LongPosition,
+    Model\ShortPosition,
+    Model\Position,
+    Outcome\IncreasedHolding,
+    Outcome\NewPositionCreated,
+    Outcome\PositionOutcome,
+    ValueObjects\PositionQuantity,
+};
+
+final class AddToNewOrExistingPosition
+{
+    public function execute(Confirmation $confirmation, ?Position $lookupPosition): PositionOutcome
+    {
+        return
+            $confirmation->matchTradeAction(
+                onBuy: fn(Confirmation $confirmation) => $this->addToNewOrExistingLongPosition($confirmation, $lookupPosition),
+                onSell: fn(Confirmation $confirmation) => $this->addToNewOrExistingShortPosition($confirmation, $lookupPosition),
+            );
+    }
+
+    private function addToNewOrExistingLongPosition(Confirmation $confirmation, ?Position $lookupPosition): PositionOutcome
+    {
+        return $lookupPosition
+            ? $this->addToExistingLongPosition($confirmation, $lookupPosition)
+            : $this->createNewLongPosition($confirmation);
+    }
+
+    private function createNewLongPosition(Confirmation $confirmation): NewPositionCreated
+    {
+        return new NewPositionCreated(
+            LongPosition::create(
+                $confirmation->getSecurityNumber(),
+                PositionQuantity::fromTradeQuantity($confirmation->getTradeQuantity()),
+                $confirmation->netCost(),
+                ProceedsAmount::zero(Currency::default()),
+            ),
+            $confirmation->getTradeNumber()
+        );
+    }
+
+    private function createNewShortPosition(Confirmation $confirmation): NewPositionCreated
+    {
+        return new NewPositionCreated(
+            ShortPosition::create(
+                $confirmation->getSecurityNumber(),
+                PositionQuantity::fromTradeQuantity($confirmation->getTradeQuantity()),
+                CostAmount::zero(Currency::default()),
+                $confirmation->netProceeds(),
+            ),
+            $confirmation->getTradeNumber()
+        );
+    }
+
+    private function addToExistingLongPosition(Confirmation $confirmation, LongPosition $position): IncreasedHolding
+    {
+        return new IncreasedHolding(
+            $position->addPurchase(
+                $confirmation->getTradeQuantity(),
+                $confirmation->netCost()
+            ),
+            $confirmation->getTradeNumber()
+        );
+    }
+
+    private function addToExistingShortPosition(Confirmation $confirmation, ShortPosition $position): IncreasedHolding
+    {
+        return new IncreasedHolding(
+            $position->increaseHolding(
+                $confirmation->getTradeQuantity(),
+                $confirmation->netProceeds()
+            ),
+            $confirmation->getTradeNumber()
+        );
+    }
+
+    private function addToNewOrExistingShortPosition(Confirmation $confirmation, ?Position $lookupPosition): PositionOutcome
+    {
+        return $lookupPosition
+            ? $this->addToExistingShortPosition($confirmation, $lookupPosition)
+            : $this->createNewShortPosition($confirmation);
+    }
+
+    // private function reduceExistingPosition(Confirmation $confirmation, Position $position): PositionOutcome
+    // {
+    //     return
+    //         $confirmation->matchTradeAction(
+    //             onBuy: fn(Confirmation $confirmation) => $this->reduceExistingShortPosition($confirmation, $position),
+    //             onSell: fn(Confirmation $confirmation) => $this->reduceExistingLongPosition($confirmation, $position),
+    //         );
+    // }
+
+    // private function reduceExistingLongPosition(Confirmation $confirmation, LongPosition $position): PositionOutcome
+    // {
+    //     return $position->decreaseHolding(
+    //         $confirmation->getTradeQuantity(),
+    //         $confirmation->netProceeds()
+    //     );
+    // }
+
+    // private function reduceExistingShortPosition(Confirmation $confirmation, ShortPosition $position): PositionOutcome
+    // {
+    //     return $position->decreaseHolding(
+    //         $confirmation->getTradeQuantity(),
+    //         $confirmation->netCost()
+    //     );
+    // }
+}

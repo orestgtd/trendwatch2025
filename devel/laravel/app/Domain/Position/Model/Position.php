@@ -11,7 +11,7 @@ use App\Domain\Position\{
     ValueObjects\PositionQuantity,
     ValueObjects\PositionType,
 };
-
+use App\Domain\RealizedGain\Outcome\RealizedGainOutcome;
 use App\Domain\Security\ValueObjects\SecurityNumber;
 
 interface Position
@@ -24,4 +24,6 @@ interface Position
 
     public function getTotalCost(): CostAmount;
     public function getTotalProceeds(): ProceedsAmount;
+
+    // public function getRealizedGainOutcome(): ?RealizedGainOutcome;
 }
