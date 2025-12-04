@@ -11,6 +11,11 @@ use App\Domain\Position\ValueObjects\{
     PositionQuantity,
     PositionType,
 };
+
+use App\Domain\RealizedGain\{
+    Outcome\RealizedGainOutcome,
+};
+
 use App\Domain\Security\ValueObjects\SecurityNumber;
 
 abstract class AbstractPosition implements Position
@@ -18,16 +23,23 @@ abstract class AbstractPosition implements Position
     abstract public function getPositionType(): PositionType;
 
     protected SecurityNumber $securityNumber;
-    protected PositionQuantity $positionQuantity;
+    // protected PositionQuantity $positionQuantity;
 
-    protected CostAmount $totalCost;
-    protected ProceedsAmount $totalProceeds;
+    // protected CostAmount $totalCost;
+    // protected ProceedsAmount $totalProceeds;
+
+    // protected ?RealizedGainOutcome $realizedGainOutcome = null;
 
     public function getSecurityNumber(): SecurityNumber { return $this->securityNumber; }
-    public function getPositionQuantity(): PositionQuantity { return $this->positionQuantity; }
+    // public function getPositionQuantity(): PositionQuantity { return $this->positionQuantity; }
 
-    public function getTotalCost(): CostAmount { return $this->totalCost; }
-    public function getTotalProceeds(): ProceedsAmount { return $this->totalProceeds; }
+    // public function getTotalCost(): CostAmount { return $this->totalCost; }
+    // public function getTotalProceeds(): ProceedsAmount { return $this->totalProceeds; }
+    abstract public function getTotalCost(): CostAmount;
+    abstract public function getTotalProceeds(): ProceedsAmount;
+
+    // public function getRealizedGainOutcome(): ?RealizedGainOutcome { return $this->realizedGainOutcome; }
+
 
     // abstract public static function create(): static;
     // abstract public function applyTrade(Confirmation $confirmation): Result;
