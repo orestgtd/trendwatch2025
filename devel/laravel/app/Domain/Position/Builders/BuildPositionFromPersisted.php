@@ -31,15 +31,15 @@ final class BuildPositionFromPersisted
         CostAmount $totalCost,
         ProceedsAmount $totalProceeds,
     ): Position {
-        return match ($positionType->value()) {
-            PositionType::LONG => LongPosition::create(
+        return $positionType->delegate(
+            onLong: fn () => LongPosition::fromPersisted(
                 $securityNumber, $positionQuantity,
                 $totalCost, $totalProceeds
             ),
-            PositionType::SHORT => ShortPosition::create(
+            onShort: fn () => ShortPosition::fromPersisted(
                 $securityNumber, $positionQuantity,
                 $totalCost, $totalProceeds
-            ),
-        };
+            )
+        );
     }
 }

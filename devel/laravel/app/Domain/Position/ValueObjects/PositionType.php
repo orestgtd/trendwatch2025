@@ -2,7 +2,10 @@
 
 namespace App\Domain\Position\ValueObjects;
 
-use App\Domain\Common\ValueObjects\AbstractStringValueObject;
+use App\Domain\{
+    Common\ValueObjects\AbstractStringValueObject,
+    Position\Model\Position,
+};
 
 use App\Shared\Result;
 
@@ -28,5 +31,20 @@ final class PositionType extends AbstractStringValueObject
     public static function short(): self
     {
         return new self(self::SHORT);
+    }
+
+    /**
+     * @template T
+     * @param callable():T $onLong
+     * @param callable():T $onShort
+     * @return T
+     */
+    public function delegate(callable $onLong, callable $onShort)
+    {
+        return match ($this->value()) {
+            self::LONG => $onLong(),
+            self::SHORT => $onShort(),
+            default => throw new \LogicException("Unhandled PositionType: {$this->value()}"),
+        };
     }
 }

@@ -49,6 +49,21 @@ final class LongPosition extends AbstractPosition
         );
     }
 
+    public static function fromPersisted(
+        SecurityNumber $securityNumber,
+        PositionQuantity $positionQuantity,
+        CostAmount $totalCost,
+        ProceedsAmount $totalProceeds,
+    ): self {
+        $instance = new self($securityNumber, $positionQuantity, $totalCost);
+        $instance->costBase = CostBase::fromPersisted(
+            BaseQuantity::fromPositionQuantity($positionQuantity),
+            $totalCost,
+            $totalProceeds
+        );
+        return $instance;
+    }
+
     public function getPositionType(): PositionType
     {
         return PositionType::long();

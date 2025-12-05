@@ -137,7 +137,43 @@ class BuyToCloseShortPositionTest extends PositionTestCase
                 $this->assertCurrency('USD', $proceeds->getCurrency());
             }
         );
-     }
+    }
+
+    #[Test]
+    public function it_preserves_existing_cost_when_rebuilding_from_persistence()
+    {
+        // Given an existing short position that already has cost from a previous cover
+        MockObject::mock(
+            PositionRepository::class,
+            'findBySecurityNumber',
+            PersistedPositionBuilder::YYZShort()
+                ->withQuantity(75)
+                ->withTotalProceeds('1000.00')
+                ->withTotalCost('300.00')  // Already has cost!
+                ->build()
+        );
+
+        // When we buy to cover more shares
+        /** @var PositionService $service */
+        $service = app(PositionService::class);
+
+        $result = $service->createOrUpdatePosition(
+            ConfirmationBuilder::buyToCloseShares()
+            ->withQuantity(25)
+            ->withUnitPrice('10')
+            ->withCommission('5')
+            ->withUsTax('1')
+            ->build()
+        );
+
+        // Then the existing cost should be preserved and added to
+        $outcome = $this->assertResultIsDecreasedHolding($result);
+        $position = $outcome->getPosition();
+        
+        $totalCost = $position->getTotalCost();
+        // 300 (existing) + 256 (new cover: 25 * 10 + 5 + 1) = 556
+        $this->assertAmount('556.00', $totalCost->getAmount());
+    }
 
     private function assertResultIsDecreasedHolding(Result $result): DecreasedHolding
     {

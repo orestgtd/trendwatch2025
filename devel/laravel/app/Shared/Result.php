@@ -58,15 +58,9 @@ class Result
      */
     public function bind(callable $fn): Result
     {
-        if ($this->isFailure()) {
-            return $this;
-        }
-
-        $next = $fn($this->value);
-        if (! $next instanceof self) {
-            throw new \LogicException("bind() callable must return a Result");
-        }
-        return $next;
+        return $this->isSuccess()
+            ? $fn($this->value)
+            : $this;
     }
 
     /**

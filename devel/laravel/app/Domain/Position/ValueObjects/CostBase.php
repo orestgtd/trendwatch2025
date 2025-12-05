@@ -34,6 +34,17 @@ final class CostBase
         return new self($baseQuantity, $totalCost);
     }
 
+    public static function fromPersisted(
+        BaseQuantity $baseQuantity,
+        CostAmount $totalCost,
+        ProceedsAmount $totalProceeds,
+    ): self {
+        $instance = new self($baseQuantity, $totalCost);
+        $instance->totalProceeds = $totalProceeds;
+
+        return $instance;
+    }
+
     public function addPurchase(TradeQuantity $change, CostAmount $tradeCost): self
     {
         $this->baseQuantity = BaseQuantity::fromInt(

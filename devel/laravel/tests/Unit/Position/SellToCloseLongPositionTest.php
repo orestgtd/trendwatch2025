@@ -141,7 +141,43 @@ class SellToCloseLongPositionTest extends PositionTestCase
                 $this->assertCurrency('USD', $proceeds->getCurrency());
             }
         );
-     }
+    }
+
+    #[Test]
+    public function it_preserves_existing_proceeds_when_rebuilding_from_persistence()
+    {
+        // Given an existing position that already has proceeds from a previous sale
+        MockObject::mock(
+            PositionRepository::class,
+            'findBySecurityNumber',
+            PersistedPositionBuilder::YYZ()
+                ->withQuantity(75)
+                ->withTotalCost('1000.00')
+                ->withTotalProceeds('500.00')  // Already has proceeds!
+                ->build()
+        );
+
+        // When we sell more shares
+        /** @var PositionService $service */
+        $service = app(PositionService::class);
+
+        $result = $service->createOrUpdatePosition(
+            ConfirmationBuilder::sellToCloseShares()
+            ->withQuantity(25)
+            ->withUnitPrice('20')
+            ->withCommission('5')
+            ->withUsTax('1')
+            ->build()
+        );
+
+        // Then the existing proceeds should be preserved and added to
+        $outcome = $this->assertResultIsDecreasedHolding($result);
+        $position = $outcome->getPosition();
+        
+        $totalProceeds = $position->getTotalProceeds();
+        // 500 (existing) + 494 (new sale: 25 * 20 - 5 - 1) = 994
+        $this->assertAmount('994.00', $totalProceeds->getAmount());
+    }
 
     private function assertResultIsDecreasedHolding(Result $result): DecreasedHolding
     {

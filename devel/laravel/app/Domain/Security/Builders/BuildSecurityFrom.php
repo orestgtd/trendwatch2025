@@ -27,10 +27,9 @@ final class BuildSecurityFrom
         UnitType $unitType,
         ExpirationDateInterface $expirationDate
     ): Security {
-        return
-            match ((string) $unitType) {
-                UnitType::CONTRACTS => OptionSecurity::create($securityNumber, $symbol, $description, $variations, $expirationDate),
-                UnitType::SHARES => EquitySecurity::create($securityNumber, $symbol, $description, $variations),
-            };
+        return $unitType->delegate(
+            onContracts: fn () => OptionSecurity::create($securityNumber, $symbol, $description, $variations, $expirationDate),
+            onShares: fn () => EquitySecurity::create($securityNumber, $symbol, $description, $variations),
+        );
     }
 }
