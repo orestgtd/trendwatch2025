@@ -37,4 +37,19 @@ final class UnitType extends AbstractStringValueObject
             self::CONTRACTS => 100,
         };
     }
+
+    /**
+     * @template T
+     * @param callable():T $onShares
+     * @param callable():T $onContracts
+     * @return T
+     */
+    public function delegate(callable $onShares, callable $onContracts)
+    {
+        return match ($this->value()) {
+            self::SHARES => $onShares(),
+            self::CONTRACTS => $onContracts(),
+            default => throw new \LogicException("Unhandled UnitType: {$this->value()}"),
+        };
+    }
 }

@@ -34,6 +34,16 @@ final class ProceedsBase
         return new self($baseQuantity, $totalProceeds);
     }
 
+    public static function fromPersisted(
+        BaseQuantity $baseQuantity,
+        ProceedsAmount $totalProceeds,
+        CostAmount $totalCost,
+    ): self {
+        $instance = new self($baseQuantity, $totalProceeds);
+        $instance->totalCost = $totalCost;
+        return $instance;
+    }
+
     public function addShortCover(TradeQuantity $change, CostAmount $tradeCost): self
     {
         $this->baseQuantity = BaseQuantity::fromInt(

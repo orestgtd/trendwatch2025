@@ -23,12 +23,10 @@ use App\Domain\Security\{
 final class ShortPosition extends AbstractPosition
 {
     private ProceedsBase $proceedsBase;
-    // private CostAmount $totalCost;
 
     private function __construct(
         SecurityNumber $securityNumber,
         PositionQuantity $positionQuantity,
-        // CostAmount $totalCost,
         ProceedsAmount $totalProceeds,
     ) {
         $this->securityNumber = $securityNumber;
@@ -36,22 +34,33 @@ final class ShortPosition extends AbstractPosition
             BaseQuantity::fromPositionQuantity($positionQuantity),
             $totalProceeds,
         );
-
-        // $this->totalCost = $totalCost;
     }
 
     public static function create(
         SecurityNumber $securityNumber,
         PositionQuantity $positionQuantity,
-        CostAmount $totalCost,
         ProceedsAmount $totalProceeds,
     ): self {
         return new self(
             $securityNumber,
             $positionQuantity,
-            // $totalCost,
             $totalProceeds,
         );
+    }
+
+    public static function fromPersisted(
+        SecurityNumber $securityNumber,
+        PositionQuantity $positionQuantity,
+        CostAmount $totalCost,
+        ProceedsAmount $totalProceeds,
+    ): self {
+        $instance = new self($securityNumber, $positionQuantity, $totalProceeds);
+        $instance->proceedsBase = ProceedsBase::fromPersisted(
+            BaseQuantity::fromPositionQuantity($positionQuantity),
+            $totalProceeds,
+            $totalCost
+        );
+        return $instance;
     }
 
     public function getPositionType(): PositionType
@@ -95,60 +104,10 @@ final class ShortPosition extends AbstractPosition
         return $this;
     }
 
-    // public function decreaseHolding(TradeQuantity $tradeQuantity, CostAmount $tradeCost): DecreasedHolding
-    // {
-    //     // $baseQuantity = $this->proceedsBase->getQuantity();
-
-    //     $this->proceedsBase->addShortCover($tradeQuantity, $tradeCost);
-
-    //     // $rgBasis = RealizedGainBasis::create(
-    //     //     $this->securityNumber,
-    //     //     $baseQuantity,
-    //     //     $tradeQuantity,
-    //     //     $this->proceedsBase->getTotalCost(),
-    //     //     $this->proceedsBase->getTotalProceeds()
-    //     // );
-
-    //     return new DecreasedHolding ($this, $rgBasis);
-
-
-    // }
-
-    // /** @return Result<LongPosition> */
-    // public function applyTrade(Confirmation $confirmation): Result
-    // {
-    //     if ($confirmation->isOpen()) {
-    //         $this->increase($confirmation->getTradeQuantity());
-    //     } else {
-    //         $result = $this->decrease($confirmation->getTradeQuantity());
-    //         if ($this->quantity->isZero()) {
-    //             $this->markClosed();
-    //         }
-    //         return $result;
-    //     }
-    //     return Result::success($this);
-    // }
-
-    // public function increase(TradeQuantity $change): void
-    // {
-
-    // }
-
-    // public function decrease(TradeQuantity $change): Result
-    // {
-    //     return Result::success($this);
-    // }
-
     public function markClosed(): void {}
 
     public function isClosed(): bool
     {
         return false;
     }
-
-    // public function type(): string
-    // {
-    //     return 'short';
-    // }
-
 }
