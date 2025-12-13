@@ -150,14 +150,15 @@ view model =
 link : String -> String -> Html Msg
 link url label =
     Html.a
-        [ Html.Attributes.href "#"
-        , Html.Events.onClick (LinkClicked (Browser.Internal (safeUrl url)))
+        [ Html.Attributes.href url
         ]
         [ text label ]
 
+{-
 safeUrl : String -> Url.Url
 safeUrl str =
     Url.Url Url.Http "" Nothing str Nothing Nothing
+-}
 
 viewLinks : Html Msg
 viewLinks =
@@ -166,7 +167,6 @@ viewLinks =
         , link "/positions" "Positions"
         , link "/hello" "Hello"
         ]
-
 
 -- HTTP
 
