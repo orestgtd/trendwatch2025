@@ -9,8 +9,14 @@ class PositionController
 {
     public function index(Request $request): JsonResponse
     {
-        // Placeholder: will eventually return filtered positions
-        return response()->json(['message' => 'There are no positions in Laravel.']);
-
+        return $this->getPositions->handle()->match(
+            onSuccess: fn(array $positions) => response()->json([
+                'data' => $positions,
+                'count' => count($positions)
+            ]),
+            onFailure: fn(string $error) => response()->json([
+                'error' => $error
+            ], 500)
+        );
     }
 }
