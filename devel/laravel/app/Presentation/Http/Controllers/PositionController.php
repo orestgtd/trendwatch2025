@@ -2,12 +2,21 @@
 
 namespace App\Presentation\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\{
+    JsonResponse,
+};
+
+use App\Application\{
+    GetPositions\GetPositions,
+};
 
 class PositionController
 {
-    public function index(Request $request): JsonResponse
+    public function __construct(
+        private readonly GetPositions $getPositions
+    ) {}
+
+    public function index(): JsonResponse
     {
         return $this->getPositions->handle()->match(
             onSuccess: fn(array $positions) => response()->json([
