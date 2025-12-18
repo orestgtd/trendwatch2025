@@ -1,7 +1,7 @@
 <?php
 
 namespace Tests\Unit\Support\Builders;
-
+ 
 use App\Domain\Confirmation\ValueObjects\{
     CostAmount,
     ProceedsAmount,

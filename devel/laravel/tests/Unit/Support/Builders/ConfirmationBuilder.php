@@ -9,6 +9,7 @@ use App\Domain\Kernel\{
     Identifiers\TradeNumber,
     Money\Currency,
     Money\MoneyAmount,
+    Values\UnitType,
 };
 
 use App\Domain\Confirmation\ValueObjects\{
@@ -20,10 +21,6 @@ use App\Domain\Confirmation\ValueObjects\{
     UsTax
 };
 
-use App\Domain\Kernel\{
-    Values\UnitType,
-};
-
 final class ConfirmationBuilder
 {
     private function __construct(
@@ -32,7 +29,7 @@ final class ConfirmationBuilder
         private TradeAction $tradeAction,
         private PositionEffect $positionEffect,
         private TradeQuantity $tradeQuantity,
-        private UnitType $tradeUnitType,
+        private UnitType $unitType,
         private UnitPrice $unitPrice,
         private Commission $commission,
         private UsTax $usTax,
@@ -145,7 +142,7 @@ final class ConfirmationBuilder
             $this->tradeAction,
             $this->positionEffect,
             $this->tradeQuantity,
-            $this->tradeUnitType,
+            $this->unitType,
             $this->unitPrice,
             $this->commission,
             $this->usTax,

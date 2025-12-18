@@ -9,11 +9,12 @@ use App\Domain\Kernel\Identifiers\{
 use App\Domain\{
     Outcome\Outcome,
     Position\Model\Position,
+    RealizedGain\Outcome\RealizedGainOutcome,
 };
 
 interface PositionOutcome extends Outcome
 {
     public function getPosition(): Position;
-    public function tapRealizedGain(callable $action): void;
+    public function getRealizedGainOutcome(): RealizedGainOutcome;
     public function getTradeNumber(): TradeNumber;
 }

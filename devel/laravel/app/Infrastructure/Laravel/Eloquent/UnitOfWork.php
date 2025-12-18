@@ -8,18 +8,22 @@ use App\Domain\{
     Position\Model\Position,
     Security\Model\Security,
 };
-use App\Domain\Confirmation\Outcome\ConfirmationOutcome;
-use App\Domain\Position\Outcome\PositionOutcome;
-use App\Domain\Security\Outcome\SecurityOutcome;
+use App\Domain\{
+    Confirmation\Outcome\ConfirmationOutcome,
+    Outcome\Outcome,
+    Outcome\Persistence\PersistenceIntent,
+    Position\Outcome\PositionOutcome,
+    RealizedGain\Outcome\RealizedGainOutcome,
+    Security\Outcome\SecurityOutcome,
+};
+use App\Domain\RealizedGain\Model\RealizedGainBasis;
 use App\Infrastructure\Laravel\Eloquent\{
     Trade\Repositories\EloquentTradeRepository as TradeRepository,
     Position\Repositories\EloquentPositionRepository as PositionRepository,
+    RealizedGain\Repositories\EloquentRealizedGainRepository as RealizedGainRepository,
     Security\Repositories\EloquentSecurityRepository as SecurityRepository,
 };
 
-use App\Domain\Outcome\Outcome;
-use App\Domain\Outcome\Persistence\PersistenceIntent;
-use App\Domain\Outcome\Persistence\PersistenceScope;
 use Illuminate\Support\Facades\DB;
 
 class UnitOfWork
@@ -27,11 +31,13 @@ class UnitOfWork
     private ?ConfirmationOutcome $confirmationOutcome = null;
     private ?SecurityOutcome $securityOutcome = null;
     private ?PositionOutcome $positionOutcome = null;
+    private ?RealizedGainOutcome $realizedGainOutcome = null;
 
     public function __construct(
         private PositionRepository $positionRepository,
         private SecurityRepository $securityRepository,
         private TradeRepository $tradeRepository,
+        private RealizedGainRepository $realizedGainRepository,
     ) {}
 
     public function withConfirmation(ConfirmationOutcome $outcome): self
@@ -49,6 +55,12 @@ class UnitOfWork
     public function withPosition(PositionOutcome $outcome): self
     {
         $this->positionOutcome = $outcome;
+        return $this;
+    }
+
+    public function withRealizedGainBasis(RealizedGainOutcome $outcome): self
+    {
+        $this->realizedGainOutcome = $outcome;
         return $this;
     }
 
@@ -97,6 +109,14 @@ class UnitOfWork
             )
         );
 
+        $maybeOutcome(
+            $this->realizedGainOutcome,
+            fn(RealizedGainOutcome $outcome) => $this->persistRealizedGain(
+                $outcome->getRealizedGainBasis(),
+                $outcome->getPersistenceIntent()
+            )
+        );
+
         DB::commit();
     }
 
@@ -117,6 +137,13 @@ class UnitOfWork
         match ($intent->action->value) {
             PersistenceAction::INSERT->value => $this->positionRepository->insert($position),
             PersistenceAction::UPDATE->value => $this->positionRepository->update($position, $intent->scope),
+        };
+    }
+
+    private function persistRealizedGain(RealizedGainBasis $realizedGainBasis, PersistenceIntent $intent): void
+    {
+        match ($intent->action->value) {
+            PersistenceAction::INSERT->value => $this->realizedGainRepository->insert($realizedGainBasis),
         };
     }
 

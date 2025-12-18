@@ -42,8 +42,10 @@ final class ReduceExistingPosition
 
         $realizedGainBasis = RealizedGainBasis::create(
             $securityNumber,
+            $confirmation->getTradeNumber(),
             $baseQuantity,
             $tradeQuantity,
+            $position->getUnitType(),
             $position->getTotalCost(),
             $position->getTotalProceeds()
         );
@@ -68,8 +70,10 @@ final class ReduceExistingPosition
 
         $realizedGainBasis = RealizedGainBasis::create(
             $securityNumber,
+            $confirmation->getTradeNumber(),
             $baseQuantity,
             $tradeQuantity,
+            $position->getUnitType(),
             $position->getTotalCost(),
             $position->getTotalProceeds()
         );

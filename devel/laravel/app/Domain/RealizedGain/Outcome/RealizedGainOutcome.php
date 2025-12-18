@@ -4,10 +4,11 @@ namespace App\Domain\RealizedGain\Outcome;
 
 use App\Domain\{
     Outcome\Outcome,
-    RealizedGain\Model\RealizedGain,
+    RealizedGain\Model\RealizedGainBasis,
 };
 
 interface RealizedGainOutcome extends Outcome
 {
-    // public function getRealizedGain(): RealizedGain;
+    public function getRealizedGainBasis(): ?RealizedGainBasis;
+
 }

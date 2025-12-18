@@ -68,6 +68,7 @@ class ProcessTradeConfirmationTest extends TestCase
                 'trade_action' => 'BUY',
                 'position_effect' => 'OPEN',
                 'trade_quantity' => 1,
+                'unit_type' => 'CONTRACTS',
                 'unit_price_amount' => '21',
                 'unit_price_currency' => 'USD',
                 'commission_amount' => '9.99',
@@ -81,6 +82,7 @@ class ProcessTradeConfirmationTest extends TestCase
                 'trade_action' => 'BUY',
                 'position_effect' => 'OPEN',
                 'trade_quantity' => 200,
+                'unit_type' => 'SHARES',
                 'unit_price_amount' => '21.94',
                 'unit_price_currency' => 'USD',
                 'commission_amount' => '12.40',
@@ -99,13 +101,15 @@ class ProcessTradeConfirmationTest extends TestCase
             [
                 'security_number' => '7653ZG',
                 'position_quantity' => 1,
-                'total_cost_amount' => '31.01',
+                'unit_type' => 'CONTRACTS',
+                'total_cost_amount' => '2110.01', // 21 * 1 * 100 + 9.99 + 0.02
                 'total_cost_currency' => 'USD',
             ],
             [
                 'security_number' => '151447',
                 'position_quantity' => 200,
-                'total_cost_amount' => '4400.89',
+                'unit_type' => 'SHARES',
+                'total_cost_amount' => '4400.89',   // 200 * 21.94 + 12.40 + 0.49
                 'total_cost_currency' => 'USD',
             ],
         ]);
@@ -166,6 +170,7 @@ class ProcessTradeConfirmationTest extends TestCase
                 'trade_action' => 'BUY',
                 'position_effect' => 'OPEN',
                 'trade_quantity' => 1,
+                'unit_type' => 'CONTRACTS',
                 'unit_price_amount' => '21',
                 'unit_price_currency' => 'USD',
                 'commission_amount' => '9.99',
@@ -180,6 +185,78 @@ class ProcessTradeConfirmationTest extends TestCase
                 'trade_number' => '001733',
                 'security_number' => '151447',
             ]
+        ]);
+    }
+
+    #[Test]
+    public function it_creates_realized_gain_when_closing_position()
+    {
+        // GIVEN: opening trade
+        $openingTrade = [
+            'trade_number' => '001733',
+            'transaction_date' => '2022-05-16',
+            'security_number' => '7653ZG',
+            'symbol' => 'SPX',
+            'description' => "CALL-100 SPX'22 JN@4245",
+            'trade_action' => 'BUY',
+            'position_effect' => 'OPEN',
+            'trade_quantity' => 1,
+            'unit_type' => 'CONTRACTS',
+            'unit_price' => '21.00',
+            'commission' => '9.99',
+            'us_tax' => '0.02',
+            'expiration_date' => '2022-06-10',
+        ];
+
+        // GIVEN: closing trade
+        $closingTrade = [
+            'trade_number' => '002451',
+            'transaction_date' => '2022-05-20',
+            'security_number' => '7653ZG',
+            'symbol' => 'SPX',
+            'description' => "CALL-100 SPX'22 JN@4245",
+            'trade_action' => 'SELL',
+            'position_effect' => 'CLOSE',
+            'trade_quantity' => 1,
+            'unit_type' => 'CONTRACTS',
+            'unit_price' => '35.00',
+            'commission' => '9.99',
+            'us_tax' => '0.02',
+            'expiration_date' => '2022-06-10',
+        ];
+
+        // WHEN & THEN: submit opening trade
+        $this->givenTradeData($openingTrade);
+        $this->whenSubmittingTrades();
+        $this->thenTheResponseIsSuccessful('Opening trade failed: ' . $openingTrade['symbol']);
+
+        // WHEN & THEN: submit closing trade
+        $this->givenTradeData($closingTrade);
+        $this->whenSubmittingTrades();
+        $this->thenTheResponseIsSuccessful('Closing trade failed: ' . $closingTrade['symbol']);
+
+        // THEN: verify realized gain is recorded
+        $this->thenTheDatabaseContainsRealizedGains([
+            [
+                'trade_number' => '002451',
+                'security_number' => '7653ZG',
+                'base_quantity' => 1,
+                'trade_quantity' => 1,
+                'unit_type' => 'CONTRACTS',
+                'cost_amount' => '2110.01',     // 21.00 * 100 + 9.99 + 0.02
+                'cost_currency' => 'USD',
+                'proceeds_amount' => '3489.99', // 35.00 * 100 - 9.99 - 0.02
+                'proceeds_currency' => 'USD',
+            ],
+        ]);
+
+        // THEN: verify position is closed
+        $this->thenTheDatabaseContainsPositions([
+            [
+                'security_number' => '7653ZG',
+                'position_quantity' => 0,
+                'total_cost_currency' => 'USD',
+            ],
         ]);
     }
 }

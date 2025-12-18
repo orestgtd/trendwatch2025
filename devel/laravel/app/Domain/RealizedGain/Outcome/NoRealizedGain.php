@@ -3,9 +3,8 @@
 namespace App\Domain\RealizedGain\Outcome;
 
 use App\Domain\{
-    Model\NoGainBasis,
-    Model\RealizedGainBasis,
     Outcome\Persistence\PersistenceIntent,
+    RealizedGain\Model\RealizedGainBasis,
     RealizedGain\Outcome\AbstractRealizedGainOutcome,
 };
 
@@ -18,8 +17,8 @@ final class NoRealizedGain extends AbstractRealizedGainOutcome
         );
     }
 
-    // public function hasRealizedGain(): bool
-    // {
-    //     return false;
-    // }
+    public function getRealizedGainBasis(): ?RealizedGainBasis
+    {
+        return null;
+    }
 }

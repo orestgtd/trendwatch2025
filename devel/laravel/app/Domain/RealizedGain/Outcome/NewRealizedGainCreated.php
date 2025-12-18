@@ -9,7 +9,6 @@ use App\Domain\Kernel\Identifiers\{
 use App\Domain\Outcome\Persistence\PersistenceIntent;
 
 use App\Domain\RealizedGain\{
-    Model\RealizedGain,
     Model\RealizedGainBasis,
     Outcome\AbstractRealizedGainOutcome,
 };
@@ -17,7 +16,8 @@ use App\Domain\RealizedGain\{
 final class NewRealizedGainCreated extends AbstractRealizedGainOutcome
 {
     private function __construct(
-        private readonly RealizedGain $realizedGain
+        private readonly TradeNumber $tradeNumber,
+        private readonly RealizedGainBasis $realizedGainBasis
     )
     {
         parent::__construct(PersistenceIntent::insertAll());
@@ -25,23 +25,22 @@ final class NewRealizedGainCreated extends AbstractRealizedGainOutcome
 
     public static function create(
         TradeNumber $tradeNumber,
-        RealizedGainBasis $basis,
+        RealizedGainBasis $realizedGainBasis,
     ): self
     {
         return new self (
-            RealizedGain::create(
-                $basis->getSecurityNumber(),
-                $tradeNumber,
-                $basis->getBaseQuantity(),
-                $basis->getTradeQuantity(),
-                $basis->getCost(),
-                $basis->getProceeds(),
-            )
+            $tradeNumber,
+            $realizedGainBasis
         );
     }
 
-    public function getRealizedGain(): RealizedGain
+    public function getTradeNumber(): TradeNumber
     {
-        return $this->realizedGain;
+        return $this->tradeNumber;
+    }
+
+    public function getRealizedGainBasis(): RealizedGainBasis
+    {
+        return $this->realizedGainBasis;
     }
 }

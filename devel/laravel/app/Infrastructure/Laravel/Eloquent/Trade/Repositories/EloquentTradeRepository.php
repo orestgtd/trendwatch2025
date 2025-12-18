@@ -28,7 +28,7 @@ class EloquentTradeRepository
                 $eloquent->trade_action,
                 $eloquent->position_effect,
                 $eloquent->trade_quantity,
-                $eloquent->trade_unit_type,
+                $eloquent->unit_type,
                 $eloquent->unit_price,
                 $eloquent->commission,
                 $eloquent->us_tax,
@@ -52,11 +52,11 @@ class EloquentTradeRepository
         $eloquent->trade_action = $confirmation->getTradeAction();
         $eloquent->position_effect = $confirmation->getPositionEffect();
         $eloquent->trade_quantity = $confirmation->getTradeQuantity();
-        $eloquent->trade_unit_type = $confirmation->getUnitType();
+        $eloquent->unit_type = $confirmation->getUnitType();
         $eloquent->unit_price = $confirmation->getUnitPrice();
         $eloquent->commission = $confirmation->getCommission();
         $eloquent->us_tax = $confirmation->getUsTax();
-
+        
         return $eloquent;
     }
 }

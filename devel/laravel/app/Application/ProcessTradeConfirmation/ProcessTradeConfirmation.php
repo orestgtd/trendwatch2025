@@ -18,6 +18,7 @@ use App\Domain\{
     Position\Outcome\PositionOutcome,
     Security\Outcome\SecurityOutcome,
 };
+use App\Domain\RealizedGain\Model\RealizedGainBasis;
 use App\Shared\Result;
 
 final class ProcessTradeConfirmation
@@ -119,8 +120,11 @@ final class ProcessTradeConfirmation
 
         $resultPositionOutcome
             ->tap(
-                fn(PositionOutcome $outcome) =>
-                $this->coordinator->registrationService->registerPosition($outcome)
+                function (PositionOutcome $outcome): void
+                {
+                    $this->coordinator->registrationService->registerPosition($outcome);
+                    $this->coordinator->registrationService->registerRealizedGainBasis($outcome->getRealizedGainOutcome());
+                }
             );
     }
 }

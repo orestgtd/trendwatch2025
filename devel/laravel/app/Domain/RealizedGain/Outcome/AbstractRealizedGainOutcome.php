@@ -6,6 +6,7 @@ use App\Domain\{
     Outcome\AbstractOutcome,
     Outcome\OutcomeKind,
     Outcome\Persistence\PersistenceIntent,
+    RealizedGain\Model\RealizedGainBasis,
 };
 
 abstract class AbstractRealizedGainOutcome
@@ -22,4 +23,6 @@ implements RealizedGainOutcome
     {
         return OutcomeKind::REALIZED_GAIN;
     }
+
+    abstract public function getRealizedGainBasis(): ?RealizedGainBasis;
 }

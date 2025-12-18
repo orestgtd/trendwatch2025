@@ -25,7 +25,7 @@ final class PersistedTradeDto
         public readonly TradeAction $tradeAction,
         public readonly PositionEffect $positionEffect,
         public readonly TradeQuantity $tradeQuantity,
-        public readonly UnitType $tradeUnitType,
+        public readonly UnitType $unitType,
         public readonly UnitPrice $unitPrice,
         public readonly Commission $commission,
         public readonly UsTax $usTax,

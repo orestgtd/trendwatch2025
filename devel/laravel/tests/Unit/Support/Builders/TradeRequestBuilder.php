@@ -6,6 +6,7 @@ use App\Application\ProcessTradeConfirmation\Dto\{
     ParsedTradeRequestDto,
     ValidatedTradeDto,
 };
+
 use App\Domain\Confirmation\{
     ValueObjects\PositionEffect,
     ValueObjects\TradeAction,
@@ -15,22 +16,6 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
-/*
- * 
-    SecurityNumber::fromString('AAPL'),
-    TradeNumber::fromString('T12345'),
-    TradeAction::buy(),
-    PositionEffect::open(),
-    TradeQuantity::fromInt(100),
-    TradeUnitType::shares(),
-    UnitPrice::tryFrom('150.25')->getValue(),
-    Commission::tryFrom('4.95')->getValue(),
-    UsTax::tryFrom('0.00')->getValue(),
-
- * 
- * 
- */
-
 final class TradeRequestBuilder
 {
     private function __construct(
@@ -39,7 +24,7 @@ final class TradeRequestBuilder
         private string $tradeAction,
         private string $positionEffect,
         private int $tradeQuantity,
-        private string $tradeUnitType,
+        private string $unitType,
         private string $unitPrice,
         private string $commission,
         private string $usTax,
@@ -75,7 +60,7 @@ final class TradeRequestBuilder
                 'trade_action' => $this->tradeAction,
                 'position_effect' => $this->positionEffect,
                 'trade_quantity' => $this->tradeQuantity,
-                'unit_type' => $this->tradeUnitType,
+                'unit_type' => $this->unitType,
                 'unit_price' => $this->unitPrice,
                 'commission' => $this->commission,
                 'us_tax' => $this->usTax,

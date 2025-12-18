@@ -12,7 +12,10 @@ use App\Domain\Position\{
     Model\LongPosition,
     Outcome\IncreasedHolding,
     Outcome\NewPositionCreated,
+};
 
+use App\Domain\RealizedGain\{
+    Outcome\NoRealizedGain,
 };
 
 use App\Infrastructure\Laravel\Eloquent\{
@@ -69,9 +72,8 @@ final class BuyToOpenLongPositionTest extends PositionTestCase
         $this->assertInstanceOf(NewPositionCreated::class, $outcome);
 
         // This trade does not trigger a realized gain
-        $outcome->tapRealizedGain(
-            fn () => $this->assertTrue(false, 'Callback should not be executed.')
-        );
+        $realizedGainOutcome = $outcome->getRealizedGainOutcome();
+        $this->assertInstanceOf(NoRealizedGain::class, $realizedGainOutcome);
 
         /** @var LongPosition $position */
         $position = $outcome->getPosition();
@@ -126,9 +128,8 @@ final class BuyToOpenLongPositionTest extends PositionTestCase
         $this->assertInstanceOf(IncreasedHolding::class, $outcome);
 
         // This trade does not trigger a realized gain
-        $outcome->tapRealizedGain(
-            fn () => $this->assertTrue(false, 'Callback should not be executed.')
-        );
+        $realizedGainOutcome = $outcome->getRealizedGainOutcome();
+        $this->assertInstanceOf(NoRealizedGain::class, $realizedGainOutcome);
 
         /** @var LongPosition $position */
         $position = $outcome->getPosition();

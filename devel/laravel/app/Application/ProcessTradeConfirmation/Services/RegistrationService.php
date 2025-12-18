@@ -5,6 +5,7 @@ namespace App\Application\ProcessTradeConfirmation\Services;
 use App\Domain\{
     Confirmation\Outcome\ConfirmationOutcome,
     Position\Outcome\PositionOutcome,
+    RealizedGain\Outcome\RealizedGainOutcome,
     Security\Outcome\SecurityOutcome,
 };
 
@@ -29,6 +30,11 @@ final class RegistrationService
     public function registerPosition(PositionOutcome $outcome): void
     {
         $this->uow->withPosition($outcome);
+    }
+
+    public function registerRealizedGainBasis(RealizedGainOutcome $outcome): void
+    {
+        $this->uow->withRealizedGainBasis($outcome);
     }
 
     public function persist(): void

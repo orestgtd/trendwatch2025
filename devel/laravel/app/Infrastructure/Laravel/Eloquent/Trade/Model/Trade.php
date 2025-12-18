@@ -21,7 +21,9 @@ use App\Infrastructure\Laravel\Eloquent\Security\Casts\{
     SecurityNumberCast,
 };
 
-use App\Infrastructure\Laravel\Eloquent\Casts\UnitTypeCast;
+use App\Infrastructure\Laravel\Eloquent\Casts\{
+    UnitTypeCast,
+};
 
 use App\Infrastructure\Laravel\Eloquent\Trade\Casts\{
     PositionEffectCast,
@@ -43,7 +45,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property TradeAction $trade_action
  * @property PositionEffect $position_effect
  * @property TradeQuantity    $trade_quantity
- * @property UnitType $trade_unit_type
+ * @property UnitType $unit_type
  * @property UnitPrice  $unit_price
  * @property Commission  $commission
  * @property UsTax  $us_tax
@@ -59,7 +61,7 @@ class Trade extends Model
         'trade_action',
         'position_effect',
         'trade_quantity',
-        'trade_unit_type',
+        'unit_type',
         'unit_price',
         'commission',
         'us_tax',
@@ -71,7 +73,7 @@ class Trade extends Model
         'trade_action' => TradeActionCast::class,
         'position_effect' => PositionEffectCast::class,
         'trade_quantity' => TradeQuantityCast::class,
-        'trade_unit_type' => UnitTypeCast::class,
+        'unit_type' => UnitTypeCast::class,
         'unit_price' => UnitPriceCast::class,
         'commission' => CommissionCast::class,
         'us_tax' => UsTaxCast::class,

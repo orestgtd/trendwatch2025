@@ -6,6 +6,7 @@ use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
     Values\UnitType,
 };
+
 use App\Domain\Security\{
     Model\EquitySecurity,
     Model\OptionSecurity,

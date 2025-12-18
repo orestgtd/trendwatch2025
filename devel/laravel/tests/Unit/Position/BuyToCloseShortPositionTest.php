@@ -14,7 +14,7 @@ use App\Domain\Position\{
 };
 
 use App\Domain\RealizedGain\{
-    Model\RealizedGainBasis,
+    Outcome\NewRealizedGainCreated,
 };
 
 use App\Infrastructure\Laravel\Eloquent\{
@@ -117,26 +117,26 @@ class BuyToCloseShortPositionTest extends PositionTestCase
 
         // Then trade should trigger a realized gain
         $outcome = $this->assertResultIsDecreasedHolding($result);
-        $outcome->tapRealizedGain(
-            function (RealizedGainBasis $realizedGainBasis) {
+        $realizedGainOutcome = $outcome->getRealizedGainOutcome();
+        $this->assertInstanceOf(NewRealizedGainCreated::class, $realizedGainOutcome);
+        $realizedGainBasis = $realizedGainOutcome->getRealizedGainBasis();
+        $this->assertNotNull($realizedGainBasis);
 
-                /* Realized gain shoud have correct base quantity */
-                $this->assertEquals(100, $realizedGainBasis->getBaseQuantity()->value());
+        /* Realized gain shoud have correct base quantity */
+        $this->assertEquals(100, $realizedGainBasis->getBaseQuantity()->value());
 
-                /* And realized gain shoud have correct trade quantity */
-                $this->assertEquals(25, $realizedGainBasis->getTradeQuantity()->value());
+        /* And realized gain shoud have correct trade quantity */
+        $this->assertEquals(25, $realizedGainBasis->getTradeQuantity()->value());
 
-                /* And realized gain shoud have correct cost */
-                $cost = $realizedGainBasis->getCost();
-                $this->assertAmount('26.02', $cost->getAmount());
-                $this->assertCurrency('USD', $cost->getCurrency());
+        /* And realized gain shoud have correct cost */
+        $cost = $realizedGainBasis->getCost();
+        $this->assertAmount('26.02', $cost->getAmount());
+        $this->assertCurrency('USD', $cost->getCurrency());
 
-                /* And realized gain shoud have correct proceeds */
-                $proceeds = $realizedGainBasis->getProceeds();
-                $this->assertAmount('1000.00', $proceeds->getAmount());
-                $this->assertCurrency('USD', $proceeds->getCurrency());
-            }
-        );
+        /* And realized gain shoud have correct proceeds */
+        $proceeds = $realizedGainBasis->getProceeds();
+        $this->assertAmount('1000.00', $proceeds->getAmount());
+        $this->assertCurrency('USD', $proceeds->getCurrency());
     }
 
     #[Test]

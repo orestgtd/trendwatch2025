@@ -11,20 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('trades', function (Blueprint $table) {
+        Schema::create('realized_gain_basis', function (Blueprint $table) {
             $table->id();
             $table->string('security_number');
-            $table->string('trade_number')->unique();
-            $table->string('trade_action');
-            $table->string('position_effect');
+            $table->string('trade_number');
+            $table->integer('base_quantity');
             $table->integer('trade_quantity');
             $table->string('unit_type');
-            $table->string('unit_price_amount');
-            $table->string('unit_price_currency');
-            $table->string('commission_amount');
-            $table->string('commission_currency');
-            $table->string('us_tax_amount');
-            $table->string('us_tax_currency');
+            $table->string('cost_amount');
+            $table->string('cost_currency');
+            $table->string('proceeds_amount');
+            $table->string('proceeds_currency');
             $table->timestamps();
         });
     }
@@ -34,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('trades');
+        Schema::dropIfExists('realized_gain_basis');
     }
 };

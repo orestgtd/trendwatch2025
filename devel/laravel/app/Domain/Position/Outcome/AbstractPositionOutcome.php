@@ -10,6 +10,8 @@ use App\Domain\{
     RealizedGain\Model\MaybeRealizedGainBasis,
 };
 
+use App\Domain\RealizedGain\Outcome\RealizedGainOutcome;
+
 use App\Domain\Kernel\Identifiers\{
     TradeNumber,
 };
@@ -48,8 +50,8 @@ implements PositionOutcome
         return $this->tradeNumber;
     }
 
-    public function tapRealizedGain(callable $action): void
+    public function getRealizedGainOutcome(): RealizedGainOutcome
     {
-        $this->maybeRealizedGainBasis->tap($action);
+        return $this->maybeRealizedGainBasis->getOutcome($this->tradeNumber);
     }
 }

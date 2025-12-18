@@ -39,7 +39,7 @@ final class FindTradeQuery
             $persisted->tradeAction,
             $persisted->positionEffect,
             $persisted->tradeQuantity,
-            $persisted->tradeUnitType,
+            $persisted->unitType,
             $persisted->unitPrice,
             $persisted->commission,
             $persisted->usTax,

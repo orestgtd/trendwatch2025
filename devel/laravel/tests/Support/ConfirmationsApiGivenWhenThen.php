@@ -63,4 +63,11 @@ trait ConfirmationsApiGivenWhenThen
             $this->assertDatabaseHas('positions', $position);
         }
     }
+
+    protected function thenTheDatabaseContainsRealizedGains(array $expectedRealizedGainBases): void
+    {
+        foreach ($expectedRealizedGainBases as $realizedGainBasis) {
+            $this->assertDatabaseHas('realized_gain_basis', $realizedGainBasis);
+        }
+    }
 }

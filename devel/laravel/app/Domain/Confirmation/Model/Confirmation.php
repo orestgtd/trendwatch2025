@@ -15,7 +15,6 @@ use App\Domain\Confirmation\ValueObjects\{
     ProceedsAmount,
     TradeAction,
     TradeQuantity,
-    TradeUnitType,
     UnitPrice,
     Commission,
     UsTax,
@@ -35,7 +34,7 @@ final class Confirmation
         private TradeAction $tradeAction,
         private PositionEffect $positionEffect,
         private TradeQuantity $tradeQuantity,
-        private UnitType $tradeUnitType,
+        private UnitType $unitType,
         private UnitPrice $unitPrice,
         private Commission $commission,
         private UsTax $usTax,
@@ -45,7 +44,7 @@ final class Confirmation
         $this->tradeAction = $tradeAction;
         $this->positionEffect = $positionEffect;
         $this->tradeQuantity = $tradeQuantity;
-        $this->tradeUnitType = $tradeUnitType;
+        $this->unitType = $unitType;
         $this->unitPrice = $unitPrice;
         $this->commission = $commission;
         $this->usTax = $usTax;
@@ -57,7 +56,7 @@ final class Confirmation
         TradeAction $tradeAction,
         PositionEffect $positionEffect,
         TradeQuantity $tradeQuantity,
-        UnitType $tradeUnitType,
+        UnitType $unitType,
         UnitPrice $unitPrice,
         Commission $commission,
         UsTax $usTax,
@@ -68,7 +67,7 @@ final class Confirmation
             $tradeAction,
             $positionEffect,
             $tradeQuantity,
-            $tradeUnitType,
+            $unitType,
             $unitPrice,
             $commission,
             $usTax,
@@ -97,7 +96,7 @@ final class Confirmation
     }
     public function getUnitType(): UnitType
     {
-        return $this->tradeUnitType;
+        return $this->unitType;
     }
     public function getUnitPrice(): UnitPrice
     {
@@ -121,7 +120,7 @@ final class Confirmation
 
         $grossTransactionFees = TransactionValue::calculate(
             $this->tradeQuantity,
-            UnitType::shares(),
+            $this->unitType,
             $this->unitPrice
         );
 
@@ -137,7 +136,7 @@ final class Confirmation
 
         $grossTransactionFees = TransactionValue::calculate(
             $this->tradeQuantity,
-            UnitType::shares(),
+            $this->unitType,
             $this->unitPrice
         );
 
