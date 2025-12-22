@@ -2,8 +2,9 @@
 
 namespace App\Domain\Security\Model;
 
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+    Values\UnitType,
 };
 
 use App\Domain\Security\ValueObjects\{
@@ -11,7 +12,6 @@ use App\Domain\Security\ValueObjects\{
     ExpirationDate\ExpirationDateInterface,
     ExpirationDate\NoExpiration,
     Symbol,
-    UnitType,
     Variations\VariationsInterface,
 };
 
@@ -23,10 +23,13 @@ final class EquitySecurity extends AbstractSecurity
         Description $canonicalDescription,
         VariationsInterface $variations
     ) {
-        $this->securityNumber = $securityNumber;
-        $this->symbol = $symbol;
-        $this->canonicalDescription = $canonicalDescription;
-        $this->variations = $variations;
+        parent::__construct(
+            $securityNumber,
+            $symbol,
+            UnitType::shares(),
+            $canonicalDescription,
+            $variations,
+        );
     }
 
     public static function create(
@@ -44,19 +47,14 @@ final class EquitySecurity extends AbstractSecurity
         );
     }
 
-    public function securityNumber(): SecurityNumber { return $this->securityNumber; }
-    public function symbol(): Symbol { return $this->symbol; }
-    public function canonicalDescription(): Description { return $this->canonicalDescription; }
-    public function variations(): VariationsInterface { return $this->variations; }
+    // public function securityNumber(): SecurityNumber { return $this->securityNumber; }
+    // public function symbol(): Symbol { return $this->symbol; }
+    // public function canonicalDescription(): Description { return $this->canonicalDescription; }
+    // public function variations(): VariationsInterface { return $this->variations; }
 
     public function expirationDate(): ExpirationDateInterface
     {
         // Equities never expire
         return NoExpiration::create();
-    }
-
-    public function unitType(): UnitType
-    {
-        return UnitType::shares();
     }
 }

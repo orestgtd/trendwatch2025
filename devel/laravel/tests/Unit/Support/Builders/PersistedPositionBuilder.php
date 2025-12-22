@@ -9,13 +9,14 @@ use App\Domain\Confirmation\ValueObjects\{
 
 use App\Domain\Position\ValueObjects\{
     PositionQuantity,
-    PositionType,
 };
 
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
     Money\Currency,
     Money\MoneyAmount,
+    Values\PositionType,
+    Values\UnitType,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Position\{
@@ -28,6 +29,7 @@ final class PersistedPositionBuilder
         private SecurityNumber $securityNumber,
         private PositionType $positionType,
         private PositionQuantity $positionQuantity,
+        private UnitType $unitType,
         private CostAmount $totalCost,
         private ProceedsAmount $totalProceeds,
     ) {}
@@ -38,6 +40,7 @@ final class PersistedPositionBuilder
             SecurityNumber::fromString('2112'),
             PositionType::long(),
             PositionQuantity::fromInt(0),
+            UnitType::shares(),
             CostAmount::zero(Currency::default()),
             ProceedsAmount::zero(Currency::default())
         );
@@ -49,6 +52,7 @@ final class PersistedPositionBuilder
             SecurityNumber::fromString('2112'),
             PositionType::short(),
             PositionQuantity::fromInt(0),
+            UnitType::shares(),
             CostAmount::zero(Currency::default()),
             ProceedsAmount::zero(Currency::default())
         );
@@ -84,6 +88,7 @@ final class PersistedPositionBuilder
             $this->securityNumber,
             $this->positionType,
             $this->positionQuantity,
+            $this->unitType,
             $this->totalCost,
             $this->totalProceeds
         );

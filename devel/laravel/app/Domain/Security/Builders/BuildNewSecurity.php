@@ -2,8 +2,9 @@
 
 namespace App\Domain\Security\Builders;
 
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+    Values\UnitType,
 };
 use App\Domain\Security\{
     Model\EquitySecurity,
@@ -12,7 +13,6 @@ use App\Domain\Security\{
     ValueObjects\Description,
     ValueObjects\ExpirationDate\ExpirationDateInterface,
     ValueObjects\Symbol,
-    ValueObjects\UnitType,
     ValueObjects\Variations\VariationsInterface,
 };
 use App\Shared\Result;

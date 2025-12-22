@@ -21,13 +21,10 @@ use App\Domain\Confirmation\ValueObjects\{
     UsTax,
 };
 
-use App\Domain\Security\ValueObjects\{
-    UnitType,
-};
-
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
-    TradeNumber,
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+    Identifiers\TradeNumber,
+    Values\UnitType,
 };
 
 final class Confirmation
@@ -38,7 +35,7 @@ final class Confirmation
         private TradeAction $tradeAction,
         private PositionEffect $positionEffect,
         private TradeQuantity $tradeQuantity,
-        private TradeUnitType $tradeUnitType,
+        private UnitType $tradeUnitType,
         private UnitPrice $unitPrice,
         private Commission $commission,
         private UsTax $usTax,
@@ -60,7 +57,7 @@ final class Confirmation
         TradeAction $tradeAction,
         PositionEffect $positionEffect,
         TradeQuantity $tradeQuantity,
-        TradeUnitType $tradeUnitType,
+        UnitType $tradeUnitType,
         UnitPrice $unitPrice,
         Commission $commission,
         UsTax $usTax,
@@ -98,7 +95,7 @@ final class Confirmation
     {
         return $this->tradeQuantity;
     }
-    public function getTradeUnitType(): TradeUnitType
+    public function getUnitType(): UnitType
     {
         return $this->tradeUnitType;
     }

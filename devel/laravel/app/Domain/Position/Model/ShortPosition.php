@@ -11,13 +11,14 @@ use App\Domain\Confirmation\{
 use App\Domain\Position\{
     Model\AbstractPosition,
     ValueObjects\BaseQuantity,
-    ValueObjects\PositionType,
     ValueObjects\PositionQuantity,
     ValueObjects\ProceedsBase,
 };
 
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+    Values\PositionType,
+    Values\UnitType,
 };
 
 final class ShortPosition extends AbstractPosition
@@ -27,6 +28,7 @@ final class ShortPosition extends AbstractPosition
     private function __construct(
         SecurityNumber $securityNumber,
         PositionQuantity $positionQuantity,
+        UnitType $unitType,
         ProceedsAmount $totalProceeds,
     ) {
         $this->securityNumber = $securityNumber;
@@ -34,16 +36,19 @@ final class ShortPosition extends AbstractPosition
             BaseQuantity::fromPositionQuantity($positionQuantity),
             $totalProceeds,
         );
+        $this->unitType = $unitType;
     }
 
     public static function create(
         SecurityNumber $securityNumber,
         PositionQuantity $positionQuantity,
+        UnitType $unitType,
         ProceedsAmount $totalProceeds,
     ): self {
         return new self(
             $securityNumber,
             $positionQuantity,
+            $unitType,
             $totalProceeds,
         );
     }
@@ -51,10 +56,11 @@ final class ShortPosition extends AbstractPosition
     public static function fromPersisted(
         SecurityNumber $securityNumber,
         PositionQuantity $positionQuantity,
+        UnitType $unitType,
         CostAmount $totalCost,
         ProceedsAmount $totalProceeds,
     ): self {
-        $instance = new self($securityNumber, $positionQuantity, $totalProceeds);
+        $instance = new self($securityNumber, $positionQuantity, $unitType, $totalProceeds);
         $instance->proceedsBase = ProceedsBase::fromPersisted(
             BaseQuantity::fromPositionQuantity($positionQuantity),
             $totalProceeds,

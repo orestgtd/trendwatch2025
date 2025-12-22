@@ -12,12 +12,13 @@ use App\Domain\Position\{
     Model\AbstractPosition,
     ValueObjects\BaseQuantity,
     ValueObjects\CostBase,
-    ValueObjects\PositionType,
     ValueObjects\PositionQuantity,
 };
 
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+    Values\PositionType,
+    Values\UnitType,
 };
 
 final class LongPosition extends AbstractPosition
@@ -27,6 +28,7 @@ final class LongPosition extends AbstractPosition
     private function __construct(
         SecurityNumber $securityNumber,
         PositionQuantity $positionQuantity,
+        UnitType $unitType,
         CostAmount $totalCost,
     ) {
         $this->securityNumber = $securityNumber;
@@ -34,16 +36,19 @@ final class LongPosition extends AbstractPosition
             BaseQuantity::fromPositionQuantity($positionQuantity),
             $totalCost,
         );
+        $this->unitType = $unitType;
     }
 
     public static function create(
         SecurityNumber $securityNumber,
         PositionQuantity $positionQuantity,
+        UnitType $unitType,
         CostAmount $totalCost,
     ): self {
         return new self(
             $securityNumber,
             $positionQuantity,
+            $unitType,
             $totalCost,
         );
     }
@@ -51,10 +56,11 @@ final class LongPosition extends AbstractPosition
     public static function fromPersisted(
         SecurityNumber $securityNumber,
         PositionQuantity $positionQuantity,
+        UnitType $unitType,
         CostAmount $totalCost,
         ProceedsAmount $totalProceeds,
     ): self {
-        $instance = new self($securityNumber, $positionQuantity, $totalCost);
+        $instance = new self($securityNumber, $positionQuantity, $unitType, $totalCost);
         $instance->costBase = CostBase::fromPersisted(
             BaseQuantity::fromPositionQuantity($positionQuantity),
             $totalCost,
@@ -78,6 +84,10 @@ final class LongPosition extends AbstractPosition
         return PositionQuantity::fromBaseQuantity(
             $this->costBase->getQuantity()
         );
+    }
+    public function getUnitType(): UnitType
+    {
+        return $this->unitType;        
     }
 
     public function getTotalCost(): CostAmount

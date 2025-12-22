@@ -2,9 +2,10 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Trade\Dto;
 
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
-    TradeNumber,
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+    Identifiers\TradeNumber,
+    Values\UnitType,
 };
 
 use App\Domain\Confirmation\ValueObjects\{
@@ -12,7 +13,6 @@ use App\Domain\Confirmation\ValueObjects\{
     PositionEffect,
     TradeAction,
     TradeQuantity,
-    TradeUnitType,
     UnitPrice,
     UsTax,
 };
@@ -25,7 +25,7 @@ final class PersistedTradeDto
         public readonly TradeAction $tradeAction,
         public readonly PositionEffect $positionEffect,
         public readonly TradeQuantity $tradeQuantity,
-        public readonly TradeUnitType $tradeUnitType,
+        public readonly UnitType $tradeUnitType,
         public readonly UnitPrice $unitPrice,
         public readonly Commission $commission,
         public readonly UsTax $usTax,

@@ -38,6 +38,7 @@ final class FindPositionQuery
             $persisted->securityNumber,
             $persisted->positionType,
             $persisted->positionQuantity,
+            $persisted->unitType,
             $persisted->totalCost,
             $persisted->totalProceeds
         );

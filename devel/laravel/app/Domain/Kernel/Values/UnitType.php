@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Security\ValueObjects;
+namespace App\Domain\Kernel\Values;
 
 use App\Domain\Support\{
     ValueObjects\Abstract\AbstractStringValueObject,

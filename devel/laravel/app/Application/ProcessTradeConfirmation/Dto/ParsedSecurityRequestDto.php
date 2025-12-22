@@ -4,8 +4,9 @@ namespace App\Application\ProcessTradeConfirmation\Dto;
 
 use App\Application\Common\AbstractParsedRequestDto;
 
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+    Values\UnitType,
 };
 
 use App\Domain\Security\ValueObjects\{
@@ -13,7 +14,6 @@ use App\Domain\Security\ValueObjects\{
     ExpirationDate\ExpirationDate,
     ExpirationDate\ExpirationDateInterface,
     Symbol,
-    UnitType,
 };
 
 use App\Shared\{

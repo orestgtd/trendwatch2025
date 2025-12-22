@@ -2,8 +2,8 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Position\Repositories;
 
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
 };
 
 use App\Domain\{
@@ -28,6 +28,7 @@ class EloquentPositionRepository
                 $eloquent->security_number,
                 $eloquent->position_type,
                 $eloquent->position_quantity,
+                $eloquent->unit_type,
                 $eloquent->total_cost,
                 $eloquent->total_proceeds,
             )
@@ -80,6 +81,7 @@ class EloquentPositionRepository
         $eloquent->security_number = $position->getSecurityNumber();
         $eloquent->position_type = $position->getPositionType();
         $eloquent->position_quantity = $position->getPositionQuantity();
+        $eloquent->unit_type = $position->getUnitType();
         $eloquent->total_cost = $position->getTotalCost();
         $eloquent->total_proceeds = $position->getTotalProceeds();
 

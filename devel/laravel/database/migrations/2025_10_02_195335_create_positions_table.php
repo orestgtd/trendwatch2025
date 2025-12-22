@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('security_number')->unique();
             $table->string('position_type');    // LONG | SHORT
             $table->integer('position_quantity');
+            $table->string('unit_type');
             $table->string('total_cost_amount');
             $table->string('total_cost_currency');
             $table->string('total_proceeds_amount');

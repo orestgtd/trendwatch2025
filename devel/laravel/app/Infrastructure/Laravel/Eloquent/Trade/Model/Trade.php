@@ -7,26 +7,27 @@ use App\Domain\Confirmation\ValueObjects\{
     PositionEffect,
     TradeAction,
     TradeQuantity,
-    TradeUnitType,
     UnitPrice,
     UsTax,
 };
 
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
-    TradeNumber,
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+    Identifiers\TradeNumber,
+    Values\UnitType,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Security\Casts\{
     SecurityNumberCast,
 };
 
+use App\Infrastructure\Laravel\Eloquent\Casts\UnitTypeCast;
+
 use App\Infrastructure\Laravel\Eloquent\Trade\Casts\{
     PositionEffectCast,
     TradeActionCast,
     TradeNumberCast,
     TradeQuantityCast,
-    TradeUnitTypeCast,
     UnitPriceCast,
     CommissionCast,
     UsTaxCast,
@@ -42,7 +43,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property TradeAction $trade_action
  * @property PositionEffect $position_effect
  * @property TradeQuantity    $trade_quantity
- * @property TradeUnitType $trade_unit_type
+ * @property UnitType $trade_unit_type
  * @property UnitPrice  $unit_price
  * @property Commission  $commission
  * @property UsTax  $us_tax
@@ -70,7 +71,7 @@ class Trade extends Model
         'trade_action' => TradeActionCast::class,
         'position_effect' => PositionEffectCast::class,
         'trade_quantity' => TradeQuantityCast::class,
-        'trade_unit_type' => TradeUnitTypeCast::class,
+        'trade_unit_type' => UnitTypeCast::class,
         'unit_price' => UnitPriceCast::class,
         'commission' => CommissionCast::class,
         'us_tax' => UsTaxCast::class,

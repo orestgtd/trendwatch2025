@@ -2,8 +2,10 @@
 
 namespace App\Domain\Position\Builders;
 
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+    Values\PositionType,
+    Values\UnitType,
 };
 
 use App\Domain\Position\Model\{
@@ -19,7 +21,6 @@ use App\Domain\Confirmation\ValueObjects\{
 
 use App\Domain\Position\ValueObjects\{
     PositionQuantity,
-    PositionType,
 };
 
 final class BuildPositionFromPersisted
@@ -28,16 +29,17 @@ final class BuildPositionFromPersisted
         SecurityNumber $securityNumber,
         PositionType $positionType,
         PositionQuantity $positionQuantity,
+        UnitType $unitType,
         CostAmount $totalCost,
         ProceedsAmount $totalProceeds,
     ): Position {
         return $positionType->delegate(
             onLong: fn () => LongPosition::fromPersisted(
-                $securityNumber, $positionQuantity,
+                $securityNumber, $positionQuantity, $unitType,
                 $totalCost, $totalProceeds
             ),
             onShort: fn () => ShortPosition::fromPersisted(
-                $securityNumber, $positionQuantity,
+                $securityNumber, $positionQuantity, $unitType,
                 $totalCost, $totalProceeds
             )
         );

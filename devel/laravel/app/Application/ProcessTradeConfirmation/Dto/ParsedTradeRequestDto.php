@@ -8,6 +8,7 @@ use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
     Identifiers\TradeNumber,
     Money\Currency,
+    Values\UnitType,
 };
 
 use App\Domain\Confirmation\ValueObjects\{
@@ -15,7 +16,6 @@ use App\Domain\Confirmation\ValueObjects\{
     PositionEffect,
     TradeAction,
     TradeQuantity,
-    TradeUnitType,
     UnitPrice,
     UsTax,
 };
@@ -33,7 +33,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
         public readonly TradeAction $tradeAction,
         public readonly PositionEffect $positionEffect,
         public readonly TradeQuantity $tradeQuantity,
-        public readonly TradeUnitType $tradeUnitType,
+        public readonly UnitType $tradeUnitType,
         public readonly UnitPrice $unitPrice,
         public readonly Commission $commission,
         public readonly UsTax $usTax,
@@ -48,7 +48,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
             'trade_action'     => TradeAction::tryFrom($validatedDto->tradeAction),
             'position_effect'  => PositionEffect::tryFrom($validatedDto->positionEffect),
             'trade_quantity'   => TradeQuantity::tryFrom($validatedDto->tradeQuantity),
-            'trade_unit_type'  => TradeUnitType::tryFrom($validatedDto->tradeUnitType),
+            'trade_unit_type'  => UnitType::tryFrom($validatedDto->tradeUnitType),
             'unit_price'       => UnitPrice::tryFrom($validatedDto->unitPrice, Currency::default()),
             'commission'       => Commission::tryFrom($validatedDto->commission, Currency::default()),
             'us_tax'           => UsTax::tryFrom($validatedDto->usTax, Currency::default()),

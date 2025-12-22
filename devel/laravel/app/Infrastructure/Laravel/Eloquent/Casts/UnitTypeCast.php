@@ -1,15 +1,26 @@
 <?php
 
-namespace App\Infrastructure\Laravel\Eloquent\Security\Casts;
+namespace App\Infrastructure\Laravel\Eloquent\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
-use App\Domain\Security\ValueObjects\UnitType;
+use App\Domain\Kernel\{
+    Values\UnitType,
+};
 
 final class UnitTypeCast implements CastsAttributes
 {
     public function get($model, string $key, $value, array $attributes): UnitType
     {
+        if (is_null($value))
+        {
+            dd([
+                'model' => $model,
+                'key' => $key,
+                'value' => $value,
+            ]);
+        }
+
         return UnitType::fromString($value);
     }
 

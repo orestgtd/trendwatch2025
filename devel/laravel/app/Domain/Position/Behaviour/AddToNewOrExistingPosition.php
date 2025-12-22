@@ -44,6 +44,7 @@ final class AddToNewOrExistingPosition
             LongPosition::create(
                 $confirmation->getSecurityNumber(),
                 PositionQuantity::fromTradeQuantity($confirmation->getTradeQuantity()),
+                $confirmation->getUnitType(),
                 $confirmation->netCost(),
             ),
             $confirmation->getTradeNumber()
@@ -56,6 +57,7 @@ final class AddToNewOrExistingPosition
             ShortPosition::create(
                 $confirmation->getSecurityNumber(),
                 PositionQuantity::fromTradeQuantity($confirmation->getTradeQuantity()),
+                $confirmation->getUnitType(),
                 $confirmation->netProceeds(),
             ),
             $confirmation->getTradeNumber()

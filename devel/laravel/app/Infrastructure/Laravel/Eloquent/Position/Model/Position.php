@@ -2,9 +2,14 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Position\Model;
 
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+    Values\PositionType,
+    Values\UnitType,
+};
+
 use App\Domain\Position\ValueObjects\{
     PositionQuantity,
-    PositionType,
 };
 
 use App\Domain\Confirmation\ValueObjects\{
@@ -12,11 +17,8 @@ use App\Domain\Confirmation\ValueObjects\{
     ProceedsAmount,
 };
 
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
-};
-
 use App\Infrastructure\Laravel\Eloquent\{
+    Casts\UnitTypeCast,
     Position\Casts\CostAmountCast,
     Position\Casts\PositionQuantityCast,
     Position\Casts\PositionTypeCast,
@@ -27,11 +29,12 @@ use App\Infrastructure\Laravel\Eloquent\{
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Infrastructure\Laravel\Eloquent\Trade\Model\Trade
+ * App\Infrastructure\Laravel\Eloquent\Position\Model\Position
  *
  * @property SecurityNumber     $security_number
  * @property PositionType       $position_type
  * @property PositionQuantity   $position_quantity
+ * @property UnitType           $unit_type
  * @property CostAmount         $total_cost
  * @property ProceedsAmount     $total_proceeds
  */
@@ -44,6 +47,7 @@ class Position extends Model
         'security_number',
         'position_type',
         'position_quantity',
+        'unit_type',
         'total_cost',
         'total_proceeds',
     ];
@@ -52,6 +56,7 @@ class Position extends Model
         'security_number' => SecurityNumberCast::class,
         'position_type' => PositionTypeCast::class,
         'position_quantity' => PositionQuantityCast::class,
+        'unit_type' => UnitTypeCast::class,
         'total_cost' => CostAmountCast::class,
         'total_proceeds' => ProceedsAmountCast::class,
     ];

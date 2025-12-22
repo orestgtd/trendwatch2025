@@ -6,13 +6,13 @@ use App\Application\ProcessTradeConfirmation\Dto\{
     ParsedTradeRequestDto,
     ValidatedTradeDto,
 };
-use App\Domain\Confirmation\ValueObjects\Commission;
-use App\Domain\Confirmation\ValueObjects\PositionEffect;
-use App\Domain\Confirmation\ValueObjects\TradeAction;
-use App\Domain\Confirmation\ValueObjects\TradeQuantity;
-use App\Domain\Confirmation\ValueObjects\UnitPrice;
-use App\Domain\Security\ValueObjects\{
-    UnitType,
+use App\Domain\Confirmation\{
+    ValueObjects\PositionEffect,
+    ValueObjects\TradeAction,
+};
+
+use App\Domain\Kernel\{
+    Values\UnitType,
 };
 
 /*

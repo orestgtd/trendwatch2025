@@ -9,14 +9,14 @@ use App\Domain\Confirmation\ValueObjects\{
     PositionEffect,
     TradeAction,
     TradeQuantity,
-    TradeUnitType,
     UnitPrice,
     UsTax,
 };
 
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
-    TradeNumber,
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+    Identifiers\TradeNumber,
+    Values\UnitType,
 };
 
 final class BuildNewConfirmation
@@ -27,7 +27,7 @@ final class BuildNewConfirmation
         TradeAction $tradeAction,
         PositionEffect $positionEffect,
         TradeQuantity $tradeQuantity,
-        TradeUnitType $tradeUnitType,
+        UnitType $tradeUnitType,
         UnitPrice $unitPrice,
         Commission $commission,
         UsTax $usTax,

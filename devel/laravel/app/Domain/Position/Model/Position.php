@@ -9,11 +9,12 @@ use App\Domain\Confirmation\{
 
 use App\Domain\Position\{
     ValueObjects\PositionQuantity,
-    ValueObjects\PositionType,
 };
 
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+    Values\PositionType,
+    Values\UnitType,
 };
 
 interface Position
@@ -23,6 +24,7 @@ interface Position
     public function getSecurityNumber(): SecurityNumber;
     public function getPositionQuantity(): PositionQuantity;
     public function getPositionType(): PositionType;
+    public function getUnitType(): UnitType;
 
     public function getTotalCost(): CostAmount;
     public function getTotalProceeds(): ProceedsAmount;

@@ -2,17 +2,17 @@
 
 namespace App\Domain\Security\Model;
 
-use App\Domain\Security\Outcome\SecurityOutcome;
-
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+    Values\UnitType,
 };
+
+use App\Domain\Security\Outcome\SecurityOutcome;
 
 use App\Domain\Security\ValueObjects\{
     Description,
     ExpirationDate\ExpirationDateInterface,
     Symbol,
-    UnitType,
     Variations\VariationsInterface,
 };
 

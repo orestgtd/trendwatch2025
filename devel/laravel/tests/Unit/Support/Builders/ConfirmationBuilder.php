@@ -16,9 +16,12 @@ use App\Domain\Confirmation\ValueObjects\{
     PositionEffect,
     TradeAction,
     TradeQuantity,
-    TradeUnitType,
     UnitPrice,
     UsTax
+};
+
+use App\Domain\Kernel\{
+    Values\UnitType,
 };
 
 final class ConfirmationBuilder
@@ -29,7 +32,7 @@ final class ConfirmationBuilder
         private TradeAction $tradeAction,
         private PositionEffect $positionEffect,
         private TradeQuantity $tradeQuantity,
-        private TradeUnitType $tradeUnitType,
+        private UnitType $tradeUnitType,
         private UnitPrice $unitPrice,
         private Commission $commission,
         private UsTax $usTax,
@@ -43,7 +46,7 @@ final class ConfirmationBuilder
             TradeAction::buy(),
             PositionEffect::open(),
             TradeQuantity::fromInt(100),
-            TradeUnitType::shares(),
+            UnitType::shares(),
             UnitPrice::zero(),
             Commission::zero(),
             UsTax::zero()
@@ -58,7 +61,7 @@ final class ConfirmationBuilder
             TradeAction::sell(),
             PositionEffect::open(),
             TradeQuantity::fromInt(100),
-            TradeUnitType::shares(),
+            UnitType::shares(),
             UnitPrice::zero(),
             Commission::zero(),
             UsTax::zero()
@@ -73,7 +76,7 @@ final class ConfirmationBuilder
             TradeAction::buy(),
             PositionEffect::close(),
             TradeQuantity::fromInt(100),
-            TradeUnitType::shares(),
+            UnitType::shares(),
             UnitPrice::zero(),
             Commission::zero(),
             UsTax::zero()
@@ -88,7 +91,7 @@ final class ConfirmationBuilder
             TradeAction::sell(),
             PositionEffect::close(),
             TradeQuantity::fromInt(100),
-            TradeUnitType::shares(),
+            UnitType::shares(),
             UnitPrice::zero(),
             Commission::zero(),
             UsTax::zero()

@@ -2,20 +2,19 @@
 
 namespace App\Domain\Security\Model;
 
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+    Values\UnitType,
 };
 
-use App\Domain\Security\Outcome\{
-    NoChange,
-    SecurityOutcome,
-    VariationAdded,
-};
-
-use App\Domain\Security\ValueObjects\{
-    Description,
-    Symbol,
-    Variations\VariationsInterface,
+use App\Domain\Security\{
+    Model\Security,
+    Outcome\NoChange,
+    Outcome\SecurityOutcome,
+    Outcome\VariationAdded,
+    ValueObjects\Description,
+    ValueObjects\Symbol,
+    ValueObjects\Variations\VariationsInterface,
 };
 
 abstract class AbstractSecurity implements Security
@@ -23,16 +22,19 @@ abstract class AbstractSecurity implements Security
     protected Description $canonicalDescription;
     protected SecurityNumber $securityNumber;
     protected Symbol $symbol;
+    protected UnitType $unitType;
     protected VariationsInterface $variations;
 
-    public function __construct(
+    protected function __construct(
         SecurityNumber $securityNumber,
         Symbol $symbol,
+        UnitType $unitType,
         Description $canonicalDescription,
         VariationsInterface $variations
     ) {
         $this->securityNumber = $securityNumber;
         $this->symbol = $symbol;
+        $this->unitType = $unitType;
         $this->canonicalDescription = $canonicalDescription;
         $this->variations = $variations;
     }
@@ -58,29 +60,10 @@ abstract class AbstractSecurity implements Security
         $this->variations = $this->variations->add($incomingDescription);
 
         return new VariationAdded($this);
-
     }
 
-    /**
-     * Apply a draft and return a domain-specific result.
-     */
-    // public function applyDraft(SecurityDraftForDomain $draft): SecurityOutcome
-    // {
-    //     $incomingDescription = $draft->description;
-
-    //     // Already canonical
-    //     if ($incomingDescription->equals($this->canonicalDescription)) {
-    //         return new NoChange($this);
-    //     }
-
-    //     // Already exists in variations
-    //     if ($this->variations->contains($incomingDescription)) {
-    //         return new NoChange($this);
-    //     }
-
-    //     // Add to variations
-    //     $this->variations = $this->variations->add($incomingDescription);
-
-    //     return new VariationAdded($this);
-    // }
+    public function unitType(): UnitType
+    {
+        return $this->unitType;
+    }
 }

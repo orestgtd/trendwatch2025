@@ -7,8 +7,8 @@ use App\Application\ProcessTradeConfirmation\Dto\{
     ValidatedSecurityDto,
 };
 
-use App\Domain\Security\ValueObjects\{
-    UnitType,
+use App\Domain\Kernel\{
+    Values\UnitType,
 };
 
 final class SecurityRequestBuilder

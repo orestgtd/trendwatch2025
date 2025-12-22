@@ -2,15 +2,15 @@
 
 namespace App\Domain\Security\Model;
 
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+    Values\UnitType,
 };
 
 use App\Domain\Security\ValueObjects\{
     Description,
     ExpirationDate\ExpirationDate,
     Symbol,
-    UnitType,
     Variations\VariationsInterface,
 };
 
@@ -25,10 +25,14 @@ final class OptionSecurity extends AbstractSecurity
         VariationsInterface $variations,
         ExpirationDate $expirationDate
     ) {
-        $this->securityNumber = $securityNumber;
-        $this->symbol = $symbol;
-        $this->canonicalDescription = $canonicalDescription;
-        $this->variations = $variations;
+        parent::__construct(
+            $securityNumber,
+            $symbol,
+            UnitType::contracts(),
+            $canonicalDescription,
+            $variations,
+        );
+
         $this->expirationDate = $expirationDate;
     }
 
@@ -49,15 +53,5 @@ final class OptionSecurity extends AbstractSecurity
         );
     }
 
-    public function securityNumber(): SecurityNumber { return $this->securityNumber; }
-    public function symbol(): Symbol { return $this->symbol; }
-    public function canonicalDescription(): Description { return $this->canonicalDescription; }
-    public function variations(): VariationsInterface { return $this->variations; }
     public function expirationDate(): ExpirationDate { return $this->expirationDate; }
-
-    public function unitType(): UnitType
-    {
-        return UnitType::contracts();
-    }
-
 }

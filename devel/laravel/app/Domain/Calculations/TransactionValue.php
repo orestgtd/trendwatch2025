@@ -8,8 +8,8 @@ use App\Domain\Confirmation\ValueObjects\{
     UnitPrice,
 };
 
-use App\Domain\Security\ValueObjects\{
-    UnitType,
+use App\Domain\Kernel\{
+    Values\UnitType,
 };
 
 final class TransactionValue extends AbstractCalculation

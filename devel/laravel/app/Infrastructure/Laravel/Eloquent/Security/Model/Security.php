@@ -2,16 +2,30 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Security\Model;
 
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+};
+
+use App\Infrastructure\Laravel\Eloquent\{
+    Casts\UnitTypeCast,
+};
+
 use App\Infrastructure\Laravel\Eloquent\Security\Casts\{
     DescriptionCast,
     ExpirationDateCast,
     SecurityNumberCast,
     SymbolCast,
-    UnitTypeCast,
     VariationsCast,
 };
 
 use Illuminate\Database\Eloquent\Model;
+
+
+/**
+ * App\Infrastructure\Laravel\Eloquent\Security\Model\Security
+ *
+ * @property SecurityNumber     $security_number
+ */
 
 class Security extends Model
 {

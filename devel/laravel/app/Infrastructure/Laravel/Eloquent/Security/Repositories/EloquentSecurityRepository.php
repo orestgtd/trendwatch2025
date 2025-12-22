@@ -6,12 +6,9 @@ use App\Domain\Outcome\{
     Persistence\PersistenceScope,
 };
 
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
-};
-
-use App\Domain\Security\{
-    Model\Security,
+use App\Domain\{
+    Kernel\Identifiers\SecurityNumber,
+    Security\Model\Security,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Security\{
