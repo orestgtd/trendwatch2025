@@ -4,11 +4,10 @@ namespace App\Application\ProcessTradeConfirmation\Dto;
 
 use App\Application\Common\AbstractParsedRequestDto;
 
-use App\Domain\Common\Money\Currency;
-
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
-    TradeNumber,
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+    Identifiers\TradeNumber,
+    Money\Currency,
 };
 
 use App\Domain\Confirmation\ValueObjects\{

@@ -14,6 +14,11 @@ use App\Application\ProcessTradeConfirmation\{
     Services\PositionService,
 };
 
+use App\Domain\Kernel\Money\{
+    Currency,
+    MoneyAmount
+};
+
 use App\Domain\Position\Model\{
     LongPosition,
     ShortPosition,
@@ -23,11 +28,6 @@ use App\Domain\Position\Outcome\{
     DecreasedHolding,
     IncreasedHolding,
     NewPositionCreated,
-};
-
-use App\Domain\Common\Money\{
-    Currency,
-    MoneyAmount
 };
 
 use App\Infrastructure\Laravel\Eloquent\{

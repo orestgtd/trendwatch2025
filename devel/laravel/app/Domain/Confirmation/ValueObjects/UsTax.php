@@ -2,7 +2,7 @@
 
 namespace App\Domain\Confirmation\ValueObjects;
 
-use App\Domain\Common\Money\{
+use App\Domain\Kernel\Money\{
     AbstractMoney,
     Currency,
     MoneyAmount,

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Common\Money;
+namespace App\Domain\Kernel\Money;
 
 use App\Domain\Common\ValueObjects\Abstract\AbstractStringValueObject;
 

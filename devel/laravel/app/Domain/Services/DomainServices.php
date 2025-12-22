@@ -2,7 +2,7 @@
 
 namespace App\Domain\Services;
 
-use App\Domain\Common\Money\MoneyCalculator;
+use App\Domain\Kernel\Money\MoneyCalculator;
 
 final class DomainServices
 {

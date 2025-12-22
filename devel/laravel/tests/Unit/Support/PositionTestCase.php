@@ -4,7 +4,7 @@ namespace Tests\Unit\Support;
 
 use Tests\TestCase;
 
-use App\Domain\Common\Money\{
+use App\Domain\Kernel\Money\{
     Currency,
     MoneyAmount
 };

@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Laravel\Eloquent\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use App\Domain\Common\Money\{
+use App\Domain\Kernel\Money\{
     Currency,
     Monetary,
     MoneyAmount,

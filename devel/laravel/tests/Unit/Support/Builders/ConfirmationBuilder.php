@@ -4,9 +4,11 @@ namespace Tests\Unit\Support\Builders;
 
 use App\Domain\Confirmation\Model\Confirmation;
 
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
-    TradeNumber,
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+    Identifiers\TradeNumber,
+    Money\Currency,
+    Money\MoneyAmount,
 };
 
 use App\Domain\Confirmation\ValueObjects\{
@@ -17,11 +19,6 @@ use App\Domain\Confirmation\ValueObjects\{
     TradeUnitType,
     UnitPrice,
     UsTax
-};
-
-use App\Domain\Common\Money\{
-    Currency,
-    MoneyAmount,
 };
 
 final class ConfirmationBuilder

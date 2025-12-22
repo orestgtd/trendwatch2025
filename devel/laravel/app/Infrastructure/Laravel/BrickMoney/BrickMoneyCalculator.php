@@ -4,7 +4,7 @@ namespace App\Infrastructure\Laravel\BrickMoney;
 
 use Brick\Money\Money as Brick;
 
-use App\Domain\Common\Money\{
+use App\Domain\Kernel\Money\{
     Currency,
     Monetary,
     Money,
@@ -14,7 +14,7 @@ use App\Domain\Common\Money\{
 
 final class BrickMoneyCalculator implements MoneyCalculator
 {
-    public function add(Monetary $money1, Monetary $money2): Monetary
+    public function add(Monetary $money1, Monetary $money2): Money
     {
         $brick1 = $this->makeBrick($money1);
         $brick2 = $this->makeBrick($money2);
@@ -24,7 +24,7 @@ final class BrickMoneyCalculator implements MoneyCalculator
         );
     }
 
-    public function multiply(Monetary $money, int $quantity): Monetary
+    public function multiply(Monetary $money, int $quantity): Money
     {
         $brick = $this->makeBrick($money);
 
@@ -33,7 +33,7 @@ final class BrickMoneyCalculator implements MoneyCalculator
         );
     }
 
-    public function subtract(Monetary $money1, Monetary $money2): Monetary
+    public function subtract(Monetary $money1, Monetary $money2): Money
     {
         $brick1 = $this->makeBrick($money1);
         $brick2 = $this->makeBrick($money2);
@@ -51,7 +51,7 @@ final class BrickMoneyCalculator implements MoneyCalculator
         );
     }
 
-    private function fromBrick(Brick $brick): Monetary
+    private function fromBrick(Brick $brick): Money
     {
         return Money::create(
             MoneyAmount::fromString($brick->getAmount()),

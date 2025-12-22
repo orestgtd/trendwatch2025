@@ -2,9 +2,10 @@
 
 namespace App\Domain\Calculations;
 
-use App\Domain\Services\DomainServices;
-
-use App\Domain\Common\Money\MoneyCalculator;
+use App\Domain\{
+    Kernel\Money\MoneyCalculator,
+    Services\DomainServices,
+};
 
 abstract class AbstractCalculation
 {

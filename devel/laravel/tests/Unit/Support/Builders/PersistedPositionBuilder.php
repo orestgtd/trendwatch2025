@@ -2,11 +2,6 @@
 
 namespace Tests\Unit\Support\Builders;
 
-use App\Domain\Common\{
-    Money\Currency,
-    Money\MoneyAmount,
-};
-
 use App\Domain\Confirmation\ValueObjects\{
     CostAmount,
     ProceedsAmount,
@@ -17,8 +12,10 @@ use App\Domain\Position\ValueObjects\{
     PositionType,
 };
 
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+    Money\Currency,
+    Money\MoneyAmount,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Position\{
