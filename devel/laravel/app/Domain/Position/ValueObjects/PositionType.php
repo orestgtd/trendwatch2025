@@ -2,8 +2,8 @@
 
 namespace App\Domain\Position\ValueObjects;
 
-use App\Domain\Common\ValueObjects\{
-    Abstract\AbstractStringValueObject,
+use App\Domain\Support\{
+    ValueObjects\Abstract\AbstractStringValueObject,
 };
 
 use App\Shared\Result;

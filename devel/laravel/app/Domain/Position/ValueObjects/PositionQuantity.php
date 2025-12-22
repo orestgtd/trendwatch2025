@@ -3,9 +3,9 @@
 namespace App\Domain\Position\ValueObjects;
 
 use App\Domain\{
-    Common\ValueObjects\Abstract\AbstractIntValueObject,
     Confirmation\ValueObjects\TradeQuantity,
     Position\ValueObjects\BaseQuantity,
+    Support\ValueObjects\Abstract\AbstractIntValueObject,
 };
 
 use App\Shared\Result;

@@ -3,8 +3,8 @@
 namespace App\Domain\Position\ValueObjects;
 
 use App\Domain\{
-    Common\ValueObjects\Abstract\AbstractIntValueObject,
     Position\ValueObjects\PositionQuantity,
+    Support\ValueObjects\Abstract\AbstractIntValueObject,
 };
 
 use App\Shared\Result;

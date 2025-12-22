@@ -2,7 +2,9 @@
 
 namespace App\Domain\Kernel\Identifiers;
 
-use App\Domain\Common\ValueObjects\Abstract\AbstractStringValueObject;
+use App\Domain\Support\{
+    ValueObjects\Abstract\AbstractStringValueObject,
+};
 
 use App\Shared\Result;
 
