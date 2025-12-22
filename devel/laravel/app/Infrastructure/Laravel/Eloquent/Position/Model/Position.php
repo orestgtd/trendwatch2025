@@ -12,7 +12,7 @@ use App\Domain\Confirmation\ValueObjects\{
     ProceedsAmount,
 };
 
-use App\Domain\Security\ValueObjects\{
+use App\Domain\Kernel\Identifiers\{
     SecurityNumber,
 };
 

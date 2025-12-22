@@ -3,18 +3,21 @@
 namespace Tests\Unit\Support\Builders;
 
 use App\Domain\Confirmation\Model\Confirmation;
+
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
+    TradeNumber,
+};
+
 use App\Domain\Confirmation\ValueObjects\{
     Commission,
     PositionEffect,
     TradeAction,
-    TradeNumber,
     TradeQuantity,
     TradeUnitType,
     UnitPrice,
     UsTax
 };
-
-use App\Domain\Security\ValueObjects\SecurityNumber;
 
 use App\Domain\Common\Money\{
     Currency,

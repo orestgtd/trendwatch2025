@@ -17,7 +17,7 @@ use App\Domain\Position\ValueObjects\{
     PositionType,
 };
 
-use App\Domain\Security\ValueObjects\{
+use App\Domain\Kernel\Identifiers\{
     SecurityNumber,
 };
 

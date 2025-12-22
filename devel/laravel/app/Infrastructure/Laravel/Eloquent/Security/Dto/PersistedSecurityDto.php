@@ -2,10 +2,13 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Security\Dto;
 
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
+};
+
 use App\Domain\Security\ValueObjects\{
     Description,
     ExpirationDate\ExpirationDateInterface,
-    SecurityNumber,
     Symbol,
     UnitType,
     Variations\VariationsInterface,

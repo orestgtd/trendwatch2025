@@ -2,6 +2,10 @@
 
 namespace App\Domain\Position\Builders;
 
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
+};
+
 use App\Domain\Position\Model\{
     LongPosition,
     Position,
@@ -16,10 +20,6 @@ use App\Domain\Confirmation\ValueObjects\{
 use App\Domain\Position\ValueObjects\{
     PositionQuantity,
     PositionType,
-};
-
-use App\Domain\Security\ValueObjects\{
-    SecurityNumber,
 };
 
 final class BuildPositionFromPersisted

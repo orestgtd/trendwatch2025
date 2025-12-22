@@ -2,10 +2,13 @@
 
 namespace Tests\Unit\Support\Factories;
 
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
+};
+
 use App\Domain\Security\ValueObjects\{
     Description,
     ExpirationDate\NoExpiration,
-    SecurityNumber,
     Symbol,
     UnitType,
     Variations\NoVariations,

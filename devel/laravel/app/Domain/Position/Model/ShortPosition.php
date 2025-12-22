@@ -16,8 +16,8 @@ use App\Domain\Position\{
     ValueObjects\ProceedsBase,
 };
 
-use App\Domain\Security\{
-    ValueObjects\SecurityNumber,
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
 };
 
 final class ShortPosition extends AbstractPosition

@@ -6,8 +6,8 @@ use App\Domain\Position\{
     Model\Position,
 };
 
-use App\Domain\Security\{
-    ValueObjects\SecurityNumber,
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Position\{

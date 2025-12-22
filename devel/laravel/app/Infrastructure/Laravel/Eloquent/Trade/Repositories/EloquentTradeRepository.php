@@ -2,9 +2,12 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Trade\Repositories;
 
+use App\Domain\Kernel\Identifiers\{
+    TradeNumber,
+};
+
 use App\Domain\Confirmation\{
     Model\Confirmation,
-    ValueObjects\TradeNumber,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Trade\{

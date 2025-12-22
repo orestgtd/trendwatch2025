@@ -16,10 +16,9 @@ use App\Domain\Position\{
     ValueObjects\PositionQuantity,
 };
 
-use App\Domain\Security\{
-    ValueObjects\SecurityNumber,
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
 };
-
 
 final class LongPosition extends AbstractPosition
 {

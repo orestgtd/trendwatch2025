@@ -16,7 +16,9 @@ use App\Domain\RealizedGain\{
     Outcome\RealizedGainOutcome,
 };
 
-use App\Domain\Security\ValueObjects\SecurityNumber;
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
+};
 
 abstract class AbstractPosition implements Position
 {

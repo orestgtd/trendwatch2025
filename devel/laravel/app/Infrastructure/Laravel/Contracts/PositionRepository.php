@@ -3,8 +3,8 @@
 namespace App\Infrastructure\Laravel\Contracts;
 
 use App\Domain\{
+    Kernel\Identifiers\SecurityNumber,
     Position\Model\Position,
-    Security\ValueObjects\SecurityNumber,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Position\{

@@ -6,19 +6,19 @@ use App\Application\Common\AbstractParsedRequestDto;
 
 use App\Domain\Common\Money\Currency;
 
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
+    TradeNumber,
+};
+
 use App\Domain\Confirmation\ValueObjects\{
     Commission,
     PositionEffect,
     TradeAction,
-    TradeNumber,
     TradeQuantity,
     TradeUnitType,
     UnitPrice,
     UsTax,
-};
-
-use App\Domain\Security\ValueObjects\{
-    SecurityNumber,
 };
 
 use App\Shared\{

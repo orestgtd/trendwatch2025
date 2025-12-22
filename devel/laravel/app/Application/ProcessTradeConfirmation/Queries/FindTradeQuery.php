@@ -2,10 +2,13 @@
 
 namespace App\Application\ProcessTradeConfirmation\Queries;
 
+use App\Domain\Kernel\Identifiers\{
+    TradeNumber,
+};
+
 use App\Domain\Confirmation\{
     Builders\BuildNewConfirmation,
     Model\Confirmation,
-    ValueObjects\TradeNumber,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Trade\{

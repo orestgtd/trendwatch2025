@@ -3,12 +3,15 @@
 namespace App\Domain\Position\Outcome;
 
 use App\Domain\{
-    Confirmation\ValueObjects\TradeNumber,
     Outcome\AbstractOutcome,
     Outcome\OutcomeKind,
     Outcome\Persistence\PersistenceIntent,
     Position\Model\Position,
     RealizedGain\Model\MaybeRealizedGainBasis,
+};
+
+use App\Domain\Kernel\Identifiers\{
+    TradeNumber,
 };
 
 abstract class AbstractPositionOutcome

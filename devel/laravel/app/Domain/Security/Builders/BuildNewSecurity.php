@@ -2,13 +2,15 @@
 
 namespace App\Domain\Security\Builders;
 
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
+};
 use App\Domain\Security\{
     Model\EquitySecurity,
     Model\OptionSecurity,
     Model\Security,
     ValueObjects\Description,
     ValueObjects\ExpirationDate\ExpirationDateInterface,
-    ValueObjects\SecurityNumber,
     ValueObjects\Symbol,
     ValueObjects\UnitType,
     ValueObjects\Variations\VariationsInterface,

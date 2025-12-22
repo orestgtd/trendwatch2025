@@ -2,11 +2,13 @@
 
 namespace App\Domain\Position\Outcome;
 
+use App\Domain\Kernel\Identifiers\{
+    TradeNumber,
+};
+
 use App\Domain\{
-    Confirmation\ValueObjects\TradeNumber,
     Outcome\Outcome,
     Position\Model\Position,
-    RealizedGain\Outcome\RealizedGainOutcome,
 };
 
 interface PositionOutcome extends Outcome

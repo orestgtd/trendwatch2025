@@ -8,15 +8,15 @@ use App\Domain\Confirmation\ValueObjects\{
     Commission,
     PositionEffect,
     TradeAction,
-    TradeNumber,
     TradeQuantity,
     TradeUnitType,
     UnitPrice,
     UsTax,
 };
 
-use App\Domain\Security\{
-    ValueObjects\SecurityNumber,
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
+    TradeNumber,
 };
 
 final class BuildNewConfirmation

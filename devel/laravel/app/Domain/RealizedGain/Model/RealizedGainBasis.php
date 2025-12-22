@@ -2,10 +2,13 @@
 
 namespace App\Domain\RealizedGain\Model;
 
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
+    TradeNumber,
+};
 use App\Domain\Confirmation\ValueObjects\{
     CostAmount,
     ProceedsAmount,
-    TradeNumber,
     TradeQuantity,
 };
 
@@ -14,8 +17,6 @@ use App\Domain\Position\{
 };
 
 use App\Domain\RealizedGain\Outcome\NewRealizedGainCreated;
-
-use App\Domain\Security\ValueObjects\SecurityNumber;
 
 final class RealizedGainBasis
 {

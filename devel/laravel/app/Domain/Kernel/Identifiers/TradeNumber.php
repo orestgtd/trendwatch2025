@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Domain\Security\ValueObjects;
+namespace App\Domain\Kernel\Identifiers;
 
 use App\Domain\Common\ValueObjects\Abstract\AbstractStringValueObject;
 
 use App\Shared\Result;
 
-final class SecurityNumber extends AbstractStringValueObject
+final class TradeNumber extends AbstractStringValueObject
 {
     public static function tryFrom(string $value): Result
     {
-        return parent::tryKind('SecurityNumber', $value);
+        return parent::tryKind('TradeNumber', $value);
     }
 }

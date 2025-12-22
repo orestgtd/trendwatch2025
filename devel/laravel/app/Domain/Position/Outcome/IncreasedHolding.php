@@ -2,8 +2,11 @@
 
 namespace App\Domain\Position\Outcome;
 
+use App\Domain\Kernel\Identifiers\{
+    TradeNumber,
+};
+
 use App\Domain\{
-    Confirmation\ValueObjects\TradeNumber,
     Outcome\Persistence\PersistenceIntent,
     Position\Model\Position,
     Position\Outcome\AbstractPositionOutcome,

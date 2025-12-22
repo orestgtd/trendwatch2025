@@ -2,15 +2,15 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Trade\Dto;
 
-use App\Domain\Security\ValueObjects\{
+use App\Domain\Kernel\Identifiers\{
     SecurityNumber,
+    TradeNumber,
 };
 
 use App\Domain\Confirmation\ValueObjects\{
     Commission,
     PositionEffect,
     TradeAction,
-    TradeNumber,
     TradeQuantity,
     TradeUnitType,
     UnitPrice,

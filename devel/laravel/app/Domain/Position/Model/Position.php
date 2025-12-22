@@ -11,8 +11,10 @@ use App\Domain\Position\{
     ValueObjects\PositionQuantity,
     ValueObjects\PositionType,
 };
-use App\Domain\RealizedGain\Outcome\RealizedGainOutcome;
-use App\Domain\Security\ValueObjects\SecurityNumber;
+
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
+};
 
 interface Position
 {

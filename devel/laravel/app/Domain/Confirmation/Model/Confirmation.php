@@ -14,7 +14,6 @@ use App\Domain\Confirmation\ValueObjects\{
     PositionEffect,
     ProceedsAmount,
     TradeAction,
-    TradeNumber,
     TradeQuantity,
     TradeUnitType,
     UnitPrice,
@@ -23,8 +22,12 @@ use App\Domain\Confirmation\ValueObjects\{
 };
 
 use App\Domain\Security\ValueObjects\{
-    SecurityNumber,
     UnitType,
+};
+
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
+    TradeNumber,
 };
 
 final class Confirmation

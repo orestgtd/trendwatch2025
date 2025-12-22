@@ -2,9 +2,9 @@
 
 namespace App\Infrastructure\Laravel\Contracts;
 
-use App\Domain\Confirmation\{
-    Model\Confirmation,
-    ValueObjects\TradeNumber,
+use App\Domain\{
+    Confirmation\Model\Confirmation,
+    Kernel\Identifiers\TradeNumber,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Trade\{

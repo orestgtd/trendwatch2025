@@ -2,7 +2,10 @@
 
 namespace App\Domain\Position\Outcome;
 
-use App\Domain\Confirmation\ValueObjects\TradeNumber;
+use App\Domain\Kernel\Identifiers\{
+    TradeNumber,
+};
+
 use App\Domain\Outcome\{
     Persistence\PersistenceIntent,
 };

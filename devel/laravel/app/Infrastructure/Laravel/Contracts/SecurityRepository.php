@@ -2,9 +2,9 @@
 
 namespace App\Infrastructure\Laravel\Contracts;
 
-use App\Domain\Security\{
-    Model\Security,
-    ValueObjects\SecurityNumber,
+use App\Domain\{
+    Kernel\Identifiers\SecurityNumber,
+    Security\Model\Security,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Security\{

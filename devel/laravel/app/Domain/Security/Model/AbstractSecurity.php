@@ -2,6 +2,10 @@
 
 namespace App\Domain\Security\Model;
 
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
+};
+
 use App\Domain\Security\Outcome\{
     NoChange,
     SecurityOutcome,
@@ -10,7 +14,6 @@ use App\Domain\Security\Outcome\{
 
 use App\Domain\Security\ValueObjects\{
     Description,
-    SecurityNumber,
     Symbol,
     Variations\VariationsInterface,
 };

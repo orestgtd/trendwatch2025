@@ -4,7 +4,9 @@ namespace App\Infrastructure\Laravel\Eloquent\Trade\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
-use App\Domain\Confirmation\ValueObjects\TradeNumber;
+use App\Domain\Kernel\Identifiers\{
+    TradeNumber,
+};
 
 final class TradeNumberCast implements CastsAttributes
 {

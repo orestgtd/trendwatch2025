@@ -2,11 +2,16 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Position\Repositories;
 
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
+};
+
 use App\Domain\{
     Position\Model\Position,
-    Security\ValueObjects\SecurityNumber,
 };
+
 use App\Domain\Outcome\Persistence\PersistenceScope;
+
 use App\Infrastructure\Laravel\Eloquent\Position\{
     Dto\PersistedPositionDto,
     Model\Position as EloquentPosition,

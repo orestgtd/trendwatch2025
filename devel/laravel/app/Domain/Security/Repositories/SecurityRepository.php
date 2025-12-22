@@ -2,10 +2,13 @@
 
 namespace App\Domain\Security\Repositories;
 
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
+};
+
 use App\Domain\Security\{
     Dto\SecurityData,
     Model\Security,
-    ValueObjects\SecurityNumber,
 };
 
 interface SecurityRepository

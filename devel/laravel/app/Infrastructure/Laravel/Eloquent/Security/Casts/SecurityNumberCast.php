@@ -4,7 +4,9 @@ namespace App\Infrastructure\Laravel\Eloquent\Security\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
-use App\Domain\Security\ValueObjects\SecurityNumber;
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
+};
 
 final class SecurityNumberCast implements CastsAttributes
 {

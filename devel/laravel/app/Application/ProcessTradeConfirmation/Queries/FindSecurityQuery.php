@@ -2,10 +2,13 @@
 
 namespace App\Application\ProcessTradeConfirmation\Queries;
 
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
+};
+
 use App\Domain\Security\{
     Builders\BuildSecurityFrom,
     Model\Security,
-    ValueObjects\SecurityNumber,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Security\{
