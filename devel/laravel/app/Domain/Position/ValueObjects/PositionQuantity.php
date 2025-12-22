@@ -3,7 +3,7 @@
 namespace App\Domain\Position\ValueObjects;
 
 use App\Domain\{
-    Common\ValueObjects\AbstractIntValueObject,
+    Common\ValueObjects\Abstract\AbstractIntValueObject,
     Confirmation\ValueObjects\TradeQuantity,
     Position\ValueObjects\BaseQuantity,
 };

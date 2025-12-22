@@ -2,7 +2,7 @@
 
 namespace App\Domain\Confirmation\ValueObjects;
 
-use App\Domain\Common\ValueObjects\AbstractIntValueObject;
+use App\Domain\Common\ValueObjects\Abstract\AbstractIntValueObject;
 use App\Shared\Result;
 
 final class TradeQuantity extends AbstractIntValueObject

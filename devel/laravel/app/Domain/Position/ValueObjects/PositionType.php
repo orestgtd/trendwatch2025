@@ -2,9 +2,8 @@
 
 namespace App\Domain\Position\ValueObjects;
 
-use App\Domain\{
-    Common\ValueObjects\AbstractStringValueObject,
-    Position\Model\Position,
+use App\Domain\Common\ValueObjects\{
+    Abstract\AbstractStringValueObject,
 };
 
 use App\Shared\Result;

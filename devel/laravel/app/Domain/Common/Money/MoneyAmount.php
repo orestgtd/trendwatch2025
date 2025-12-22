@@ -2,7 +2,7 @@
 
 namespace App\Domain\Common\Money;
 
-use App\Domain\Common\ValueObjects\AbstractStringValueObject;
+use App\Domain\Common\ValueObjects\Abstract\AbstractStringValueObject;
 
 use App\Shared\Result;
 
