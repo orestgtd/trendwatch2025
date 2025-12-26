@@ -7,11 +7,12 @@ import Url.Parser as Parser exposing ((</>), Parser, s, top)
 -- Define your pages
 
 type Page
-    = ConfirmationPage
-    | PositionsPage
-    | BuyWritePage
+    = BuyWritePage
+    | ConfirmationPage
     | HelloPage
     | NotFound
+    | PositionsPage
+    | RealizedGainsPage
 
 
 -- Parser for routes
@@ -20,9 +21,10 @@ routeParser : Parser (Page -> a) a
 routeParser =
     Parser.oneOf
         [ top |> Parser.map ConfirmationPage
-        , s "positions" |> Parser.map PositionsPage
         , s "buywrite" |> Parser.map BuyWritePage
         , s "hello" |> Parser.map HelloPage
+        , s "positions" |> Parser.map PositionsPage
+        , s "realized_gains" |> Parser.map RealizedGainsPage
         ]
 
 

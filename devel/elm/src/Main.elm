@@ -14,8 +14,9 @@ import Types exposing (Model, Msg(..))
 
 import Page.Confirmation
 import Page.Hello
-import Page.Positions
 import Page.NotFound
+import Page.Positions
+import Page.RealizedGains
 
 import Util.Http exposing (httpErrorToString)
 
@@ -45,10 +46,11 @@ init _ url key =
       , page = page
       , output = ""
       , loading = False
-      , helloModel = Page.Hello.init
       , confirmationModel = Page.Confirmation.init
-      , positionsModel = Page.Positions.init
+      , helloModel = Page.Hello.init
       , notFoundModel = Page.NotFound.init
+      , positionsModel = Page.Positions.init
+      , realizedGainsModel = Page.RealizedGains.init
       }
     , Cmd.none
     )
@@ -67,19 +69,6 @@ update msg model =
                 Err error ->
                     ( { model | output = httpErrorToString error, loading = False }, Cmd.none )
 
-        PageHelloMsg subMsg ->
-            let
-                (updatedHelloModel, cmd) =
-                    Page.Hello.update subMsg model.helloModel
-            in
-            ( { model | helloModel = updatedHelloModel }, Cmd.map PageHelloMsg cmd )
-
-        UrlChanged newUrl ->
-            let
-                newPage = urlToPage newUrl
-            in
-            ( { model | url = newUrl, page = newPage }, Cmd.none )
-
         LinkClicked urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
@@ -87,6 +76,9 @@ update msg model =
 
                 Browser.External href ->
                     ( model, Nav.load href )
+
+        NoOp ->
+            ( model, Cmd.none )
 
         PageConfirmationMsg subMsg ->
             let
@@ -97,6 +89,16 @@ update msg model =
             , Cmd.map PageConfirmationMsg cmd
             )
 
+        PageHelloMsg subMsg ->
+            let
+                (updatedHelloModel, cmd) =
+                    Page.Hello.update subMsg model.helloModel
+            in
+            ( { model | helloModel = updatedHelloModel }, Cmd.map PageHelloMsg cmd )
+
+        PageNotFoundMsg _ ->
+            ( model, Cmd.none )
+
         PagePositionsMsg subMsg ->
             let
                 ( updatedPositionsModel, cmd ) =
@@ -106,11 +108,20 @@ update msg model =
             , Cmd.map PagePositionsMsg cmd
             )
 
-        PageNotFoundMsg _ ->
-            ( model, Cmd.none )
+        PageRealizedGainsMsg subMsg ->
+            let
+                ( updatedRealizedGainsModel, cmd ) =
+                    Page.RealizedGains.update subMsg model.realizedGainsModel
+            in
+            ( { model | realizedGainsModel = updatedRealizedGainsModel }
+            , Cmd.map PageRealizedGainsMsg cmd
+            )
 
-        NoOp ->
-            ( model, Cmd.none )
+        UrlChanged newUrl ->
+            let
+                newPage = urlToPage newUrl
+            in
+            ( { model | url = newUrl, page = newPage }, Cmd.none )
 
 
 -- VIEW
@@ -120,21 +131,24 @@ view model =
     let
         pageContent =
             case model.page of
+                BuyWritePage ->
+                    Html.text "BuyWrite page not implemented yet"
+
                 ConfirmationPage ->
                     Page.Confirmation.view model.confirmationModel
                         |> Html.map PageConfirmationMsg
-
-
-                PositionsPage ->
-                    Page.Positions.view model.positionsModel
-                        |> Html.map PagePositionsMsg
 
                 HelloPage ->
                     Page.Hello.view model.helloModel
                         |> Html.map PageHelloMsg
 
-                BuyWritePage ->
-                    Html.text "BuyWrite page not implemented yet"
+                PositionsPage ->
+                    Page.Positions.view model.positionsModel
+                        |> Html.map PagePositionsMsg
+
+                RealizedGainsPage ->
+                    Page.RealizedGains.view model.realizedGainsModel
+                        |> Html.map PageRealizedGainsMsg
 
                 NotFound ->
                     Page.NotFound.view model.notFoundModel
@@ -164,8 +178,9 @@ viewLinks : Html Msg
 viewLinks =
     Html.div []
         [ link "/" "Confirmation"
-        , link "/positions" "Positions"
         , link "/hello" "Hello"
+        , link "/positions" "Positions"
+        , link "/realized_gains" "Realized Gains"
         ]
 
 -- HTTP
