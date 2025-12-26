@@ -16,10 +16,10 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         // Bind the interface to the Eloquent implementation
-        $this->app->bind(
-            SecurityRepository::class,
-            EloquentSecurityRepository::class
-        );
+        // $this->app->bind(
+        //     SecurityRepository::class,
+        //     EloquentSecurityRepository::class
+        // );
     }
 
     /**

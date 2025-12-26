@@ -60,10 +60,4 @@ final class RealizedGainBasis
     public function getUnitType(): UnitType { return $this->unitType; }
     public function getCost(): CostAmount { return $this->cost; }
     public function getProceeds(): ProceedsAmount { return $this->proceeds; }
-
-    public function toRealizedGainOutcome(
-        TradeNumber $tradeNumber
-    ): NewRealizedGainCreated {
-        return NewRealizedGainCreated::create($tradeNumber, $this);
-    }
 }

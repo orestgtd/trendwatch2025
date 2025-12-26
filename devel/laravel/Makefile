@@ -20,6 +20,9 @@ api:
 integration:
 	php artisan test --testsuite=Integration $(if $(TEST),--filter=$(TEST))
 
+coverage:
+	php -d pcov.enabled=1 ./vendor/bin/phpunit --coverage-html coverage
+
 serve:
 	php artisan serve
 
