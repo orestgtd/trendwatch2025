@@ -38,6 +38,9 @@ class ConfirmationImport implements ConfirmationImportInterface, OnEachRow, With
     public function onRow(Row $row)
     {
         $rowData = $row->toArray();
+        if (empty($rowData['security_number'])) {
+            return; // skip rows without security_number
+        }
 
         $result = $this->action->handle($rowData);
         if ($result->isFailure()) {
