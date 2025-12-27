@@ -2,11 +2,16 @@
 
 namespace Tests\Feature\Api;
 
-use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-class RealizedGainsApiTest extends TestCase
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+use Tests\Support\DatabaseTestCase;
+
+class RealizedGainsApiTest extends DatabaseTestCase
 {
+    use RefreshDatabase;
+
     #[Test]
     public function it_returns_a_list_of_realized_gains()
     {
