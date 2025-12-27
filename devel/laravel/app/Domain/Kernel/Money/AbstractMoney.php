@@ -34,6 +34,14 @@ abstract class AbstractMoney implements Monetary
                     : Currency::default()
             ));
     }
+   
+    /** @return Result<static> */
+    public static function tryFromOrZero(?string $moneyValue, ?string $currencyValue = null): Result
+    {
+         return (empty($moneyValue) || trim($moneyValue) === '')
+            ? static::tryFrom('0.00', $currencyValue)
+            : static::tryFrom($moneyValue, $currencyValue);
+    }
 
     public static function fromMoney(Money $money): static
     {
