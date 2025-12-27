@@ -13,3 +13,4 @@ This project uses Docker Compose for development and deployment. It is designed 
 
 ## Architecture & Design
 - 🧩 [Pipeline Design](docs/pipeline-design.md): Principles for building pure, testable pipelines
+- 🧱 [Architecture Conventions](docs/architecture-conventions.md): Naming, layering, and immutability rules
