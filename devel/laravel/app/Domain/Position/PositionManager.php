@@ -29,11 +29,36 @@ final class PositionManager
      */
     public function createOrUpdatePosition(Confirmation $confirmation, ?Position $lookupPosition): Result
     {
+        return $confirmation->matchPositionEffect(
+            onOpen: fn(Confirmation $confirmation) => $this->openPosition($confirmation, $lookupPosition),
+            onClose: fn(Confirmation $confirmation) => $this->closePosition($confirmation, $lookupPosition),
+        );
+    }
+
+    /** @return Result<PositionOutcome> */
+    private function openPosition(
+        Confirmation $confirmation,
+        ?Position $lookupPosition
+    ): Result {
         return Result::success(
-            $confirmation->matchPositionEffect(
-                onOpen: fn(Confirmation $confirmation) => $this->addToNewOrExistingPosition->execute($confirmation, $lookupPosition),
-                onClose: fn(Confirmation $confirmation) => $this->reduceExistingPosition->reduceExistingPosition($confirmation, $lookupPosition),
-            )
+            $this->addToNewOrExistingPosition
+                ->do($confirmation, $lookupPosition)
+        );
+    }
+
+    /** @return Result<PositionOutcome> */
+    private function closePosition(Confirmation $confirmation, ?Position $lookupPosition): Result
+    {
+        $failure = function (Confirmation $confirmation): string {
+            $securityNumber = $confirmation->getSecurityNumber();
+            $tradeNumber = $confirmation->getTradeNumber();
+            return "Cannot reduce non-existent position for security {$securityNumber}, trade number {$tradeNumber}";
+        };
+
+        return is_null($lookupPosition)
+        ? Result::failure($failure($confirmation))
+        : Result::success(
+            $this->reduceExistingPosition->do($confirmation, $lookupPosition)
         );
     }
 }

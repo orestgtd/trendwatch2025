@@ -2,12 +2,8 @@
 
 namespace App\Domain\Position\Behaviour;
 
-use App\Domain\Common\Money\Currency;
-
 use App\Domain\Confirmation\{
     Model\Confirmation,
-    ValueObjects\CostAmount,
-    ValueObjects\ProceedsAmount,
 };
 
 use App\Domain\Position\{
@@ -22,7 +18,7 @@ use App\Domain\Position\{
 
 final class AddToNewOrExistingPosition
 {
-    public function execute(Confirmation $confirmation, ?Position $lookupPosition): PositionOutcome
+    public function do(Confirmation $confirmation, ?Position $lookupPosition): PositionOutcome
     {
         return
             $confirmation->matchTradeAction(
@@ -92,29 +88,4 @@ final class AddToNewOrExistingPosition
             ? $this->addToExistingShortPosition($confirmation, $lookupPosition)
             : $this->createNewShortPosition($confirmation);
     }
-
-    // private function reduceExistingPosition(Confirmation $confirmation, Position $position): PositionOutcome
-    // {
-    //     return
-    //         $confirmation->matchTradeAction(
-    //             onBuy: fn(Confirmation $confirmation) => $this->reduceExistingShortPosition($confirmation, $position),
-    //             onSell: fn(Confirmation $confirmation) => $this->reduceExistingLongPosition($confirmation, $position),
-    //         );
-    // }
-
-    // private function reduceExistingLongPosition(Confirmation $confirmation, LongPosition $position): PositionOutcome
-    // {
-    //     return $position->decreaseHolding(
-    //         $confirmation->getTradeQuantity(),
-    //         $confirmation->netProceeds()
-    //     );
-    // }
-
-    // private function reduceExistingShortPosition(Confirmation $confirmation, ShortPosition $position): PositionOutcome
-    // {
-    //     return $position->decreaseHolding(
-    //         $confirmation->getTradeQuantity(),
-    //         $confirmation->netCost()
-    //     );
-    // }
 }

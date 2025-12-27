@@ -20,7 +20,7 @@ use App\Domain\RealizedGain\{
 
 final class ReduceExistingPosition
 {
-    public function reduceExistingPosition(Confirmation $confirmation, Position $position): PositionOutcome
+    public function do(Confirmation $confirmation, Position $position): PositionOutcome
     {
         return
             $confirmation->matchTradeAction(
