@@ -3,6 +3,12 @@
 namespace App\Presentation\Console\Commands;
 
 use App\Application\GetPositions\GetPositions;
+
+use App\Domain\{
+    Kernel\Money\Monetary,
+    Position\Model\Position,
+};
+
 use Illuminate\Console\Command;
 
 class GetPositionsCommand extends Command
@@ -52,7 +58,6 @@ class GetPositionsCommand extends Command
 
         // Define table headers
         $headers = [
-            'ID',
             'Security',
             'Position Type',
             'Qty',
@@ -61,14 +66,21 @@ class GetPositionsCommand extends Command
         ];
 
         // Map positions to rows for table display
-        $rows = array_map(function ($position) {
+        $rows = array_map(function (Position $position) {
+
+            // $formatMoney = function(Monetary $monetary): string {
+            //     return "{$monetary->getCurrency()} {$monetary->getAmount()}";
+            // };
+
+            // Local helper for formatting Monetary objects
+            $formatMoney = fn(Monetary $m): string => "{$m->getCurrency()} {$m->getAmount()}";
+
             return [
-                $position['id'],
-                $position['security_number'],
-                $position['position_type'],
-                $position['position_quantity'],
-                number_format($position['total_cost'], 0, 2),
-                number_format($position['total_proceeds'], 0, 2),
+                $position->getSecurityNumber(),
+                $position->getPositionType(),
+                $position->getPositionQuantity(),
+                $formatMoney($position->getTotalCost()),
+                $formatMoney($position->getTotalProceeds()),
             ];
         }, $positions);
 

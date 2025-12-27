@@ -35,6 +35,20 @@ class EloquentPositionRepository
             : $eloquent;
     }
 
+    public function all(): array
+    {
+        return EloquentPosition::all()
+            ->map(fn(EloquentPosition $eloquent) => new PersistedPositionDto(
+                $eloquent->security_number,
+                $eloquent->position_type,
+                $eloquent->position_quantity,
+                $eloquent->unit_type,
+                $eloquent->total_cost,
+                $eloquent->total_proceeds,
+            ))
+            ->toArray();
+    }
+
     public function save(Position $position): void
     {
         $this

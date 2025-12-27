@@ -4,12 +4,28 @@ namespace App\Infrastructure\Laravel\Eloquent\RealizedGain\Repositories;
 
 use App\Domain\RealizedGain\Model\RealizedGainBasis;
 
-use App\Infrastructure\Laravel\Eloquent\{
-    RealizedGain\Model\RealizedGainBasis as EloquentRealizedGainBasis
+use App\Infrastructure\Laravel\Eloquent\RealizedGain\{
+    Model\RealizedGainBasis as EloquentRealizedGainBasis,
+    Dto\PersistedRealizedGainBasisDto,
 };
 
 class EloquentRealizedGainRepository
 {
+    public function all(): array
+    {
+        return EloquentRealizedGainBasis::all()
+            ->map(fn(EloquentRealizedGainBasis $eloquent) => new PersistedRealizedGainBasisDto(
+                $eloquent->security_number,
+                $eloquent->trade_number,
+                $eloquent->base_quantity,
+                $eloquent->trade_quantity,
+                $eloquent->unit_type,
+                $eloquent->cost,
+                $eloquent->proceeds,
+            ))
+            ->all();
+    }
+
     public function insert(RealizedGainBasis $realizedGainBasis): void
     {
         $this
