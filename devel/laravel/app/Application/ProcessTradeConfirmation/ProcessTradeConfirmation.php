@@ -90,7 +90,7 @@ final class ProcessTradeConfirmation
         return $resultConfirmationOutcome
             ->bind(
                 fn(ConfirmationOutcome $confirmationOutcome) =>
-                $this->coordinator->positionService->createOrupdatePosition($confirmationOutcome->getConfirmation())
+                $this->coordinator->positionService->computePositionOutcome($confirmationOutcome->getConfirmation())
             )
             ->tap(
                 fn(PositionOutcome $outcome) =>

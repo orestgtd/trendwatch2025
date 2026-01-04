@@ -54,7 +54,7 @@ class BuyToCloseShortPositionTest extends PositionTestCase
         /** @var PositionService $service */
         $service = app(PositionService::class);
 
-        $result = $service->createOrUpdatePosition(
+        $result = $service->computePositionOutcome(
             ConfirmationBuilder::buyToCloseShares()
             ->withQuantity(25)
             ->withUnitPrice('4')
@@ -106,7 +106,7 @@ class BuyToCloseShortPositionTest extends PositionTestCase
         /** @var PositionService $service */
         $service = app(PositionService::class);
 
-        $result = $service->createOrUpdatePosition(
+        $result = $service->computePositionOutcome(
             ConfirmationBuilder::buyToCloseShares()
             ->withQuantity(25)
             ->withUnitPrice('1')
@@ -157,7 +157,7 @@ class BuyToCloseShortPositionTest extends PositionTestCase
         /** @var PositionService $service */
         $service = app(PositionService::class);
 
-        $result = $service->createOrUpdatePosition(
+        $result = $service->computePositionOutcome(
             ConfirmationBuilder::buyToCloseShares()
             ->withQuantity(25)
             ->withUnitPrice('10')

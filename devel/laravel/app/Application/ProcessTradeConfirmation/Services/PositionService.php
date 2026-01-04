@@ -26,7 +26,7 @@ final class PositionService
      *
      * @return Result<PositionOutcome>
      */
-    public function createOrUpdatePosition(Confirmation $confirmation): Result
+    public function computePositionOutcome(Confirmation $confirmation): Result
     {
         return $this->manager->createOrUpdatePosition(
             $confirmation,

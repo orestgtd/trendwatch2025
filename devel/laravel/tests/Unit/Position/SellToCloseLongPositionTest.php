@@ -58,7 +58,7 @@ class SellToCloseLongPositionTest extends PositionTestCase
         /** @var PositionService $service */
         $service = app(PositionService::class);
 
-        $result = $service->createOrUpdatePosition(
+        $result = $service->computePositionOutcome(
             ConfirmationBuilder::sellToCloseShares()
             ->withQuantity(25)
             ->withUnitPrice('60')
@@ -110,7 +110,7 @@ class SellToCloseLongPositionTest extends PositionTestCase
         /** @var PositionService $service */
         $service = app(PositionService::class);
 
-        $result = $service->createOrUpdatePosition(
+        $result = $service->computePositionOutcome(
             ConfirmationBuilder::sellToCloseShares()
             ->withQuantity(25)
             ->withUnitPrice('60')
@@ -161,7 +161,7 @@ class SellToCloseLongPositionTest extends PositionTestCase
         /** @var PositionService $service */
         $service = app(PositionService::class);
 
-        $result = $service->createOrUpdatePosition(
+        $result = $service->computePositionOutcome(
             ConfirmationBuilder::sellToCloseShares()
             ->withQuantity(25)
             ->withUnitPrice('20')

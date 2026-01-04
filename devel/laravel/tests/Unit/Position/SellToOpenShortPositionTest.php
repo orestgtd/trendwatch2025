@@ -47,7 +47,7 @@ class SellToOpenShortPositionTest extends PositionTestCase
         /** @var SecurityService $service */
         $service = app(PositionService::class);
 
-        $result = $service->createOrUpdatePosition(
+        $result = $service->computePositionOutcome(
             ConfirmationBuilder::sellToOpenShares()
             ->withQuantity(100)
             ->withUnitPrice('25')
@@ -99,7 +99,7 @@ class SellToOpenShortPositionTest extends PositionTestCase
         /** @var PositionService $service */
         $service = app(PositionService::class);
 
-        $result = $service->createOrUpdatePosition(
+        $result = $service->computePositionOutcome(
             ConfirmationBuilder::sellToOpenShares()
             ->withQuantity(50)
             ->withUnitPrice('25')
@@ -151,7 +151,7 @@ class SellToOpenShortPositionTest extends PositionTestCase
         /** @var PositionService $service */
         $service = app(PositionService::class);
 
-        $result = $service->createOrUpdatePosition(
+        $result = $service->computePositionOutcome(
             ConfirmationBuilder::buyToCloseShares()
             ->withQuantity(25)
             ->withUnitPrice('4')

@@ -55,7 +55,7 @@ final class BuyToOpenLongPositionTest extends PositionTestCase
         /** @var PositionService $service */
         $service = app(PositionService::class);
 
-        $result = $service->createOrUpdatePosition(
+        $result = $service->computePositionOutcome(
             ConfirmationBuilder::BuyToOpenShares()
             ->withQuantity(100)
             ->withUnitPrice('25')
@@ -111,7 +111,7 @@ final class BuyToOpenLongPositionTest extends PositionTestCase
         /** @var PositionService $service */
         $service = app(PositionService::class);
 
-        $result = $service->createOrUpdatePosition(
+        $result = $service->computePositionOutcome(
             ConfirmationBuilder::buyToOpenShares()
             ->withQuantity(100)
             ->withUnitPrice('25')

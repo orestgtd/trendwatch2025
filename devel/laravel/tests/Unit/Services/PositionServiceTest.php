@@ -59,7 +59,7 @@ class PositionServiceTest extends TestCase
         /** @var SecurityService $service */
         $service = app(PositionService::class);
 
-        $result = $service->createOrUpdatePosition(
+        $result = $service->computePositionOutcome(
             ConfirmationBuilder::BuyToOpenShares()
             ->withQuantity(100)
             ->withUnitPrice('25')
@@ -111,7 +111,7 @@ class PositionServiceTest extends TestCase
         /** @var PositionService $service */
         $service = app(PositionService::class);
 
-        $result = $service->createOrUpdatePosition(
+        $result = $service->computePositionOutcome(
             ConfirmationBuilder::buyToOpenShares()
             ->withQuantity(100)
             ->withUnitPrice('25')
@@ -160,7 +160,7 @@ class PositionServiceTest extends TestCase
         /** @var SecurityService $service */
         $service = app(PositionService::class);
 
-        $result = $service->createOrUpdatePosition(
+        $result = $service->computePositionOutcome(
             ConfirmationBuilder::sellToOpenShares()
             ->withQuantity(100)
             ->withUnitPrice('25')
@@ -212,7 +212,7 @@ class PositionServiceTest extends TestCase
         /** @var PositionService $service */
         $service = app(PositionService::class);
 
-        $result = $service->createOrUpdatePosition(
+        $result = $service->computePositionOutcome(
             ConfirmationBuilder::sellToOpenShares()
             ->withQuantity(50)
             ->withUnitPrice('25')
@@ -264,7 +264,7 @@ class PositionServiceTest extends TestCase
         /** @var PositionService $service */
         $service = app(PositionService::class);
 
-        $result = $service->createOrUpdatePosition(
+        $result = $service->computePositionOutcome(
             ConfirmationBuilder::sellToCloseShares()
             ->withQuantity(25)
             ->withUnitPrice('60')
@@ -316,7 +316,7 @@ class PositionServiceTest extends TestCase
         /** @var PositionService $service */
         $service = app(PositionService::class);
 
-        $result = $service->createOrUpdatePosition(
+        $result = $service->computePositionOutcome(
             ConfirmationBuilder::buyToCloseShares()
             ->withQuantity(25)
             ->withUnitPrice('4')
