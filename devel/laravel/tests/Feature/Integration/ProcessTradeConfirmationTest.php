@@ -3,14 +3,13 @@
 namespace Tests\Feature\Integration;
 
 use PHPUnit\Framework\Attributes\Test;
-use Tests\TestCase;
-use Tests\Support\ConfirmationsApiGivenWhenThen;
+use Tests\Support\{
+    ConfirmationsApiGivenWhenThen,
+    DatabaseTestCase,
+};
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
-class ProcessTradeConfirmationTest extends TestCase
+class ProcessTradeConfirmationTest extends DatabaseTestCase
 {
-    use RefreshDatabase;
     use ConfirmationsApiGivenWhenThen;
 
     #[Test]

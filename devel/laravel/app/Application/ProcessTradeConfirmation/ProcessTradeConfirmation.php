@@ -4,127 +4,94 @@ namespace App\Application\ProcessTradeConfirmation;
 
 use App\Application\ProcessTradeConfirmation\Services\TradeServiceCoordinator;
 
-use App\Application\ProcessTradeConfirmation\{
-    Dto\ParsedSecurityRequestDto,
-    Dto\ParsedTradeRequestDto,
-};
-
 use App\Application\ProcessTradeConfirmation\Summary\{
     OutcomeSummary,
 };
 
+use App\Application\TradeConfirmation\{
+    Dto\ParsedTradeData,
+    TradeRequestParser,
+};
+
 use App\Domain\{
+    Confirmation\Model\Confirmation,
     Confirmation\Outcome\ConfirmationOutcome,
     Position\Outcome\PositionOutcome,
     Security\Outcome\SecurityOutcome,
 };
-use App\Domain\RealizedGain\Model\RealizedGainBasis;
+
 use App\Shared\Result;
 
 final class ProcessTradeConfirmation
 {
     public function __construct(
         private TradeServiceCoordinator $coordinator,
+        private TradeRequestParser $parser,
     ) {}
 
     /** @return Result<OutcomeSummary> */
     public function handle(array $request): Result
     {
-        // Step 1: Parse and process trade & security outcomes
-        $parseResult = $this->processParsedOutcomes($request);
+        // Step 1: Parse request
+        $parseResult = $this->parseRequest($request);
         if ($parseResult->isFailure()) {
             return Result::failure($parseResult->getError());
         }
-        [$resultConfirmationOutcome, $resultSecurityOutcome] = $parseResult->getValue();
+
+        /** @var ConfirmationOutcome $confirmationOutcome */
+        /** @var SecurityOutcome $securityOutcome */
+        [$confirmationOutcome, $securityOutcome] = $parseResult->getValue();
 
         // Step 2: Evaluate and update position
-        $resultPositionOutcome = $this->processPositionOutcome($resultConfirmationOutcome);
+        $resultPositionOutcome = $this->coordinator->computePositionOutcome($confirmationOutcome->getConfirmation());
+        if ($resultPositionOutcome->isFailure()) {
+            return Result::failure($resultPositionOutcome->getError());
+        }
 
         // Step 3: Register results
-        $this->registerOutcomes($resultConfirmationOutcome, $resultSecurityOutcome, $resultPositionOutcome);
+        $this->coordinator
+            ->registerConfirmation($confirmationOutcome)
+            ->registerPosition($resultPositionOutcome->getValue())
+            ->registerSecurity($securityOutcome);
+
 
         // Step 4: Persist all registrations
-        $this->coordinator->registrationService->persist();
+        $this->coordinator->persist();
 
         // Step 5: Summarize and return
         return Result::success(
             new OutcomeSummary(
-                $resultConfirmationOutcome->getValue(),
-                $resultSecurityOutcome->getValue()
+                $confirmationOutcome,
+                $securityOutcome
             )
         );
     }
 
-    /**
-     * Parse and process trade + security outcomes from request.
-     *
-     * @return Result<array{Result<ConfirmationOutcome>, Result<SecurityOutcome>}>
-     */
-    private function processParsedOutcomes(array $request): Result
+    /** @return Result<array<ConfirmationOutcome, SecurityOutcome>> */
+    private function parseRequest(array $request): Result
     {
-        $resultConfirmationOutcome = $this->coordinator->tradeParser->parse($request)
-            ->bind(fn(ParsedTradeRequestDto $parsed) => $this->coordinator->tradeService->processConfirmationRequest($parsed));
+        $parseResult = $this->parser->parse($request);
+        if ($parseResult->isFailure()) {
+            return Result::failure($parseResult->getError());
+        }
 
+        $resultConfirmationOutcome = $parseResult->bind(
+            fn (ParsedTradeData $parsed) => $this->coordinator->processConfirmationRequest($parsed->trade)
+        );
         if ($resultConfirmationOutcome->isFailure()) {
-            return $resultConfirmationOutcome;
+            return Result::failure($resultConfirmationOutcome->getError());
         }
 
-        $resultSecurityOutcome = $this->coordinator->securityParser->parse($request)
-            ->bind(fn(ParsedSecurityRequestDto $parsed) => $this->coordinator->securityService->processSecurityRequest($parsed));
-
+        $resultSecurityOutcome = $parseResult->bind(
+            fn (ParsedTradeData $parsed) => $this->coordinator->processSecurityRequest($parsed->security)
+        );
         if ($resultSecurityOutcome->isFailure()) {
-            return $resultSecurityOutcome;
+            return Result::failure($resultSecurityOutcome->getError());
         }
 
-        return Result::success([$resultConfirmationOutcome, $resultSecurityOutcome]);
-    }
-
-    /**
-     * Evaluate confirmation and create/update position.
-     *
-     * @param Result<ConfirmationOutcome> $resultConfirmationOutcome
-     * @return Result<PositionOutcome>
-     */
-    private function processPositionOutcome(Result $resultConfirmationOutcome): Result
-    {
-        return $resultConfirmationOutcome
-            ->bind(
-                fn(ConfirmationOutcome $confirmationOutcome) =>
-                $this->coordinator->positionService->computePositionOutcome($confirmationOutcome->getConfirmation())
-            )
-            ->tap(
-                fn(PositionOutcome $outcome) =>
-                $this->coordinator->registrationService->registerPosition($outcome)
-            );
-    }
-
-    /**
-     * Register all successful outcomes.
-     */
-    private function registerOutcomes(
-        Result $resultConfirmationOutcome,
-        Result $resultSecurityOutcome,
-        Result $resultPositionOutcome
-    ): void {
-        $resultConfirmationOutcome
-            ->tap(
-                fn(ConfirmationOutcome $outcome) =>
-                $this->coordinator->registrationService->registerConfirmation($outcome)
-            );
-
-        $resultSecurityOutcome
-            ->tap(
-                fn(SecurityOutcome $outcome) =>
-                $this->coordinator->registrationService->registerSecurity($outcome)
-            );
-
-        $resultPositionOutcome
-            ->tap(
-                function (PositionOutcome $outcome): void
-                {
-                    $this->coordinator->registrationService->registerPosition($outcome);
-                    $this->coordinator->registrationService->registerRealizedGainBasis($outcome->getRealizedGainOutcome());
-                }
-            );
+        return Result::success([
+            $resultConfirmationOutcome->getValue(),
+            $resultSecurityOutcome->getValue(),
+        ]);
     }
 }
