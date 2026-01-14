@@ -11,6 +11,8 @@ use App\Domain\Security\ValueObjects\Variations\{
     VariationsInterface,
 };
 
+// TODO: add test coverage for variations deserialization from persisted JSON
+
 final class VariationsCast implements CastsAttributes
 {
     public function get($model, string $key, $value, array $attributes): VariationsInterface
@@ -32,11 +34,7 @@ final class VariationsCast implements CastsAttributes
             return NoVariations::create();
         }
 
-        dd($value);
-
         $decoded = json_decode($value, true);
-
-        dd($decoded);
 
         return is_array($decoded)
             ? Variations::fromStrings($decoded)
