@@ -9,6 +9,7 @@ use App\Domain\Confirmation\{
 
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
+    Identifiers\Symbol,
     Values\PositionType,
     Values\UnitType,
 };
@@ -18,9 +19,11 @@ abstract class AbstractPosition implements Position
     abstract public function getPositionType(): PositionType;
 
     protected SecurityNumber $securityNumber;
+    protected Symbol $symbol;
     protected UnitType $unitType;
 
     public function getSecurityNumber(): SecurityNumber { return $this->securityNumber; }
+    public function getSymbol(): Symbol { return $this->symbol; }
     public function getUnitType(): UnitType { return $this->unitType; }
 
     abstract public function getTotalCost(): CostAmount;

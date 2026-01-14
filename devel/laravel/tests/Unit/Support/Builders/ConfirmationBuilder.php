@@ -4,14 +4,6 @@ namespace Tests\Unit\Support\Builders;
 
 use App\Domain\Confirmation\Model\Confirmation;
 
-use App\Domain\Kernel\{
-    Identifiers\SecurityNumber,
-    Identifiers\TradeNumber,
-    Money\Currency,
-    Money\MoneyAmount,
-    Values\UnitType,
-};
-
 use App\Domain\Confirmation\ValueObjects\{
     Commission,
     PositionEffect,
@@ -21,10 +13,20 @@ use App\Domain\Confirmation\ValueObjects\{
     UsTax
 };
 
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
+    Identifiers\Symbol,
+    Identifiers\TradeNumber,
+    Money\Currency,
+    Money\MoneyAmount,
+    Values\UnitType,
+};
+
 final class ConfirmationBuilder
 {
     private function __construct(
         private SecurityNumber $securityNumber,
+        private Symbol $symbol,
         private TradeNumber $tradeNumber,
         private TradeAction $tradeAction,
         private PositionEffect $positionEffect,
@@ -38,7 +40,8 @@ final class ConfirmationBuilder
     public static function buyToOpenShares(): self
     {
         return new self(
-            SecurityNumber::fromString('YYZ'),
+            SecurityNumber::fromString('2112'),
+            Symbol::fromString('YYZ'),
             TradeNumber::fromString('T000'),
             TradeAction::buy(),
             PositionEffect::open(),
@@ -53,7 +56,8 @@ final class ConfirmationBuilder
     public static function sellToOpenShares(): self
     {
         return new self(
-            SecurityNumber::fromString('YYZ'),
+            SecurityNumber::fromString('2112'),
+            Symbol::fromString('YYZ'),
             TradeNumber::fromString('T000'),
             TradeAction::sell(),
             PositionEffect::open(),
@@ -68,7 +72,8 @@ final class ConfirmationBuilder
     public static function buyToCloseShares(): self
     {
         return new self(
-            SecurityNumber::fromString('YYZ'),
+            SecurityNumber::fromString('2112'),
+            Symbol::fromString('YYZ'),
             TradeNumber::fromString('T000'),
             TradeAction::buy(),
             PositionEffect::close(),
@@ -83,7 +88,8 @@ final class ConfirmationBuilder
     public static function sellToCloseShares(): self
     {
         return new self(
-            SecurityNumber::fromString('YYZ'),
+            SecurityNumber::fromString('2112'),
+            Symbol::fromString('YYZ'),
             TradeNumber::fromString('T000'),
             TradeAction::sell(),
             PositionEffect::close(),
@@ -138,6 +144,7 @@ final class ConfirmationBuilder
     {
         return Confirmation::create(
             $this->securityNumber,
+            $this->symbol,
             $this->tradeNumber,
             $this->tradeAction,
             $this->positionEffect,

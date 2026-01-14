@@ -7,14 +7,15 @@ use App\Domain\Confirmation\{
     ValueObjects\ProceedsAmount,
 };
 
-use App\Domain\Position\{
-    ValueObjects\PositionQuantity,
-};
-
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
+    Identifiers\Symbol,
     Values\PositionType,
     Values\UnitType,
+};
+
+use App\Domain\Position\{
+    ValueObjects\PositionQuantity,
 };
 
 interface Position
@@ -22,6 +23,7 @@ interface Position
     // public function markClosed(): void;
     // public function isClosed(): bool;
     public function getSecurityNumber(): SecurityNumber;
+    public function getSymbol(): Symbol;
     public function getPositionQuantity(): PositionQuantity;
     public function getPositionType(): PositionType;
     public function getUnitType(): UnitType;

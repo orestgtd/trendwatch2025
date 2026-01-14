@@ -17,6 +17,7 @@ use App\Domain\Position\{
 
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
+    Identifiers\Symbol,
     Values\PositionType,
     Values\UnitType,
 };
@@ -27,11 +28,13 @@ final class LongPosition extends AbstractPosition
 
     private function __construct(
         SecurityNumber $securityNumber,
+        Symbol $symbol,
         PositionQuantity $positionQuantity,
         UnitType $unitType,
         CostAmount $totalCost,
     ) {
         $this->securityNumber = $securityNumber;
+        $this->symbol = $symbol;
         $this->costBase = CostBase::create(
             BaseQuantity::fromPositionQuantity($positionQuantity),
             $totalCost,
@@ -41,12 +44,14 @@ final class LongPosition extends AbstractPosition
 
     public static function create(
         SecurityNumber $securityNumber,
+        Symbol $symbol,
         PositionQuantity $positionQuantity,
         UnitType $unitType,
         CostAmount $totalCost,
     ): self {
         return new self(
             $securityNumber,
+            $symbol,
             $positionQuantity,
             $unitType,
             $totalCost,
@@ -55,12 +60,13 @@ final class LongPosition extends AbstractPosition
 
     public static function fromPersisted(
         SecurityNumber $securityNumber,
+        Symbol $symbol,
         PositionQuantity $positionQuantity,
         UnitType $unitType,
         CostAmount $totalCost,
         ProceedsAmount $totalProceeds,
     ): self {
-        $instance = new self($securityNumber, $positionQuantity, $unitType, $totalCost);
+        $instance = new self($securityNumber, $symbol, $positionQuantity, $unitType, $totalCost);
         $instance->costBase = CostBase::fromPersisted(
             BaseQuantity::fromPositionQuantity($positionQuantity),
             $totalCost,

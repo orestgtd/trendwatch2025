@@ -4,6 +4,7 @@ namespace App\Infrastructure\Laravel\Eloquent\Trade\Dto;
 
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
+    Identifiers\Symbol,
     Identifiers\TradeNumber,
     Values\UnitType,
 };
@@ -21,6 +22,7 @@ final class PersistedTradeDto
 {
     public function __construct(
         public readonly SecurityNumber $securityNumber,
+        public readonly Symbol $symbol,
         public readonly TradeNumber $tradeNumber,
         public readonly TradeAction $tradeAction,
         public readonly PositionEffect $positionEffect,

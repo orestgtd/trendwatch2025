@@ -11,6 +11,10 @@ use App\Domain\Confirmation\{
     Model\Confirmation,
 };
 
+use App\Domain\Security\{
+    ValueObjects\Symbol,
+};
+
 use App\Infrastructure\Laravel\Eloquent\Trade\{
     Dto\PersistedTradeDto,
     Repositories\EloquentTradeRepository as TradeRepository,
@@ -35,6 +39,7 @@ final class FindTradeQuery
     {
         return BuildNewConfirmation::from(
             $persisted->securityNumber,
+            $persisted->symbol,
             $persisted->tradeNumber,
             $persisted->tradeAction,
             $persisted->positionEffect,

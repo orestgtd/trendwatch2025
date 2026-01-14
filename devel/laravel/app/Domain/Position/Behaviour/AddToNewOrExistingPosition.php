@@ -16,6 +16,10 @@ use App\Domain\Position\{
     ValueObjects\PositionQuantity,
 };
 
+use App\Domain\Security\{
+    ValueObjects\Symbol,
+};
+
 final class AddToNewOrExistingPosition
 {
     public function do(Confirmation $confirmation, ?Position $lookupPosition): PositionOutcome
@@ -39,6 +43,7 @@ final class AddToNewOrExistingPosition
         return new NewPositionCreated(
             LongPosition::create(
                 $confirmation->getSecurityNumber(),
+                $confirmation->getSymbol(),
                 PositionQuantity::fromTradeQuantity($confirmation->getTradeQuantity()),
                 $confirmation->getUnitType(),
                 $confirmation->netCost(),
@@ -52,6 +57,7 @@ final class AddToNewOrExistingPosition
         return new NewPositionCreated(
             ShortPosition::create(
                 $confirmation->getSecurityNumber(),
+                $confirmation->getSymbol(),
                 PositionQuantity::fromTradeQuantity($confirmation->getTradeQuantity()),
                 $confirmation->getUnitType(),
                 $confirmation->netProceeds(),

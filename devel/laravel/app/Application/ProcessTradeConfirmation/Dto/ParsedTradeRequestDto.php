@@ -6,6 +6,7 @@ use App\Application\Common\AbstractParsedRequestDto;
 
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
+    Identifiers\Symbol,
     Identifiers\TradeNumber,
     Money\Currency,
     Values\UnitType,
@@ -29,6 +30,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
 {
     private function __construct(
         public readonly SecurityNumber $securityNumber,
+        public readonly Symbol $symbol,
         public readonly TradeNumber $tradeNumber,
         public readonly TradeAction $tradeAction,
         public readonly PositionEffect $positionEffect,
@@ -44,6 +46,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
     {
        $collection = Collection::from([
             'security_number'  => SecurityNumber::tryFrom($validatedDto->securityNumber),
+            'symbol'           => Symbol::tryFrom($validatedDto->symbol),
             'trade_number'     => TradeNumber::tryFrom($validatedDto->tradeNumber),
             'trade_action'     => TradeAction::tryFrom($validatedDto->tradeAction),
             'position_effect'  => PositionEffect::tryFrom($validatedDto->positionEffect),
@@ -57,6 +60,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
         return self::processCollection($collection)->map(
             fn (array $values) => new self(
                 $values['security_number'],
+                $values['symbol'],
                 $values['trade_number'],
                 $values['trade_action'],
                 $values['position_effect'],

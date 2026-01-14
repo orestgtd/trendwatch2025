@@ -6,6 +6,7 @@ use App\Application\Common\AbstractParsedRequestDto;
 
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
+    Identifiers\Symbol,
     Values\UnitType,
 };
 
@@ -13,7 +14,6 @@ use App\Domain\Security\ValueObjects\{
     Description,
     ExpirationDate\ExpirationDate,
     ExpirationDate\ExpirationDateInterface,
-    Symbol,
 };
 
 use App\Shared\{

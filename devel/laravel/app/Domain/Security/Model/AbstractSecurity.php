@@ -4,6 +4,7 @@ namespace App\Domain\Security\Model;
 
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
+    Identifiers\Symbol,
     Values\UnitType,
 };
 
@@ -13,7 +14,6 @@ use App\Domain\Security\{
     Outcome\SecurityOutcome,
     Outcome\VariationAdded,
     ValueObjects\Description,
-    ValueObjects\Symbol,
     ValueObjects\Variations\VariationsInterface,
 };
 

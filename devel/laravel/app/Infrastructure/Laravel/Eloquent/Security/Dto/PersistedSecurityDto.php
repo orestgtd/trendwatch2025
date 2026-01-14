@@ -4,13 +4,13 @@ namespace App\Infrastructure\Laravel\Eloquent\Security\Dto;
 
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
+    Identifiers\Symbol,
     Values\UnitType,
 };
 
 use App\Domain\Security\ValueObjects\{
     Description,
     ExpirationDate\ExpirationDateInterface,
-    Symbol,
     Variations\VariationsInterface,
 };
 

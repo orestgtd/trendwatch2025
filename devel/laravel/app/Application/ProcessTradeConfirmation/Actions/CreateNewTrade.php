@@ -11,6 +11,10 @@ use App\Domain\Confirmation\{
     Outcome\NewConfirmationCreated,
 };
 
+use App\Domain\Security\{
+    ValueObjects\Symbol,
+};
+
 use App\Shared\Result;
 
 final class CreateNewTrade
@@ -22,6 +26,7 @@ final class CreateNewTrade
             new NewConfirmationCreated(
                 BuildNewConfirmation::from(
                     $dto->securityNumber,
+                    $dto->symbol,
                     $dto->tradeNumber,
                     $dto->tradeAction,
                     $dto->positionEffect,

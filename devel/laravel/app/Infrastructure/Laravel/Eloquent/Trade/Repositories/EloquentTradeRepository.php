@@ -24,6 +24,7 @@ class EloquentTradeRepository
         return $eloquent
             ? new PersistedTradeDto(
                 $eloquent->security_number,
+                $eloquent->symbol,
                 $eloquent->trade_number,
                 $eloquent->trade_action,
                 $eloquent->position_effect,
@@ -48,6 +49,7 @@ class EloquentTradeRepository
         $eloquent = new EloquentTrade();
 
         $eloquent->security_number = $confirmation->getSecurityNumber();
+        $eloquent->symbol = $confirmation->getSymbol();
         $eloquent->trade_number = $confirmation->getTradeNumber();
         $eloquent->trade_action = $confirmation->getTradeAction();
         $eloquent->position_effect = $confirmation->getPositionEffect();

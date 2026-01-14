@@ -7,6 +7,8 @@ use App\Domain\Position\{
     Model\Position,
 };
 
+use App\Domain\Security\ValueObjects\Symbol;
+
 use App\Infrastructure\Laravel\Eloquent\Position\{
     Dto\PersistedPositionDto,
     Repositories\EloquentPositionRepository,
@@ -33,6 +35,7 @@ final class GetAllPositionsQuery
     {
         return BuildPositionFromPersisted::from(
             $persisted->securityNumber,
+            $persisted->symbol,
             $persisted->positionType,
             $persisted->positionQuantity,
             $persisted->unitType,

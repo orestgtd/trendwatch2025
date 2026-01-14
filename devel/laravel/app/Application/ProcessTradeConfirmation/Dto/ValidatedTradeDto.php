@@ -8,6 +8,7 @@ final class ValidatedTradeDto extends AbstractValidatedDto
 {
     private function __construct(
         public readonly string $securityNumber,
+        public readonly string $symbol,
         public readonly string $tradeNumber,
         public readonly string $tradeAction,
         public readonly string $positionEffect,
@@ -26,6 +27,7 @@ final class ValidatedTradeDto extends AbstractValidatedDto
     {
         return [
             'security_number',
+            'symbol',
             'trade_number',
             'trade_action',
             'position_effect',
@@ -44,6 +46,7 @@ final class ValidatedTradeDto extends AbstractValidatedDto
     {
         return new self(
             $allValues['security_number'],
+            $allValues['symbol'],
             $allValues['trade_number'],
             $allValues['trade_action'],
             $allValues['position_effect'],

@@ -2,8 +2,14 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Position\Dto;
 
+use App\Domain\Confirmation\ValueObjects\{
+    CostAmount,
+    ProceedsAmount,
+};
+
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
+    Identifiers\Symbol,
     Values\PositionType,
     Values\UnitType,
 };
@@ -12,15 +18,11 @@ use App\Domain\Position\ValueObjects\{
     PositionQuantity,
 };
 
-use App\Domain\Confirmation\ValueObjects\{
-    CostAmount,
-    ProceedsAmount,
-};
-
 final class PersistedPositionDto
 {
     public function __construct(
         public readonly SecurityNumber $securityNumber,
+        public readonly Symbol $symbol,
         public readonly PositionType $positionType,
         public readonly PositionQuantity $positionQuantity,
         public readonly UnitType $unitType,

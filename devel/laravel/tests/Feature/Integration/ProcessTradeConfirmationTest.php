@@ -99,6 +99,7 @@ class ProcessTradeConfirmationTest extends DatabaseTestCase
         $this->thenTheDatabaseContainsPositions([
             [
                 'security_number' => '7653ZG',
+                'symbol' => 'SPX',
                 'position_quantity' => 1,
                 'unit_type' => 'CONTRACTS',
                 'total_cost_amount' => '2110.01', // 21 * 1 * 100 + 9.99 + 0.02
@@ -106,6 +107,7 @@ class ProcessTradeConfirmationTest extends DatabaseTestCase
             ],
             [
                 'security_number' => '151447',
+                'symbol' => 'CVE',
                 'position_quantity' => 200,
                 'unit_type' => 'SHARES',
                 'total_cost_amount' => '4400.89',   // 200 * 21.94 + 12.40 + 0.49

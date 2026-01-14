@@ -2,20 +2,23 @@
 
 namespace App\Application\ProcessTradeConfirmation\Queries;
 
+use App\Domain\Kernel\Identifiers\{
+    SecurityNumber,
+};
+
 use App\Domain\Position\{
+    Builders\BuildPositionFromPersisted,
     Model\Position,
 };
 
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
+use App\Domain\Security\{
+    ValueObjects\Symbol,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Position\{
     Dto\PersistedPositionDto,
     Repositories\EloquentPositionRepository as PositionRepository,
 };
-
-use App\Domain\Position\Builders\BuildPositionFromPersisted;
 
 final class FindPositionQuery
 {
@@ -36,6 +39,7 @@ final class FindPositionQuery
     {
         return BuildPositionFromPersisted::from(
             $persisted->securityNumber,
+            $persisted->symbol,
             $persisted->positionType,
             $persisted->positionQuantity,
             $persisted->unitType,

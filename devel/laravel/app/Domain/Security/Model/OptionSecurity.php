@@ -4,13 +4,13 @@ namespace App\Domain\Security\Model;
 
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
+    Identifiers\Symbol,
     Values\UnitType,
 };
 
 use App\Domain\Security\ValueObjects\{
     Description,
     ExpirationDate\ExpirationDate,
-    Symbol,
     Variations\VariationsInterface,
 };
 

@@ -4,6 +4,7 @@ namespace App\Domain\Security\Builders;
 
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
+    Identifiers\Symbol,
     Values\UnitType,
 };
 
@@ -13,7 +14,6 @@ use App\Domain\Security\{
     Model\Security,
     ValueObjects\Description,
     ValueObjects\ExpirationDate\ExpirationDateInterface,
-    ValueObjects\Symbol,
     ValueObjects\Variations\VariationsInterface,
 };
 use App\Shared\Result;

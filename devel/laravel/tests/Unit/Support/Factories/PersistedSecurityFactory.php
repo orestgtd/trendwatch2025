@@ -4,13 +4,13 @@ namespace Tests\Unit\Support\Factories;
 
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
+    Identifiers\Symbol,
     Values\UnitType,
 };
 
 use App\Domain\Security\ValueObjects\{
     Description,
     ExpirationDate\NoExpiration,
-    Symbol,
     Variations\NoVariations,
 };
 

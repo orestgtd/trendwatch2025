@@ -26,6 +26,7 @@ class EloquentPositionRepository
         return $eloquent
             ? new PersistedPositionDTO(
                 $eloquent->security_number,
+                $eloquent->symbol,
                 $eloquent->position_type,
                 $eloquent->position_quantity,
                 $eloquent->unit_type,
@@ -40,6 +41,7 @@ class EloquentPositionRepository
         return EloquentPosition::all()
             ->map(fn(EloquentPosition $eloquent) => new PersistedPositionDto(
                 $eloquent->security_number,
+                $eloquent->symbol,
                 $eloquent->position_type,
                 $eloquent->position_quantity,
                 $eloquent->unit_type,
@@ -93,6 +95,7 @@ class EloquentPositionRepository
         $eloquent = new EloquentPosition();
 
         $eloquent->security_number = $position->getSecurityNumber();
+        $eloquent->symbol = $position->getSymbol();
         $eloquent->position_type = $position->getPositionType();
         $eloquent->position_quantity = $position->getPositionQuantity();
         $eloquent->unit_type = $position->getUnitType();

@@ -13,6 +13,7 @@ use App\Domain\Position\ValueObjects\{
 
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
+    Identifiers\Symbol,
     Money\Currency,
     Money\MoneyAmount,
     Values\PositionType,
@@ -27,6 +28,7 @@ final class PersistedPositionBuilder
 {
     private function __construct(
         private SecurityNumber $securityNumber,
+        private Symbol $symbol,
         private PositionType $positionType,
         private PositionQuantity $positionQuantity,
         private UnitType $unitType,
@@ -38,6 +40,7 @@ final class PersistedPositionBuilder
     {
         return new self(
             SecurityNumber::fromString('2112'),
+            Symbol::fromString('YYZ'),
             PositionType::long(),
             PositionQuantity::fromInt(0),
             UnitType::shares(),
@@ -50,6 +53,7 @@ final class PersistedPositionBuilder
     {
         return new self(
             SecurityNumber::fromString('2112'),
+            Symbol::fromString('YYZ'),
             PositionType::short(),
             PositionQuantity::fromInt(0),
             UnitType::shares(),
@@ -86,6 +90,7 @@ final class PersistedPositionBuilder
     {
         return new PersistedPositionDto(
             $this->securityNumber,
+            $this->symbol,
             $this->positionType,
             $this->positionQuantity,
             $this->unitType,

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('trades', function (Blueprint $table) {
             $table->id();
             $table->string('security_number');
+            $table->string('symbol');
             $table->string('trade_number')->unique();
             $table->string('trade_action');
             $table->string('position_effect');

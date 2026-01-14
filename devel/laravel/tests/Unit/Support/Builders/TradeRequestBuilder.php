@@ -16,10 +16,15 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
+use App\Domain\Security\{
+    ValueObjects\Symbol,
+};
+
 final class TradeRequestBuilder
 {
     private function __construct(
         private string $securityNumber,
+        private string $symbol,
         private string $tradeNumber,
         private string $tradeAction,
         private string $positionEffect,
@@ -34,6 +39,7 @@ final class TradeRequestBuilder
     {
         return new self(
             '2112',
+            'YYZ',
             'T12345',
             TradeAction::BUY,
             PositionEffect::OPEN,
@@ -56,6 +62,7 @@ final class TradeRequestBuilder
         return ParsedTradeRequestDto::fromValidatedConfirmationDto(
             ValidatedTradeDto::fromArray([
                 'security_number' => $this->securityNumber,
+                'symbol' => $this->symbol,
                 'trade_number' => $this->tradeNumber,
                 'trade_action' => $this->tradeAction,
                 'position_effect' => $this->positionEffect,

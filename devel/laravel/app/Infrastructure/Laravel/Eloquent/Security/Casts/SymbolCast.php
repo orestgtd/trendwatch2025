@@ -4,7 +4,9 @@ namespace App\Infrastructure\Laravel\Eloquent\Security\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
-use App\Domain\Security\ValueObjects\Symbol;
+use App\Domain\{
+    Kernel\Identifiers\Symbol,
+};
 
 final class SymbolCast implements CastsAttributes
 {

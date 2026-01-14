@@ -13,16 +13,14 @@ use App\Domain\Confirmation\ValueObjects\{
 
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
+    Identifiers\Symbol,
     Identifiers\TradeNumber,
     Values\UnitType,
 };
 
-use App\Infrastructure\Laravel\Eloquent\Security\Casts\{
-    SecurityNumberCast,
-};
-
-use App\Infrastructure\Laravel\Eloquent\Casts\{
-    UnitTypeCast,
+use App\Infrastructure\Laravel\Eloquent\{
+    Casts\UnitTypeCast,
+    Security\Casts\SecurityNumberCast,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Trade\Casts\{
@@ -35,12 +33,17 @@ use App\Infrastructure\Laravel\Eloquent\Trade\Casts\{
     UsTaxCast,
 };
 
+use App\Infrastructure\Laravel\Eloquent\Security\{
+    Casts\SymbolCast,
+};
+
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * App\Infrastructure\Laravel\Eloquent\Trade\Model\Trade
  *
  * @property SecurityNumber $security_number
+ * @property Symbol $symbol
  * @property TradeNumber $trade_number
  * @property TradeAction $trade_action
  * @property PositionEffect $position_effect
@@ -57,6 +60,7 @@ class Trade extends Model
 
     protected $fillable = [
         'security_number',
+        'symbol',
         'trade_number',
         'trade_action',
         'position_effect',
@@ -69,6 +73,7 @@ class Trade extends Model
 
     protected $casts = [
         'security_number' => SecurityNumberCast::class,
+        'symbol' => SymbolCast::class,
         'trade_number' => TradeNumberCast::class,
         'trade_action' => TradeActionCast::class,
         'position_effect' => PositionEffectCast::class,

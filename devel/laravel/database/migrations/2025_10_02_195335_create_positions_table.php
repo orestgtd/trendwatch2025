@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
             $table->string('security_number')->unique();
+            $table->string('symbol');
             $table->string('position_type');    // LONG | SHORT
             $table->integer('position_quantity');
             $table->string('unit_type');
