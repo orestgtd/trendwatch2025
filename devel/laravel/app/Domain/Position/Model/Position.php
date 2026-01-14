@@ -18,6 +18,10 @@ use App\Domain\Position\{
     ValueObjects\PositionQuantity,
 };
 
+use App\Domain\Security\{
+    ValueObjects\ExpirationDate\ExpirationDateInterface,
+};
+
 interface Position
 {
     // public function markClosed(): void;
@@ -30,6 +34,8 @@ interface Position
 
     public function getTotalCost(): CostAmount;
     public function getTotalProceeds(): ProceedsAmount;
+
+    public function getExpirationDate(): ExpirationDateInterface;
 
     // public function getRealizedGainOutcome(): ?RealizedGainOutcome;
 }

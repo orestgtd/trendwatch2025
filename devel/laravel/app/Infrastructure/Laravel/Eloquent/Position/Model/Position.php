@@ -2,6 +2,11 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Position\Model;
 
+use App\Domain\Confirmation\{
+    ValueObjects\CostAmount,
+    ValueObjects\ProceedsAmount,
+};
+
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
     Identifiers\Symbol,
@@ -9,13 +14,12 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
-use App\Domain\Confirmation\ValueObjects\{
-    CostAmount,
-    ProceedsAmount,
+use App\Domain\Position\{
+    ValueObjects\PositionQuantity,
 };
 
-use App\Domain\Position\ValueObjects\{
-    PositionQuantity,
+use App\Domain\Security\{
+    ValueObjects\ExpirationDate\ExpirationDateInterface,
 };
 
 use App\Infrastructure\Laravel\Eloquent\{
@@ -24,6 +28,7 @@ use App\Infrastructure\Laravel\Eloquent\{
     Position\Casts\PositionQuantityCast,
     Position\Casts\PositionTypeCast,
     Position\Casts\ProceedsAmountCast,
+    Security\Casts\ExpirationDateCast,
     Security\Casts\SecurityNumberCast,
     Security\Casts\SymbolCast,
 };
@@ -33,13 +38,14 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Infrastructure\Laravel\Eloquent\Position\Model\Position
  *
- * @property SecurityNumber     $security_number
- * @property Symbol             $symbol
- * @property PositionType       $position_type
- * @property PositionQuantity   $position_quantity
- * @property UnitType           $unit_type
- * @property CostAmount         $total_cost
- * @property ProceedsAmount     $total_proceeds
+ * @property SecurityNumber          $security_number
+ * @property Symbol                  $symbol
+ * @property PositionType            $position_type
+ * @property PositionQuantity        $position_quantity
+ * @property UnitType                $unit_type
+ * @property CostAmount              $total_cost
+ * @property ProceedsAmount          $total_proceeds
+ * @property ExpirationDateInterface $expiration_date
  */
 
 class Position extends Model
@@ -54,6 +60,7 @@ class Position extends Model
         'unit_type',
         'total_cost',
         'total_proceeds',
+        'expiration_date',
     ];
 
     protected $casts = [
@@ -64,5 +71,6 @@ class Position extends Model
         'unit_type' => UnitTypeCast::class,
         'total_cost' => CostAmountCast::class,
         'total_proceeds' => ProceedsAmountCast::class,
+        'expiration_date' => ExpirationDateCast::class,
     ];
 }

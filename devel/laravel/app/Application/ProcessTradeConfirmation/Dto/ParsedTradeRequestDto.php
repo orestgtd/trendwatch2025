@@ -21,6 +21,10 @@ use App\Domain\Confirmation\ValueObjects\{
     UsTax,
 };
 
+use App\Domain\Security\{
+    ValueObjects\ExpirationDate\ExpirationDate,
+};
+
 use App\Shared\{
     Collection,
     Result
@@ -39,6 +43,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
         public readonly UnitPrice $unitPrice,
         public readonly Commission $commission,
         public readonly UsTax $usTax,
+        public readonly ExpirationDate $expirationDate,
     ) {}
 
     /** @return Result<self> */
@@ -55,6 +60,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
             'unit_price'       => UnitPrice::tryFrom($validatedDto->unitPrice, Currency::default()),
             'commission'       => Commission::tryFrom($validatedDto->commission, Currency::default()),
             'us_tax'           => UsTax::tryFromOrZero($validatedDto->usTax, Currency::default()),
+            'expiration_date'  => ExpirationDate::tryFrom($validatedDto->expirationDate),
         ]);
 
         return self::processCollection($collection)->map(
@@ -69,6 +75,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
                 $values['unit_price'],
                 $values['commission'],
                 $values['us_tax'],
+                $values['expiration_date'],
             )
         );
     }

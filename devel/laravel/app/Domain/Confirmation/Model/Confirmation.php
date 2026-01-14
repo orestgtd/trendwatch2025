@@ -27,6 +27,10 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
+use App\Domain\Security\{
+    ValueObjects\ExpirationDate\ExpirationDateInterface,
+};
+
 final class Confirmation
 {
     private function __construct(
@@ -40,6 +44,7 @@ final class Confirmation
         private UnitPrice $unitPrice,
         private Commission $commission,
         private UsTax $usTax,
+        private ExpirationDateInterface $expirationDate,
     ) {
         $this->securityNumber = $securityNumber;
         $this->symbol = $symbol;
@@ -51,6 +56,7 @@ final class Confirmation
         $this->unitPrice = $unitPrice;
         $this->commission = $commission;
         $this->usTax = $usTax;
+        $this->expirationDate = $expirationDate;
     }
 
     public static function create(
@@ -64,6 +70,7 @@ final class Confirmation
         UnitPrice $unitPrice,
         Commission $commission,
         UsTax $usTax,
+        ExpirationDateInterface $expirationDate,
     ): self {
         return new self(
             $securityNumber,
@@ -76,7 +83,18 @@ final class Confirmation
             $unitPrice,
             $commission,
             $usTax,
+            $expirationDate,
         );
+    }
+
+    public function getCommission(): Commission
+    {
+        return $this->commission;
+    }
+
+    public function getExpirationDate(): ExpirationDateInterface
+    {
+        return $this->expirationDate;
     }
 
     public function getSecurityNumber(): SecurityNumber
@@ -94,14 +112,14 @@ final class Confirmation
         return $this->tradeNumber;
     }
 
-    public function getTradeAction(): TradeAction
-    {
-        return $this->tradeAction;
-    }
-
     public function getPositionEffect(): PositionEffect
     {
         return $this->positionEffect;
+    }
+
+    public function getTradeAction(): TradeAction
+    {
+        return $this->tradeAction;
     }
 
     public function getTradeQuantity(): TradeQuantity
@@ -109,19 +127,14 @@ final class Confirmation
         return $this->tradeQuantity;
     }
 
-    public function getUnitType(): UnitType
-    {
-        return $this->unitType;
-    }
-
     public function getUnitPrice(): UnitPrice
     {
         return $this->unitPrice;
     }
 
-    public function getCommission(): Commission
+    public function getUnitType(): UnitType
     {
-        return $this->commission;
+        return $this->unitType;
     }
 
     public function getUsTax(): UsTax

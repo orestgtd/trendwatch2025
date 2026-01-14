@@ -22,6 +22,10 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
+use App\Domain\Security\{
+    ValueObjects\ExpirationDate\ExpirationDateInterface,
+};
+
 final class LongPosition extends AbstractPosition
 {
     private CostBase $costBase;
@@ -32,6 +36,7 @@ final class LongPosition extends AbstractPosition
         PositionQuantity $positionQuantity,
         UnitType $unitType,
         CostAmount $totalCost,
+        ExpirationDateInterface $expirationDate,
     ) {
         $this->securityNumber = $securityNumber;
         $this->symbol = $symbol;
@@ -40,6 +45,7 @@ final class LongPosition extends AbstractPosition
             $totalCost,
         );
         $this->unitType = $unitType;
+        $this->expirationDate = $expirationDate;
     }
 
     public static function create(
@@ -48,6 +54,7 @@ final class LongPosition extends AbstractPosition
         PositionQuantity $positionQuantity,
         UnitType $unitType,
         CostAmount $totalCost,
+        ExpirationDateInterface $expirationDate,
     ): self {
         return new self(
             $securityNumber,
@@ -55,6 +62,7 @@ final class LongPosition extends AbstractPosition
             $positionQuantity,
             $unitType,
             $totalCost,
+            $expirationDate
         );
     }
 
@@ -65,8 +73,9 @@ final class LongPosition extends AbstractPosition
         UnitType $unitType,
         CostAmount $totalCost,
         ProceedsAmount $totalProceeds,
+        ExpirationDateInterface $expirationDate,
     ): self {
-        $instance = new self($securityNumber, $symbol, $positionQuantity, $unitType, $totalCost);
+        $instance = new self($securityNumber, $symbol, $positionQuantity, $unitType, $totalCost, $expirationDate);
         $instance->costBase = CostBase::fromPersisted(
             BaseQuantity::fromPositionQuantity($positionQuantity),
             $totalCost,

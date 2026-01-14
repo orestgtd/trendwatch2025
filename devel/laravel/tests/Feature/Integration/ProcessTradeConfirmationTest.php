@@ -64,6 +64,7 @@ class ProcessTradeConfirmationTest extends DatabaseTestCase
             [
                 'trade_number' => '001733',
                 'security_number' => '7653ZG',
+                'symbol' => 'SPX',
                 'trade_action' => 'BUY',
                 'position_effect' => 'OPEN',
                 'trade_quantity' => 1,
@@ -78,6 +79,7 @@ class ProcessTradeConfirmationTest extends DatabaseTestCase
             [
                 'trade_number' => '333499',
                 'security_number' => '151447',
+                'symbol' => 'CVE',
                 'trade_action' => 'BUY',
                 'position_effect' => 'OPEN',
                 'trade_quantity' => 200,
@@ -104,6 +106,7 @@ class ProcessTradeConfirmationTest extends DatabaseTestCase
                 'unit_type' => 'CONTRACTS',
                 'total_cost_amount' => '2110.01', // 21 * 1 * 100 + 9.99 + 0.02
                 'total_cost_currency' => 'USD',
+                'expiration_date' => '2022-06-10',
             ],
             [
                 'security_number' => '151447',

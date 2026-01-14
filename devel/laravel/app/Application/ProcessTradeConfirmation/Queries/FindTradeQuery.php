@@ -48,6 +48,7 @@ final class FindTradeQuery
             $persisted->unitPrice,
             $persisted->commission,
             $persisted->usTax,
+            $persisted->expirationDate,
         );
     }
 }

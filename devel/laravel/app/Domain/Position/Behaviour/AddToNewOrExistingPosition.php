@@ -17,7 +17,7 @@ use App\Domain\Position\{
 };
 
 use App\Domain\Security\{
-    ValueObjects\Symbol,
+    ValueObjects\ExpirationDate\ExpirationDate,
 };
 
 final class AddToNewOrExistingPosition
@@ -47,6 +47,7 @@ final class AddToNewOrExistingPosition
                 PositionQuantity::fromTradeQuantity($confirmation->getTradeQuantity()),
                 $confirmation->getUnitType(),
                 $confirmation->netCost(),
+                $confirmation->getExpirationDate(),
             ),
             $confirmation->getTradeNumber()
         );
@@ -61,6 +62,7 @@ final class AddToNewOrExistingPosition
                 PositionQuantity::fromTradeQuantity($confirmation->getTradeQuantity()),
                 $confirmation->getUnitType(),
                 $confirmation->netProceeds(),
+                $confirmation->getExpirationDate(),
             ),
             $confirmation->getTradeNumber()
         );

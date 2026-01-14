@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('commission_currency');
             $table->string('us_tax_amount');
             $table->string('us_tax_currency');
+            $table->date('expiration_date')->nullable();
             $table->timestamps();
         });
     }

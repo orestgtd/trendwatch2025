@@ -11,10 +11,6 @@ use App\Domain\Confirmation\{
     Outcome\NewConfirmationCreated,
 };
 
-use App\Domain\Security\{
-    ValueObjects\Symbol,
-};
-
 use App\Shared\Result;
 
 final class CreateNewTrade
@@ -35,6 +31,7 @@ final class CreateNewTrade
                     $dto->unitPrice,
                     $dto->commission,
                     $dto->usTax,
+                    $dto->expirationDate,
                 )
             )
         );

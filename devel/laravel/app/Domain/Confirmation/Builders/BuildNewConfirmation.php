@@ -20,6 +20,10 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
+use App\Domain\Security\{
+    ValueObjects\ExpirationDate\ExpirationDate,
+};
+
 final class BuildNewConfirmation
 {
     public static function from(
@@ -33,6 +37,7 @@ final class BuildNewConfirmation
         UnitPrice $unitPrice,
         Commission $commission,
         UsTax $usTax,
+        ExpirationDate $expirationDate,
     ): Confirmation {
         return Confirmation::create(
             $securityNumber,
@@ -45,6 +50,7 @@ final class BuildNewConfirmation
             $unitPrice,
             $commission,
             $usTax,
+            $expirationDate,
         );
     }
 }

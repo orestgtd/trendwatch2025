@@ -33,6 +33,7 @@ class EloquentTradeRepository
                 $eloquent->unit_price,
                 $eloquent->commission,
                 $eloquent->us_tax,
+                $eloquent->expiration_date,
             )
             : $eloquent;
     }
@@ -58,6 +59,7 @@ class EloquentTradeRepository
         $eloquent->unit_price = $confirmation->getUnitPrice();
         $eloquent->commission = $confirmation->getCommission();
         $eloquent->us_tax = $confirmation->getUsTax();
+        $eloquent->expiration_date = $confirmation->getExpirationDate();
         
         return $eloquent;
     }

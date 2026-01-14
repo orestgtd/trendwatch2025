@@ -20,6 +20,11 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
+use App\Domain\Security\{
+    ValueObjects\ExpirationDate\ExpirationDateInterface,
+    ValueObjects\ExpirationDate\NoExpiration,
+};
+
 use App\Infrastructure\Laravel\Eloquent\Position\{
     Dto\PersistedPositionDto,
 };
@@ -34,6 +39,7 @@ final class PersistedPositionBuilder
         private UnitType $unitType,
         private CostAmount $totalCost,
         private ProceedsAmount $totalProceeds,
+        private ExpirationDateInterface $expirationDate,
     ) {}
 
     public static function YYZ(): self
@@ -45,7 +51,8 @@ final class PersistedPositionBuilder
             PositionQuantity::fromInt(0),
             UnitType::shares(),
             CostAmount::zero(Currency::default()),
-            ProceedsAmount::zero(Currency::default())
+            ProceedsAmount::zero(Currency::default()),
+            NoExpiration::create()
         );
     }
 
@@ -58,7 +65,8 @@ final class PersistedPositionBuilder
             PositionQuantity::fromInt(0),
             UnitType::shares(),
             CostAmount::zero(Currency::default()),
-            ProceedsAmount::zero(Currency::default())
+            ProceedsAmount::zero(Currency::default()),
+            NoExpiration::create()
         );
     }
 
@@ -95,7 +103,8 @@ final class PersistedPositionBuilder
             $this->positionQuantity,
             $this->unitType,
             $this->totalCost,
-            $this->totalProceeds
+            $this->totalProceeds,
+            $this->expirationDate
         );
     }
 }

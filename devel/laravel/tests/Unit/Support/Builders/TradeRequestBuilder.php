@@ -16,10 +16,6 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
-use App\Domain\Security\{
-    ValueObjects\Symbol,
-};
-
 final class TradeRequestBuilder
 {
     private function __construct(
@@ -33,6 +29,7 @@ final class TradeRequestBuilder
         private string $unitPrice,
         private string $commission,
         private string $usTax,
+        private string $expirationDate,
     ) {}
 
     public static function YYZ(): self
@@ -48,6 +45,7 @@ final class TradeRequestBuilder
             '150.25',
             '4.95',
             '0.00',
+            '',
         );
     }
 
@@ -71,6 +69,7 @@ final class TradeRequestBuilder
                 'unit_price' => $this->unitPrice,
                 'commission' => $this->commission,
                 'us_tax' => $this->usTax,
+                'expiration_date' => $this->expirationDate,
             ])->getValue()
         )->getValue();
     }

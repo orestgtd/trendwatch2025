@@ -7,7 +7,9 @@ use App\Domain\Position\{
     Model\Position,
 };
 
-use App\Domain\Security\ValueObjects\Symbol;
+use App\Domain\Security\{
+    ValueObjects\ExpirationDate,
+};
 
 use App\Infrastructure\Laravel\Eloquent\Position\{
     Dto\PersistedPositionDto,
@@ -40,7 +42,8 @@ final class GetAllPositionsQuery
             $persisted->positionQuantity,
             $persisted->unitType,
             $persisted->totalCost,
-            $persisted->totalProceeds
+            $persisted->totalProceeds,
+            $persisted->expirationDate,
         );
     }
 }

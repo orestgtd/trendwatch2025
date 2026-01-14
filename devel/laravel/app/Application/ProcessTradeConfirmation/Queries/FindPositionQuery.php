@@ -12,7 +12,7 @@ use App\Domain\Position\{
 };
 
 use App\Domain\Security\{
-    ValueObjects\Symbol,
+    ValueObjects\ExpirationDate,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Position\{
@@ -44,7 +44,8 @@ final class FindPositionQuery
             $persisted->positionQuantity,
             $persisted->unitType,
             $persisted->totalCost,
-            $persisted->totalProceeds
+            $persisted->totalProceeds,
+            $persisted->expirationDate
         );
     }
 }

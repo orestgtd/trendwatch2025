@@ -18,6 +18,10 @@ use App\Domain\Confirmation\ValueObjects\{
     UsTax,
 };
 
+use App\Domain\Security\{
+    ValueObjects\ExpirationDate\ExpirationDate,
+};
+
 final class PersistedTradeDto
 {
     public function __construct(
@@ -31,5 +35,6 @@ final class PersistedTradeDto
         public readonly UnitPrice $unitPrice,
         public readonly Commission $commission,
         public readonly UsTax $usTax,
+        public readonly ExpirationDate $expirationDate,
     ) {}
 }

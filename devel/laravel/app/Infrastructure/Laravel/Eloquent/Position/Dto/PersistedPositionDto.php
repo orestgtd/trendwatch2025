@@ -18,6 +18,10 @@ use App\Domain\Position\ValueObjects\{
     PositionQuantity,
 };
 
+use App\Domain\Security\{
+    ValueObjects\ExpirationDate\ExpirationDateInterface,
+};
+
 final class PersistedPositionDto
 {
     public function __construct(
@@ -28,5 +32,6 @@ final class PersistedPositionDto
         public readonly UnitType $unitType,
         public readonly CostAmount $totalCost,
         public readonly ProceedsAmount $totalProceeds,
+        public readonly ExpirationDateInterface $expirationDate,
     ) {}
 }

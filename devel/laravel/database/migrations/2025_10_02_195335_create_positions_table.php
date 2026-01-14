@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('total_proceeds_amount');
             $table->string('total_proceeds_currency');
             // $table->enum('status', PositionStatusEnum::enumValues());
+            $table->date('expiration_date')->nullable();
             $table->timestamps();
         });
     }

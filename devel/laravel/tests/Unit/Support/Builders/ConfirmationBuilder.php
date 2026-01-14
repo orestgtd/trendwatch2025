@@ -22,6 +22,11 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
+use App\Domain\Security\{
+    ValueObjects\ExpirationDate\ExpirationDateInterface,
+    ValueObjects\ExpirationDate\NoExpiration,
+};
+
 final class ConfirmationBuilder
 {
     private function __construct(
@@ -35,6 +40,7 @@ final class ConfirmationBuilder
         private UnitPrice $unitPrice,
         private Commission $commission,
         private UsTax $usTax,
+        private ExpirationDateInterface $expirationDate,
     ) {}
 
     public static function buyToOpenShares(): self
@@ -49,7 +55,8 @@ final class ConfirmationBuilder
             UnitType::shares(),
             UnitPrice::zero(),
             Commission::zero(),
-            UsTax::zero()
+            UsTax::zero(),
+            NoExpiration::create()
         );
     }
 
@@ -65,7 +72,8 @@ final class ConfirmationBuilder
             UnitType::shares(),
             UnitPrice::zero(),
             Commission::zero(),
-            UsTax::zero()
+            UsTax::zero(),
+            NoExpiration::create()
         );
     }
 
@@ -81,7 +89,8 @@ final class ConfirmationBuilder
             UnitType::shares(),
             UnitPrice::zero(),
             Commission::zero(),
-            UsTax::zero()
+            UsTax::zero(),
+            NoExpiration::create()
         );
     }
 
@@ -97,7 +106,8 @@ final class ConfirmationBuilder
             UnitType::shares(),
             UnitPrice::zero(),
             Commission::zero(),
-            UsTax::zero()
+            UsTax::zero(),
+            NoExpiration::create()
         );
     }
 
@@ -153,6 +163,7 @@ final class ConfirmationBuilder
             $this->unitPrice,
             $this->commission,
             $this->usTax,
+            $this->expirationDate
         );
     }
 }

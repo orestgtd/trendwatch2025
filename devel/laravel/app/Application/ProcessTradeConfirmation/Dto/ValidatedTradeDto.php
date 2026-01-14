@@ -17,6 +17,7 @@ final class ValidatedTradeDto extends AbstractValidatedDto
         public readonly string $unitPrice,
         public readonly string $commission,
         public readonly string $usTax,
+        public readonly string $expirationDate,
     ) {
     }
 
@@ -36,6 +37,7 @@ final class ValidatedTradeDto extends AbstractValidatedDto
             'unit_price',
             'commission',
             'us_tax',
+            'expiration_date',
         ];
     }
 
@@ -55,6 +57,7 @@ final class ValidatedTradeDto extends AbstractValidatedDto
             $allValues['unit_price'],
             $allValues['commission'],
             $allValues['us_tax'],
+            $allValues['expiration_date'],
         );
     }
 }

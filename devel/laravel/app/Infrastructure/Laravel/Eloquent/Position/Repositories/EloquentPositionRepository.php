@@ -2,15 +2,12 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Position\Repositories;
 
-use App\Domain\Kernel\{
-    Identifiers\SecurityNumber,
-};
-
 use App\Domain\{
+    Kernel\Identifiers\SecurityNumber,
+    Outcome\Persistence\PersistenceScope,
     Position\Model\Position,
+    Security\ValueObjects\ExpirationDate\ExpirationDate,
 };
-
-use App\Domain\Outcome\Persistence\PersistenceScope;
 
 use App\Infrastructure\Laravel\Eloquent\Position\{
     Dto\PersistedPositionDto,
@@ -32,6 +29,7 @@ class EloquentPositionRepository
                 $eloquent->unit_type,
                 $eloquent->total_cost,
                 $eloquent->total_proceeds,
+                $eloquent->expiration_date
             )
             : $eloquent;
     }
@@ -47,6 +45,7 @@ class EloquentPositionRepository
                 $eloquent->unit_type,
                 $eloquent->total_cost,
                 $eloquent->total_proceeds,
+                $eloquent->expiration_date,
             ))
             ->toArray();
     }
@@ -101,6 +100,7 @@ class EloquentPositionRepository
         $eloquent->unit_type = $position->getUnitType();
         $eloquent->total_cost = $position->getTotalCost();
         $eloquent->total_proceeds = $position->getTotalProceeds();
+        $eloquent->expiration_date = $position->getExpirationDate();
 
         return $eloquent;
     }

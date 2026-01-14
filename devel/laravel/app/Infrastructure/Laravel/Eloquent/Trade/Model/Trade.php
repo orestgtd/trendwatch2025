@@ -18,6 +18,10 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
+use App\Domain\Security\{
+    ValueObjects\ExpirationDate\ExpirationDateInterface,
+};
+
 use App\Infrastructure\Laravel\Eloquent\{
     Casts\UnitTypeCast,
     Security\Casts\SecurityNumberCast,
@@ -34,6 +38,7 @@ use App\Infrastructure\Laravel\Eloquent\Trade\Casts\{
 };
 
 use App\Infrastructure\Laravel\Eloquent\Security\{
+    Casts\ExpirationDateCast,
     Casts\SymbolCast,
 };
 
@@ -52,6 +57,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property UnitPrice  $unit_price
  * @property Commission  $commission
  * @property UsTax  $us_tax
+ * @property ExpirationDateInterface $expiration_date
  */
 
 class Trade extends Model
@@ -69,6 +75,7 @@ class Trade extends Model
         'unit_price',
         'commission',
         'us_tax',
+        'expiration_date',
     ];
 
     protected $casts = [
@@ -82,5 +89,6 @@ class Trade extends Model
         'unit_price' => UnitPriceCast::class,
         'commission' => CommissionCast::class,
         'us_tax' => UsTaxCast::class,
+        'expiration_date' => ExpirationDateCast::class,
     ];
 }
