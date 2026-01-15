@@ -6,6 +6,7 @@ use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
     Identifiers\Symbol,
     Identifiers\TradeNumber,
+    Values\ExpirationDate,
     Values\UnitType,
 };
 
@@ -16,10 +17,6 @@ use App\Domain\Confirmation\ValueObjects\{
     TradeQuantity,
     UnitPrice,
     UsTax,
-};
-
-use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpirationDate,
 };
 
 final class PersistedTradeDto

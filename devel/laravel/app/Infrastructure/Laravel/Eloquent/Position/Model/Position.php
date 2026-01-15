@@ -10,16 +10,13 @@ use App\Domain\Confirmation\{
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
     Identifiers\Symbol,
+    Values\ExpirationDate,
     Values\PositionType,
     Values\UnitType,
 };
 
 use App\Domain\Position\{
     ValueObjects\PositionQuantity,
-};
-
-use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpirationDate,
 };
 
 use App\Infrastructure\Laravel\Eloquent\{

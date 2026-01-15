@@ -6,7 +6,6 @@ use App\Domain\{
     Kernel\Identifiers\SecurityNumber,
     Outcome\Persistence\PersistenceScope,
     Position\Model\Position,
-    Security\ValueObjects\ExpirationDate\ExpirationDate,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Position\{

@@ -5,12 +5,12 @@ namespace Tests\Unit\Support\Factories;
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
     Identifiers\Symbol,
+    Values\ExpirationDate,
     Values\UnitType,
 };
 
 use App\Domain\Security\ValueObjects\{
     Description,
-    ExpirationDate\ExpirationDate,
     Variations\NoVariations,
 };
 

@@ -10,11 +10,9 @@ use App\Domain\Confirmation\{
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
     Identifiers\Symbol,
+    Values\ExpirationDate,
     Values\PositionType,
     Values\UnitType,
-};
-use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpirationDate,
 };
 
 abstract class AbstractPosition implements Position

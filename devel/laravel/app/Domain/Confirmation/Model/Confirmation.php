@@ -24,11 +24,8 @@ use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
     Identifiers\Symbol,
     Identifiers\TradeNumber,
+    Values\ExpirationDate,
     Values\UnitType,
-};
-
-use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpirationDate,
 };
 
 final class Confirmation

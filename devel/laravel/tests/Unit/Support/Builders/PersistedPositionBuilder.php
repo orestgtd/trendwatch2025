@@ -16,12 +16,9 @@ use App\Domain\Kernel\{
     Identifiers\Symbol,
     Money\Currency,
     Money\MoneyAmount,
+    Values\ExpirationDate,
     Values\PositionType,
     Values\UnitType,
-};
-
-use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpirationDate,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Position\{

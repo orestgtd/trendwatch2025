@@ -5,6 +5,7 @@ namespace App\Domain\Security\Model;
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
     Identifiers\Symbol,
+    Values\ExpirationDate,
     Values\UnitType,
 };
 
@@ -24,25 +25,30 @@ abstract class AbstractSecurity implements Security
     protected Symbol $symbol;
     protected UnitType $unitType;
     protected VariationsInterface $variations;
+    protected ExpirationDate $expirationDate;
 
     protected function __construct(
         SecurityNumber $securityNumber,
         Symbol $symbol,
         UnitType $unitType,
         Description $canonicalDescription,
-        VariationsInterface $variations
+        VariationsInterface $variations,
+        ExpirationDate $expirationDate,
     ) {
         $this->securityNumber = $securityNumber;
         $this->symbol = $symbol;
         $this->unitType = $unitType;
         $this->canonicalDescription = $canonicalDescription;
         $this->variations = $variations;
+        $this->expirationDate = $expirationDate;
     }
 
     public function symbol(): Symbol { return $this->symbol; }
     public function securityNumber(): SecurityNumber { return $this->securityNumber; }
     public function canonicalDescription(): Description { return $this->canonicalDescription; }
     public function variations(): VariationsInterface { return $this->variations; }
+    public function expirationDate(): ExpirationDate { return $this->expirationDate; }
+
 
     public function recordDescription(Description $incomingDescription): SecurityOutcome
     {

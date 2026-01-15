@@ -10,16 +10,13 @@ use App\Domain\Confirmation\ValueObjects\{
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
     Identifiers\Symbol,
+    Values\ExpirationDate,
     Values\PositionType,
     Values\UnitType,
 };
 
 use App\Domain\Position\ValueObjects\{
     PositionQuantity,
-};
-
-use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpirationDate,
 };
 
 final class PersistedPositionDto

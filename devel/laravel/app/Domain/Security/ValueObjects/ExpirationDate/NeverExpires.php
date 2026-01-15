@@ -2,6 +2,10 @@
 
 namespace App\Domain\Security\ValueObjects\ExpirationDate;
 
+use App\Domain\{
+    Kernel\Values\ExpirationDate,
+};
+
 final class NeverExpires extends ExpirationDate
 {
     protected static function create(): self

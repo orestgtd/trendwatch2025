@@ -7,13 +7,12 @@ use App\Application\Common\AbstractParsedRequestDto;
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
     Identifiers\Symbol,
+    Values\ExpirationDate,
     Values\UnitType,
 };
 
 use App\Domain\Security\ValueObjects\{
     Description,
-    ExpirationDate\ExpirationDate,
-    ExpirationDate\ExpiresOn,
 };
 
 use App\Shared\{
@@ -39,7 +38,7 @@ final class ParsedSecurityRequestDto extends AbstractParsedRequestDto
             'symbol'            => Symbol::tryFrom($validatedDto->symbol),
             'description'       => Description::tryFrom($validatedDto->description),
             'unit_type'         => UnitType::tryFrom($validatedDto->unitType),
-            'expiration_date'   => ExpiresOn::tryFrom($validatedDto->expirationDate),
+            'expiration_date'   => ExpirationDate::tryFrom($validatedDto->expirationDate),
         ]);
 
         return self::processCollection($collection)->map(

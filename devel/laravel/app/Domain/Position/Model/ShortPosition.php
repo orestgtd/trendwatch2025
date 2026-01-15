@@ -11,6 +11,7 @@ use App\Domain\Confirmation\{
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
     Identifiers\Symbol,
+    Values\ExpirationDate,
     Values\PositionType,
     Values\UnitType,
 };
@@ -20,10 +21,6 @@ use App\Domain\Position\{
     ValueObjects\BaseQuantity,
     ValueObjects\PositionQuantity,
     ValueObjects\ProceedsBase,
-};
-
-use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpirationDate,
 };
 
 final class ShortPosition extends AbstractPosition

@@ -9,6 +9,7 @@ use App\Domain\Kernel\{
     Identifiers\Symbol,
     Identifiers\TradeNumber,
     Money\Currency,
+    Values\ExpirationDate,
     Values\UnitType,
 };
 
@@ -22,7 +23,6 @@ use App\Domain\Confirmation\ValueObjects\{
 };
 
 use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpirationDate,
     ValueObjects\ExpirationDate\ExpiresOn,
 };
 
