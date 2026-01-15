@@ -33,9 +33,9 @@ class EloquentPositionRepository
             : $eloquent;
     }
 
-    public function all(): array
+    public function active(): array
     {
-        return EloquentPosition::all()
+        return EloquentPosition::where('position_quantity', '>', 0)->get()
             ->map(fn(EloquentPosition $eloquent) => new PersistedPositionDto(
                 $eloquent->security_number,
                 $eloquent->symbol,

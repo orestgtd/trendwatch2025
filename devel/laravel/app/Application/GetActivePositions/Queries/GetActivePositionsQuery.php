@@ -1,14 +1,10 @@
 <?php
 
-namespace App\Application\GetPositions\Queries;
+namespace App\Application\GetActivePositions\Queries;
 
 use App\Domain\Position\{
     Builders\BuildPositionFromPersisted,
     Model\Position,
-};
-
-use App\Domain\Security\{
-    ValueObjects\ExpirationDate,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Position\{
@@ -16,7 +12,7 @@ use App\Infrastructure\Laravel\Eloquent\Position\{
     Repositories\EloquentPositionRepository,
 };
 
-final class GetAllPositionsQuery
+final class GetActivePositionsQuery
 {
     public function __construct(
         private readonly EloquentPositionRepository $repository
@@ -25,7 +21,7 @@ final class GetAllPositionsQuery
     /** @return Position[] */
     public function all(): array
     {
-        $persistedPositions = $this->repository->all();
+        $persistedPositions = $this->repository->active();
 
         return array_map(
             fn(PersistedPositionDto $dto) => $this->buildPositionFromPersisted($dto),

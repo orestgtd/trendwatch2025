@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Application\GetPositions;
+namespace App\Application\GetActivePositions;
 
-use App\Application\GetPositions\{
-    Queries\GetAllPositionsQuery,
+use App\Application\GetActivePositions\{
+    Queries\GetActivePositionsQuery,
 };
 
 use App\Shared\Result;
 
-final class GetPositions
+final class GetActivePositions
 {
     public function __construct(
-        private readonly GetAllPositionsQuery $query
+        private readonly GetActivePositionsQuery $query
     ) {}
 
     /** @return Result<array> */

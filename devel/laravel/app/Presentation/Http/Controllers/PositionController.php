@@ -7,13 +7,13 @@ use Illuminate\Http\{
 };
 
 use App\Application\{
-    GetPositions\GetPositions,
+    GetActivePositions\GetActivePositions,
 };
 
 class PositionController
 {
     public function __construct(
-        private readonly GetPositions $getPositions
+        private readonly GetActivePositions $getPositions
     ) {}
 
     public function index(): JsonResponse

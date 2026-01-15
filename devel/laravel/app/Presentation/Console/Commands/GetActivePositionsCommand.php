@@ -2,7 +2,7 @@
 
 namespace App\Presentation\Console\Commands;
 
-use App\Application\GetPositions\GetPositions;
+use App\Application\GetActivePositions\GetActivePositions;
 
 use App\Domain\{
     Kernel\Money\Monetary,
@@ -11,7 +11,7 @@ use App\Domain\{
 
 use Illuminate\Console\Command;
 
-class GetPositionsCommand extends Command
+class GetActivePositionsCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -31,7 +31,7 @@ class GetPositionsCommand extends Command
      * Create a new command instance.
      */
     public function __construct(
-        private readonly GetPositions $useCase
+        private readonly GetActivePositions $useCase
     ) {
         parent::__construct();
     }
@@ -59,10 +59,12 @@ class GetPositionsCommand extends Command
         // Define table headers
         $headers = [
             'Security',
+            'Symbol',
             'Position Type',
             'Qty',
             'Cost',
-            'Proceeds'
+            'Proceeds',
+            'Expiration Date',
         ];
 
         // Map positions to rows for table display
@@ -77,10 +79,12 @@ class GetPositionsCommand extends Command
 
             return [
                 $position->getSecurityNumber(),
+                $position->getSymbol(),
                 $position->getPositionType(),
                 $position->getPositionQuantity(),
                 $formatMoney($position->getTotalCost()),
                 $formatMoney($position->getTotalProceeds()),
+                (string) $position->getExpirationDate()
             ];
         }, $positions);
 
