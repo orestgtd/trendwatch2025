@@ -24,7 +24,6 @@ use App\Domain\Kernel\{
 
 use App\Domain\Security\{
     ValueObjects\ExpirationDate\ExpirationDate,
-    ValueObjects\ExpirationDate\NeverExpires,
 };
 
 final class ConfirmationBuilder
@@ -56,7 +55,7 @@ final class ConfirmationBuilder
             UnitPrice::zero(),
             Commission::zero(),
             UsTax::zero(),
-            NeverExpires::create()
+            ExpirationDate::never()
         );
     }
 
@@ -73,7 +72,7 @@ final class ConfirmationBuilder
             UnitPrice::zero(),
             Commission::zero(),
             UsTax::zero(),
-            NeverExpires::create()
+            ExpirationDate::never()
         );
     }
 
@@ -90,7 +89,7 @@ final class ConfirmationBuilder
             UnitPrice::zero(),
             Commission::zero(),
             UsTax::zero(),
-            NeverExpires::create()
+            ExpirationDate::never()
         );
     }
 
@@ -107,7 +106,7 @@ final class ConfirmationBuilder
             UnitPrice::zero(),
             Commission::zero(),
             UsTax::zero(),
-            NeverExpires::create()
+            ExpirationDate::never()
         );
     }
 

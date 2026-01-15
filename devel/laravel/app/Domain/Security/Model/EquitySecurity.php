@@ -10,8 +10,7 @@ use App\Domain\Kernel\{
 
 use App\Domain\Security\ValueObjects\{
     Description,
-    // ExpirationDate\ExpirationDate,
-    ExpirationDate\NeverExpires,
+    ExpirationDate\ExpirationDate,
     Variations\VariationsInterface,
 };
 
@@ -52,9 +51,9 @@ final class EquitySecurity extends AbstractSecurity
     // public function canonicalDescription(): Description { return $this->canonicalDescription; }
     // public function variations(): VariationsInterface { return $this->variations; }
 
-    public function expirationDate(): NeverExpires
+    public function expirationDate(): ExpirationDate
     {
         // Equities never expire
-        return NeverExpires::create();
+        return ExpirationDate::never();
     }
 }

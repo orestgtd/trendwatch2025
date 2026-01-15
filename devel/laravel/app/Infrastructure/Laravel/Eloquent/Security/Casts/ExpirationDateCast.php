@@ -6,8 +6,6 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
 use App\Domain\Security\ValueObjects\ExpirationDate\{
     ExpirationDate,
-    ExpiresOn,
-    NeverExpires,
 };
 
 use App\Shared\Date;
@@ -17,15 +15,14 @@ final class ExpirationDateCast implements CastsAttributes
     public function get($model, string $key, $value, array $attributes): ExpirationDate
     {
         return is_null($value)
-            ? NeverExpires::create()
-            : ExpiresOn::create(Date::fromString($value));
+            ? ExpirationDate::never()
+            : ExpirationDate::on(Date::fromString($value));
     }
 
     public function set($model, string $key, $value, array $attributes): string
     {
         return match (true) {
-            ($value instanceof ExpiresOn) => (string) $value,
-            ($value instanceof NeverExpires) => '',
+            ($value instanceof ExpirationDate) => (string) $value,
             default => $value,
         };
     }

@@ -22,7 +22,6 @@ use App\Domain\Kernel\{
 
 use App\Domain\Security\{
     ValueObjects\ExpirationDate\ExpirationDate,
-    ValueObjects\ExpirationDate\NeverExpires,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Position\{
@@ -52,7 +51,7 @@ final class PersistedPositionBuilder
             UnitType::shares(),
             CostAmount::zero(Currency::default()),
             ProceedsAmount::zero(Currency::default()),
-            NeverExpires::create()
+            ExpirationDate::never()
         );
     }
 
@@ -66,7 +65,7 @@ final class PersistedPositionBuilder
             UnitType::shares(),
             CostAmount::zero(Currency::default()),
             ProceedsAmount::zero(Currency::default()),
-            NeverExpires::create()
+            ExpirationDate::never()
         );
     }
 

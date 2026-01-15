@@ -7,7 +7,7 @@ use App\Shared\{
     Result,
 };
 
-final class ExpiresOn implements ExpirationDate
+final class ExpiresOn extends ExpirationDate
 {
     private Date $date;
 
@@ -16,7 +16,7 @@ final class ExpiresOn implements ExpirationDate
         $this->date = $date;
     }
 
-    public static function create(Date $date): self
+    protected static function create(Date $date): self
     {
         return new self($date);
     }

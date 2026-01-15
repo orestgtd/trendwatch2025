@@ -2,9 +2,9 @@
 
 namespace App\Domain\Security\ValueObjects\ExpirationDate;
 
-final class NeverExpires implements ExpirationDate
+final class NeverExpires extends ExpirationDate
 {
-    public static function create(): self
+    protected static function create(): self
     {
         return new self;
     }

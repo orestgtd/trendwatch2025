@@ -2,11 +2,28 @@
 
 namespace App\Domain\Security\ValueObjects\ExpirationDate;
 
-interface ExpirationDate
-{
-    public function hasDate(): bool;
-    public function isExpired(): bool;
+use App\Shared\Date;
 
-    public function __toString(): string;
+use App\Domain\Security\{
+    ValueObjects\ExpirationDate\ExpiresOn,
+    ValueObjects\ExpirationDate\NeverExpires,
+};
+
+abstract class ExpirationDate
+{
+    abstract public function hasDate(): bool;
+    abstract public function isExpired(): bool;
+
+    abstract public function __toString(): string;
+
+    final public static function on(Date $date): self
+    {
+        return ExpiresOn::create($date);
+    }
+
+    final public static function never(): self
+    {
+        return NeverExpires::create();
+    }
 }
 
