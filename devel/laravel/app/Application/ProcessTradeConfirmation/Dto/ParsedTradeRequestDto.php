@@ -22,10 +22,6 @@ use App\Domain\Confirmation\ValueObjects\{
     UsTax,
 };
 
-use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpiresOn,
-};
-
 use App\Shared\{
     Collection,
     Result
@@ -50,7 +46,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
     /** @return Result<self> */
     public static function fromValidatedConfirmationDto(ValidatedTradeDto $validatedDto): Result
     {
-       $collection = Collection::from([
+        $collection = Collection::from([
             'security_number'  => SecurityNumber::tryFrom($validatedDto->securityNumber),
             'symbol'           => Symbol::tryFrom($validatedDto->symbol),
             'trade_number'     => TradeNumber::tryFrom($validatedDto->tradeNumber),
@@ -61,7 +57,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
             'unit_price'       => UnitPrice::tryFrom($validatedDto->unitPrice, Currency::default()),
             'commission'       => Commission::tryFrom($validatedDto->commission, Currency::default()),
             'us_tax'           => UsTax::tryFromOrZero($validatedDto->usTax, Currency::default()),
-            'expiration_date'  => ExpiresOn::tryFrom($validatedDto->expirationDate),
+            'expiration_date'  => ExpirationDate::tryFrom($validatedDto->expirationDate),
         ]);
 
         return self::processCollection($collection)->map(
