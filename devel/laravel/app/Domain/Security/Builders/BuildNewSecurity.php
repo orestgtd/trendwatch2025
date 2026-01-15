@@ -13,7 +13,7 @@ use App\Domain\Security\{
     Model\OptionSecurity,
     Model\Security,
     ValueObjects\Description,
-    ValueObjects\ExpirationDate\ExpirationDateInterface,
+    ValueObjects\ExpirationDate\ExpirationDate,
     ValueObjects\Variations\VariationsInterface,
 };
 use App\Shared\Result;
@@ -27,7 +27,7 @@ final class BuildNewSecurity
         Description $description,
         VariationsInterface $variations,
         UnitType $unitType,
-        ExpirationDateInterface $expirationDate
+        ExpirationDate $expirationDate
     ): Result {
 
         return match (true)
@@ -58,7 +58,7 @@ final class BuildNewSecurity
         Symbol $symbol,
         Description $description,
         VariationsInterface $variations,
-        ExpirationDateInterface $expirationDate
+        ExpirationDate $expirationDate
     ): Result
     {
         if (!$expirationDate->hasDate()) {

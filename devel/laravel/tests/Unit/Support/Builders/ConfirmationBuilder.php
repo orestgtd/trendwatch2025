@@ -23,8 +23,8 @@ use App\Domain\Kernel\{
 };
 
 use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpirationDateInterface,
-    ValueObjects\ExpirationDate\NoExpiration,
+    ValueObjects\ExpirationDate\ExpirationDate,
+    ValueObjects\ExpirationDate\NeverExpires,
 };
 
 final class ConfirmationBuilder
@@ -40,7 +40,7 @@ final class ConfirmationBuilder
         private UnitPrice $unitPrice,
         private Commission $commission,
         private UsTax $usTax,
-        private ExpirationDateInterface $expirationDate,
+        private ExpirationDate $expirationDate,
     ) {}
 
     public static function buyToOpenShares(): self
@@ -56,7 +56,7 @@ final class ConfirmationBuilder
             UnitPrice::zero(),
             Commission::zero(),
             UsTax::zero(),
-            NoExpiration::create()
+            NeverExpires::create()
         );
     }
 
@@ -73,7 +73,7 @@ final class ConfirmationBuilder
             UnitPrice::zero(),
             Commission::zero(),
             UsTax::zero(),
-            NoExpiration::create()
+            NeverExpires::create()
         );
     }
 
@@ -90,7 +90,7 @@ final class ConfirmationBuilder
             UnitPrice::zero(),
             Commission::zero(),
             UsTax::zero(),
-            NoExpiration::create()
+            NeverExpires::create()
         );
     }
 
@@ -107,7 +107,7 @@ final class ConfirmationBuilder
             UnitPrice::zero(),
             Commission::zero(),
             UsTax::zero(),
-            NoExpiration::create()
+            NeverExpires::create()
         );
     }
 

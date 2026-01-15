@@ -19,7 +19,7 @@ use App\Domain\Position\{
 };
 
 use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpirationDateInterface,
+    ValueObjects\ExpirationDate\ExpirationDate,
 };
 
 use App\Infrastructure\Laravel\Eloquent\{
@@ -38,14 +38,14 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Infrastructure\Laravel\Eloquent\Position\Model\Position
  *
- * @property SecurityNumber          $security_number
- * @property Symbol                  $symbol
- * @property PositionType            $position_type
- * @property PositionQuantity        $position_quantity
- * @property UnitType                $unit_type
- * @property CostAmount              $total_cost
- * @property ProceedsAmount          $total_proceeds
- * @property ExpirationDateInterface $expiration_date
+ * @property SecurityNumber   $security_number
+ * @property Symbol           $symbol
+ * @property PositionType     $position_type
+ * @property PositionQuantity $position_quantity
+ * @property UnitType         $unit_type
+ * @property CostAmount       $total_cost
+ * @property ProceedsAmount   $total_proceeds
+ * @property ExpirationDate   $expiration_date
  */
 
 class Position extends Model

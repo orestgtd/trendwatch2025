@@ -21,8 +21,8 @@ use App\Domain\Kernel\{
 };
 
 use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpirationDateInterface,
-    ValueObjects\ExpirationDate\NoExpiration,
+    ValueObjects\ExpirationDate\ExpirationDate,
+    ValueObjects\ExpirationDate\NeverExpires,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Position\{
@@ -39,7 +39,7 @@ final class PersistedPositionBuilder
         private UnitType $unitType,
         private CostAmount $totalCost,
         private ProceedsAmount $totalProceeds,
-        private ExpirationDateInterface $expirationDate,
+        private ExpirationDate $expirationDate,
     ) {}
 
     public static function YYZ(): self
@@ -52,7 +52,7 @@ final class PersistedPositionBuilder
             UnitType::shares(),
             CostAmount::zero(Currency::default()),
             ProceedsAmount::zero(Currency::default()),
-            NoExpiration::create()
+            NeverExpires::create()
         );
     }
 
@@ -66,7 +66,7 @@ final class PersistedPositionBuilder
             UnitType::shares(),
             CostAmount::zero(Currency::default()),
             ProceedsAmount::zero(Currency::default()),
-            NoExpiration::create()
+            NeverExpires::create()
         );
     }
 

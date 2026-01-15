@@ -19,7 +19,7 @@ use App\Domain\Position\ValueObjects\{
 };
 
 use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpirationDateInterface,
+    ValueObjects\ExpirationDate\ExpirationDate,
 };
 
 final class PersistedPositionDto
@@ -32,6 +32,6 @@ final class PersistedPositionDto
         public readonly UnitType $unitType,
         public readonly CostAmount $totalCost,
         public readonly ProceedsAmount $totalProceeds,
-        public readonly ExpirationDateInterface $expirationDate,
+        public readonly ExpirationDate $expirationDate,
     ) {}
 }

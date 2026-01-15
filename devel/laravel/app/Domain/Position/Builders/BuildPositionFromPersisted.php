@@ -22,7 +22,7 @@ use App\Domain\Position\{
 };
 
 use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpirationDateInterface,
+    ValueObjects\ExpirationDate\ExpirationDate,
 };
 
 final class BuildPositionFromPersisted
@@ -35,7 +35,7 @@ final class BuildPositionFromPersisted
         UnitType $unitType,
         CostAmount $totalCost,
         ProceedsAmount $totalProceeds,
-        ExpirationDateInterface $expirationDate,
+        ExpirationDate $expirationDate,
     ): Position {
         return $positionType->delegate(
             onLong: fn () => LongPosition::fromPersisted(

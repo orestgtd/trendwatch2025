@@ -10,7 +10,7 @@ use App\Domain\Kernel\{
 
 use App\Domain\Security\ValueObjects\{
     Description,
-    ExpirationDate\ExpirationDateInterface,
+    ExpirationDate\ExpirationDate,
     Variations\VariationsInterface,
 };
 
@@ -22,6 +22,6 @@ final class PersistedSecurityDto
         public readonly Description $canonicalDescription,
         public readonly VariationsInterface $variations,
         public readonly UnitType $unitType,
-        public readonly ?ExpirationDateInterface $expirationDate,
+        public readonly ?ExpirationDate $expirationDate,
     ) {}
 }

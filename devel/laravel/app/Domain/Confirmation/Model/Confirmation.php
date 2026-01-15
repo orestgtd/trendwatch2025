@@ -28,7 +28,7 @@ use App\Domain\Kernel\{
 };
 
 use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpirationDateInterface,
+    ValueObjects\ExpirationDate\ExpirationDate,
 };
 
 final class Confirmation
@@ -44,7 +44,7 @@ final class Confirmation
         private UnitPrice $unitPrice,
         private Commission $commission,
         private UsTax $usTax,
-        private ExpirationDateInterface $expirationDate,
+        private ExpirationDate $expirationDate,
     ) {
         $this->securityNumber = $securityNumber;
         $this->symbol = $symbol;
@@ -70,7 +70,7 @@ final class Confirmation
         UnitPrice $unitPrice,
         Commission $commission,
         UsTax $usTax,
-        ExpirationDateInterface $expirationDate,
+        ExpirationDate $expirationDate,
     ): self {
         return new self(
             $securityNumber,
@@ -92,7 +92,7 @@ final class Confirmation
         return $this->commission;
     }
 
-    public function getExpirationDate(): ExpirationDateInterface
+    public function getExpirationDate(): ExpirationDate
     {
         return $this->expirationDate;
     }

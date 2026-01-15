@@ -10,7 +10,7 @@ use App\Domain\Kernel\{
 
 use App\Domain\Security\ValueObjects\{
     Description,
-    ExpirationDate\NoExpiration,
+    ExpirationDate\NeverExpires,
     Variations\NoVariations,
 };
 
@@ -28,7 +28,7 @@ final class PersistedSecurityFactory
             Description::fromString('SECURITY UNDER PRESSURE'),
             NoVariations::create(),
             UnitType::shares(),
-            NoExpiration::create(),
+            NeverExpires::create(),
         );
     }
 }

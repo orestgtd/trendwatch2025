@@ -23,7 +23,7 @@ use App\Domain\Kernel\{
 };
 
 use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpirationDateInterface,
+    ValueObjects\ExpirationDate\ExpirationDate,
 };
 
 final class LongPosition extends AbstractPosition
@@ -36,7 +36,7 @@ final class LongPosition extends AbstractPosition
         PositionQuantity $positionQuantity,
         UnitType $unitType,
         CostAmount $totalCost,
-        ExpirationDateInterface $expirationDate,
+        ExpirationDate $expirationDate,
     ) {
         $this->securityNumber = $securityNumber;
         $this->symbol = $symbol;
@@ -54,7 +54,7 @@ final class LongPosition extends AbstractPosition
         PositionQuantity $positionQuantity,
         UnitType $unitType,
         CostAmount $totalCost,
-        ExpirationDateInterface $expirationDate,
+        ExpirationDate $expirationDate,
     ): self {
         return new self(
             $securityNumber,
@@ -73,7 +73,7 @@ final class LongPosition extends AbstractPosition
         UnitType $unitType,
         CostAmount $totalCost,
         ProceedsAmount $totalProceeds,
-        ExpirationDateInterface $expirationDate,
+        ExpirationDate $expirationDate,
     ): self {
         $instance = new self($securityNumber, $symbol, $positionQuantity, $unitType, $totalCost, $expirationDate);
         $instance->costBase = CostBase::fromPersisted(

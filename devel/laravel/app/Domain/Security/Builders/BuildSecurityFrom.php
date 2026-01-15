@@ -16,7 +16,7 @@ use App\Domain\Security\Model\{
 
 use App\Domain\Security\ValueObjects\{
     Description,
-    ExpirationDate\ExpirationDateInterface,
+    ExpirationDate\ExpirationDate,
     Variations\VariationsInterface,
 };
 
@@ -28,7 +28,7 @@ final class BuildSecurityFrom
         Description $description,
         VariationsInterface $variations,
         UnitType $unitType,
-        ExpirationDateInterface $expirationDate
+        ExpirationDate $expirationDate
     ): Security {
         return $unitType->delegate(
             onContracts: fn () => OptionSecurity::create($securityNumber, $symbol, $description, $variations, $expirationDate),

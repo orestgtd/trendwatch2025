@@ -14,7 +14,7 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpirationDateInterface,
+    ValueObjects\ExpirationDate\ExpirationDate,
 };
 
 abstract class AbstractPosition implements Position
@@ -24,12 +24,12 @@ abstract class AbstractPosition implements Position
     protected SecurityNumber $securityNumber;
     protected Symbol $symbol;
     protected UnitType $unitType;
-    protected ExpirationDateInterface $expirationDate;
+    protected ExpirationDate $expirationDate;
 
     public function getSecurityNumber(): SecurityNumber { return $this->securityNumber; }
     public function getSymbol(): Symbol { return $this->symbol; }
     public function getUnitType(): UnitType { return $this->unitType; }
-    public function getExpirationDate(): ExpirationDateInterface { return $this->expirationDate; }
+    public function getExpirationDate(): ExpirationDate { return $this->expirationDate; }
 
 
     abstract public function getTotalCost(): CostAmount;

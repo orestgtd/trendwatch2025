@@ -12,7 +12,7 @@ use App\Domain\Security\Outcome\SecurityOutcome;
 
 use App\Domain\Security\ValueObjects\{
     Description,
-    ExpirationDate\ExpirationDateInterface,
+    ExpirationDate\ExpirationDate,
     Variations\VariationsInterface,
 };
 
@@ -22,7 +22,7 @@ interface Security
     public function symbol(): Symbol;
     public function canonicalDescription(): Description;
     public function variations(): VariationsInterface;
-    public function expirationDate(): ExpirationDateInterface;
+    public function expirationDate(): ExpirationDate;
     public function unitType(): UnitType;
     public function recordDescription(Description $incomingDescription): SecurityOutcome;
 }

@@ -2,7 +2,7 @@
 
 namespace App\Domain\Security\ValueObjects\ExpirationDate;
 
-final class NoExpiration implements ExpirationDateInterface
+final class NeverExpires implements ExpirationDate
 {
     public static function create(): self
     {

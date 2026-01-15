@@ -23,6 +23,7 @@ use App\Domain\Confirmation\ValueObjects\{
 
 use App\Domain\Security\{
     ValueObjects\ExpirationDate\ExpirationDate,
+    ValueObjects\ExpirationDate\ExpiresOn,
 };
 
 use App\Shared\{
@@ -60,7 +61,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
             'unit_price'       => UnitPrice::tryFrom($validatedDto->unitPrice, Currency::default()),
             'commission'       => Commission::tryFrom($validatedDto->commission, Currency::default()),
             'us_tax'           => UsTax::tryFromOrZero($validatedDto->usTax, Currency::default()),
-            'expiration_date'  => ExpirationDate::tryFrom($validatedDto->expirationDate),
+            'expiration_date'  => ExpiresOn::tryFrom($validatedDto->expirationDate),
         ]);
 
         return self::processCollection($collection)->map(

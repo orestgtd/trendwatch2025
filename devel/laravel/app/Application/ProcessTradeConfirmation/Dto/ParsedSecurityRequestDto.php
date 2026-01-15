@@ -13,7 +13,7 @@ use App\Domain\Kernel\{
 use App\Domain\Security\ValueObjects\{
     Description,
     ExpirationDate\ExpirationDate,
-    ExpirationDate\ExpirationDateInterface,
+    ExpirationDate\ExpiresOn,
 };
 
 use App\Shared\{
@@ -28,7 +28,7 @@ final class ParsedSecurityRequestDto extends AbstractParsedRequestDto
         public readonly Symbol $symbol,
         public readonly Description $description,
         public readonly UnitType $unitType,
-        public readonly ExpirationDateInterface $expirationDate
+        public readonly ExpirationDate $expirationDate
     ) {}
 
     /** @return Result<ParsedSecurityRequestDto> */
@@ -39,7 +39,7 @@ final class ParsedSecurityRequestDto extends AbstractParsedRequestDto
             'symbol'            => Symbol::tryFrom($validatedDto->symbol),
             'description'       => Description::tryFrom($validatedDto->description),
             'unit_type'         => UnitType::tryFrom($validatedDto->unitType),
-            'expiration_date'   => ExpirationDate::tryFrom($validatedDto->expirationDate),
+            'expiration_date'   => ExpiresOn::tryFrom($validatedDto->expirationDate),
         ]);
 
         return self::processCollection($collection)->map(

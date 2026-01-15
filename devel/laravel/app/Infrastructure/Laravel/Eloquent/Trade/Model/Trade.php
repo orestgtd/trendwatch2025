@@ -19,7 +19,7 @@ use App\Domain\Kernel\{
 };
 
 use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpirationDateInterface,
+    ValueObjects\ExpirationDate\ExpirationDate,
 };
 
 use App\Infrastructure\Laravel\Eloquent\{
@@ -48,16 +48,16 @@ use Illuminate\Database\Eloquent\Model;
  * App\Infrastructure\Laravel\Eloquent\Trade\Model\Trade
  *
  * @property SecurityNumber $security_number
- * @property Symbol $symbol
- * @property TradeNumber $trade_number
- * @property TradeAction $trade_action
+ * @property Symbol         $symbol
+ * @property TradeNumber    $trade_number
+ * @property TradeAction    $trade_action
  * @property PositionEffect $position_effect
- * @property TradeQuantity    $trade_quantity
- * @property UnitType $unit_type
- * @property UnitPrice  $unit_price
- * @property Commission  $commission
- * @property UsTax  $us_tax
- * @property ExpirationDateInterface $expiration_date
+ * @property TradeQuantity  $trade_quantity
+ * @property UnitType       $unit_type
+ * @property UnitPrice      $unit_price
+ * @property Commission     $commission
+ * @property UsTax          $us_tax
+ * @property ExpirationDate $expiration_date
  */
 
 class Trade extends Model
