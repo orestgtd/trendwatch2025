@@ -36,7 +36,7 @@ final class ExpiresOn extends ExpirationDate
 
     public function isExpired(): bool
     {
-        return false;
+        return $this->date->isBeforeToday();
     }
 
     public function __toString(): string

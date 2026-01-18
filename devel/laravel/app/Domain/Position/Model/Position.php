@@ -33,6 +33,7 @@ interface Position
     public function getTotalProceeds(): ProceedsAmount;
 
     public function getExpirationDate(): ExpirationDate;
+    public function isExpired(): bool;
 
     // public function getRealizedGainOutcome(): ?RealizedGainOutcome;
 }

@@ -2,11 +2,13 @@
 
 namespace App\Presentation\Console\Commands;
 
-use App\Application\GetActivePositions\GetActivePositions;
+use App\Application\{
+    GetActivePositions\GetActivePositions,
+};
 
-use App\Domain\{
-    Kernel\Money\Monetary,
-    Position\Model\Position,
+use App\Presentation\{
+    Presenters\PositionPresenter,
+    Console\Renderers\ConsolePositionRowRenderer,
 };
 
 use Illuminate\Console\Command;
@@ -31,7 +33,9 @@ class GetActivePositionsCommand extends Command
      * Create a new command instance.
      */
     public function __construct(
-        private readonly GetActivePositions $useCase
+        private readonly GetActivePositions $useCase,
+        private readonly PositionPresenter $presenter,
+        private readonly ConsolePositionRowRenderer $renderer,
     ) {
         parent::__construct();
     }
@@ -67,26 +71,14 @@ class GetActivePositionsCommand extends Command
             'Expiration Date',
         ];
 
-        // Map positions to rows for table display
-        $rows = array_map(function (Position $position) {
-
-            // $formatMoney = function(Monetary $monetary): string {
-            //     return "{$monetary->getCurrency()} {$monetary->getAmount()}";
-            // };
-
-            // Local helper for formatting Monetary objects
-            $formatMoney = fn(Monetary $m): string => "{$m->getCurrency()} {$m->getAmount()}";
-
-            return [
-                $position->getSecurityNumber(),
-                $position->getSymbol(),
-                $position->getPositionType(),
-                $position->getPositionQuantity(),
-                $formatMoney($position->getTotalCost()),
-                $formatMoney($position->getTotalProceeds()),
-                (string) $position->getExpirationDate()
-            ];
-        }, $positions);
+        /** @var array<int, array<int, string>> $rows */
+        $rows = array_map(
+            fn ($position) =>
+                $this->renderer->render(
+                    $this->presenter->present($position)
+                ),
+            $positions
+        );
 
         // Display table
         $this->table($headers, $rows);

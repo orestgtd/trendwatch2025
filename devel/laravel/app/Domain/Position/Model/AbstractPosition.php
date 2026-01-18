@@ -28,7 +28,7 @@ abstract class AbstractPosition implements Position
     public function getSymbol(): Symbol { return $this->symbol; }
     public function getUnitType(): UnitType { return $this->unitType; }
     public function getExpirationDate(): ExpirationDate { return $this->expirationDate; }
-
+    public function isExpired(): bool { return $this->expirationDate->isExpired(); }
 
     abstract public function getTotalCost(): CostAmount;
     abstract public function getTotalProceeds(): ProceedsAmount;

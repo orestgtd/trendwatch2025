@@ -37,6 +37,16 @@ class Date
         return new self(Carbon::now());
     }
 
+    public function isBeforeToday(): bool
+    {
+        return $this->carbon->lt(Carbon::today());
+    }
+
+    // public function isBefore(Date $other): bool
+    // {
+    //     return $this->carbon->lt($other->carbon);
+    // }
+
     public function toString(): string
     {
         return $this->carbon->format(self::STANDARD);
@@ -55,12 +65,6 @@ class Date
     public function equalTo(string $value): bool
     {
         return $this->carbon->equalTo($value);
-    }
-
-
-    public function before($other): bool
-    {
-        return $this->carbon->lt($other->carbon);
     }
 
     public static function format(string|Carbon $value): string
