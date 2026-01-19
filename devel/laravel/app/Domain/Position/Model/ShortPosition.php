@@ -115,7 +115,7 @@ final class ShortPosition extends AbstractPosition
         return $this;
     }
 
-    public function increaseHolding(TradeQuantity $change, ProceedsAmount $tradeProceeds): static
+    public function addShortSale(TradeQuantity $change, ProceedsAmount $tradeProceeds): static
     {
         $this->proceedsBase->addShortSale($change, $tradeProceeds);
 

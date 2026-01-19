@@ -7,93 +7,26 @@ use App\Domain\Confirmation\{
 };
 
 use App\Domain\Position\{
-    Model\LongPosition,
-    Model\ShortPosition,
     Model\Position,
-    Outcome\IncreasedHolding,
-    Outcome\NewPositionCreated,
     Outcome\PositionOutcome,
-    ValueObjects\PositionQuantity,
 };
 
-use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpirationDate,
-};
+use App\Shared\Result;
 
 final class AddToNewOrExistingPosition
 {
-    public function do(Confirmation $confirmation, ?Position $lookupPosition): PositionOutcome
+    public function __construct(
+        private BuyToOpenNewOrExistingPosition $buyToOpenNewOrExistingPosition,
+        private SellToOpenNewOrExistingPosition $sellToOpenNewOrExistingPosition
+    ) {}
+
+    /** @return Result<PositionOutcome> */
+    public function do(Confirmation $confirmation, ?Position $lookupPosition): Result
     {
         return
             $confirmation->matchTradeAction(
-                onBuy: fn(Confirmation $confirmation) => $this->addToNewOrExistingLongPosition($confirmation, $lookupPosition),
-                onSell: fn(Confirmation $confirmation) => $this->addToNewOrExistingShortPosition($confirmation, $lookupPosition),
+                onBuy: fn(Confirmation $confirmation) => $this->buyToOpenNewOrExistingPosition->do($confirmation, $lookupPosition),
+                onSell: fn(Confirmation $confirmation) => $this->sellToOpenNewOrExistingPosition->do($confirmation, $lookupPosition),
             );
-    }
-
-    private function addToNewOrExistingLongPosition(Confirmation $confirmation, ?Position $lookupPosition): PositionOutcome
-    {
-        return $lookupPosition
-            ? $this->addToExistingLongPosition($confirmation, $lookupPosition)
-            : $this->createNewLongPosition($confirmation);
-    }
-
-    private function createNewLongPosition(Confirmation $confirmation): NewPositionCreated
-    {
-        return new NewPositionCreated(
-            LongPosition::create(
-                $confirmation->getSecurityNumber(),
-                $confirmation->getSymbol(),
-                PositionQuantity::fromTradeQuantity($confirmation->getTradeQuantity()),
-                $confirmation->getUnitType(),
-                $confirmation->netCost(),
-                $confirmation->getExpirationDate(),
-            ),
-            $confirmation->getTradeNumber()
-        );
-    }
-
-    private function createNewShortPosition(Confirmation $confirmation): NewPositionCreated
-    {
-        return new NewPositionCreated(
-            ShortPosition::create(
-                $confirmation->getSecurityNumber(),
-                $confirmation->getSymbol(),
-                PositionQuantity::fromTradeQuantity($confirmation->getTradeQuantity()),
-                $confirmation->getUnitType(),
-                $confirmation->netProceeds(),
-                $confirmation->getExpirationDate(),
-            ),
-            $confirmation->getTradeNumber()
-        );
-    }
-
-    private function addToExistingLongPosition(Confirmation $confirmation, LongPosition $position): IncreasedHolding
-    {
-        return new IncreasedHolding(
-            $position->addPurchase(
-                $confirmation->getTradeQuantity(),
-                $confirmation->netCost()
-            ),
-            $confirmation->getTradeNumber()
-        );
-    }
-
-    private function addToExistingShortPosition(Confirmation $confirmation, ShortPosition $position): IncreasedHolding
-    {
-        return new IncreasedHolding(
-            $position->increaseHolding(
-                $confirmation->getTradeQuantity(),
-                $confirmation->netProceeds()
-            ),
-            $confirmation->getTradeNumber()
-        );
-    }
-
-    private function addToNewOrExistingShortPosition(Confirmation $confirmation, ?Position $lookupPosition): PositionOutcome
-    {
-        return $lookupPosition
-            ? $this->addToExistingShortPosition($confirmation, $lookupPosition)
-            : $this->createNewShortPosition($confirmation);
     }
 }

@@ -32,6 +32,16 @@ final class PositionType extends AbstractStringValueObject
         return new self(self::SHORT);
     }
 
+    public function isLong(): bool
+    {
+        return $this->value == self::LONG;
+    }
+
+    public function isShort(): bool
+    {
+        return $this->value == self::SHORT;
+    }
+
     /**
      * @template T
      * @param callable():T $onLong

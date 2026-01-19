@@ -350,6 +350,37 @@ class PositionServiceTest extends TestCase
         // $this->assertCurrency('USD', $totalProceeds->getCurrency());
     }
 
+
+    #[Test]
+    public function it_fails_when_given_mixed_trade_types()
+    {
+        // Given an existing long position.
+        MockObject::mock(
+            PositionRepository::class,
+            'findBySecurityNumber',
+                PersistedPositionBuilder::YYZ()
+                    ->withQuantity(200)
+                    ->withTotalCost('2000')
+                    ->build()
+        );
+
+        // When we sell to add short units
+        /** @var PositionService $service */
+        $service = app(PositionService::class);
+
+        $result = $service->computePositionOutcome(
+            ConfirmationBuilder::sellToOpenShares()
+            ->withQuantity(50)
+            ->withUnitPrice('4')
+            ->withCommission('5')
+            ->withUsTax('1')
+            ->build()
+        );
+
+        // Then trade should fail
+        $this->assertTrue($result->isFailure());
+    }
+
     private function assertCurrency(string $expected, Currency $currency): void
     {
         $this->assertEquals($expected, $currency->value());

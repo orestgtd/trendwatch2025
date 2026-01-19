@@ -40,10 +40,8 @@ final class PositionManager
         Confirmation $confirmation,
         ?Position $lookupPosition
     ): Result {
-        return Result::success(
-            $this->addToNewOrExistingPosition
-                ->do($confirmation, $lookupPosition)
-        );
+        return $this->addToNewOrExistingPosition
+            ->do($confirmation, $lookupPosition);
     }
 
     /** @return Result<PositionOutcome> */

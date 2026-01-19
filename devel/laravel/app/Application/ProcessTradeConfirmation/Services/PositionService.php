@@ -28,6 +28,7 @@ final class PositionService
      */
     public function computePositionOutcome(Confirmation $confirmation): Result
     {
+        // return Result::failure('Simulated failure from Position Manager');
         return $this->manager->createOrUpdatePosition(
             $confirmation,
             $this->findPosition->findBySecurityNumber(

@@ -20,6 +20,11 @@ class ImportTradeConfirmations
         try {
             $import = ConfirmationImport::doImport($file);
             $failed = count($import->failedRows());
+
+            // if ($failed > 0) {
+            //     dd($import->failedRows()[0]);
+            // }
+
             return $failed > 0
                 ? Result::failure("Import failed: {$failed} rows failed to import")
                 : Result::success($import->numberOfRows());

@@ -11,10 +11,6 @@ use App\Domain\Position\{
     Model\Position,
 };
 
-use App\Domain\Security\{
-    ValueObjects\ExpirationDate,
-};
-
 use App\Infrastructure\Laravel\Eloquent\Position\{
     Dto\PersistedPositionDto,
     Repositories\EloquentPositionRepository as PositionRepository,

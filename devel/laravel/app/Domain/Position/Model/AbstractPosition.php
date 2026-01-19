@@ -33,6 +33,16 @@ abstract class AbstractPosition implements Position
     abstract public function getTotalCost(): CostAmount;
     abstract public function getTotalProceeds(): ProceedsAmount;
 
+    public function isLong(): bool
+    {
+        return $this->getPositionType()->isLong();
+    }
+
+    public function isShort(): bool
+    {
+        return $this->getPositionType()->isShort();
+    }
+
 
     // abstract public static function create(): static;
     // abstract public function applyTrade(Confirmation $confirmation): Result;
