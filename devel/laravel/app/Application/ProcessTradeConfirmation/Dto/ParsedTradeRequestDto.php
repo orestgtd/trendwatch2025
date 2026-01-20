@@ -55,7 +55,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
             'trade_quantity'   => TradeQuantity::tryFrom($validatedDto->tradeQuantity),
             'trade_unit_type'  => UnitType::tryFrom($validatedDto->tradeUnitType),
             'unit_price'       => UnitPrice::tryFrom($validatedDto->unitPrice, Currency::default()),
-            'commission'       => Commission::tryFrom($validatedDto->commission, Currency::default()),
+            'commission'       => Commission::tryFromOrZero($validatedDto->commission, Currency::default()),
             'us_tax'           => UsTax::tryFromOrZero($validatedDto->usTax, Currency::default()),
             'expiration_date'  => ExpirationDate::tryFrom($validatedDto->expirationDate),
         ]);

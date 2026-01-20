@@ -18,6 +18,7 @@ use App\Domain\Confirmation\{
 class ConfirmationImport implements ConfirmationImportInterface, OnEachRow, WithHeadingRow
 {
     private int $count_of_rows = 0;
+    private int $row_number = 2;    // import data starts on Row 2
     private array $failedRows = [];
 
     private ProcessTradeConfirmation $action;
@@ -38,20 +39,27 @@ class ConfirmationImport implements ConfirmationImportInterface, OnEachRow, With
     public function onRow(Row $row)
     {
         $rowData = $row->toArray();
-        if (empty($rowData['security_number'])) {
+        $securityNumber = $rowData['security_number'];
+        if (empty($securityNumber)) {
             return; // skip rows without security_number
         }
+
+        $tradeNumber = $rowData['trade_number'];
 
         $result = $this->action->handle($rowData);
         if ($result->isFailure()) {
             $this->failedRows[] = [
-                'row' => $rowData,
-                'errors' => $result->getError(),
+                'row' => $this->row_number,
+                'security_number' => $securityNumber,
+                'trade_number' => $tradeNumber,
+                'data' => $rowData,
+                'error' => $result->getError(),
             ];
             return;
         }
     
         $this->count_of_rows++;
+        $this->row_number++;
     }
 
     public function numberOfRows(): int
