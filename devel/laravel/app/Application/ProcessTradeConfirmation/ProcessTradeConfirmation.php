@@ -33,14 +33,18 @@ final class ProcessTradeConfirmation
     public function handle(array $request): Result
     {
         // Step 1: Parse request
-        $parseResult = $this->parseRequest($request);
-        if ($parseResult->isFailure()) {
-            return Result::failure($parseResult->getError());
+        $processResult = $this->parser
+        ->parse($request)
+        ->bind(
+            fn (ParsedTradeData $parsed) => $this->processRequest($parsed)
+        );
+        if ($processResult->isFailure()) {
+            return Result::failure($processResult->getError());
         }
 
         /** @var ConfirmationOutcome $confirmationOutcome */
         /** @var SecurityOutcome $securityOutcome */
-        [$confirmationOutcome, $securityOutcome] = $parseResult->getValue();
+        [$confirmationOutcome, $securityOutcome] = $processResult->getValue();
 
         // Step 2: Evaluate and update position
         $resultPositionOutcome = $this->coordinator->computePositionOutcome($confirmationOutcome->getConfirmation());
@@ -68,23 +72,14 @@ final class ProcessTradeConfirmation
     }
 
     /** @return Result<array<ConfirmationOutcome, SecurityOutcome>> */
-    private function parseRequest(array $request): Result
+    private function processRequest(ParsedTradeData $parsed): Result
     {
-        $parseResult = $this->parser->parse($request);
-        if ($parseResult->isFailure()) {
-            return Result::failure($parseResult->getError());
-        }
-
-        $resultConfirmationOutcome = $parseResult->bind(
-            fn (ParsedTradeData $parsed) => $this->coordinator->processConfirmationRequest($parsed->trade)
-        );
+        $resultConfirmationOutcome = $this->coordinator->processConfirmationRequest($parsed->trade);
         if ($resultConfirmationOutcome->isFailure()) {
             return Result::failure($resultConfirmationOutcome->getError());
         }
 
-        $resultSecurityOutcome = $parseResult->bind(
-            fn (ParsedTradeData $parsed) => $this->coordinator->processSecurityRequest($parsed->security)
-        );
+        $resultSecurityOutcome = $this->coordinator->processSecurityRequest($parsed->security);
         if ($resultSecurityOutcome->isFailure()) {
             return Result::failure($resultSecurityOutcome->getError());
         }
