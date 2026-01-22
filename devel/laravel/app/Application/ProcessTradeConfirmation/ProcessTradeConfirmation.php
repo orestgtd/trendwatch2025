@@ -10,13 +10,12 @@ use App\Application\ProcessTradeConfirmation\Summary\{
 
 use App\Application\TradeConfirmation\{
     Dto\ParsedTradeData,
+    TradeProcessingOutcomes,
     TradeRequestParser,
 };
 
 use App\Domain\{
-    Confirmation\Model\Confirmation,
     Confirmation\Outcome\ConfirmationOutcome,
-    Position\Outcome\PositionOutcome,
     Security\Outcome\SecurityOutcome,
 };
 
@@ -33,8 +32,7 @@ final class ProcessTradeConfirmation
     public function handle(array $request): Result
     {
         // Step 1: Parse request
-        $processResult = $this->parser
-        ->parse($request)
+        $processResult = $this->parser->parse($request)
         ->bind(
             fn (ParsedTradeData $parsed) => $this->processRequest($parsed)
         );
@@ -42,9 +40,9 @@ final class ProcessTradeConfirmation
             return Result::failure($processResult->getError());
         }
 
-        /** @var ConfirmationOutcome $confirmationOutcome */
-        /** @var SecurityOutcome $securityOutcome */
-        [$confirmationOutcome, $securityOutcome] = $processResult->getValue();
+        $processingOutcomes = $processResult->getValue();
+        $confirmationOutcome = $processingOutcomes->confirmationOutcome;
+        $securityOutcome = $processingOutcomes->securityOutcome;
 
         // Step 2: Evaluate and update position
         $resultPositionOutcome = $this->coordinator->computePositionOutcome($confirmationOutcome->getConfirmation());
@@ -71,7 +69,7 @@ final class ProcessTradeConfirmation
         );
     }
 
-    /** @return Result<array<ConfirmationOutcome, SecurityOutcome>> */
+    /** @return Result<TradeProcessingOutcomes> */
     private function processRequest(ParsedTradeData $parsed): Result
     {
         $resultConfirmationOutcome = $this->coordinator->processConfirmationRequest($parsed->trade);
@@ -84,9 +82,11 @@ final class ProcessTradeConfirmation
             return Result::failure($resultSecurityOutcome->getError());
         }
 
-        return Result::success([
-            $resultConfirmationOutcome->getValue(),
-            $resultSecurityOutcome->getValue(),
-        ]);
+        return Result::success(
+            new TradeProcessingOutcomes(
+                $resultConfirmationOutcome->getValue(),
+                $resultSecurityOutcome->getValue()
+            )
+        );
     }
 }
