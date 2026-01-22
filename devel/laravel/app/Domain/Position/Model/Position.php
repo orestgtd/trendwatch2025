@@ -19,6 +19,8 @@ use App\Domain\Position\{
     ValueObjects\PositionQuantity,
 };
 
+use App\Shared\Date;
+
 interface Position
 {
     // public function markClosed(): void;
@@ -33,7 +35,7 @@ interface Position
     public function getTotalProceeds(): ProceedsAmount;
 
     public function getExpirationDate(): ExpirationDate;
-    public function isExpired(): bool;
+    public function isExpiredAsOf(Date $asOf): bool;
 
     // public function getRealizedGainOutcome(): ?RealizedGainOutcome;
 }

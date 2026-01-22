@@ -34,9 +34,9 @@ final class ExpiresOn extends ExpirationDate
         return true;
     }
 
-    public function isExpired(): bool
+    public function isExpiredAsOf(Date $asOf): bool
     {
-        return $this->date->isBeforeToday();
+        return $this->date->isBefore($asOf);
     }
 
     public function __toString(): string

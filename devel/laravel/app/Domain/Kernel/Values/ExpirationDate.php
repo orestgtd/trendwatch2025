@@ -15,7 +15,7 @@ use App\Shared\{
 abstract class ExpirationDate
 {
     abstract public function hasDate(): bool;
-    abstract public function isExpired(): bool;
+    abstract public function isExpiredAsOf(Date $asOf): bool;
 
     /**
      * String representation suitable for persistence and logging.

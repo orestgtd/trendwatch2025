@@ -14,6 +14,8 @@ use App\Domain\Kernel\{
     Values\PositionType,
     Values\UnitType,
 };
+use App\Domain\RealizedGain\Model\RealizedGainBasis;
+use App\Shared\Date;
 
 abstract class AbstractPosition implements Position
 {
@@ -28,7 +30,7 @@ abstract class AbstractPosition implements Position
     public function getSymbol(): Symbol { return $this->symbol; }
     public function getUnitType(): UnitType { return $this->unitType; }
     public function getExpirationDate(): ExpirationDate { return $this->expirationDate; }
-    public function isExpired(): bool { return $this->expirationDate->isExpired(); }
+    public function isExpiredAsOf(Date $asOf): bool { return $this->expirationDate->isExpiredAsOf($asOf); }
 
     abstract public function getTotalCost(): CostAmount;
     abstract public function getTotalProceeds(): ProceedsAmount;
@@ -41,6 +43,20 @@ abstract class AbstractPosition implements Position
     public function isShort(): bool
     {
         return $this->getPositionType()->isShort();
+    }
+
+    public function expire(Date $asOf): void // ExpiredPositionOutcome
+    {
+        if ($this->isExpiredAsOf($asOf))
+        {
+            // TODO: calculate realized gain basis
+            // $realizedGainBasis = RealizedGainBasis::create(
+            //     $this->securityNumber,
+            //         // we don't have a trade number !!!                
+            // );
+            // TODO: set quantity to zero
+            // TODO: return Expired outcome with Realized Gain Basis
+        }
     }
 
 

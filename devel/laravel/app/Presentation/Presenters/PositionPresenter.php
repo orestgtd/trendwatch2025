@@ -12,6 +12,8 @@ use App\Presentation\ViewModels\{
     Values\MoneyView,
 };
 
+use App\Shared\Date;
+
 final class PositionPresenter
 {
     public function present(Position $position): PositionRowViewModel
@@ -32,7 +34,7 @@ final class PositionPresenter
             ),
             expiration: new ExpirationView(
                 value: (string) $position->getExpirationDate(),
-                isExpired: $position->isExpired(),
+                isExpired: $position->isExpiredAsOf(Date::today()),
             ),
         );
     }

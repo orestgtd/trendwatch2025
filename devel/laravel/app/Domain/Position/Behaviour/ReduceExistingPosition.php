@@ -16,6 +16,7 @@ use App\Domain\Position\{
 
 use App\Domain\RealizedGain\{
     Model\RealizedGainBasis,
+    ValueObjects\RealizationSource,
 };
 
 final class ReduceExistingPosition
@@ -32,6 +33,7 @@ final class ReduceExistingPosition
     private function reduceExistingLongPosition(Confirmation $confirmation, LongPosition $position): PositionOutcome
     {
         $securityNumber = $confirmation->getSecurityNumber();
+        $tradeNumber = $confirmation->getTradeNumber();
         $tradeQuantity = $confirmation->getTradeQuantity();
         $baseQuantity = $position->getBaseQuantity();
 
@@ -42,7 +44,7 @@ final class ReduceExistingPosition
 
         $realizedGainBasis = RealizedGainBasis::create(
             $securityNumber,
-            $confirmation->getTradeNumber(),
+            RealizationSource::trade($tradeNumber),
             $baseQuantity,
             $tradeQuantity,
             $position->getUnitType(),
@@ -52,7 +54,7 @@ final class ReduceExistingPosition
 
         return new DecreasedHolding(
             $position,
-            $confirmation->getTradeNumber(),
+            $tradeNumber,
             $realizedGainBasis,
         );
     }
@@ -60,6 +62,7 @@ final class ReduceExistingPosition
     private function reduceExistingShortPosition(Confirmation $confirmation, ShortPosition $position): PositionOutcome
     {
         $securityNumber = $confirmation->getSecurityNumber();
+        $tradeNumber = $confirmation->getTradeNumber();
         $tradeQuantity = $confirmation->getTradeQuantity();
         $baseQuantity = $position->getBaseQuantity();
 
@@ -70,7 +73,7 @@ final class ReduceExistingPosition
 
         $realizedGainBasis = RealizedGainBasis::create(
             $securityNumber,
-            $confirmation->getTradeNumber(),
+            RealizationSource::trade($tradeNumber),
             $baseQuantity,
             $tradeQuantity,
             $position->getUnitType(),
@@ -80,7 +83,7 @@ final class ReduceExistingPosition
 
         return new DecreasedHolding(
             $position,
-            $confirmation->getTradeNumber(),
+            $tradeNumber,
             $realizedGainBasis,
         );
     }

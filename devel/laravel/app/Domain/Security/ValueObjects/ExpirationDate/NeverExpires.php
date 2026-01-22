@@ -6,6 +6,8 @@ use App\Domain\{
     Kernel\Values\ExpirationDate,
 };
 
+use App\Shared\Date;
+
 final class NeverExpires extends ExpirationDate
 {
     protected static function create(): self
@@ -18,7 +20,7 @@ final class NeverExpires extends ExpirationDate
         return false;
     }
 
-    public function isExpired(): bool
+    public function isExpiredAsOf(Date $asOf): bool
     {
         return false;
     }

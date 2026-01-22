@@ -42,10 +42,10 @@ class Date
         return $this->carbon->lt(Carbon::today());
     }
 
-    // public function isBefore(Date $other): bool
-    // {
-    //     return $this->carbon->lt($other->carbon);
-    // }
+    public function isBefore(Date $other): bool
+    {
+        return $this->carbon->lt($other->carbon);
+    }
 
     public function toString(): string
     {

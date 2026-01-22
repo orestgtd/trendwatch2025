@@ -2,6 +2,8 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Position\Repositories;
 
+use App\Shared\Date;
+
 use App\Domain\{
     Kernel\Identifiers\SecurityNumber,
     Outcome\Persistence\PersistenceScope,
@@ -36,6 +38,26 @@ class EloquentPositionRepository
     public function active(): array
     {
         return EloquentPosition::where('position_quantity', '>', 0)->get()
+            ->map(fn(EloquentPosition $eloquent) => new PersistedPositionDto(
+                $eloquent->security_number,
+                $eloquent->symbol,
+                $eloquent->position_type,
+                $eloquent->position_quantity,
+                $eloquent->unit_type,
+                $eloquent->total_cost,
+                $eloquent->total_proceeds,
+                $eloquent->expiration_date,
+            ))
+            ->toArray();
+    }
+
+    public function expiredAsOf(Date $asOf): array
+    {
+        return EloquentPosition::where('position_quantity', '>', 0)
+            ->whereNotNull('expiration_date')
+            ->where('expiration_date', '!=', '')
+            ->where('expiration_date', '<', $asOf->toString())
+            ->get()
             ->map(fn(EloquentPosition $eloquent) => new PersistedPositionDto(
                 $eloquent->security_number,
                 $eloquent->symbol,

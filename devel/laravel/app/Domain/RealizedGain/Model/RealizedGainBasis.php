@@ -4,7 +4,6 @@ namespace App\Domain\RealizedGain\Model;
 
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
-    Identifiers\TradeNumber,
     Values\UnitType,
 };
 
@@ -17,14 +16,15 @@ use App\Domain\Confirmation\ValueObjects\{
 use App\Domain\Position\{
     ValueObjects\BaseQuantity,
 };
-
-use App\Domain\RealizedGain\Outcome\NewRealizedGainCreated;
+use App\Domain\{
+    RealizedGain\ValueObjects\RealizationSource,
+};
 
 final class RealizedGainBasis
 {
     private function __construct(
         private readonly SecurityNumber $securityNumber,
-        private readonly TradeNumber $tradeNumber,
+        private readonly RealizationSource $realizationSource,
         private readonly BaseQuantity $baseQuantity,
         private readonly TradeQuantity $tradeQuantity,
         private readonly UnitType $unitType,
@@ -35,7 +35,7 @@ final class RealizedGainBasis
 
     public static function create(
         SecurityNumber $securityNumber,
-        TradeNumber $tradeNumber,
+        RealizationSource $realizationSource,
         BaseQuantity $baseQuantity,
         TradeQuantity $tradeQuantity,
         UnitType $unitType,
@@ -44,7 +44,7 @@ final class RealizedGainBasis
     ): self {
         return new self(
             $securityNumber,
-            $tradeNumber,
+            $realizationSource,
             $baseQuantity,
             $tradeQuantity,
             $unitType,
@@ -54,7 +54,7 @@ final class RealizedGainBasis
     }
 
     public function getSecurityNumber(): SecurityNumber { return $this->securityNumber; }
-    public function getTradeNumber(): TradeNumber { return $this->tradeNumber; }
+    public function getRealizationSource(): RealizationSource { return $this->realizationSource; }
     public function getBaseQuantity(): BaseQuantity { return $this->baseQuantity; }
     public function getTradeQuantity(): TradeQuantity { return $this->tradeQuantity; }
     public function getUnitType(): UnitType { return $this->unitType; }

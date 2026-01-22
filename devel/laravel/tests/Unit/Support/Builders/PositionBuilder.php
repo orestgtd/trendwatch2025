@@ -21,13 +21,14 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
-use App\Infrastructure\Laravel\Eloquent\Position\{
-    Dto\PersistedPositionDto,
+use App\Domain\Position\{
+    Builders\BuildPositionFromPersisted,
+    Model\Position,
 };
 
 use App\Shared\Date;
 
-final class PersistedPositionBuilder
+final class PositionBuilder
 {
     private function __construct(
         private SecurityNumber $securityNumber,
@@ -40,38 +41,10 @@ final class PersistedPositionBuilder
         private ExpirationDate $expirationDate,
     ) {}
 
-    public static function YYZ(): self
-    {
-        return new self(
-            SecurityNumber::fromString('2112'),
-            Symbol::fromString('YYZ'),
-            PositionType::long(),
-            PositionQuantity::fromInt(0),
-            UnitType::shares(),
-            CostAmount::zero(Currency::default()),
-            ProceedsAmount::zero(Currency::default()),
-            ExpirationDate::never()
-        );
-    }
-
-    public static function YYZShort(): self
-    {
-        return new self(
-            SecurityNumber::fromString('2112'),
-            Symbol::fromString('YYZ'),
-            PositionType::short(),
-            PositionQuantity::fromInt(0),
-            UnitType::shares(),
-            CostAmount::zero(Currency::default()),
-            ProceedsAmount::zero(Currency::default()),
-            ExpirationDate::never()
-        );
-    }
-
     public static function LongCall(Date $expirationDate): self
     {
         return new self(
-            SecurityNumber::fromString('2112.R40'),
+            SecurityNumber::fromString('2112'),
             Symbol::fromString('YYZ'),
             PositionType::long(),
             PositionQuantity::fromInt(1),
@@ -80,6 +53,12 @@ final class PersistedPositionBuilder
             ProceedsAmount::zero(Currency::default()),
             ExpirationDate::on($expirationDate)
         );
+    }
+
+    public function withSecurityNumber(string $value): self
+    {
+        $this->securityNumber = SecurityNumber::fromString($value);
+        return $this;
     }
 
     public function withQuantity(int $value): self
@@ -106,9 +85,9 @@ final class PersistedPositionBuilder
         return $this;
     }
 
-    public function build(): PersistedPositionDto
+    public function build(): Position
     {
-        return new PersistedPositionDto(
+        return BuildPositionFromPersisted::from(
             $this->securityNumber,
             $this->symbol,
             $this->positionType,

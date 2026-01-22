@@ -242,7 +242,8 @@ class ProcessTradeConfirmationTest extends DatabaseTestCase
         // THEN: verify realized gain is recorded
         $this->thenTheDatabaseContainsRealizedGains([
             [
-                'trade_number' => '002451',
+                'realization_source_type'  => 'TRADE',
+                'realization_source_reference' => '002451',
                 'security_number' => '7653ZG',
                 'base_quantity' => 1,
                 'trade_quantity' => 1,

@@ -16,7 +16,7 @@ class EloquentRealizedGainRepository
         return EloquentRealizedGainBasis::all()
             ->map(fn(EloquentRealizedGainBasis $eloquent) => new PersistedRealizedGainBasisDto(
                 $eloquent->security_number,
-                $eloquent->trade_number,
+                $eloquent->realization_source,
                 $eloquent->base_quantity,
                 $eloquent->trade_quantity,
                 $eloquent->unit_type,
@@ -38,7 +38,7 @@ class EloquentRealizedGainRepository
         $eloquent = new EloquentRealizedGainBasis();
 
         $eloquent->security_number = $realizedGainBasis->getSecurityNumber();
-        $eloquent->trade_number = $realizedGainBasis->getTradeNumber();
+        $eloquent->realization_source = $realizedGainBasis->getRealizationSource();
         $eloquent->base_quantity = $realizedGainBasis->getBaseQuantity();
         $eloquent->trade_quantity = $realizedGainBasis->getTradeQuantity();
         $eloquent->unit_type = $realizedGainBasis->getUnitType();
