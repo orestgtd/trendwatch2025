@@ -22,4 +22,9 @@ final class BaseQuantity extends AbstractIntValueObject
     {
         return self::fromInt($positionQuantity->toInt());
     }
+
+    public static function zero(): self
+    {
+        return self::fromInt(0);
+    }
 }

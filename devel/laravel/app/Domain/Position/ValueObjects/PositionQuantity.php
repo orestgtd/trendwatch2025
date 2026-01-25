@@ -29,4 +29,9 @@ final class PositionQuantity extends AbstractIntValueObject
     {
         return self::fromInt($baseQuantity->toInt());
     }
+
+    public function toTradeQuantity(): TradeQuantity
+    {
+        return TradeQuantity::fromInt($this->value);
+    }
 }

@@ -122,6 +122,11 @@ final class ShortPosition extends AbstractPosition
         return $this;
     }
 
+    public function expireQuantity(): void
+    {
+        $this->proceedsBase->expire();
+    }
+
     public function markClosed(): void {}
 
     public function isClosed(): bool

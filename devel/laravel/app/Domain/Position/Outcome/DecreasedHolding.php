@@ -18,21 +18,27 @@ use App\Domain\Position\{
 use App\Domain\RealizedGain\{
     Model\MaybeRealizedGainBasis,
     Model\RealizedGainBasis,
+    Outcome\RealizedGainOutcome,
 };
+use App\Domain\RealizedGain\Outcome\NewRealizedGainCreated;
 
 final class DecreasedHolding extends AbstractPositionOutcome
 {
     public function __construct(
         Position $position,
-        TradeNumber $tradeNumber,
-        RealizedGainBasis $realizedGainBasis,
+        private readonly RealizedGainBasis $realizedGainBasis,
     ) {
         parent::__construct(
             $position,
-            $tradeNumber,
             PersistenceIntent::update(['position_quantity', 'total_cost']),
         );
 
         $this->maybeRealizedGainBasis = MaybeRealizedGainBasis::create($realizedGainBasis);
     }
+
+    public function getRealizedGainOutcome(): RealizedGainOutcome
+    {
+        return NewRealizedGainCreated::create($this->realizedGainBasis);
+    }
+
 }

@@ -6,6 +6,10 @@ use App\Domain\Kernel\Identifiers\{
     TradeNumber,
 };
 
+use App\Domain\RealizedGain\{
+    ValueObjects\RealizationSource,
+};
+
 use App\Domain\Outcome\Persistence\PersistenceIntent;
 
 use App\Domain\RealizedGain\{
@@ -16,7 +20,6 @@ use App\Domain\RealizedGain\{
 final class NewRealizedGainCreated extends AbstractRealizedGainOutcome
 {
     private function __construct(
-        private readonly TradeNumber $tradeNumber,
         private readonly RealizedGainBasis $realizedGainBasis
     )
     {
@@ -24,19 +27,17 @@ final class NewRealizedGainCreated extends AbstractRealizedGainOutcome
     }
 
     public static function create(
-        TradeNumber $tradeNumber,
         RealizedGainBasis $realizedGainBasis,
     ): self
     {
         return new self (
-            $tradeNumber,
             $realizedGainBasis
         );
     }
 
-    public function getTradeNumber(): TradeNumber
+    public function getSource(): RealizationSource
     {
-        return $this->tradeNumber;
+        return $this->realizedGainBasis->getRealizationSource();
     }
 
     public function getRealizedGainBasis(): RealizedGainBasis

@@ -38,8 +38,7 @@ final class SellToOpenNewOrExistingPosition
                 $confirmation->getUnitType(),
                 $confirmation->netProceeds(),
                 $confirmation->getExpirationDate(),
-            ),
-            $confirmation->getTradeNumber()
+            )
         ));
     }
 
@@ -60,8 +59,7 @@ final class SellToOpenNewOrExistingPosition
             $position->addShortSale(
                 $confirmation->getTradeQuantity(),
                 $confirmation->netProceeds()
-            ),
-            $confirmation->getTradeNumber()
+            )
         ));
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Position;
+namespace Tests\Unit\Application\Position\Service;
 
 use PHPUnit\Framework\Attributes\Test;
 
@@ -9,7 +9,7 @@ use App\Application\ProcessTradeConfirmation\{
 };
 
 use App\Domain\Position\{
-    Model\LongPosition,
+    Model\ShortPosition,
     Outcome\DecreasedHolding,
 };
 
@@ -31,65 +31,61 @@ use Tests\Unit\Support\{
 };
 
 /**
- * 
- * it_updates_an_existing_long_position_when_close_effect()
- * it_triggers_realized_gain_when_close_effect()
- * 
-*/
+ * it_updates_an_existing_short_position_when_close_effect()
+ */
 
-
-class SellToCloseLongPositionTest extends PositionTestCase
+class BuyToCloseShortPositionTest extends PositionTestCase
 {
     #[Test]
-    public function it_updates_an_existing_long_position_when_close_effect()
+    public function it_updates_an_existing_short_position_when_close_effect()
     {
         // Given an existing position.
         MockObject::mock(
             PositionRepository::class,
             'findBySecurityNumber',
-                PersistedPositionBuilder::YYZ()
+                PersistedPositionBuilder::YYZShort()
                     ->withQuantity(100)
-                    ->withTotalCost('1000.00')
+                    ->withTotalProceeds('1000.00')
                     ->build()
         );
 
-        // When we sell to close shares
+        // When we buy to close shares
 
         /** @var PositionService $service */
         $service = app(PositionService::class);
 
         $result = $service->computePositionOutcome(
-            ConfirmationBuilder::sellToCloseShares()
+            ConfirmationBuilder::buyToCloseShares()
             ->withQuantity(25)
-            ->withUnitPrice('60')
+            ->withUnitPrice('4')
             ->withCommission('5')
             ->withUsTax('1')
             ->build()
         );
 
-        // Then the outcome should be a decreased holding of a long position
+        // Then the outcome should be a decreased holding of a short position
 
         $this->assertInstanceOf(Result::class, $result);
         $this->assertTrue($result->isSuccess());
         $outcome = $result->getValue();
         $this->assertInstanceOf(DecreasedHolding::class, $outcome);
 
-        /** @var LongPosition $position */
+        /** @var ShortPosition $position */
         $position = $outcome->getPosition();
-        $this->assertInstanceOf(LongPosition::class, $position);
+        $this->assertInstanceOf(ShortPosition::class, $position);
 
         // And the position quantity should have the correct value
         $this->assertEquals(75, $position->getPositionQuantity()->value());
 
-        // And the total cost should be unchanged
-        $totalCost = $position->getTotalCost();
-        $this->assertAmount('1000.00', $totalCost->getAmount());
-        $this->assertCurrency('USD', $totalCost->getCurrency());
-
-        // And the total proceeds should be calculated correctly
+        // And the total proceeds should be unchanged
         $totalProceeds = $position->getTotalProceeds();
-        $this->assertAmount('1494.00', $totalProceeds->getAmount());
+        $this->assertAmount('1000.00', $totalProceeds->getAmount());
         $this->assertCurrency('USD', $totalProceeds->getCurrency());
+
+        // And the total cost should be calculated correctly
+        $totalCost = $position->getTotalCost();
+        $this->assertAmount('106.00', $totalCost->getAmount());
+        $this->assertCurrency('USD', $totalCost->getCurrency());
     }
 
     #[Test]
@@ -99,23 +95,23 @@ class SellToCloseLongPositionTest extends PositionTestCase
         MockObject::mock(
             PositionRepository::class,
             'findBySecurityNumber',
-                PersistedPositionBuilder::YYZ()
+                PersistedPositionBuilder::YYZShort()
                     ->withQuantity(100)
-                    ->withTotalCost('1000.00')
+                    ->withTotalProceeds('1000.00')
                     ->build()
         );
 
-        // When we sell to close shares
+        // When we buy to close shares
 
         /** @var PositionService $service */
         $service = app(PositionService::class);
 
         $result = $service->computePositionOutcome(
-            ConfirmationBuilder::sellToCloseShares()
+            ConfirmationBuilder::buyToCloseShares()
             ->withQuantity(25)
-            ->withUnitPrice('60')
-            ->withCommission('5')
-            ->withUsTax('1')
+            ->withUnitPrice('1')
+            ->withCommission('1')
+            ->withUsTax('0.02')
             ->build()
         );
 
@@ -134,49 +130,49 @@ class SellToCloseLongPositionTest extends PositionTestCase
 
         /* And realized gain shoud have correct cost */
         $cost = $realizedGainBasis->getCost();
-        $this->assertAmount('1000.00', $cost->getAmount());
+        $this->assertAmount('26.02', $cost->getAmount());
         $this->assertCurrency('USD', $cost->getCurrency());
 
         /* And realized gain shoud have correct proceeds */
         $proceeds = $realizedGainBasis->getProceeds();
-        $this->assertAmount('1494.00', $proceeds->getAmount());
+        $this->assertAmount('1000.00', $proceeds->getAmount());
         $this->assertCurrency('USD', $proceeds->getCurrency());
     }
 
     #[Test]
-    public function it_preserves_existing_proceeds_when_rebuilding_from_persistence()
+    public function it_preserves_existing_cost_when_rebuilding_from_persistence()
     {
-        // Given an existing position that already has proceeds from a previous sale
+        // Given an existing short position that already has cost from a previous cover
         MockObject::mock(
             PositionRepository::class,
             'findBySecurityNumber',
-            PersistedPositionBuilder::YYZ()
+            PersistedPositionBuilder::YYZShort()
                 ->withQuantity(75)
-                ->withTotalCost('1000.00')
-                ->withTotalProceeds('500.00')  // Already has proceeds!
+                ->withTotalProceeds('1000.00')
+                ->withTotalCost('300.00')  // Already has cost!
                 ->build()
         );
 
-        // When we sell more shares
+        // When we buy to cover more shares
         /** @var PositionService $service */
         $service = app(PositionService::class);
 
         $result = $service->computePositionOutcome(
-            ConfirmationBuilder::sellToCloseShares()
+            ConfirmationBuilder::buyToCloseShares()
             ->withQuantity(25)
-            ->withUnitPrice('20')
+            ->withUnitPrice('10')
             ->withCommission('5')
             ->withUsTax('1')
             ->build()
         );
 
-        // Then the existing proceeds should be preserved and added to
+        // Then the existing cost should be preserved and added to
         $outcome = $this->assertResultIsDecreasedHolding($result);
         $position = $outcome->getPosition();
         
-        $totalProceeds = $position->getTotalProceeds();
-        // 500 (existing) + 494 (new sale: 25 * 20 - 5 - 1) = 994
-        $this->assertAmount('994.00', $totalProceeds->getAmount());
+        $totalCost = $position->getTotalCost();
+        // 300 (existing) + 256 (new cover: 25 * 10 + 5 + 1) = 556
+        $this->assertAmount('556.00', $totalCost->getAmount());
     }
 
     private function assertResultIsDecreasedHolding(Result $result): DecreasedHolding
@@ -188,4 +184,4 @@ class SellToCloseLongPositionTest extends PositionTestCase
 
         return $outcome;
     }
- }
+}

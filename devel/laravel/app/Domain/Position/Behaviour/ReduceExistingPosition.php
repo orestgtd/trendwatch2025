@@ -54,7 +54,6 @@ final class ReduceExistingPosition
 
         return new DecreasedHolding(
             $position,
-            $tradeNumber,
             $realizedGainBasis,
         );
     }
@@ -83,7 +82,6 @@ final class ReduceExistingPosition
 
         return new DecreasedHolding(
             $position,
-            $tradeNumber,
             $realizedGainBasis,
         );
     }

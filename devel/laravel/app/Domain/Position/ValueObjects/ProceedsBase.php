@@ -68,6 +68,13 @@ final class ProceedsBase
         return $this;
     }
 
+    public function expire(): self
+    {
+        $this->baseQuantity = BaseQuantity::zero();
+
+        return $this;
+    }
+
     public function getQuantity(): BaseQuantity { return $this->baseQuantity; }
     public function getTotalCost(): CostAmount { return $this->totalCost; }
     public function getTotalProceeds(): ProceedsAmount { return $this->totalProceeds; }

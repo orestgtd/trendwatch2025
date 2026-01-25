@@ -8,12 +8,7 @@ use App\Domain\{
     Outcome\Persistence\PersistenceIntent,
     Position\Model\Position,
     RealizedGain\Model\MaybeRealizedGainBasis,
-};
-
-use App\Domain\RealizedGain\Outcome\RealizedGainOutcome;
-
-use App\Domain\Kernel\Identifiers\{
-    TradeNumber,
+    RealizedGain\Outcome\RealizedGainOutcome,
 };
 
 abstract class AbstractPositionOutcome
@@ -21,16 +16,13 @@ extends AbstractOutcome
 implements PositionOutcome
 {
     protected readonly Position $position;
-    protected readonly TradeNumber $tradeNumber;
     public MaybeRealizedGainBasis $maybeRealizedGainBasis;
 
     protected function __construct(
         Position $position,
-        TradeNumber $tradeNumber,
         PersistenceIntent $persistenceIntent,
     ) {
         $this->position = $position;
-        $this->tradeNumber = $tradeNumber;
         $this->maybeRealizedGainBasis = MaybeRealizedGainBasis::create();
         parent::__construct($persistenceIntent);
     }
@@ -45,13 +37,8 @@ implements PositionOutcome
         return $this->position;
     }
 
-    public function getTradeNumber(): TradeNumber
-    {
-        return $this->tradeNumber;
-    }
-
     public function getRealizedGainOutcome(): RealizedGainOutcome
     {
-        return $this->maybeRealizedGainBasis->getOutcome($this->tradeNumber);
+        return $this->maybeRealizedGainBasis->getOutcome();
     }
 }

@@ -39,8 +39,7 @@ final class BuyToOpenNewOrExistingPosition
                 $confirmation->getUnitType(),
                 $confirmation->netCost(),
                 $confirmation->getExpirationDate(),
-            ),
-            $confirmation->getTradeNumber()
+            )
         ));
     }
 
@@ -62,8 +61,7 @@ final class BuyToOpenNewOrExistingPosition
             $position->addPurchase(
                 $confirmation->getTradeQuantity(),
                 $confirmation->netCost()
-            ),
-            $confirmation->getTradeNumber()
+            )
         ));
     }
 }

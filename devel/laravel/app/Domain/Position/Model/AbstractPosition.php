@@ -14,12 +14,26 @@ use App\Domain\Kernel\{
     Values\PositionType,
     Values\UnitType,
 };
-use App\Domain\RealizedGain\Model\RealizedGainBasis;
+use App\Domain\Position\{
+    ValueObjects\BaseQuantity,
+    ValueObjects\PositionQuantity,
+};
+
+use App\Domain\RealizedGain\{
+    Model\RealizedGainBasis,
+    ValueObjects\RealizationSource,
+};
+
 use App\Shared\Date;
 
 abstract class AbstractPosition implements Position
 {
     abstract public function getPositionType(): PositionType;
+    abstract public function getBaseQuantity(): BaseQuantity;
+    abstract public function getPositionQuantity(): PositionQuantity;
+    abstract public function getTotalCost(): CostAmount;
+    abstract public function getTotalProceeds(): ProceedsAmount;
+    abstract public function expireQuantity(): void;
 
     protected SecurityNumber $securityNumber;
     protected Symbol $symbol;
@@ -31,9 +45,6 @@ abstract class AbstractPosition implements Position
     public function getUnitType(): UnitType { return $this->unitType; }
     public function getExpirationDate(): ExpirationDate { return $this->expirationDate; }
     public function isExpiredAsOf(Date $asOf): bool { return $this->expirationDate->isExpiredAsOf($asOf); }
-
-    abstract public function getTotalCost(): CostAmount;
-    abstract public function getTotalProceeds(): ProceedsAmount;
 
     public function isLong(): bool
     {
@@ -49,12 +60,21 @@ abstract class AbstractPosition implements Position
     {
         if ($this->isExpiredAsOf($asOf))
         {
-            // TODO: calculate realized gain basis
-            // $realizedGainBasis = RealizedGainBasis::create(
-            //     $this->securityNumber,
-            //         // we don't have a trade number !!!                
-            // );
+            $realizedGainBasis = RealizedGainBasis::create(
+                $this->securityNumber,
+                RealizationSource::expiration($asOf),
+                $this->getBaseQuantity(),
+                $this->getPositionQuantity()->toTradeQuantity(),
+                $this->unitType,
+                $this->getTotalCost(),
+                $this->getTotalProceeds()
+            );
+
+            dd($realizedGainBasis);
+
             // TODO: set quantity to zero
+            $this->expireQuantity();
+
             // TODO: return Expired outcome with Realized Gain Basis
         }
     }

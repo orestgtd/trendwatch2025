@@ -126,6 +126,11 @@ final class LongPosition extends AbstractPosition
         return $this;
     }
 
+    public function expireQuantity(): void
+    {
+        $this->costBase->expire();
+    }
+
     public function markClosed(): void {}
 
     public function isClosed(): bool

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Position;
+namespace Tests\Unit\Application\Position\Service;
 
 use PHPUnit\Framework\Attributes\Test;
 

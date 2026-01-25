@@ -2,10 +2,6 @@
 
 namespace App\Domain\RealizedGain\Model;
 
-use App\Domain\Kernel\Identifiers\{
-    TradeNumber,
-};
-
 use App\Domain\RealizedGain\{
     Model\RealizedGainBasis,
     Outcome\NewRealizedGainCreated,
@@ -27,10 +23,10 @@ final class MaybeRealizedGainBasis
         return new self($realizedGainBasis);
     }
 
-    public function getOutcome(TradeNumber $tradeNumber): RealizedGainOutcome
+    public function getOutcome(): RealizedGainOutcome
     {
         return $this->realizedGainBasis
-        ? NewRealizedGainCreated::create($tradeNumber, $this->realizedGainBasis)
+        ? NewRealizedGainCreated::create($this->realizedGainBasis)
         : new NoRealizedGain ();
     }
 }
