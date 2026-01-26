@@ -4,6 +4,7 @@ namespace App\Infrastructure\Laravel\Eloquent\RealizedGain\Dto;
 
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
+    Values\PositionType,
     Values\UnitType,
 };
 
@@ -25,6 +26,7 @@ final class PersistedRealizedGainBasisDto
 {
     public function __construct(
         public readonly SecurityNumber $securityNumber,
+        public readonly PositionType $positionType,
         public readonly RealizationSource $realizationSource,
         public readonly BaseQuantity $baseQuantity,
         public readonly TradeQuantity $tradeQuantity,

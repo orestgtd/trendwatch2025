@@ -246,6 +246,7 @@ class ProcessTradeConfirmationTest extends DatabaseTestCase
                 'realization_source_type'  => 'TRADE',
                 'realization_source_reference' => '002451',
                 'security_number' => '7653ZG',
+                'position_type' => 'LONG',
                 'base_quantity' => 1,
                 'trade_quantity' => 1,
                 'unit_type' => 'CONTRACTS',

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('realized_gain_basis', function (Blueprint $table) {
             $table->id();
             $table->string('security_number');
+            $table->string('position_type');
             $table->string('realization_source_type');
             $table->string('realization_source_reference');
             $table->integer('base_quantity');

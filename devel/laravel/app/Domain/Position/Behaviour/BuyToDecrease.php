@@ -4,7 +4,7 @@ namespace App\Domain\Position\Behaviour;
 
 use App\Domain\{
     Confirmation\Model\Confirmation,
-    Position\Model\LongPosition,
+    Kernel\Values\PositionType,
     Position\Model\ShortPosition,
     Position\Model\Position,
     Position\Outcome\DecreasedHolding,
@@ -40,6 +40,7 @@ final class BuyToDecrease
 
         $realizedGainBasis = RealizedGainBasis::create(
             $securityNumber,
+            PositionType::short(),
             RealizationSource::trade($tradeNumber),
             $baseQuantity,
             $tradeQuantity,

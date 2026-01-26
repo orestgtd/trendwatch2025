@@ -81,6 +81,7 @@ abstract class Position
 
         $realizedGainBasis = RealizedGainBasis::create(
             $this->getSecurityNumber(),
+            $this->getPositionType(),
             RealizationSource::expiration($this->getExpirationDate()),
             $this->getBaseQuantity(),
             $this->getPositionQuantity()->toTradeQuantity(),
