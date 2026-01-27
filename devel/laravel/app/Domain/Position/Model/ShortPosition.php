@@ -17,13 +17,13 @@ use App\Domain\Kernel\{
 };
 
 use App\Domain\Position\{
-    Model\AbstractPosition,
+    Model\Position,
     ValueObjects\BaseQuantity,
     ValueObjects\PositionQuantity,
     ValueObjects\ProceedsBase,
 };
 
-final class ShortPosition extends AbstractPosition
+final class ShortPosition extends Position
 {
     private ProceedsBase $proceedsBase;
 

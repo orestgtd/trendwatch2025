@@ -9,7 +9,7 @@ use App\Domain\Confirmation\ValueObjects\{
 };
 
 use App\Domain\Position\{
-    Model\AbstractPosition,
+    Model\Position,
     ValueObjects\BaseQuantity,
     ValueObjects\CostBase,
     ValueObjects\PositionQuantity,
@@ -23,7 +23,7 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
-final class LongPosition extends AbstractPosition
+final class LongPosition extends Position
 {
     private CostBase $costBase;
 

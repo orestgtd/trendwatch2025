@@ -16,7 +16,7 @@ use App\Shared\Date;
 final class ExpirablePosition
 {
     public function __construct(
-        private readonly AbstractPosition $position,
+        private readonly Position $position,
         private readonly Date $expiredAsOf
     ) {
         if (! $position->isExpiredAsOf($expiredAsOf)) {
@@ -41,12 +41,12 @@ final class ExpirablePosition
         return PositionExpired::create($this->position, $realizedGainBasis);
     }
 
-    public function position(): AbstractPosition
+    public function getPosition(): Position
     {
         return $this->position;
     }
 
-    public function asOf(): Date
+    public function getAsOf(): Date
     {
         return $this->expiredAsOf;
     }
