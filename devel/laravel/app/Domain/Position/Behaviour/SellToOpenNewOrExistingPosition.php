@@ -15,6 +15,10 @@ use App\Domain\Position\{
     ValueObjects\PositionQuantity,
 };
 
+use App\Domain\Security\{
+    ValueObjects\SecurityInfo,
+};
+
 use App\Shared\Result;
 
 final class SellToOpenNewOrExistingPosition
@@ -32,12 +36,9 @@ final class SellToOpenNewOrExistingPosition
     {
         return Result::success(new NewPositionCreated(
             ShortPosition::create(
-                $confirmation->getSecurityNumber(),
-                $confirmation->getSymbol(),
+                $confirmation->getSecurityInfo(),
                 PositionQuantity::fromTradeQuantity($confirmation->getTradeQuantity()),
-                $confirmation->getUnitType(),
                 $confirmation->netProceeds(),
-                $confirmation->getExpirationDate(),
             )
         ));
     }

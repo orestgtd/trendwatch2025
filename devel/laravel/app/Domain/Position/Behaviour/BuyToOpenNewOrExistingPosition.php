@@ -8,12 +8,15 @@ use App\Domain\Confirmation\{
 
 use App\Domain\Position\{
     Model\LongPosition,
-    Model\ShortPosition,
     Model\Position,
     Outcome\IncreasedHolding,
     Outcome\NewPositionCreated,
     Outcome\PositionOutcome,
     ValueObjects\PositionQuantity,
+};
+
+use App\Domain\Security\{
+    ValueObjects\SecurityInfo,
 };
 
 use App\Shared\Result;
@@ -33,12 +36,9 @@ final class BuyToOpenNewOrExistingPosition
     {
         return Result::success(new NewPositionCreated(
             LongPosition::create(
-                $confirmation->getSecurityNumber(),
-                $confirmation->getSymbol(),
+                $confirmation->getSecurityInfo(),
                 PositionQuantity::fromTradeQuantity($confirmation->getTradeQuantity()),
-                $confirmation->getUnitType(),
                 $confirmation->netCost(),
-                $confirmation->getExpirationDate(),
             )
         ));
     }

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('security_number');
             $table->string('symbol');
+            $table->string('description');
             $table->string('trade_number')->unique();
             $table->string('trade_action');
             $table->string('position_effect');

@@ -10,6 +10,10 @@ use App\Domain\Confirmation\{
     Model\Confirmation,
 };
 
+use App\Domain\Security\{
+    ValueObjects\SecurityInfo,
+};
+
 use App\Infrastructure\Laravel\Eloquent\Trade\{
     Dto\PersistedTradeDto,
     Model\Trade as EloquentTrade,
@@ -23,17 +27,20 @@ class EloquentTradeRepository
 
         return $eloquent
             ? new PersistedTradeDto(
-                $eloquent->security_number,
-                $eloquent->symbol,
+                SecurityInfo::from(
+                    $eloquent->security_number,
+                    $eloquent->symbol,
+                    $eloquent->description,
+                    $eloquent->unit_type,
+                    $eloquent->expiration_date,
+                ),
                 $eloquent->trade_number,
                 $eloquent->trade_action,
                 $eloquent->position_effect,
                 $eloquent->trade_quantity,
-                $eloquent->unit_type,
                 $eloquent->unit_price,
                 $eloquent->commission,
                 $eloquent->us_tax,
-                $eloquent->expiration_date,
             )
             : $eloquent;
     }
@@ -51,6 +58,7 @@ class EloquentTradeRepository
 
         $eloquent->security_number = $confirmation->getSecurityNumber();
         $eloquent->symbol = $confirmation->getSymbol();
+        $eloquent->description = $confirmation->getDescription();
         $eloquent->trade_number = $confirmation->getTradeNumber();
         $eloquent->trade_action = $confirmation->getTradeAction();
         $eloquent->position_effect = $confirmation->getPositionEffect();

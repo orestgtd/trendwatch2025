@@ -19,12 +19,17 @@ use App\Domain\Position\{
     ValueObjects\PositionQuantity,
 };
 
+use App\Domain\Security\{
+    ValueObjects\Description,
+};
+
 use App\Infrastructure\Laravel\Eloquent\{
     Casts\UnitTypeCast,
     Position\Casts\CostAmountCast,
     Position\Casts\PositionQuantityCast,
     Position\Casts\PositionTypeCast,
     Position\Casts\ProceedsAmountCast,
+    Security\Casts\DescriptionCast,
     Security\Casts\ExpirationDateCast,
     Security\Casts\SecurityNumberCast,
     Security\Casts\SymbolCast,
@@ -37,6 +42,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property SecurityNumber   $security_number
  * @property Symbol           $symbol
+ * @property Description      $description
  * @property PositionType     $position_type
  * @property PositionQuantity $position_quantity
  * @property UnitType         $unit_type
@@ -52,6 +58,7 @@ class Position extends Model
     protected $fillable = [
         'security_number',
         'symbol',
+        'description',
         'position_type',
         'position_quantity',
         'unit_type',
@@ -63,6 +70,7 @@ class Position extends Model
     protected $casts = [
         'security_number' => SecurityNumberCast::class,
         'symbol' => SymbolCast::class,
+        'description' => DescriptionCast::class,
         'position_type' => PositionTypeCast::class,
         'position_quantity' => PositionQuantityCast::class,
         'unit_type' => UnitTypeCast::class,

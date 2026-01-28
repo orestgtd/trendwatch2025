@@ -21,33 +21,31 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
+use App\Domain\Security\{
+    ValueObjects\SecurityInfo,
+};
+
 final class BuildNewConfirmation
 {
     public static function from(
-        SecurityNumber $securityNumber,
-        Symbol $symbol,
+        SecurityInfo $securityInfo,
         TradeNumber $tradeNumber,
         TradeAction $tradeAction,
         PositionEffect $positionEffect,
         TradeQuantity $tradeQuantity,
-        UnitType $unitType,
         UnitPrice $unitPrice,
         Commission $commission,
         UsTax $usTax,
-        ExpirationDate $expirationDate,
     ): Confirmation {
         return Confirmation::create(
-            $securityNumber,
-            $symbol,
+            $securityInfo,
             $tradeNumber,
             $tradeAction,
             $positionEffect,
             $tradeQuantity,
-            $unitType,
             $unitPrice,
             $commission,
             $usTax,
-            $expirationDate,
         );
     }
 }

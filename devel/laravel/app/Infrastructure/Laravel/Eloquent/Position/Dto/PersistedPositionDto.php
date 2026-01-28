@@ -8,27 +8,24 @@ use App\Domain\Confirmation\ValueObjects\{
 };
 
 use App\Domain\Kernel\{
-    Identifiers\SecurityNumber,
-    Identifiers\Symbol,
-    Values\ExpirationDate,
     Values\PositionType,
-    Values\UnitType,
 };
 
-use App\Domain\Position\ValueObjects\{
-    PositionQuantity,
+use App\Domain\Position\{
+    ValueObjects\PositionQuantity,
+};
+
+use App\Domain\Security\{
+    ValueObjects\SecurityInfo,
 };
 
 final class PersistedPositionDto
 {
     public function __construct(
-        public readonly SecurityNumber $securityNumber,
-        public readonly Symbol $symbol,
+        public readonly SecurityInfo $securityInfo,
         public readonly PositionType $positionType,
         public readonly PositionQuantity $positionQuantity,
-        public readonly UnitType $unitType,
         public readonly CostAmount $totalCost,
         public readonly ProceedsAmount $totalProceeds,
-        public readonly ExpirationDate $expirationDate,
     ) {}
 }

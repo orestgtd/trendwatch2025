@@ -46,12 +46,12 @@ class EloquentSecurityRepository
         $toUpdate = collect($scope->fields())
             ->mapWithKeys(fn(string $field) => [
                 $field => match ($field) {
-                    'variations' => $security->variations()
+                    'variations' => $security->getVariations()
                 },
             ])
             ->toArray();
 
-        $security_number = (string) $security->securityNumber();
+        $security_number = (string) $security->getSecurityNumber();
 
         EloquentSecurity::where('security_number', $security_number)->first()
             ->update($toUpdate);
@@ -61,12 +61,12 @@ class EloquentSecurityRepository
     {
         $eloquent = new EloquentSecurity();
 
-        $eloquent->security_number = $security->securityNumber();
-        $eloquent->symbol = $security->symbol();
-        $eloquent->canonical_description = $security->canonicalDescription();
-        $eloquent->variations = $security->variations();
-        $eloquent->unit_type = $security->unitType();
-        $eloquent->expiration_date = $security->expirationDate();
+        $eloquent->security_number = $security->getSecurityNumber();
+        $eloquent->symbol = $security->getSymbol();
+        $eloquent->canonical_description = $security->getCanonicalDescription();
+        $eloquent->variations = $security->getVariations();
+        $eloquent->unit_type = $security->getUnitType();
+        $eloquent->expiration_date = $security->getExpirationDate();
 
         return $eloquent;
     }

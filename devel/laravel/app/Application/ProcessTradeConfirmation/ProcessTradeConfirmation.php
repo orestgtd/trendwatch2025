@@ -32,6 +32,8 @@ final class ProcessTradeConfirmation
             fn (OutcomeSummary $summary) => $this->computePositionOutcome($summary)
         );
 
+        // dd($resultOutcomes);
+
         if ($resultOutcomes->isFailure()) {
             return Result::failure($resultOutcomes->getError());
         }

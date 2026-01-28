@@ -9,11 +9,7 @@ use App\Domain\Confirmation\{
 };
 
 use App\Domain\Kernel\{
-    Identifiers\SecurityNumber,
-    Identifiers\Symbol,
-    Values\ExpirationDate,
     Values\PositionType,
-    Values\UnitType,
 };
 
 use App\Domain\Position\{
@@ -23,71 +19,66 @@ use App\Domain\Position\{
     ValueObjects\ProceedsBase,
 };
 
+use App\Domain\Security\{
+    ValueObjects\SecurityInfo,
+};
+
 final class ShortPosition extends Position
 {
     private ProceedsBase $proceedsBase;
 
     private function __construct(
-        SecurityNumber $securityNumber,
-        Symbol $symbol,
+        SecurityInfo $securityInfo,
         PositionQuantity $positionQuantity,
-        UnitType $unitType,
         ProceedsAmount $totalProceeds,
-        ExpirationDate $expirationDate,
     ) {
-        $this->securityNumber = $securityNumber;
-        $this->symbol = $symbol;
+        parent::__construct(
+            $securityInfo,
+            PositionType::short(),
+            $positionQuantity,
+        );
+
         $this->proceedsBase = ProceedsBase::create(
             BaseQuantity::fromPositionQuantity($positionQuantity),
             $totalProceeds,
         );
-        $this->unitType = $unitType;
-        $this->expirationDate = $expirationDate;
     }
 
     public static function create(
-        SecurityNumber $securityNumber,
-        Symbol $symbol,
+        SecurityInfo $securityInfo,
         PositionQuantity $positionQuantity,
-        UnitType $unitType,
         ProceedsAmount $totalProceeds,
-        ExpirationDate $expirationDate,
     ): self {
         return new self(
-            $securityNumber,
-            $symbol,
+            $securityInfo,
             $positionQuantity,
-            $unitType,
             $totalProceeds,
-            $expirationDate,
         );
     }
 
     public static function fromPersisted(
-        SecurityNumber $securityNumber,
-        Symbol $symbol,
+        SecurityInfo $securityInfo,
         PositionQuantity $positionQuantity,
-        UnitType $unitType,
         CostAmount $totalCost,
         ProceedsAmount $totalProceeds,
-        ExpirationDate $expirationDate,
     ): self {
-        $instance = new self($securityNumber, $symbol, $positionQuantity, $unitType, $totalProceeds, $expirationDate);
+
+        $instance = new self(
+            $securityInfo,
+            $positionQuantity,
+            $totalProceeds,
+        );
+
         $instance->proceedsBase = ProceedsBase::fromPersisted(
             BaseQuantity::fromPositionQuantity($positionQuantity),
             $totalProceeds,
             $totalCost
         );
+
         return $instance;
     }
 
-    public function getPositionType(): PositionType
-    {
-        return PositionType::short();
-    }
-
-    public function getBaseQuantity(): BaseQuantity
-    {
+    public function getBaseQuantity(): BaseQuantity {
         return $this->proceedsBase->getQuantity();
     }
 

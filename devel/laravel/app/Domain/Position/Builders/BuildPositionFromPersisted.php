@@ -22,26 +22,27 @@ use App\Domain\Position\{
     ValueObjects\PositionQuantity,
 };
 
+use App\Domain\Security\{
+    ValueObjects\SecurityInfo,
+};
+
 final class BuildPositionFromPersisted
 {
     public static function from(
-        SecurityNumber $securityNumber,
-        Symbol $symbol,
+        SecurityInfo $securityInfo,
         PositionType $positionType,
         PositionQuantity $positionQuantity,
-        UnitType $unitType,
         CostAmount $totalCost,
         ProceedsAmount $totalProceeds,
-        ExpirationDate $expirationDate,
     ): Position {
         return $positionType->delegate(
             onLong: fn () => LongPosition::fromPersisted(
-                $securityNumber, $symbol, $positionQuantity, $unitType,
-                $totalCost, $totalProceeds, $expirationDate
+                $securityInfo, $positionQuantity,
+                $totalCost, $totalProceeds
             ),
             onShort: fn () => ShortPosition::fromPersisted(
-                $securityNumber, $symbol, $positionQuantity, $unitType,
-                $totalCost, $totalProceeds, $expirationDate
+                $securityInfo, $positionQuantity,
+                $totalCost, $totalProceeds
             )
         );
     }

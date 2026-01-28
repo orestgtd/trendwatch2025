@@ -19,19 +19,20 @@ use App\Domain\Confirmation\ValueObjects\{
     UsTax,
 };
 
+use App\Domain\Security\{
+    ValueObjects\SecurityInfo,
+};
+
 final class PersistedTradeDto
 {
     public function __construct(
-        public readonly SecurityNumber $securityNumber,
-        public readonly Symbol $symbol,
+        public readonly SecurityInfo $securityInfo,
         public readonly TradeNumber $tradeNumber,
         public readonly TradeAction $tradeAction,
         public readonly PositionEffect $positionEffect,
         public readonly TradeQuantity $tradeQuantity,
-        public readonly UnitType $unitType,
         public readonly UnitPrice $unitPrice,
         public readonly Commission $commission,
         public readonly UsTax $usTax,
-        public readonly ExpirationDate $expirationDate,
     ) {}
 }

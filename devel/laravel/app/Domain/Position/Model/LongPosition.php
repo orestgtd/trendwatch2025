@@ -23,67 +23,63 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
+use App\Domain\Security\{
+    ValueObjects\SecurityInfo,
+};
+
 final class LongPosition extends Position
 {
     private CostBase $costBase;
 
     private function __construct(
-        SecurityNumber $securityNumber,
-        Symbol $symbol,
+        SecurityInfo $securityInfo,
         PositionQuantity $positionQuantity,
-        UnitType $unitType,
         CostAmount $totalCost,
-        ExpirationDate $expirationDate,
     ) {
-        $this->securityNumber = $securityNumber;
-        $this->symbol = $symbol;
+        parent::__construct(
+            $securityInfo,
+            PositionType::long(),
+            $positionQuantity,
+        );
+
         $this->costBase = CostBase::create(
             BaseQuantity::fromPositionQuantity($positionQuantity),
             $totalCost,
         );
-        $this->unitType = $unitType;
-        $this->expirationDate = $expirationDate;
     }
 
     public static function create(
-        SecurityNumber $securityNumber,
-        Symbol $symbol,
+        SecurityInfo $securityInfo,
         PositionQuantity $positionQuantity,
-        UnitType $unitType,
         CostAmount $totalCost,
-        ExpirationDate $expirationDate,
     ): self {
         return new self(
-            $securityNumber,
-            $symbol,
+            $securityInfo,
             $positionQuantity,
-            $unitType,
             $totalCost,
-            $expirationDate
         );
     }
 
     public static function fromPersisted(
-        SecurityNumber $securityNumber,
-        Symbol $symbol,
+        SecurityInfo $securityInfo,
         PositionQuantity $positionQuantity,
-        UnitType $unitType,
         CostAmount $totalCost,
         ProceedsAmount $totalProceeds,
-        ExpirationDate $expirationDate,
     ): self {
-        $instance = new self($securityNumber, $symbol, $positionQuantity, $unitType, $totalCost, $expirationDate);
+
+        $instance = new self(
+            $securityInfo,
+            $positionQuantity,
+            $totalCost,
+        );
+
         $instance->costBase = CostBase::fromPersisted(
             BaseQuantity::fromPositionQuantity($positionQuantity),
             $totalCost,
             $totalProceeds
         );
+    
         return $instance;
-    }
-
-    public function getPositionType(): PositionType
-    {
-        return PositionType::long();
     }
 
     public function getBaseQuantity(): BaseQuantity
@@ -96,10 +92,6 @@ final class LongPosition extends Position
         return PositionQuantity::fromBaseQuantity(
             $this->costBase->getQuantity()
         );
-    }
-    public function getUnitType(): UnitType
-    {
-        return $this->unitType;        
     }
 
     public function getTotalCost(): CostAmount

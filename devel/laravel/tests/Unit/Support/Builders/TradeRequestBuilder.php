@@ -21,6 +21,7 @@ final class TradeRequestBuilder
     private function __construct(
         private string $securityNumber,
         private string $symbol,
+        private string $description,
         private string $tradeNumber,
         private string $tradeAction,
         private string $positionEffect,
@@ -37,6 +38,7 @@ final class TradeRequestBuilder
         return new self(
             '2112',
             'YYZ',
+            'Security Under Pressure',
             'T12345',
             TradeAction::BUY,
             PositionEffect::OPEN,
@@ -61,6 +63,7 @@ final class TradeRequestBuilder
             ValidatedTradeDto::fromArray([
                 'security_number' => $this->securityNumber,
                 'symbol' => $this->symbol,
+                'description' => $this->description,
                 'trade_number' => $this->tradeNumber,
                 'trade_action' => $this->tradeAction,
                 'position_effect' => $this->positionEffect,

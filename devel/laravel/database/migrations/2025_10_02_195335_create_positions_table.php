@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('security_number')->unique();
             $table->string('symbol');
+            $table->string('description');
             $table->string('position_type');    // LONG | SHORT
             $table->integer('position_quantity');
             $table->string('unit_type');

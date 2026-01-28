@@ -14,8 +14,10 @@ use App\Domain\Kernel\{
     Values\PositionType,
     Values\UnitType,
 };
+
 use App\Domain\Position\{
     ValueObjects\BaseQuantity,
+    ValueObjects\PositionInfo,
     ValueObjects\PositionQuantity,
 };
 
@@ -24,60 +26,69 @@ use App\Domain\RealizedGain\{
     ValueObjects\RealizationSource,
 };
 
+use App\Domain\Security\{
+    ValueObjects\Description,
+    ValueObjects\SecurityInfo,
+};
+
 use App\Shared\Date;
 
 abstract class Position
 {
-    abstract public function getPositionType(): PositionType;
     abstract public function getBaseQuantity(): BaseQuantity;
     abstract public function getPositionQuantity(): PositionQuantity;
     abstract public function getTotalCost(): CostAmount;
     abstract public function getTotalProceeds(): ProceedsAmount;
     abstract public function expireQuantity(): void;
 
-    protected SecurityNumber $securityNumber;
-    protected Symbol $symbol;
-    protected UnitType $unitType;
-    protected ExpirationDate $expirationDate;
+    protected PositionInfo $info;
 
-    public function getSecurityNumber(): SecurityNumber { return $this->securityNumber; }
-    public function getSymbol(): Symbol { return $this->symbol; }
-    public function getUnitType(): UnitType { return $this->unitType; }
-    public function getExpirationDate(): ExpirationDate { return $this->expirationDate; }
-    public function isExpiredAsOf(Date $asOf): bool { return $this->expirationDate->isExpiredAsOf($asOf); }
+    public function getSecurityNumber(): SecurityNumber { return $this->info->getSecurityNumber(); }
+    public function getSymbol(): Symbol { return $this->info->getSymbol(); }
+    public function getDescription(): Description { return $this->info->getDescription(); }
+    public function getPositionType(): PositionType { return $this->info->positionType; }
+    public function getUnitType(): UnitType { return $this->info->getUnitType(); }
+    public function getExpirationDate(): ExpirationDate { return $this->info->getExpirationDate(); }
+    public function isExpiredAsOf(Date $asOf): bool { return $this->info->isExpiredAsOf($asOf); }
 
-    public function isLong(): bool
+    protected function __construct(
+        SecurityInfo $securityInfo,
+        PositionType $positionType,
+        PositionQuantity $positionQuantity,
+    )
     {
-        return $this->getPositionType()->isLong();
+        $this->info = PositionInfo::from(
+            $securityInfo,
+            $positionType,
+            $positionQuantity,
+        );
     }
 
-    public function isShort(): bool
-    {
-        return $this->getPositionType()->isShort();
-    }
+    public function isLong(): bool { return $this->info->isLong(); }
+    public function isShort(): bool{ return $this->info->isShort(); }
 
-    public function expire(Date $asOf): void // ExpiredPositionOutcome
-    {
-        if ($this->isExpiredAsOf($asOf))
-        {
-            $realizedGainBasis = RealizedGainBasis::create(
-                $this->securityNumber,
-                RealizationSource::expiration($asOf),
-                $this->getBaseQuantity(),
-                $this->getPositionQuantity()->toTradeQuantity(),
-                $this->unitType,
-                $this->getTotalCost(),
-                $this->getTotalProceeds()
-            );
+    // public function expire(Date $asOf): void // ExpiredPositionOutcome
+    // {
+    //     if ($this->isExpiredAsOf($asOf))
+    //     {
+    //         $realizedGainBasis = RealizedGainBasis::create(
+    //             $this->getSecurityNumber(),
+    //             RealizationSource::expiration($asOf),
+    //             $this->getBaseQuantity(),
+    //             $this->getPositionQuantity()->toTradeQuantity(),
+    //             $this->getUnitType(),
+    //             $this->getTotalCost(),
+    //             $this->getTotalProceeds()
+    //         );
 
-            dd($realizedGainBasis);
+    //         dd($realizedGainBasis);
 
-            // TODO: set quantity to zero
-            $this->expireQuantity();
+    //         // TODO: set quantity to zero
+    //         $this->expireQuantity();
 
-            // TODO: return Expired outcome with Realized Gain Basis
-        }
-    }
+    //         // TODO: return Expired outcome with Realized Gain Basis
+    //     }
+    // }
 
 
     // abstract public static function create(): static;

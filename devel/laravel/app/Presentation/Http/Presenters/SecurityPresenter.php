@@ -13,10 +13,10 @@ final class SecurityPresenter
         $security = $outcome->getSecurity();
 
         return [
-            'security_number' => (string) $security->securityNumber(),
-            'symbol' => (string) $security->symbol(),
-            'description' => (string) $security->canonicalDescription(),
-            'unit_type' => (string) $security->unitType(),
+            'security_number' => (string) $security->getSecurityNumber(),
+            'symbol' => (string) $security->getSymbol(),
+            'description' => (string) $security->getCanonicalDescription(),
+            'unit_type' => (string) $security->getUnitType(),
         ];
     }
 

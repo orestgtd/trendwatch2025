@@ -23,87 +23,101 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
+use App\Domain\Security\{
+    ValueObjects\Description,
+    ValueObjects\SecurityInfo,
+};
+
 final class ConfirmationBuilder
 {
     private function __construct(
-        private SecurityNumber $securityNumber,
-        private Symbol $symbol,
+        private SecurityInfo $securityInfo,
         private TradeNumber $tradeNumber,
         private TradeAction $tradeAction,
         private PositionEffect $positionEffect,
         private TradeQuantity $tradeQuantity,
-        private UnitType $unitType,
         private UnitPrice $unitPrice,
         private Commission $commission,
         private UsTax $usTax,
-        private ExpirationDate $expirationDate,
     ) {}
 
     public static function buyToOpenShares(): self
     {
         return new self(
-            SecurityNumber::fromString('2112'),
-            Symbol::fromString('YYZ'),
+            SecurityInfo::from(
+                SecurityNumber::fromString('2112'),
+                Symbol::fromString('YYZ'),
+                Description::fromString('Security Under Pressure'),
+                UnitType::shares(),
+                ExpirationDate::never()
+            ),
             TradeNumber::fromString('T000'),
             TradeAction::buy(),
             PositionEffect::open(),
             TradeQuantity::fromInt(100),
-            UnitType::shares(),
             UnitPrice::zero(),
             Commission::zero(),
             UsTax::zero(),
-            ExpirationDate::never()
         );
     }
 
     public static function sellToOpenShares(): self
     {
         return new self(
-            SecurityNumber::fromString('2112'),
-            Symbol::fromString('YYZ'),
+            SecurityInfo::from(
+                SecurityNumber::fromString('2112'),
+                Symbol::fromString('YYZ'),
+                Description::fromString('Security Under Pressure'),
+                UnitType::shares(),
+                ExpirationDate::never()
+            ),
             TradeNumber::fromString('T000'),
             TradeAction::sell(),
             PositionEffect::open(),
             TradeQuantity::fromInt(100),
-            UnitType::shares(),
             UnitPrice::zero(),
             Commission::zero(),
             UsTax::zero(),
-            ExpirationDate::never()
         );
     }
 
     public static function buyToCloseShares(): self
     {
         return new self(
-            SecurityNumber::fromString('2112'),
-            Symbol::fromString('YYZ'),
+            SecurityInfo::from(
+                SecurityNumber::fromString('2112'),
+                Symbol::fromString('YYZ'),
+                Description::fromString('Security Under Pressure'),
+                UnitType::shares(),
+                ExpirationDate::never()
+            ),
             TradeNumber::fromString('T000'),
             TradeAction::buy(),
             PositionEffect::close(),
             TradeQuantity::fromInt(100),
-            UnitType::shares(),
             UnitPrice::zero(),
             Commission::zero(),
             UsTax::zero(),
-            ExpirationDate::never()
         );
     }
 
     public static function sellToCloseShares(): self
     {
         return new self(
-            SecurityNumber::fromString('2112'),
-            Symbol::fromString('YYZ'),
+            SecurityInfo::from(
+                SecurityNumber::fromString('2112'),
+                Symbol::fromString('YYZ'),
+                Description::fromString('Security Under Pressure'),
+                UnitType::shares(),
+                ExpirationDate::never()
+            ),
             TradeNumber::fromString('T000'),
             TradeAction::sell(),
             PositionEffect::close(),
             TradeQuantity::fromInt(100),
-            UnitType::shares(),
             UnitPrice::zero(),
             Commission::zero(),
             UsTax::zero(),
-            ExpirationDate::never()
         );
     }
 
@@ -149,17 +163,14 @@ final class ConfirmationBuilder
     public function build(): Confirmation
     {
         return Confirmation::create(
-            $this->securityNumber,
-            $this->symbol,
+            $this->securityInfo,
             $this->tradeNumber,
             $this->tradeAction,
             $this->positionEffect,
             $this->tradeQuantity,
-            $this->unitType,
             $this->unitPrice,
             $this->commission,
             $this->usTax,
-            $this->expirationDate
         );
     }
 }

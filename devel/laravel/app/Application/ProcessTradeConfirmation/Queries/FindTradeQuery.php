@@ -12,7 +12,7 @@ use App\Domain\Confirmation\{
 };
 
 use App\Domain\Security\{
-    ValueObjects\Symbol,
+    ValueObjects\SecurityInfo,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Trade\{
@@ -38,17 +38,14 @@ final class FindTradeQuery
     private function buildConfirmation(PersistedTradeDto $persisted): Confirmation
     {
         return BuildNewConfirmation::from(
-            $persisted->securityNumber,
-            $persisted->symbol,
+            $persisted->securityInfo,
             $persisted->tradeNumber,
             $persisted->tradeAction,
             $persisted->positionEffect,
             $persisted->tradeQuantity,
-            $persisted->unitType,
             $persisted->unitPrice,
             $persisted->commission,
             $persisted->usTax,
-            $persisted->expirationDate,
         );
     }
 }

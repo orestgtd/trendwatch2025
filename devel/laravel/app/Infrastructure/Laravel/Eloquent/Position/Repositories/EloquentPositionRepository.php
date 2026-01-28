@@ -10,6 +10,10 @@ use App\Domain\{
     Position\Model\Position,
 };
 
+use App\Domain\Security\{
+    ValueObjects\SecurityInfo,
+};
+
 use App\Infrastructure\Laravel\Eloquent\Position\{
     Dto\PersistedPositionDto,
     Model\Position as EloquentPosition,
@@ -23,14 +27,17 @@ class EloquentPositionRepository
 
         return $eloquent
             ? new PersistedPositionDTO(
-                $eloquent->security_number,
-                $eloquent->symbol,
+                SecurityInfo::from(
+                    $eloquent->security_number,
+                    $eloquent->symbol,
+                    $eloquent->description,
+                    $eloquent->unit_type,
+                    $eloquent->expiration_date
+                ),
                 $eloquent->position_type,
                 $eloquent->position_quantity,
-                $eloquent->unit_type,
                 $eloquent->total_cost,
                 $eloquent->total_proceeds,
-                $eloquent->expiration_date
             )
             : $eloquent;
     }
@@ -39,14 +46,17 @@ class EloquentPositionRepository
     {
         return EloquentPosition::where('position_quantity', '>', 0)->get()
             ->map(fn(EloquentPosition $eloquent) => new PersistedPositionDto(
-                $eloquent->security_number,
-                $eloquent->symbol,
+                SecurityInfo::from(
+                    $eloquent->security_number,
+                    $eloquent->symbol,
+                    $eloquent->description,
+                    $eloquent->unit_type,
+                    $eloquent->expiration_date,
+                ),
                 $eloquent->position_type,
                 $eloquent->position_quantity,
-                $eloquent->unit_type,
                 $eloquent->total_cost,
                 $eloquent->total_proceeds,
-                $eloquent->expiration_date,
             ))
             ->toArray();
     }
@@ -59,14 +69,17 @@ class EloquentPositionRepository
             ->where('expiration_date', '<', $asOf->toString())
             ->get()
             ->map(fn(EloquentPosition $eloquent) => new PersistedPositionDto(
-                $eloquent->security_number,
-                $eloquent->symbol,
+                SecurityInfo::from(
+                    $eloquent->security_number,
+                    $eloquent->symbol,
+                    $eloquent->description,
+                    $eloquent->unit_type,
+                    $eloquent->expiration_date,
+                ),
                 $eloquent->position_type,
                 $eloquent->position_quantity,
-                $eloquent->unit_type,
                 $eloquent->total_cost,
                 $eloquent->total_proceeds,
-                $eloquent->expiration_date,
             ))
             ->toArray();
     }
@@ -116,6 +129,7 @@ class EloquentPositionRepository
 
         $eloquent->security_number = $position->getSecurityNumber();
         $eloquent->symbol = $position->getSymbol();
+        $eloquent->description = $position->getDescription();
         $eloquent->position_type = $position->getPositionType();
         $eloquent->position_quantity = $position->getPositionQuantity();
         $eloquent->unit_type = $position->getUnitType();

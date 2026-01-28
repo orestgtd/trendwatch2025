@@ -9,12 +9,13 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
-use App\Domain\Security\ValueObjects\{
-    Description,
-    Variations\VariationsInterface,
+use App\Domain\Security\{
+    Model\Security,
+    ValueObjects\Description,
+    ValueObjects\Variations\VariationsInterface,
 };
 
-final class EquitySecurity extends AbstractSecurity
+final class EquitySecurity extends Security
 {
     public static function create(
         SecurityNumber $securityNumber,

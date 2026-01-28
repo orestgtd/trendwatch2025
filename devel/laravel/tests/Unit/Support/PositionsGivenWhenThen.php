@@ -4,9 +4,9 @@ namespace Tests\Unit\Support;
 
 use Tests\TestCase;
 
-use App\Domain\Common\Money\{
+use App\Domain\Kernel\Money\{
     Currency,
-    MoneyAmount
+    MoneyAmount,
 };
 
 use App\Infrastructure\Laravel\{

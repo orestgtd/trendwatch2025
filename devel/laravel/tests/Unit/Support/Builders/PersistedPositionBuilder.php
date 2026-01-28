@@ -21,6 +21,11 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
+use App\Domain\Security\{
+    ValueObjects\Description,
+    ValueObjects\SecurityInfo,
+};
+
 use App\Infrastructure\Laravel\Eloquent\Position\{
     Dto\PersistedPositionDto,
 };
@@ -32,6 +37,7 @@ final class PersistedPositionBuilder
     private function __construct(
         private SecurityNumber $securityNumber,
         private Symbol $symbol,
+        private Description $description,
         private PositionType $positionType,
         private PositionQuantity $positionQuantity,
         private UnitType $unitType,
@@ -45,6 +51,7 @@ final class PersistedPositionBuilder
         return new self(
             SecurityNumber::fromString('2112'),
             Symbol::fromString('YYZ'),
+            Description::fromString('Security Under Pressure'),
             PositionType::long(),
             PositionQuantity::fromInt(0),
             UnitType::shares(),
@@ -59,6 +66,7 @@ final class PersistedPositionBuilder
         return new self(
             SecurityNumber::fromString('2112'),
             Symbol::fromString('YYZ'),
+            Description::fromString('Security Under Pressure'),
             PositionType::short(),
             PositionQuantity::fromInt(0),
             UnitType::shares(),
@@ -73,6 +81,7 @@ final class PersistedPositionBuilder
         return new self(
             SecurityNumber::fromString('2112.R40'),
             Symbol::fromString('YYZ'),
+            Description::fromString('CALL Security Under Pressure'),
             PositionType::long(),
             PositionQuantity::fromInt(1),
             UnitType::contracts(),
@@ -109,14 +118,17 @@ final class PersistedPositionBuilder
     public function build(): PersistedPositionDto
     {
         return new PersistedPositionDto(
-            $this->securityNumber,
-            $this->symbol,
+            SecurityInfo::from(
+                $this->securityNumber,
+                $this->symbol,
+                $this->description,
+                $this->unitType,
+                $this->expirationDate
+            ),
             $this->positionType,
             $this->positionQuantity,
-            $this->unitType,
             $this->totalCost,
             $this->totalProceeds,
-            $this->expirationDate
         );
     }
 }

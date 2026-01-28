@@ -161,6 +161,7 @@ class ProcessTradeConfirmationTest extends DatabaseTestCase
         $this->whenSubmittingTrades();
         $this->thenTheResponseIsSuccessful('First trade failed: ' . $trade1['symbol']);
 
+
         // WHEN & THEN: submit second trade (duplicate)
         $this->givenTradeData($trade2);
         $this->whenSubmittingTrades();

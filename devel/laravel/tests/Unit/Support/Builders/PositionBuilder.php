@@ -7,8 +7,10 @@ use App\Domain\Confirmation\ValueObjects\{
     ProceedsAmount,
 };
 
-use App\Domain\Position\ValueObjects\{
-    PositionQuantity,
+use App\Domain\Position\{
+    Builders\BuildPositionFromPersisted,
+    Model\Position,
+    ValueObjects\PositionQuantity,
 };
 
 use App\Domain\Kernel\{
@@ -21,9 +23,9 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
-use App\Domain\Position\{
-    Builders\BuildPositionFromPersisted,
-    Model\Position,
+use App\Domain\Security\{
+    ValueObjects\Description,
+    ValueObjects\SecurityInfo,
 };
 
 use App\Shared\Date;
@@ -33,6 +35,7 @@ final class PositionBuilder
     private function __construct(
         private SecurityNumber $securityNumber,
         private Symbol $symbol,
+        private Description $description,
         private PositionType $positionType,
         private PositionQuantity $positionQuantity,
         private UnitType $unitType,
@@ -46,6 +49,7 @@ final class PositionBuilder
         return new self(
             SecurityNumber::fromString('2112'),
             Symbol::fromString('YYZ'),
+            Description::fromString('Security Under Pressure'),
             PositionType::long(),
             PositionQuantity::fromInt(1),
             UnitType::contracts(),
@@ -88,14 +92,17 @@ final class PositionBuilder
     public function build(): Position
     {
         return BuildPositionFromPersisted::from(
-            $this->securityNumber,
-            $this->symbol,
+            SecurityInfo::from(
+                $this->securityNumber,
+                $this->symbol,
+                $this->description,
+                $this->unitType,
+                $this->expirationDate
+            ),
             $this->positionType,
             $this->positionQuantity,
-            $this->unitType,
             $this->totalCost,
             $this->totalProceeds,
-            $this->expirationDate
         );
     }
 }

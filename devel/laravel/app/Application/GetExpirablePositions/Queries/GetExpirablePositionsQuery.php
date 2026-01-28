@@ -34,14 +34,11 @@ final class GetExpirablePositionsQuery
     private function buildPositionFromPersisted(PersistedPositionDto $persisted): Position
     {
         return BuildPositionFromPersisted::from(
-            $persisted->securityNumber,
-            $persisted->symbol,
+            $persisted->securityInfo,
             $persisted->positionType,
             $persisted->positionQuantity,
-            $persisted->unitType,
             $persisted->totalCost,
             $persisted->totalProceeds,
-            $persisted->expirationDate,
         );
     }
 }

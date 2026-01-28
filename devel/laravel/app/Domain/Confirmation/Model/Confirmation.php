@@ -28,116 +28,68 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
+use App\Domain\Security\{
+    ValueObjects\Description,
+    ValueObjects\SecurityInfo,
+};
+
 final class Confirmation
 {
     private function __construct(
-        private SecurityNumber $securityNumber,
-        private Symbol $symbol,
+        private SecurityInfo $securityInfo,
         private TradeNumber $tradeNumber,
         private TradeAction $tradeAction,
         private PositionEffect $positionEffect,
         private TradeQuantity $tradeQuantity,
-        private UnitType $unitType,
         private UnitPrice $unitPrice,
         private Commission $commission,
         private UsTax $usTax,
-        private ExpirationDate $expirationDate,
     ) {
-        $this->securityNumber = $securityNumber;
-        $this->symbol = $symbol;
+        $this->securityInfo = $securityInfo;
         $this->tradeNumber = $tradeNumber;
         $this->tradeAction = $tradeAction;
         $this->positionEffect = $positionEffect;
         $this->tradeQuantity = $tradeQuantity;
-        $this->unitType = $unitType;
         $this->unitPrice = $unitPrice;
         $this->commission = $commission;
         $this->usTax = $usTax;
-        $this->expirationDate = $expirationDate;
     }
 
     public static function create(
-        SecurityNumber $securityNumber,
-        Symbol $symbol,
+        SecurityInfo $securityInfo,
         TradeNumber $tradeNumber,
         TradeAction $tradeAction,
         PositionEffect $positionEffect,
         TradeQuantity $tradeQuantity,
-        UnitType $unitType,
         UnitPrice $unitPrice,
         Commission $commission,
         UsTax $usTax,
-        ExpirationDate $expirationDate,
     ): self {
         return new self(
-            $securityNumber,
-            $symbol,
+            $securityInfo,
             $tradeNumber,
             $tradeAction,
             $positionEffect,
             $tradeQuantity,
-            $unitType,
             $unitPrice,
             $commission,
             $usTax,
-            $expirationDate,
         );
     }
 
-    public function getCommission(): Commission
-    {
-        return $this->commission;
-    }
-
-    public function getExpirationDate(): ExpirationDate
-    {
-        return $this->expirationDate;
-    }
-
-    public function getSecurityNumber(): SecurityNumber
-    {
-        return $this->securityNumber;
-    }
-
-    public function getSymbol(): Symbol
-    {
-        return $this->symbol;
-    }
-
-    public function getTradeNumber(): TradeNumber
-    {
-        return $this->tradeNumber;
-    }
-
-    public function getPositionEffect(): PositionEffect
-    {
-        return $this->positionEffect;
-    }
-
-    public function getTradeAction(): TradeAction
-    {
-        return $this->tradeAction;
-    }
-
-    public function getTradeQuantity(): TradeQuantity
-    {
-        return $this->tradeQuantity;
-    }
-
-    public function getUnitPrice(): UnitPrice
-    {
-        return $this->unitPrice;
-    }
-
-    public function getUnitType(): UnitType
-    {
-        return $this->unitType;
-    }
-
-    public function getUsTax(): UsTax
-    {
-        return $this->usTax;
-    }
+    public function getSecurityInfo() : SecurityInfo { return $this->securityInfo; }
+    public function getCommission(): Commission { return $this->commission; }
+    public function getExpirationDate(): ExpirationDate { return $this->securityInfo->expirationDate; }
+    public function getSecurityNumber(): SecurityNumber { return $this->securityInfo->securityNumber; }
+    public function getSymbol(): Symbol { return $this->securityInfo->symbol; }
+    public function getDescription(): Description { return $this->securityInfo->canonicalDescription; }
+    public function getTradeNumber(): TradeNumber { return $this->tradeNumber; }
+    public function getPositionEffect(): PositionEffect { return $this->positionEffect; }
+    public function getTradeAction(): TradeAction { return $this->tradeAction; }
+    public function getTradeQuantity(): TradeQuantity { return $this->tradeQuantity; }
+    public function getUnitPrice(): UnitPrice { return $this->unitPrice; }
+    public function getUnitType(): UnitType { return $this->securityInfo->unitType; }
+    public function getUsTax(): UsTax { return $this->usTax; }
 
     public function netCost(): CostAmount
     {
@@ -148,7 +100,7 @@ final class Confirmation
 
         $grossTransactionFees = TransactionValue::calculate(
             $this->tradeQuantity,
-            $this->unitType,
+            $this->getUnitType(),
             $this->unitPrice
         );
 
@@ -164,7 +116,7 @@ final class Confirmation
 
         $grossTransactionFees = TransactionValue::calculate(
             $this->tradeQuantity,
-            $this->unitType,
+            $this->getUnitType(),
             $this->unitPrice
         );
 

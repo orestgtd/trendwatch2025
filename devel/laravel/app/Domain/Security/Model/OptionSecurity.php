@@ -8,13 +8,14 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
-use App\Domain\Security\ValueObjects\{
-    Description,
-    ExpirationDate\ExpiresOn,
-    Variations\VariationsInterface,
+use App\Domain\Security\{
+    Model\Security,
+    ValueObjects\Description,
+    ValueObjects\ExpirationDate\ExpiresOn,
+    ValueObjects\Variations\VariationsInterface,
 };
 
-final class OptionSecurity extends AbstractSecurity
+final class OptionSecurity extends Security
 {
     public static function create(
         SecurityNumber $securityNumber,
