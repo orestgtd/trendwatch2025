@@ -10,12 +10,15 @@ use App\Domain\Kernel\{
 };
 
 use App\Domain\Security\{
+    Expiration\ExpirationRule,
     Model\EquitySecurity,
     Model\OptionSecurity,
     Model\Security,
     ValueObjects\Description,
+    ValueObjects\SecurityInfo,
     ValueObjects\Variations\VariationsInterface,
 };
+
 use App\Shared\Result;
 
 final class BuildNewSecurity
@@ -48,7 +51,16 @@ final class BuildNewSecurity
     ): Result
     {
         return Result::success(
-            EquitySecurity::create($securityNumber, $symbol, $description, $variations)
+            EquitySecurity::create(
+                SecurityInfo::from(
+                    $securityNumber,
+                    $symbol,
+                    $description,
+                    UnitType::shares(),
+                    ExpirationRule::neverExpires()
+                ),
+                $variations
+            )
         );
     }
 
@@ -61,11 +73,18 @@ final class BuildNewSecurity
         ExpirationDate $expirationDate
     ): Result
     {
-        if (!$expirationDate->hasDate()) {
-            return Result::failure('OptionSecurity requires a valid ExpirationDate');
-        }
         return Result::success(
-            OptionSecurity::create($securityNumber, $symbol, $description, $variations, $expirationDate)
+            OptionSecurity::create(
+                SecurityInfo::from(
+                    $securityNumber,
+                    $symbol,
+                    $description,
+                    UnitType::contracts(),
+                    ExpirationRule::expiresOn($expirationDate)
+                    
+                ),
+                $variations
+            )
         );
     }
 }

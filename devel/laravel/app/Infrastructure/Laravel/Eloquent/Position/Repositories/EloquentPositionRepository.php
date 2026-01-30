@@ -11,6 +11,7 @@ use App\Domain\{
 };
 
 use App\Domain\Security\{
+    Expiration\ExpirationRule,
     ValueObjects\SecurityInfo,
 };
 
@@ -32,7 +33,7 @@ class EloquentPositionRepository
                     $eloquent->symbol,
                     $eloquent->description,
                     $eloquent->unit_type,
-                    $eloquent->expiration_date
+                    ExpirationRule::fromNullableDate($eloquent->expiration_date)
                 ),
                 $eloquent->position_type,
                 $eloquent->position_quantity,
@@ -51,7 +52,7 @@ class EloquentPositionRepository
                     $eloquent->symbol,
                     $eloquent->description,
                     $eloquent->unit_type,
-                    $eloquent->expiration_date,
+                    ExpirationRule::fromNullableDate($eloquent->expiration_date)
                 ),
                 $eloquent->position_type,
                 $eloquent->position_quantity,
@@ -66,7 +67,7 @@ class EloquentPositionRepository
         return EloquentPosition::where('position_quantity', '>', 0)
             ->whereNotNull('expiration_date')
             ->where('expiration_date', '!=', '')
-            ->where('expiration_date', '<', $asOf->toString())
+            ->where('expiration_date', '<', (string) $asOf)
             ->get()
             ->map(fn(EloquentPosition $eloquent) => new PersistedPositionDto(
                 SecurityInfo::from(
@@ -74,7 +75,7 @@ class EloquentPositionRepository
                     $eloquent->symbol,
                     $eloquent->description,
                     $eloquent->unit_type,
-                    $eloquent->expiration_date,
+                    ExpirationRule::fromNullableDate($eloquent->expiration_date)
                 ),
                 $eloquent->position_type,
                 $eloquent->position_quantity,

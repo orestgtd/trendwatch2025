@@ -2,21 +2,20 @@
 
 namespace App\Domain\Position\ValueObjects;
 
-use App\Domain\Kernel\{
-    Identifiers\SecurityNumber,
-    Identifiers\Symbol,
-    Values\ExpirationDate,
-    Values\PositionType,
-    Values\UnitType,
+use App\Domain\Confirmation\{
+    ValueObjects\CostAmount,
+    ValueObjects\ProceedsAmount,
 };
 
-use App\Domain\Position\{
-    ValueObjects\PositionQuantity,
-};
-
-use App\Domain\Security\{
-    ValueObjects\Description,
-    ValueObjects\SecurityInfo,
+use App\Domain\{
+    Kernel\Identifiers\SecurityNumber,
+    Kernel\Identifiers\Symbol,
+    Kernel\Values\ExpirationDate,
+    Kernel\Values\PositionType,
+    Kernel\Values\UnitType,
+    Security\ValueObjects\Description,
+    Position\ValueObjects\PositionQuantity,
+    Security\ValueObjects\SecurityInfo,
 };
 
 use App\Shared\Date;

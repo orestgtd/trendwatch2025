@@ -2,9 +2,9 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Position\Dto;
 
-use App\Domain\Confirmation\ValueObjects\{
-    CostAmount,
-    ProceedsAmount,
+use App\Domain\Confirmation\{
+    ValueObjects\CostAmount,
+    ValueObjects\ProceedsAmount,
 };
 
 use App\Domain\Kernel\{
@@ -27,5 +27,6 @@ final class PersistedPositionDto
         public readonly PositionQuantity $positionQuantity,
         public readonly CostAmount $totalCost,
         public readonly ProceedsAmount $totalProceeds,
+        // public readonly ExpirationDate $expirationDate,
     ) {}
 }

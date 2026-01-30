@@ -79,7 +79,7 @@ final class Confirmation
 
     public function getSecurityInfo() : SecurityInfo { return $this->securityInfo; }
     public function getCommission(): Commission { return $this->commission; }
-    public function getExpirationDate(): ExpirationDate { return $this->securityInfo->expirationDate; }
+    public function getExpirationDate(): ExpirationDate { return $this->securityInfo->getExpirationDate(); }
     public function getSecurityNumber(): SecurityNumber { return $this->securityInfo->securityNumber; }
     public function getSymbol(): Symbol { return $this->securityInfo->symbol; }
     public function getDescription(): Description { return $this->securityInfo->canonicalDescription; }
@@ -90,7 +90,7 @@ final class Confirmation
     public function getUnitPrice(): UnitPrice { return $this->unitPrice; }
     public function getUnitType(): UnitType { return $this->securityInfo->unitType; }
     public function getUsTax(): UsTax { return $this->usTax; }
-
+ 
     public function netCost(): CostAmount
     {
         $totalBrokerFees = TradeBrokerFees::calculate(

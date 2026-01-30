@@ -23,9 +23,11 @@ use App\Domain\Kernel\{
 };
 
 use App\Domain\Security\{
+    Expiration\ExpirationRule,
+    ValueObjects\Description,
     ValueObjects\SecurityInfo,
 };
-use App\Domain\Security\ValueObjects\Description;
+
 use App\Shared\{
     Collection,
     Result
@@ -69,7 +71,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
                     $values['symbol'],
                     $values['description'],
                     $values['trade_unit_type'],
-                    $values['expiration_date'],
+                    ExpirationRule::fromNullableDate($values['expiration_date'])
                 ),
                 $values['trade_number'],
                 $values['trade_action'],

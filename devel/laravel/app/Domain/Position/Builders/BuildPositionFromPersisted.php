@@ -37,11 +37,13 @@ final class BuildPositionFromPersisted
     ): Position {
         return $positionType->delegate(
             onLong: fn () => LongPosition::fromPersisted(
-                $securityInfo, $positionQuantity,
+                $securityInfo,
+                $positionQuantity,
                 $totalCost, $totalProceeds
             ),
             onShort: fn () => ShortPosition::fromPersisted(
-                $securityInfo, $positionQuantity,
+                $securityInfo,
+                $positionQuantity,
                 $totalCost, $totalProceeds
             )
         );

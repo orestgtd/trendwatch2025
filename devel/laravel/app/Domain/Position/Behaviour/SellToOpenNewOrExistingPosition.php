@@ -9,8 +9,8 @@ use App\Domain\Confirmation\{
 use App\Domain\Position\{
     Model\ShortPosition,
     Model\Position,
-    Outcome\IncreasedHolding,
-    Outcome\NewPositionCreated,
+    Outcome\Holdings\IncreasedHolding,
+    Outcome\Holdings\NewPositionCreated,
     Outcome\PositionOutcome,
     ValueObjects\PositionQuantity,
 };

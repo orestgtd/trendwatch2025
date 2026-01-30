@@ -9,6 +9,10 @@ use App\Domain\Position\{
     Model\Position,
 };
 
+use App\Domain\Security\{
+    ValueObjects\SecurityInfo,
+};
+
 use App\Infrastructure\Laravel\Eloquent\Position\{
     Dto\PersistedPositionDto,
     Repositories\EloquentPositionRepository,

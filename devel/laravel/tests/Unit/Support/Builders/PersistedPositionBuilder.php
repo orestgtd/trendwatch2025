@@ -22,6 +22,7 @@ use App\Domain\Kernel\{
 };
 
 use App\Domain\Security\{
+    Expiration\ExpirationRule,
     ValueObjects\Description,
     ValueObjects\SecurityInfo,
 };
@@ -43,7 +44,7 @@ final class PersistedPositionBuilder
         private UnitType $unitType,
         private CostAmount $totalCost,
         private ProceedsAmount $totalProceeds,
-        private ExpirationDate $expirationDate,
+        private ExpirationRule $expirationRule,
     ) {}
 
     public static function YYZ(): self
@@ -57,7 +58,7 @@ final class PersistedPositionBuilder
             UnitType::shares(),
             CostAmount::zero(Currency::default()),
             ProceedsAmount::zero(Currency::default()),
-            ExpirationDate::never()
+            ExpirationRule::neverExpires()
         );
     }
 
@@ -72,7 +73,7 @@ final class PersistedPositionBuilder
             UnitType::shares(),
             CostAmount::zero(Currency::default()),
             ProceedsAmount::zero(Currency::default()),
-            ExpirationDate::never()
+            ExpirationRule::neverExpires()
         );
     }
 
@@ -87,7 +88,7 @@ final class PersistedPositionBuilder
             UnitType::contracts(),
             CostAmount::zero(Currency::default()),
             ProceedsAmount::zero(Currency::default()),
-            ExpirationDate::on($expirationDate)
+            ExpirationRule::expiresOn(ExpirationDate::from($expirationDate)),
         );
     }
 
@@ -123,7 +124,7 @@ final class PersistedPositionBuilder
                 $this->symbol,
                 $this->description,
                 $this->unitType,
-                $this->expirationDate
+                $this->expirationRule
             ),
             $this->positionType,
             $this->positionQuantity,

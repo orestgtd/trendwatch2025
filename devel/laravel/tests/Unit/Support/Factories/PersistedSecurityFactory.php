@@ -28,7 +28,7 @@ final class PersistedSecurityFactory
             Description::fromString('SECURITY UNDER PRESSURE'),
             NoVariations::create(),
             UnitType::shares(),
-            ExpirationDate::never()
+            null
         );
     }
 }

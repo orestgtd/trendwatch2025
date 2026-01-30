@@ -1,11 +1,11 @@
 <?php
- 
-namespace App\Domain\Position\Outcome;
- 
+
+namespace App\Domain\Position\Outcome\Holdings;
+
 use App\Domain\Outcome\{
     Persistence\PersistenceIntent,
 };
- 
+
 use App\Domain\Position\{
     Model\Position,
     Outcome\AbstractPositionOutcome,

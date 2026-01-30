@@ -10,9 +10,9 @@ use App\Application\ProcessTradeConfirmation\{
 
 use App\Domain\Position\{
     Model\ShortPosition,
-    Outcome\DecreasedHolding,
-    Outcome\IncreasedHolding,
-    Outcome\NewPositionCreated,
+    Outcome\Holdings\DecreasedHolding,
+    Outcome\Holdings\IncreasedHolding,
+    Outcome\Holdings\NewPositionCreated,
 };
 
 use App\Infrastructure\Laravel\Eloquent\{

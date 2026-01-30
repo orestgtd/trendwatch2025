@@ -1,7 +1,7 @@
 <?php
- 
-namespace App\Domain\Position\Outcome;
- 
+
+namespace App\Domain\Position\Outcome\Holdings;
+
 use App\Domain\{
     Outcome\Persistence\PersistenceIntent,
     Position\Model\Position,

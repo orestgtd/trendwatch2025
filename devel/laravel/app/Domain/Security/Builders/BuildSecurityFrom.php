@@ -2,37 +2,23 @@
 
 namespace App\Domain\Security\Builders;
 
-use App\Domain\Kernel\{
-    Identifiers\SecurityNumber,
-    Identifiers\Symbol,
-    Values\ExpirationDate,
-    Values\UnitType,
-};
-
-use App\Domain\Security\Model\{
-    EquitySecurity,
-    OptionSecurity,
-    Security,
-};
-
-use App\Domain\Security\ValueObjects\{
-    Description,
-    Variations\VariationsInterface,
+use App\Domain\Security\{
+    Model\EquitySecurity,
+    Model\OptionSecurity,
+    Model\Security,
+    ValueObjects\SecurityInfo,
+    ValueObjects\Variations\VariationsInterface,
 };
 
 final class BuildSecurityFrom
 {
     public static function from(
-        SecurityNumber $securityNumber,
-        Symbol $symbol,
-        Description $description,
+        SecurityInfo $securityInfo,
         VariationsInterface $variations,
-        UnitType $unitType,
-        ExpirationDate $expirationDate
     ): Security {
-        return $unitType->delegate(
-            onContracts: fn () => OptionSecurity::create($securityNumber, $symbol, $description, $variations, $expirationDate),
-            onShares: fn () => EquitySecurity::create($securityNumber, $symbol, $description, $variations),
+        return $securityInfo->unitType->delegate(
+            onContracts: fn () => OptionSecurity::create($securityInfo, $variations),
+            onShares: fn () => EquitySecurity::create($securityInfo, $variations),
         );
     }
 }

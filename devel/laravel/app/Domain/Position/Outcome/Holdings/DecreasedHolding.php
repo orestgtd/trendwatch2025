@@ -1,22 +1,22 @@
 <?php
- 
-namespace App\Domain\Position\Outcome;
+
+namespace App\Domain\Position\Outcome\Holdings;
 
 use App\Domain\Outcome\{
     Persistence\PersistenceIntent,
 };
- 
+
 use App\Domain\Position\{
     Model\Position,
     Outcome\AbstractPositionOutcome,
 };
- 
+
 use App\Domain\RealizedGain\{
     Model\MaybeRealizedGainBasis,
     Model\RealizedGainBasis,
-    Outcome\NewRealizedGainCreated,
     Outcome\RealizedGainOutcome,
 };
+use App\Domain\RealizedGain\Outcome\NewRealizedGainCreated;
 
 final class DecreasedHolding extends AbstractPositionOutcome
 {
@@ -36,4 +36,5 @@ final class DecreasedHolding extends AbstractPositionOutcome
     {
         return NewRealizedGainCreated::create($this->realizedGainBasis);
     }
+
 }

@@ -10,8 +10,8 @@ use App\Application\ProcessTradeConfirmation\{
 
 use App\Domain\Position\{
     Model\LongPosition,
-    Outcome\IncreasedHolding,
-    Outcome\NewPositionCreated,
+    Outcome\Holdings\IncreasedHolding,
+    Outcome\Holdings\NewPositionCreated,
 };
 
 use App\Domain\RealizedGain\{
@@ -43,7 +43,7 @@ final class BuyToOpenLongPositionTest extends PositionTestCase
     #[Test]
     public function it_creates_a_new_long_position_when_open_effect()
     {
-        // Given position not found in repository.
+        // Given position does not already exist
         MockObject::mock(
             PositionRepository::class,
             'findBySecurityNumber',

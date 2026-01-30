@@ -66,7 +66,7 @@ class EloquentSecurityRepository
         $eloquent->canonical_description = $security->getCanonicalDescription();
         $eloquent->variations = $security->getVariations();
         $eloquent->unit_type = $security->getUnitType();
-        $eloquent->expiration_date = $security->getExpirationDate();
+        $eloquent->expiration_date = $security->getExpirationRule()->getExpirationDate();
 
         return $eloquent;
     }

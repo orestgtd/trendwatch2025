@@ -10,7 +10,7 @@ use App\Application\ProcessTradeConfirmation\{
 
 use App\Domain\Position\{
     Model\ShortPosition,
-    Outcome\DecreasedHolding,
+    Outcome\Holdings\DecreasedHolding,
 };
 
 use App\Domain\RealizedGain\{
@@ -32,6 +32,8 @@ use Tests\Unit\Support\{
 
 /**
  * it_updates_an_existing_short_position_when_close_effect()
+ * it_triggers_realized_gain_when_close_effect
+ * it_preserves_existing_cost_when_rebuilding_from_persistence
  */
 
 class BuyToCloseShortPositionTest extends PositionTestCase

@@ -2,16 +2,11 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Trade\Repositories;
 
-use App\Domain\Kernel\Identifiers\{
-    TradeNumber,
-};
-
-use App\Domain\Confirmation\{
-    Model\Confirmation,
-};
-
-use App\Domain\Security\{
-    ValueObjects\SecurityInfo,
+use App\Domain\{
+    Confirmation\Model\Confirmation,
+    Kernel\Identifiers\TradeNumber,
+    Security\Expiration\ExpirationRule,
+    Security\ValueObjects\SecurityInfo,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Trade\{
@@ -32,7 +27,7 @@ class EloquentTradeRepository
                     $eloquent->symbol,
                     $eloquent->description,
                     $eloquent->unit_type,
-                    $eloquent->expiration_date,
+                    ExpirationRule::fromNullableDate($eloquent->expiration_date)
                 ),
                 $eloquent->trade_number,
                 $eloquent->trade_action,

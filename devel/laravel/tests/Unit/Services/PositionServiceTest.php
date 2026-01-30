@@ -19,15 +19,12 @@ use App\Domain\Kernel\Money\{
     MoneyAmount
 };
 
-use App\Domain\Position\Model\{
-    LongPosition,
-    ShortPosition,
-};
-
-use App\Domain\Position\Outcome\{
-    DecreasedHolding,
-    IncreasedHolding,
-    NewPositionCreated,
+use App\Domain\Position\{
+    Model\LongPosition,
+    Model\ShortPosition,
+    Outcome\Holdings\DecreasedHolding,
+    Outcome\Holdings\IncreasedHolding,
+    Outcome\Holdings\NewPositionCreated,
 };
 
 use App\Infrastructure\Laravel\Eloquent\{

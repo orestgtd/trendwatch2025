@@ -2,12 +2,15 @@
 
 namespace App\Domain\Security\ValueObjects;
 
-use App\Domain\Kernel\Values\ExpirationDate;
-
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
     Identifiers\Symbol,
+    Values\ExpirationDate,
     Values\UnitType,
+};
+
+use App\Domain\Security\{
+    Expiration\ExpirationRule,
 };
 
 use App\Shared\Date;
@@ -19,7 +22,7 @@ final class SecurityInfo
         public readonly Symbol $symbol,
         public readonly Description $canonicalDescription,
         public readonly UnitType $unitType,
-        public readonly ExpirationDate $expirationDate,
+        public readonly ExpirationRule $expirationRule,
     ) {}
 
     public static function from(
@@ -27,7 +30,7 @@ final class SecurityInfo
         Symbol $symbol,
         Description $canonicalDescription,
         UnitType $unitType,
-        ExpirationDate $expirationDate,
+        ExpirationRule $expirationRule,
     ): self
     {
         return new self(
@@ -35,11 +38,10 @@ final class SecurityInfo
             $symbol,
             $canonicalDescription,
             $unitType,
-            $expirationDate
+            $expirationRule
         );
     }
 
-    public function getExpirationDate(): ExpirationDate { return $this->expirationDate; }
-    public function isExpiredAsOf(Date $asOf): bool { return $this->expirationDate->isExpiredAsOf($asOf); }
-
+    public function getExpirationDate(): ExpirationDate { return $this->expirationRule->getExpirationDate(); }
+    public function isExpiredAsOf(Date $asOf): bool { return $this->expirationRule->isExpiredAsOf($asOf); }
 }

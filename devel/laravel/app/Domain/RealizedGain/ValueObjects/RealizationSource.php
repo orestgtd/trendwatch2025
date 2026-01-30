@@ -4,13 +4,12 @@ namespace App\Domain\RealizedGain\ValueObjects;
 
 use App\Domain\Kernel\{
     Identifiers\TradeNumber,
+    Values\ExpirationDate,
 };
 
 use App\Domain\RealizedGain\{
     ValueObjects\RealizationSourceType,
 };
-
-use App\Shared\Date;
 
 final class RealizationSource
 {
@@ -24,9 +23,9 @@ final class RealizationSource
         return new self(RealizationSourceType::trade(), $tradeNumber);
     }
 
-    public static function expiration(Date $expiredAt): self
+    public static function expiration(ExpirationDate $expirationDate): self
     {
-        return new self(RealizationSourceType::expiration(), $expiredAt);
+        return new self(RealizationSourceType::expiration(), $expirationDate);
     }
 
     public function getType(): RealizationSourceType
@@ -34,7 +33,7 @@ final class RealizationSource
         return $this->type;
     }
 
-    public function getReference(): TradeNumber | Date
+    public function getReference(): TradeNumber | ExpirationDate
     {
         return $this->reference;
     }

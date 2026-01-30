@@ -2,59 +2,44 @@
 
 namespace App\Domain\Kernel\Values;
 
-use App\Domain\Security\{
-    ValueObjects\ExpirationDate\ExpiresOn,
-    ValueObjects\ExpirationDate\NeverExpires,
-};
-
 use App\Shared\{
     Date,
     Result,
 };
 
-abstract class ExpirationDate
+final class ExpirationDate
 {
-    abstract public function hasDate(): bool;
-    abstract public function isExpiredAsOf(Date $asOf): bool;
+    private function __construct(
+        private readonly Date $date,
+    ){}
 
-    /**
-     * String representation suitable for persistence and logging.
-     * Not intended for user-facing presentation.
-     */
-    abstract public function __toString(): string;
-
-    final public static function on(Date $date): self
+    public static function from(Date $date): self
     {
-        return ExpiresOn::create($date);
-    }
-
-    final public static function never(): self
-    {
-        return NeverExpires::create();
+        return new self ($date);
     }
 
     /** @return Result<ExpirationDate> */
-    final public static function tryFrom(string $value): Result
+    public static function tryFrom(string $value): Result
     {
-        return empty($value)
-            ? Result::success(ExpirationDate::never())
-            : Date::tryFrom($value)
-                ->match(
-                    fn (Date $date): Result => Result::success(ExpirationDate::on($date)),
-                    fn (string $error): Result => Result::failure($error)
-                )
-            ;
+        return Date::tryFrom($value)->match(
+            onSuccess: fn (Date $date) => Result::success(self::from($date)),
+            onFailure: fn (string $error) => Result::failure($error)
+        );
     }
 
-    /**
-     * This function is intendede to be used with values that were already persisted
-     * therefore already sanitized and validated.
-     */
-    final public static function from(string $value): self
+    public function isExpiredAsOf(Date $asOf): bool
     {
-        return (empty($value))
-            ? ExpirationDate::never()
-            : ExpirationDate::on(Date::fromString($value));
+        return $this->date->isBefore($asOf);
+    }
+
+    public function toDate(): Date
+    {
+        return $this->date;
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->date;
     }
 }
 

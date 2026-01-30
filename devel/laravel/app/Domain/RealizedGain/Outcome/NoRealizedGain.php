@@ -10,11 +10,16 @@ use App\Domain\{
 
 final class NoRealizedGain extends AbstractRealizedGainOutcome
 {
-    public function __construct()
+    private function __construct()
     {
         parent::__construct(
             PersistenceIntent::none()
         );
+    }
+
+    public static function create(): self
+    {
+        return new self ();
     }
 
     public function getRealizedGainBasis(): ?RealizedGainBasis

@@ -10,6 +10,7 @@ use App\Domain\Kernel\{
 };
 
 use App\Domain\Security\{
+    Expiration\ExpirationRule,
     Outcome\NoChange,
     Outcome\SecurityOutcome,
     Outcome\VariationAdded,
@@ -24,22 +25,11 @@ abstract class Security
     protected VariationsInterface $variations;
 
     protected function __construct(
-        SecurityNumber $securityNumber,
-        Symbol $symbol,
-        UnitType $unitType,
-        Description $canonicalDescription,
+        SecurityInfo $securityInfo,
         VariationsInterface $variations,
-        ExpirationDate $expirationDate,
     ) {
 
-        $this->info = SecurityInfo::from(
-            $securityNumber,
-            $symbol,
-            $canonicalDescription,
-            $unitType,
-            $expirationDate
-        );
-
+        $this->info = $securityInfo;
         $this->variations = $variations;
     }
 
@@ -47,7 +37,7 @@ abstract class Security
     public function getSecurityNumber(): SecurityNumber { return $this->info->securityNumber; }
     public function getCanonicalDescription(): Description { return $this->info->canonicalDescription; }
     public function getVariations(): VariationsInterface { return $this->variations; }
-    public function getExpirationDate(): ExpirationDate { return $this->info->expirationDate; }
+    public function getExpirationRule(): ExpirationRule { return $this->info->expirationRule; }
     public function getUnitType(): UnitType { return $this->info->unitType; }
 
     public function recordDescription(Description $incomingDescription): SecurityOutcome

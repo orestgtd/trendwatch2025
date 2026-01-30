@@ -24,6 +24,7 @@ use App\Domain\Kernel\{
 };
 
 use App\Domain\Security\{
+    Expiration\ExpirationRule,
     ValueObjects\Description,
     ValueObjects\SecurityInfo,
 };
@@ -49,7 +50,7 @@ final class ConfirmationBuilder
                 Symbol::fromString('YYZ'),
                 Description::fromString('Security Under Pressure'),
                 UnitType::shares(),
-                ExpirationDate::never()
+                ExpirationRule::neverExpires()
             ),
             TradeNumber::fromString('T000'),
             TradeAction::buy(),
@@ -69,7 +70,7 @@ final class ConfirmationBuilder
                 Symbol::fromString('YYZ'),
                 Description::fromString('Security Under Pressure'),
                 UnitType::shares(),
-                ExpirationDate::never()
+                ExpirationRule::neverExpires()
             ),
             TradeNumber::fromString('T000'),
             TradeAction::sell(),
@@ -89,7 +90,7 @@ final class ConfirmationBuilder
                 Symbol::fromString('YYZ'),
                 Description::fromString('Security Under Pressure'),
                 UnitType::shares(),
-                ExpirationDate::never()
+                ExpirationRule::neverExpires()
             ),
             TradeNumber::fromString('T000'),
             TradeAction::buy(),
@@ -109,7 +110,7 @@ final class ConfirmationBuilder
                 Symbol::fromString('YYZ'),
                 Description::fromString('Security Under Pressure'),
                 UnitType::shares(),
-                ExpirationDate::never()
+                ExpirationRule::neverExpires()
             ),
             TradeNumber::fromString('T000'),
             TradeAction::sell(),

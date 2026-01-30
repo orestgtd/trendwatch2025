@@ -16,11 +16,7 @@ use App\Domain\Position\{
 };
 
 use App\Domain\Kernel\{
-    Identifiers\SecurityNumber,
-    Identifiers\Symbol,
-    Values\ExpirationDate,
     Values\PositionType,
-    Values\UnitType,
 };
 
 use App\Domain\Security\{

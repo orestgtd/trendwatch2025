@@ -47,7 +47,7 @@ class Date
         return $this->carbon->lt($other->carbon);
     }
 
-    public function toString(): string
+    public function __toString(): string
     {
         return $this->carbon->format(self::STANDARD);
     }

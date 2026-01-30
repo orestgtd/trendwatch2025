@@ -27,6 +27,6 @@ final class MaybeRealizedGainBasis
     {
         return $this->realizedGainBasis
         ? NewRealizedGainCreated::create($this->realizedGainBasis)
-        : new NoRealizedGain ();
+        : NoRealizedGain::create();
     }
 }

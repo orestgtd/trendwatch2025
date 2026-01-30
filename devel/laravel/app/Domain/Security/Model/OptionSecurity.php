@@ -5,33 +5,29 @@ namespace App\Domain\Security\Model;
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
     Identifiers\Symbol,
+    Values\ExpirationDate,
     Values\UnitType,
 };
 
 use App\Domain\Security\{
+    Expiration\ExpirationRule,
     Model\Security,
     ValueObjects\Description,
     ValueObjects\ExpirationDate\ExpiresOn,
+    ValueObjects\SecurityInfo,
     ValueObjects\Variations\VariationsInterface,
 };
 
 final class OptionSecurity extends Security
 {
     public static function create(
-        SecurityNumber $securityNumber,
-        Symbol $symbol,
-        Description $canonicalDescription,
+        SecurityInfo $securityInfo,
         VariationsInterface $variations,
-        ExpiresOn $expirationDate
     ): self {
 
         return new self(
-            $securityNumber,
-            $symbol,
-            UnitType::contracts(),
-            $canonicalDescription,
+            $securityInfo,
             $variations,
-            $expirationDate
         );
     }
 }
