@@ -11,7 +11,7 @@ use Tests\Unit\Support\{
 };
 
 use App\Application\ProcessTradeConfirmation\{
-    Services\PositionService,
+    Services\PositionProcessor,
 };
 
 use App\Domain\Kernel\Money\{
@@ -54,7 +54,7 @@ class PositionServiceTest extends TestCase
         // When we buy to open shares
 
         /** @var SecurityService $service */
-        $service = app(PositionService::class);
+        $service = app(PositionProcessor::class);
 
         $result = $service->computePositionOutcome(
             ConfirmationBuilder::BuyToOpenShares()
@@ -106,7 +106,7 @@ class PositionServiceTest extends TestCase
         // When we buy to open shares
 
         /** @var PositionService $service */
-        $service = app(PositionService::class);
+        $service = app(PositionProcessor::class);
 
         $result = $service->computePositionOutcome(
             ConfirmationBuilder::buyToOpenShares()
@@ -155,7 +155,7 @@ class PositionServiceTest extends TestCase
         // When we sell to open shares
 
         /** @var SecurityService $service */
-        $service = app(PositionService::class);
+        $service = app(PositionProcessor::class);
 
         $result = $service->computePositionOutcome(
             ConfirmationBuilder::sellToOpenShares()
@@ -207,7 +207,7 @@ class PositionServiceTest extends TestCase
         // When we sell to open shares
 
         /** @var PositionService $service */
-        $service = app(PositionService::class);
+        $service = app(PositionProcessor::class);
 
         $result = $service->computePositionOutcome(
             ConfirmationBuilder::sellToOpenShares()
@@ -259,7 +259,7 @@ class PositionServiceTest extends TestCase
         // When we sell to close shares
 
         /** @var PositionService $service */
-        $service = app(PositionService::class);
+        $service = app(PositionProcessor::class);
 
         $result = $service->computePositionOutcome(
             ConfirmationBuilder::sellToCloseShares()
@@ -311,7 +311,7 @@ class PositionServiceTest extends TestCase
         // When we buy to close shares
 
         /** @var PositionService $service */
-        $service = app(PositionService::class);
+        $service = app(PositionProcessor::class);
 
         $result = $service->computePositionOutcome(
             ConfirmationBuilder::buyToCloseShares()
@@ -363,7 +363,7 @@ class PositionServiceTest extends TestCase
 
         // When we sell to add short units
         /** @var PositionService $service */
-        $service = app(PositionService::class);
+        $service = app(PositionProcessor::class);
 
         $result = $service->computePositionOutcome(
             ConfirmationBuilder::sellToOpenShares()

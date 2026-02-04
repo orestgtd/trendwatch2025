@@ -95,6 +95,20 @@ abstract class Position
         return PositionExpired::create($this, $realizedGainBasis);
     }
 
+    /**
+     * @template T
+     * @param callable():T $onLong
+     * @param callable():T $onShort
+     * @return T
+     */
+    public function matchPositionType(callable $onLong, callable $onShort)
+    {
+        return $this->getPositionType()->delegate(
+            onLong: fn () => $onLong(),
+            onShort: fn () => $onShort()
+        );
+    }
+
     // abstract public function markClosed(): void;
     // abstract public function isClosed(): bool;
 }

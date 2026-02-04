@@ -7,56 +7,54 @@ use App\Domain\Confirmation\{
 };
 
 use App\Domain\Position\{
-    Behaviour\AddToNewOrExistingPosition,
-    Behaviour\ReduceExistingPosition,
+    Behaviour\BuyToDecrease,
+    Behaviour\BuyToIncrease,
+    Behaviour\CreateLongPosition,
+    Behaviour\CreateShortPosition,
+    Behaviour\SellToDecrease,
     Model\Position,
     Outcome\PositionOutcome,
 };
-
+use App\Domain\Position\Behaviour\SellToIncrease;
 use App\Shared\Result;
 
 final class PositionManager
 {
     public function __construct(
-        private AddToNewOrExistingPosition $addToNewOrExistingPosition,
-        private ReduceExistingPosition $reduceExistingPosition,
+        private BuyToDecrease $buyToDecrease,
+        private BuyToIncrease $buyToIncrease,
+        private CreateLongPosition $createLong,
+        private CreateShortPosition $createShort,
+        private SellToDecrease $sellToDecrease,
+        private SellToIncrease $sellToIncrease,
     ) {}
 
-    /**
-     * Update the position based on the confirmation outcome.
-     *
-     * @return Result<PositionOutcome>
-     */
-    public function createOrUpdatePosition(Confirmation $confirmation, ?Position $lookupPosition): Result
+    /** @return Result<PositionOutcome> */
+    public function createPosition(Confirmation $confirmation): Result
     {
-        return $confirmation->matchPositionEffect(
-            onOpen: fn(Confirmation $confirmation) => $this->openPosition($confirmation, $lookupPosition),
-            onClose: fn(Confirmation $confirmation) => $this->closePosition($confirmation, $lookupPosition),
+        return $confirmation->matchTradeAction(
+            onBuy: fn () => $this->createLong->do($confirmation),
+            onSell: fn () => $this->createShort->do($confirmation),
         );
     }
 
     /** @return Result<PositionOutcome> */
-    private function openPosition(
+    public function increasePosition(
         Confirmation $confirmation,
-        ?Position $lookupPosition
+        Position $position
     ): Result {
-        return $this->addToNewOrExistingPosition
-            ->do($confirmation, $lookupPosition);
+        return $confirmation->matchTradeAction(
+            onBuy: fn () => $this->buyToIncrease->do($confirmation, $position),
+            onSell: fn () => $this->sellToIncrease->do($confirmation, $position),
+        );
     }
 
     /** @return Result<PositionOutcome> */
-    private function closePosition(Confirmation $confirmation, ?Position $lookupPosition): Result
+    public function decreasePosition(Confirmation $confirmation, Position $position): Result
     {
-        $failure = function (Confirmation $confirmation): string {
-            $securityNumber = $confirmation->getSecurityNumber();
-            $tradeNumber = $confirmation->getTradeNumber();
-            return "Cannot reduce non-existent position for security {$securityNumber}, trade number {$tradeNumber}";
-        };
-
-        return is_null($lookupPosition)
-        ? Result::failure($failure($confirmation))
-        : Result::success(
-            $this->reduceExistingPosition->do($confirmation, $lookupPosition)
+        return $confirmation->matchTradeAction(
+            onBuy: fn () => $this->buyToDecrease->do($confirmation, $position),
+            onSell: fn () => $this->sellToDecrease->do($confirmation, $position),
         );
     }
 }

@@ -5,7 +5,7 @@ namespace Tests\Unit\Application\Position\Service;
 use PHPUnit\Framework\Attributes\Test;
 
 use App\Application\ProcessTradeConfirmation\{
-    Services\PositionService,
+    Services\PositionProcessor,
 };
 
 use App\Domain\Position\{
@@ -53,7 +53,7 @@ final class BuyToOpenLongPositionTest extends PositionTestCase
         // When we buy to open shares
 
         /** @var PositionService $service */
-        $service = app(PositionService::class);
+        $service = app(PositionProcessor::class);
 
         $result = $service->computePositionOutcome(
             ConfirmationBuilder::BuyToOpenShares()
@@ -109,7 +109,7 @@ final class BuyToOpenLongPositionTest extends PositionTestCase
         // When we buy to open shares
 
         /** @var PositionService $service */
-        $service = app(PositionService::class);
+        $service = app(PositionProcessor::class);
 
         $result = $service->computePositionOutcome(
             ConfirmationBuilder::buyToOpenShares()

@@ -2,17 +2,14 @@
 
 namespace App\Application\ProcessTradeConfirmation\Queries;
 
-use App\Domain\Kernel\Identifiers\{
-    SecurityNumber,
+use App\Domain\Kernel\{
+    Identifiers\SecurityNumber,
 };
 
 use App\Domain\Position\{
     Builders\BuildPositionFromPersisted,
     Model\Position,
-};
-
-use App\Domain\Security\{
-    ValueObjects\SecurityInfo,
+    Outcome\PositionOutcome,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Position\{
@@ -20,19 +17,31 @@ use App\Infrastructure\Laravel\Eloquent\Position\{
     Repositories\EloquentPositionRepository as PositionRepository,
 };
 
-final class FindPositionQuery
+use App\Shared\Result;
+
+final class PositionLookup
 {
     public function __construct(
         private readonly PositionRepository $repository
         ){}
 
-    public function findBySecurityNumber(SecurityNumber $securityNumber): ?Position
-    {
+    /**
+     * @param callable(Position): Result<PositionOutcome> $onExists
+     * @param callable(): Result<PositionOutcome> $onNotFound
+     *
+     * @return Result<PositionOutcome>
+     */
+    public function matchBySecurityNumber(
+        SecurityNumber $securityNumber,
+        callable $onExists,
+        callable $onNotFound,
+    ): Result {
+
         $persisted = $this->repository->findBySecurityNumber($securityNumber);
 
-        return $persisted
-        ? $this->buildPositionFromPersisted($persisted)
-        : null;
+        return is_null($persisted)
+            ? $onNotFound()
+            : $onExists($this->buildPositionFromPersisted($persisted));
     }
 
     private function buildPositionFromPersisted(PersistedPositionDto $persisted): Position

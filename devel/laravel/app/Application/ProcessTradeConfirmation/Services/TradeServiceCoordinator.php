@@ -10,7 +10,7 @@ use App\Application\ProcessTradeConfirmation\Dto\{
 use App\Application\ProcessTradeConfirmation\Services\{
     Parser\SecurityParser,
     Parser\TradeParser,
-    PositionService,
+    PositionProcessor,
     RegistrationService,
     SecurityService,
     TradeService,
@@ -29,7 +29,7 @@ final class TradeServiceCoordinator
    public function __construct(
       public readonly TradeService $tradeService,
       public readonly SecurityService $securityService,
-      public readonly PositionService $positionService,
+      public readonly PositionProcessor $positionService,
       public readonly RegistrationService $registrationService,
       public readonly TradeParser $tradeParser,
       public readonly SecurityParser $securityParser,
