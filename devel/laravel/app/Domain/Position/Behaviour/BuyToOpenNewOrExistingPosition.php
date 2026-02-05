@@ -9,14 +9,10 @@ use App\Domain\Confirmation\{
 use App\Domain\Position\{
     Model\LongPosition,
     Model\Position,
-    Outcome\Holdings\IncreasedHolding,
-    Outcome\Holdings\NewPositionCreated,
+    Outcome\IncreasedHolding,
+    Outcome\NewPositionCreated,
     Outcome\PositionOutcome,
     ValueObjects\PositionQuantity,
-};
-
-use App\Domain\Security\{
-    ValueObjects\SecurityInfo,
 };
 
 use App\Shared\Result;

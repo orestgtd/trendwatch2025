@@ -22,9 +22,9 @@ use App\Domain\Kernel\Money\{
 use App\Domain\Position\{
     Model\LongPosition,
     Model\ShortPosition,
-    Outcome\Holdings\DecreasedHolding,
-    Outcome\Holdings\IncreasedHolding,
-    Outcome\Holdings\NewPositionCreated,
+    Outcome\DecreasedHolding,
+    Outcome\IncreasedHolding,
+    Outcome\NewPositionCreated,
 };
 
 use App\Infrastructure\Laravel\Eloquent\{

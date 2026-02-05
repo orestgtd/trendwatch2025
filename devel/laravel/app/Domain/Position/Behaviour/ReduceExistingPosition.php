@@ -10,7 +10,7 @@ use App\Domain\Position\{
     Model\LongPosition,
     Model\ShortPosition,
     Model\Position,
-    Outcome\Holdings\DecreasedHolding,
+    Outcome\DecreasedHolding,
     Outcome\PositionOutcome,
 };
 

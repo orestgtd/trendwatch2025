@@ -10,7 +10,7 @@ use App\Application\ProcessTradeConfirmation\{
 
 use App\Domain\Position\{
     Model\ShortPosition,
-    Outcome\Holdings\DecreasedHolding,
+    Outcome\DecreasedHolding,
 };
 
 use App\Domain\RealizedGain\{

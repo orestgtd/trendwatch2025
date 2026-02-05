@@ -10,8 +10,8 @@ use App\Application\ProcessTradeConfirmation\{
 
 use App\Domain\Position\{
     Model\LongPosition,
-    Outcome\Holdings\IncreasedHolding,
-    Outcome\Holdings\NewPositionCreated,
+    Outcome\IncreasedHolding,
+    Outcome\NewPositionCreated,
 };
 
 use App\Domain\RealizedGain\{
