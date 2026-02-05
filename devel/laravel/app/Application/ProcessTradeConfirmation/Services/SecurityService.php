@@ -3,20 +3,24 @@
 namespace App\Application\ProcessTradeConfirmation\Services;
 
 use App\Application\ProcessTradeConfirmation\{
-    Dto\ParsedSecurityRequestDto,
-    Queries\FindSecurityQuery,
     Actions\CreateNewSecurity,
     Actions\UpdateExistingSecurity,
+    Dto\ParsedSecurityRequestDto,
+    Queries\FindSecurityQuery,
+    Queries\SecurityLookup,
 };
 
-use App\Domain\Security\Outcome\SecurityOutcome;
+use App\Domain\{
+    Security\Model\Security,
+    Security\Outcome\SecurityOutcome,
+};
 
 use App\Shared\Result;
 
 class SecurityService
 {
     public function __construct(
-        private FindSecurityQuery $findSecurity,
+        private SecurityLookup $lookup,
         private CreateNewSecurity $createSecurity,
         private UpdateExistingSecurity $updateSecurity,
     ) {}
@@ -24,10 +28,10 @@ class SecurityService
     /** @return Result<SecurityOutcome> */
     public function processSecurityRequest(ParsedSecurityRequestDto $requestDto): Result
     {
-        $security = $this->findSecurity->findBySecurityNumber($requestDto->securityNumber);
-
-        return $security
-        ? $this->updateSecurity->updateSecurityFromDto($security, $requestDto)
-        : $this->createSecurity->createNewSecurityFromDto($requestDto);
+        return $this->lookup->matchBySecurityNumber(
+            $requestDto->securityNumber,
+            onNotFound: fn() => $this->createSecurity->createNewSecurityFromDto($requestDto),
+            onExists: fn(Security $security) => $this->updateSecurity->updateSecurityFromDto($security, $requestDto)
+        );
     }
 }
