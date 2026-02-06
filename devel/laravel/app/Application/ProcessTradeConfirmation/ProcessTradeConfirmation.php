@@ -3,6 +3,7 @@
 namespace App\Application\ProcessTradeConfirmation;
 
 use App\Application\ProcessTradeConfirmation\{
+    Services\OutcomeProcessor,
     Services\TradeServiceCoordinator,
     Summary\OutcomeSummary,
 };
@@ -17,6 +18,7 @@ use App\Shared\Result;
 final class ProcessTradeConfirmation
 {
     public function __construct(
+        private OutcomeProcessor $outcomeProcessor,
         private TradeServiceCoordinator $coordinator,
         private TradeRequestParser $parser,
     ) {}
@@ -32,34 +34,13 @@ final class ProcessTradeConfirmation
             fn (OutcomeSummary $summary) => $this->computePositionOutcome($summary)
         );
 
-        // dd($resultOutcomes);
-
         if ($resultOutcomes->isFailure()) {
             return Result::failure($resultOutcomes->getError());
         }
 
         $outcomeSummary = $resultOutcomes->getValue();
-        $confirmationOutcome = $outcomeSummary->confirmationOutcome;
-        $securityOutcome = $outcomeSummary->securityOutcome;
-        $positionOutcome = $outcomeSummary->positionOutcome;
 
-        // Step 2: Register results
-        $this->coordinator
-            ->registerConfirmation($confirmationOutcome)
-            ->registerPosition($positionOutcome)
-            ->registerSecurity($securityOutcome);
-
-
-        // Step 3: Persist all registrations
-        $this->coordinator->persist();
-
-        // Step 4: Summarize and return
-        return Result::success(
-            new OutcomeSummary(
-                $confirmationOutcome,
-                $securityOutcome
-            )
-        );
+        return $this->outcomeProcessor->process($outcomeSummary);
     }
 
     /** @return Result<OutcomeSummary> */

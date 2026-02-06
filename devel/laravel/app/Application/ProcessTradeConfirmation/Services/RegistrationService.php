@@ -17,28 +17,33 @@ final class RegistrationService
         private UnitOfWork $uow
     ) {}
 
-    public function registerConfirmation(ConfirmationOutcome $outcome): void
+    public function registerConfirmation(ConfirmationOutcome $outcome): self
     {
         $this->uow->withConfirmation($outcome);
+        return $this;
     }
 
-    public function registerSecurity(SecurityOutcome $outcome): void
+    public function registerSecurity(SecurityOutcome $outcome): self
     {
         $this->uow->withSecurity($outcome);
+        return $this;
     }
 
-    public function registerPosition(PositionOutcome $outcome): void
+    public function registerPosition(PositionOutcome $outcome): self
     {
         $this->uow->withPosition($outcome);
+        return $this;
     }
 
-    public function registerRealizedGainBasis(RealizedGainOutcome $outcome): void
+    public function registerRealizedGainBasis(RealizedGainOutcome $outcome): self
     {
         $this->uow->withRealizedGainBasis($outcome);
+        return $this;
     }
 
-    public function persist(): void
+    public function persist(): self
     {
         $this->uow->persist();
+        return $this;
     }
 }
