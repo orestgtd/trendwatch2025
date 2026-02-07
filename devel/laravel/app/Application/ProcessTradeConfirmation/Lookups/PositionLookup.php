@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\ProcessTradeConfirmation\Queries;
+namespace App\Application\ProcessTradeConfirmation\Lookups;
 
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,

@@ -5,16 +5,19 @@ namespace App\Application\ProcessTradeConfirmation\Services;
 use App\Application\ProcessTradeConfirmation\{
     Actions\CreateNewTrade,
     Dto\ParsedTradeRequestDto,
-    Queries\FindTradeQuery,
+    Lookups\TradeLookup,
 };
 
-use App\Domain\Confirmation\Outcome\ConfirmationOutcome;
+use App\Domain\Confirmation\{
+    Outcome\ConfirmationOutcome,
+};
+
 use App\Shared\Result;
 
 class TradeService
 {
     public function __construct(
-        private readonly FindTradeQuery $findTrade,
+        private readonly TradeLookup $lookup,
         private readonly CreateNewTrade $createTrade,
     ) {}
 
@@ -22,10 +25,11 @@ class TradeService
     public function processConfirmationRequest(ParsedTradeRequestDto $requestDto): Result
     {
         $tradeNumber = $requestDto->tradeNumber;
-        $trade = $this->findTrade->findByTradeNumber($tradeNumber);
 
-        return $trade
-        ? Result::failure("Found duplicated trade number {$tradeNumber}.")
-        : $this->createTrade->createNewTradeFromDto($requestDto);
+        return $this->lookup->matchByTradeNumber(
+            $requestDto->tradeNumber,
+            onNotFound: fn () => $this->createTrade->createNewTradeFromDto($requestDto),
+            onExists: fn () => Result::failure("Found duplicated trade number {$tradeNumber}.")
+        );
     }
 }

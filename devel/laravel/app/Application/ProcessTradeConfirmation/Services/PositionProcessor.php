@@ -3,7 +3,7 @@
 namespace App\Application\ProcessTradeConfirmation\Services;
 
 use App\Application\ProcessTradeConfirmation\{
-    Queries\PositionLookup,
+    Lookups\PositionLookup,
 };
 
 use App\Domain\{

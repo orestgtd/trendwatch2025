@@ -6,8 +6,7 @@ use App\Application\ProcessTradeConfirmation\{
     Actions\CreateNewSecurity,
     Actions\UpdateExistingSecurity,
     Dto\ParsedSecurityRequestDto,
-    Queries\FindSecurityQuery,
-    Queries\SecurityLookup,
+    Lookups\SecurityLookup,
 };
 
 use App\Domain\{
