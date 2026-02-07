@@ -2,6 +2,10 @@
 
 namespace App\Application\ProcessTradeConfirmation\Lookups;
 
+use App\Application\Contracts\{
+    SecurityRepositoryContract,
+};
+
 use App\Domain\{
     Kernel\Identifiers\SecurityNumber,
     Security\Builders\BuildSecurityFrom,
@@ -12,16 +16,12 @@ use App\Domain\{
     Security\Record\SecurityRecord,
 };
 
-use App\Infrastructure\Laravel\Eloquent\Security\{
-    Repositories\EloquentSecurityRepository as SecurityRepository,
-};
-
 use App\Shared\Result;
 
 final class SecurityLookup
 {
     public function __construct(
-        private readonly SecurityRepository $repository
+        private readonly SecurityRepositoryContract $repository
     ){}
 
         /**

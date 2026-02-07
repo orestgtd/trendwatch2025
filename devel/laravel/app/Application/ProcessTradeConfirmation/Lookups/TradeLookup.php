@@ -2,6 +2,10 @@
 
 namespace App\Application\ProcessTradeConfirmation\Lookups;
 
+use App\Application\Contracts\{
+    TradeRepositoryContract,
+};
+
 use App\Domain\{
     Kernel\Identifiers\TradeNumber,
     Confirmation\Builders\BuildNewConfirmation,
@@ -10,16 +14,12 @@ use App\Domain\{
     Confirmation\Record\TradeRecord,
 };
 
-use App\Infrastructure\{
-    Laravel\Eloquent\Trade\Repositories\EloquentTradeRepository as TradeRepository,
-};
-
 use App\Shared\Result;
 
 final class TradeLookup
 {
     public function __construct(
-        private readonly TradeRepository $repository
+        private readonly TradeRepositoryContract $repository
         ){}
 
     /**

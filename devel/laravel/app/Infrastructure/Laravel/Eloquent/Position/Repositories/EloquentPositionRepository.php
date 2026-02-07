@@ -4,6 +4,10 @@ namespace App\Infrastructure\Laravel\Eloquent\Position\Repositories;
 
 use App\Shared\Date;
 
+use App\Application\Contracts\{
+    PositionRepositoryContract,
+};
+
 use App\Domain\{
     Kernel\Identifiers\SecurityNumber,
     Outcome\Persistence\PersistenceScope,
@@ -20,7 +24,7 @@ use App\Infrastructure\Laravel\Eloquent\Position\{
     Model\Position as EloquentPosition,
 };
 
-class EloquentPositionRepository
+class EloquentPositionRepository implements PositionRepositoryContract
 {
     public function findBySecurityNumber(SecurityNumber $securityNumber): ?PositionRecord
     {

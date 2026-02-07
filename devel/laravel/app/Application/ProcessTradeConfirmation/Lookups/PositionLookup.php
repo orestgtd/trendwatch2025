@@ -2,6 +2,10 @@
 
 namespace App\Application\ProcessTradeConfirmation\Lookups;
 
+use App\Application\Contracts\{
+    PositionRepositoryContract,
+};
+
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
 };
@@ -12,16 +16,12 @@ use App\Domain\Position\{
     Outcome\PositionOutcome,
 };
 
-use App\Infrastructure\Laravel\Eloquent\Position\{
-    Repositories\EloquentPositionRepository as PositionRepository,
-};
-
 use App\Shared\Result;
 
 final class PositionLookup
 {
     public function __construct(
-        private readonly PositionRepository $repository
+        private readonly PositionRepositoryContract $repository
         ){}
 
     /**

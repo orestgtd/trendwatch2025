@@ -2,6 +2,10 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Security\Repositories;
 
+use App\Application\{
+    Contracts\SecurityRepositoryContract,
+};
+
 use App\Domain\Outcome\{
     Persistence\PersistenceScope,
 };
@@ -13,11 +17,10 @@ use App\Domain\{
 };
 
 use App\Infrastructure\Laravel\Eloquent\Security\{
-    Dto\PersistedSecurityDto,
     Model\Security as EloquentSecurity,
 };
 
-class EloquentSecurityRepository
+class EloquentSecurityRepository implements SecurityRepositoryContract
 {
     public function findBySecurityNumber(SecurityNumber $securityNumber): ?SecurityRecord
     {

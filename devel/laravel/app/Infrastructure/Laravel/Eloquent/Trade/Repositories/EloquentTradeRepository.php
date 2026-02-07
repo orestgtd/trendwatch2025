@@ -2,6 +2,10 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Trade\Repositories;
 
+use App\Application\Contracts\{
+    TradeRepositoryContract,
+};
+
 use App\Domain\{
     Confirmation\Model\Confirmation,
     Confirmation\Record\TradeRecord,
@@ -14,7 +18,7 @@ use App\Infrastructure\Laravel\Eloquent\Trade\{
     Model\Trade as EloquentTrade,
 };
 
-class EloquentTradeRepository
+class EloquentTradeRepository implements TradeRepositoryContract
 {
     public function findByTradeNumber(TradeNumber $tradeNumber): ?TradeRecord
     {

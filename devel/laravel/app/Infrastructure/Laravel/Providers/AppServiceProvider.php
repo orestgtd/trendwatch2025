@@ -3,9 +3,17 @@
 namespace App\Infrastructure\Laravel\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Domain\Security\Repositories\SecurityRepository;
-use App\Infrastructure\Laravel\Eloquent\Security\{
-    Repositories\EloquentSecurityRepository,
+
+use App\Application\Contracts\{
+    PositionRepositoryContract,
+    SecurityRepositoryContract,
+    TradeRepositoryContract,
+};
+
+use App\Infrastructure\Laravel\Eloquent\{
+    Position\Repositories\EloquentPositionRepository,
+    Security\Repositories\EloquentSecurityRepository,
+    Trade\Repositories\EloquentTradeRepository,
 };
 
 class AppServiceProvider extends ServiceProvider
@@ -16,10 +24,21 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         // Bind the interface to the Eloquent implementation
-        // $this->app->bind(
-        //     SecurityRepository::class,
-        //     EloquentSecurityRepository::class
-        // );
+
+        $this->app->bind(
+            SecurityRepositoryContract::class,
+            EloquentSecurityRepository::class
+        );
+
+        $this->app->bind(
+            PositionRepositoryContract::class,
+            EloquentPositionRepository::class
+        );
+
+        $this->app->bind(
+            TradeRepositoryContract::class,
+            EloquentTradeRepository::class
+        );
     }
 
     /**
