@@ -1,28 +1,24 @@
 <?php
 
-namespace Tests\Unit\Support\Factories;
+namespace Tests\Unit\Support\Builders;
 
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
     Identifiers\Symbol,
-    Values\ExpirationDate,
     Values\UnitType,
 };
 
-use App\Domain\Security\ValueObjects\{
-    Description,
-    Variations\NoVariations,
+use App\Domain\Security\{
+    ValueObjects\Description,
+    ValueObjects\Variations\NoVariations,
+    Record\SecurityRecord,
 };
 
-use App\Infrastructure\Laravel\Eloquent\Security\{
-    Dto\PersistedSecurityDto,
-};
-
-final class PersistedSecurityFactory
+final class SecurityRecordBuilder
 {
-    public static function YYZ(): PersistedSecurityDto
+    public static function YYZ(): SecurityRecord
     {
-        return new PersistedSecurityDto(
+        return new SecurityRecord(
             SecurityNumber::fromString('2112'),
             Symbol::fromString('YYZ'),
             Description::fromString('SECURITY UNDER PRESSURE'),

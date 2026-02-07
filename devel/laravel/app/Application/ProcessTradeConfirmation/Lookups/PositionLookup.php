@@ -7,13 +7,12 @@ use App\Domain\Kernel\{
 };
 
 use App\Domain\Position\{
-    Builders\BuildPositionFromPersisted,
+    Builders\BuildPositionFromRecord,
     Model\Position,
     Outcome\PositionOutcome,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Position\{
-    Dto\PersistedPositionDto,
     Repositories\EloquentPositionRepository as PositionRepository,
 };
 
@@ -41,17 +40,6 @@ final class PositionLookup
 
         return is_null($persisted)
             ? $onNotFound()
-            : $onExists($this->buildPositionFromPersisted($persisted));
-    }
-
-    private function buildPositionFromPersisted(PersistedPositionDto $persisted): Position
-    {
-        return BuildPositionFromPersisted::from(
-            $persisted->securityInfo,
-            $persisted->positionType,
-            $persisted->positionQuantity,
-            $persisted->totalCost,
-            $persisted->totalProceeds,
-        );
+            : $onExists(BuildPositionFromRecord::from($persisted));
     }
 }

@@ -3,16 +3,12 @@
 namespace App\Application\GetActivePositions\Queries;
 
 use App\Domain\Position\{
-    Builders\BuildPositionFromPersisted,
+    Builders\BuildPositionFromRecord,
     Model\Position,
-};
-
-use App\Domain\Security\{
-    ValueObjects\SecurityInfo,
+    Record\PositionRecord,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Position\{
-    Dto\PersistedPositionDto,
     Repositories\EloquentPositionRepository,
 };
 
@@ -28,19 +24,8 @@ final class GetActivePositionsQuery
         $persistedPositions = $this->repository->active();
 
         return array_map(
-            fn(PersistedPositionDto $dto) => $this->buildPositionFromPersisted($dto),
+            fn(PositionRecord $record) => BuildPositionFromRecord::from($record),
             $persistedPositions
-        );
-    }
-
-    private function buildPositionFromPersisted(PersistedPositionDto $persisted): Position
-    {
-        return BuildPositionFromPersisted::from(
-            $persisted->securityInfo,
-            $persisted->positionType,
-            $persisted->positionQuantity,
-            $persisted->totalCost,
-            $persisted->totalProceeds,
         );
     }
 }

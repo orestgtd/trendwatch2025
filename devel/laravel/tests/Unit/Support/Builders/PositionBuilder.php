@@ -8,7 +8,7 @@ use App\Domain\Confirmation\ValueObjects\{
 };
 
 use App\Domain\Position\{
-    Builders\BuildPositionFromPersisted,
+    Builders\BuildPositionFromRecord,
     Model\Position,
     ValueObjects\PositionQuantity,
 };
@@ -22,7 +22,7 @@ use App\Domain\Kernel\{
     Values\PositionType,
     Values\UnitType,
 };
-
+use App\Domain\Position\Record\PositionRecord;
 use App\Domain\Security\{
     Expiration\ExpirationRule,
     ValueObjects\Description,
@@ -92,14 +92,19 @@ final class PositionBuilder
 
     public function build(): Position
     {
-        return BuildPositionFromPersisted::from(
+        return BuildPositionFromRecord::from($this->buildPositionRecord());
+    }
+
+    private function buildPositionRecord(): PositionRecord
+    {
+        return new PositionRecord(
             SecurityInfo::from(
                 $this->securityNumber,
                 $this->symbol,
                 $this->description,
                 $this->unitType,
                 $this->expirationRule
-            ),
+            ), 
             $this->positionType,
             $this->positionQuantity,
             $this->totalCost,

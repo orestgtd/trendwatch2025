@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Laravel\Eloquent\Security\Dto;
+namespace App\Domain\Security\Record;
 
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
@@ -9,12 +9,12 @@ use App\Domain\Kernel\{
     Values\UnitType,
 };
 
-use App\Domain\Security\ValueObjects\{
-    Description,
-    Variations\VariationsInterface,
+use App\Domain\Security\{
+    ValueObjects\Description,
+    ValueObjects\Variations\VariationsInterface,
 };
 
-final class PersistedSecurityDto
+final class SecurityRecord
 {
     public function __construct(
         public readonly SecurityNumber $securityNumber,

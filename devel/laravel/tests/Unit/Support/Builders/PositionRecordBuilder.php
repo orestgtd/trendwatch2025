@@ -2,13 +2,14 @@
 
 namespace Tests\Unit\Support\Builders;
  
-use App\Domain\Confirmation\ValueObjects\{
-    CostAmount,
-    ProceedsAmount,
+use App\Domain\Confirmation\{
+    ValueObjects\CostAmount,
+    ValueObjects\ProceedsAmount,
 };
 
-use App\Domain\Position\ValueObjects\{
-    PositionQuantity,
+use App\Domain\Position\{
+    Record\PositionRecord,
+    ValueObjects\PositionQuantity,
 };
 
 use App\Domain\Kernel\{
@@ -27,13 +28,9 @@ use App\Domain\Security\{
     ValueObjects\SecurityInfo,
 };
 
-use App\Infrastructure\Laravel\Eloquent\Position\{
-    Dto\PersistedPositionDto,
-};
-
 use App\Shared\Date;
 
-final class PersistedPositionBuilder
+final class PositionRecordBuilder
 {
     private function __construct(
         private SecurityNumber $securityNumber,
@@ -116,9 +113,9 @@ final class PersistedPositionBuilder
         return $this;
     }
 
-    public function build(): PersistedPositionDto
+    public function build(): PositionRecord
     {
-        return new PersistedPositionDto(
+        return new PositionRecord(
             SecurityInfo::from(
                 $this->securityNumber,
                 $this->symbol,

@@ -8,6 +8,7 @@ use App\Domain\{
     Kernel\Identifiers\SecurityNumber,
     Outcome\Persistence\PersistenceScope,
     Position\Model\Position,
+    Position\Record\PositionRecord,
 };
 
 use App\Domain\Security\{
@@ -16,18 +17,17 @@ use App\Domain\Security\{
 };
 
 use App\Infrastructure\Laravel\Eloquent\Position\{
-    Dto\PersistedPositionDto,
     Model\Position as EloquentPosition,
 };
 
 class EloquentPositionRepository
 {
-    public function findBySecurityNumber(SecurityNumber $securityNumber): ?PersistedPositionDto
+    public function findBySecurityNumber(SecurityNumber $securityNumber): ?PositionRecord
     {
         $eloquent = EloquentPosition::where('security_number', (string) $securityNumber)->first();
 
         return $eloquent
-            ? new PersistedPositionDTO(
+            ? new PositionRecord(
                 SecurityInfo::from(
                     $eloquent->security_number,
                     $eloquent->symbol,
@@ -46,7 +46,7 @@ class EloquentPositionRepository
     public function active(): array
     {
         return EloquentPosition::where('position_quantity', '>', 0)->get()
-            ->map(fn(EloquentPosition $eloquent) => new PersistedPositionDto(
+            ->map(fn(EloquentPosition $eloquent) => new PositionRecord(
                 SecurityInfo::from(
                     $eloquent->security_number,
                     $eloquent->symbol,
@@ -69,7 +69,7 @@ class EloquentPositionRepository
             ->where('expiration_date', '!=', '')
             ->where('expiration_date', '<', (string) $asOf)
             ->get()
-            ->map(fn(EloquentPosition $eloquent) => new PersistedPositionDto(
+            ->map(fn(EloquentPosition $eloquent) => new PositionRecord(
                 SecurityInfo::from(
                     $eloquent->security_number,
                     $eloquent->symbol,

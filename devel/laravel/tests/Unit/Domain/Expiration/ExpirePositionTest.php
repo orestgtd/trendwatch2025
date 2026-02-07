@@ -7,7 +7,6 @@ use PHPUnit\Framework\Attributes\Test;
 use App\Domain\{
     Expiration\Outcome\PositionExpired,
     Kernel\Values\ExpirationDate,
-    Position\Model\ExpirablePosition,
     RealizedGain\Outcome\NewRealizedGainCreated,
     RealizedGain\ValueObjects\RealizationSourceType,
 };

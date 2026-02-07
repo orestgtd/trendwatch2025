@@ -23,7 +23,7 @@ use App\Shared\Result;
 
 use Tests\Unit\Support\{
     Builders\ConfirmationBuilder,
-    Builders\PersistedPositionBuilder,
+    Builders\PositionRecordBuilder,
     Helpers\MockObject,
     PositionTestCase,
 };
@@ -88,7 +88,7 @@ class SellToOpenShortPositionTest extends PositionTestCase
         MockObject::mock(
             PositionRepository::class,
             'findBySecurityNumber',
-                PersistedPositionBuilder::YYZShort()
+                PositionRecordBuilder::YYZShort()
                     ->withQuantity(250)
                     ->withTotalProceeds('1000')
                     ->build()
@@ -140,7 +140,7 @@ class SellToOpenShortPositionTest extends PositionTestCase
         MockObject::mock(
             PositionRepository::class,
             'findBySecurityNumber',
-                PersistedPositionBuilder::YYZShort()
+                PositionRecordBuilder::YYZShort()
                     ->withQuantity(100)
                     ->withTotalProceeds('1000.00')
                     ->build()

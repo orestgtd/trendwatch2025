@@ -4,24 +4,24 @@ namespace App\Infrastructure\Laravel\Eloquent\Trade\Repositories;
 
 use App\Domain\{
     Confirmation\Model\Confirmation,
+    Confirmation\Record\TradeRecord,
     Kernel\Identifiers\TradeNumber,
     Security\Expiration\ExpirationRule,
     Security\ValueObjects\SecurityInfo,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Trade\{
-    Dto\PersistedTradeDto,
     Model\Trade as EloquentTrade,
 };
 
 class EloquentTradeRepository
 {
-    public function findByTradeNumber(TradeNumber $tradeNumber): ?PersistedTradeDto
+    public function findByTradeNumber(TradeNumber $tradeNumber): ?TradeRecord
     {
         $eloquent = EloquentTrade::where('trade_number', (string) $tradeNumber)->first();
 
         return $eloquent
-            ? new PersistedTradeDto(
+            ? new TradeRecord(
                 SecurityInfo::from(
                     $eloquent->security_number,
                     $eloquent->symbol,

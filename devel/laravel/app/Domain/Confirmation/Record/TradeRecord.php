@@ -1,13 +1,9 @@
 <?php
 
-namespace App\Infrastructure\Laravel\Eloquent\Trade\Dto;
+namespace App\Domain\Confirmation\Record;
 
 use App\Domain\Kernel\{
-    Identifiers\SecurityNumber,
-    Identifiers\Symbol,
     Identifiers\TradeNumber,
-    Values\ExpirationDate,
-    Values\UnitType,
 };
 
 use App\Domain\Confirmation\ValueObjects\{
@@ -23,7 +19,7 @@ use App\Domain\Security\{
     ValueObjects\SecurityInfo,
 };
 
-final class PersistedTradeDto
+final class TradeRecord
 {
     public function __construct(
         public readonly SecurityInfo $securityInfo,

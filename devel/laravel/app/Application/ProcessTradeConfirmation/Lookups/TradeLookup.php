@@ -7,10 +7,10 @@ use App\Domain\{
     Confirmation\Builders\BuildNewConfirmation,
     Confirmation\Model\Confirmation,
     Confirmation\Outcome\ConfirmationOutcome,
+    Confirmation\Record\TradeRecord,
 };
 
 use App\Infrastructure\{
-    Laravel\Eloquent\Trade\Dto\PersistedTradeDto,
     Laravel\Eloquent\Trade\Repositories\EloquentTradeRepository as TradeRepository,
 };
 
@@ -38,10 +38,10 @@ final class TradeLookup
 
         return is_null($persisted)
             ? $onNotFound()
-            : $onExists($this->buildConfirmation($persisted));
+            : $onExists($this->buildConfirmationFromRecord($persisted));
     }
 
-    private function buildConfirmation(PersistedTradeDto $persisted): Confirmation
+    private function buildConfirmationFromRecord(TradeRecord $persisted): Confirmation
     {
         return BuildNewConfirmation::from(
             $persisted->securityInfo,

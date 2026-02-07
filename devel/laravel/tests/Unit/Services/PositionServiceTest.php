@@ -7,7 +7,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Unit\Support\{
     Builders\ConfirmationBuilder,
-    Builders\PersistedPositionBuilder,
+    Builders\PositionRecordBuilder,
 };
 
 use App\Application\ProcessTradeConfirmation\{
@@ -97,7 +97,7 @@ class PositionServiceTest extends TestCase
         MockObject::mock(
             PositionRepository::class,
             'findBySecurityNumber',
-                PersistedPositionBuilder::YYZ()
+                PositionRecordBuilder::YYZ()
                     ->withQuantity(200)
                     ->withTotalCost('1000')
                     ->build()
@@ -198,7 +198,7 @@ class PositionServiceTest extends TestCase
         MockObject::mock(
             PositionRepository::class,
             'findBySecurityNumber',
-                PersistedPositionBuilder::YYZShort()
+                PositionRecordBuilder::YYZShort()
                     ->withQuantity(250)
                     ->withTotalProceeds('1000')
                     ->build()
@@ -250,7 +250,7 @@ class PositionServiceTest extends TestCase
         MockObject::mock(
             PositionRepository::class,
             'findBySecurityNumber',
-                PersistedPositionBuilder::YYZ()
+                PositionRecordBuilder::YYZ()
                     ->withQuantity(100)
                     ->withTotalCost('1000.00')
                     ->build()
@@ -302,7 +302,7 @@ class PositionServiceTest extends TestCase
         MockObject::mock(
             PositionRepository::class,
             'findBySecurityNumber',
-                PersistedPositionBuilder::YYZShort()
+                PositionRecordBuilder::YYZShort()
                     ->withQuantity(100)
                     ->withTotalProceeds('1000.00')
                     ->build()
@@ -355,7 +355,7 @@ class PositionServiceTest extends TestCase
         MockObject::mock(
             PositionRepository::class,
             'findBySecurityNumber',
-                PersistedPositionBuilder::YYZ()
+                PositionRecordBuilder::YYZ()
                     ->withQuantity(200)
                     ->withTotalCost('2000')
                     ->build()

@@ -25,7 +25,7 @@ use App\Shared\Result;
 
 use Tests\Unit\Support\{
     Builders\ConfirmationBuilder,
-    Builders\PersistedPositionBuilder,
+    Builders\PositionRecordBuilder,
     Helpers\MockObject,
     PositionTestCase,
 };
@@ -45,7 +45,7 @@ class BuyToCloseShortPositionTest extends PositionTestCase
         MockObject::mock(
             PositionRepository::class,
             'findBySecurityNumber',
-                PersistedPositionBuilder::YYZShort()
+                PositionRecordBuilder::YYZShort()
                     ->withQuantity(100)
                     ->withTotalProceeds('1000.00')
                     ->build()
@@ -97,7 +97,7 @@ class BuyToCloseShortPositionTest extends PositionTestCase
         MockObject::mock(
             PositionRepository::class,
             'findBySecurityNumber',
-                PersistedPositionBuilder::YYZShort()
+                PositionRecordBuilder::YYZShort()
                     ->withQuantity(100)
                     ->withTotalProceeds('1000.00')
                     ->build()
@@ -148,7 +148,7 @@ class BuyToCloseShortPositionTest extends PositionTestCase
         MockObject::mock(
             PositionRepository::class,
             'findBySecurityNumber',
-            PersistedPositionBuilder::YYZShort()
+            PositionRecordBuilder::YYZShort()
                 ->withQuantity(75)
                 ->withTotalProceeds('1000.00')
                 ->withTotalCost('300.00')  // Already has cost!

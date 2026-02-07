@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Laravel\Eloquent\Position\Dto;
+namespace App\Domain\Position\Record;
 
 use App\Domain\Confirmation\{
     ValueObjects\CostAmount,
@@ -19,7 +19,7 @@ use App\Domain\Security\{
     ValueObjects\SecurityInfo,
 };
 
-final class PersistedPositionDto
+final class PositionRecord
 {
     public function __construct(
         public readonly SecurityInfo $securityInfo,
@@ -27,6 +27,5 @@ final class PersistedPositionDto
         public readonly PositionQuantity $positionQuantity,
         public readonly CostAmount $totalCost,
         public readonly ProceedsAmount $totalProceeds,
-        // public readonly ExpirationDate $expirationDate,
     ) {}
 }

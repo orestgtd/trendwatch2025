@@ -9,10 +9,10 @@ use App\Domain\{
     Security\Model\Security,
     Security\Outcome\SecurityOutcome,
     Security\ValueObjects\SecurityInfo,
+    Security\Record\SecurityRecord,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Security\{
-    Dto\PersistedSecurityDto,
     Repositories\EloquentSecurityRepository as SecurityRepository,
 };
 
@@ -40,20 +40,20 @@ final class SecurityLookup
 
         return is_null($persisted)
             ? $onNotFound()
-            : $onExists($this->buildSecurityFromPersisted($persisted));
+            : $onExists($this->buildSecurityFromRecord($persisted));
     }
 
-    private function buildSecurityFromPersisted(PersistedSecurityDto $persisted): Security
+    private function buildSecurityFromRecord(SecurityRecord $record): Security
     {
         return BuildSecurityFrom::from(
             SecurityInfo::from(
-                $persisted->securityNumber,
-                $persisted->symbol,
-                $persisted->canonicalDescription,
-                $persisted->unitType,
-                ExpirationRule::fromNullableDate($persisted->expirationDate)
+                $record->securityNumber,
+                $record->symbol,
+                $record->canonicalDescription,
+                $record->unitType,
+                ExpirationRule::fromNullableDate($record->expirationDate)
             ),
-            $persisted->variations,
+            $record->variations,
         );
     }
 }

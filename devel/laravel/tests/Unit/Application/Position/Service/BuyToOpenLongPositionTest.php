@@ -26,7 +26,7 @@ use App\Shared\Result;
 
 use Tests\Unit\Support\{
     Builders\ConfirmationBuilder,
-    Builders\PersistedPositionBuilder,
+    Builders\PositionRecordBuilder,
     Helpers\MockObject,
     PositionTestCase,
 };
@@ -100,7 +100,7 @@ final class BuyToOpenLongPositionTest extends PositionTestCase
         MockObject::mock(
             PositionRepository::class,
             'findBySecurityNumber',
-                PersistedPositionBuilder::YYZ()
+                PositionRecordBuilder::YYZ()
                     ->withQuantity(200)
                     ->withTotalCost('1000')
                     ->build()

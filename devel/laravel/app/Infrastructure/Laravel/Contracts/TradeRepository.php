@@ -4,15 +4,12 @@ namespace App\Infrastructure\Laravel\Contracts;
 
 use App\Domain\{
     Confirmation\Model\Confirmation,
+    Confirmation\Record\TradeRecord,
     Kernel\Identifiers\TradeNumber,
-};
-
-use App\Infrastructure\Laravel\Eloquent\Trade\{
-    Dto\PersistedTradeDto,
 };
 
 interface TradeRepository
 {
-    public function findByTradeNumber(TradeNumber $tradeNumber): ?PersistedTradeDto;
+    public function findByTradeNumber(TradeNumber $tradeNumber): ?TradeRecord;
     public function save(Confirmation $confirmation): void;
 }

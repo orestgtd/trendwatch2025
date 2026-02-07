@@ -5,8 +5,8 @@ namespace Tests\Unit\Services;
 use Mockery;
 use Tests\TestCase;
 use Tests\Unit\Support\{
+    Builders\SecurityRecordBuilder,
     Builders\SecurityRequestBuilder,
-    Factories\PersistedSecurityFactory,
 };
 
 use PHPUnit\Framework\Attributes\Test;
@@ -66,7 +66,7 @@ class SecurityServiceTest extends TestCase
         $mockRepository
             ->shouldReceive('findBySecurityNumber')
             ->andReturn(
-                PersistedSecurityFactory::YYZ()
+                SecurityRecordBuilder::YYZ()
             );
 
         /** @var SecurityService $service */

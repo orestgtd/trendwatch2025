@@ -9,6 +9,7 @@ use App\Domain\Outcome\{
 use App\Domain\{
     Kernel\Identifiers\SecurityNumber,
     Security\Model\Security,
+    Security\Record\SecurityRecord,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Security\{
@@ -18,12 +19,12 @@ use App\Infrastructure\Laravel\Eloquent\Security\{
 
 class EloquentSecurityRepository
 {
-    public function findBySecurityNumber(SecurityNumber $securityNumber): ?PersistedSecurityDto
+    public function findBySecurityNumber(SecurityNumber $securityNumber): ?SecurityRecord
     {
         $eloquent = EloquentSecurity::where('security_number', (string) $securityNumber)->first();
 
         return $eloquent
-            ? new PersistedSecurityDTO(
+            ? new SecurityRecord(
                 $eloquent->security_number,
                 $eloquent->symbol,
                 $eloquent->canonical_description,
