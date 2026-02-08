@@ -8,10 +8,14 @@ use App\Application\Contracts\{
 
 use App\Domain\{
     Kernel\Identifiers\TradeNumber,
-    Confirmation\Builders\BuildNewConfirmation,
+    Confirmation\Builders\BuildConfirmationFromRecord,
     Confirmation\Model\Confirmation,
     Confirmation\Outcome\ConfirmationOutcome,
-    Confirmation\Record\TradeRecord,
+    Confirmation\Record\ConfirmationRecord,
+ };
+ 
+use App\Infrastructure\{
+     Laravel\Eloquent\Trade\Repositories\EloquentTradeRepository as TradeRepository,
 };
 
 use App\Shared\Result;
@@ -20,7 +24,7 @@ final class TradeLookup
 {
     public function __construct(
         private readonly TradeRepositoryContract $repository
-        ){}
+    ){}
 
     /**
      * @param callable(Confirmation): Result<ConfirmationOutcome> $onExists
@@ -38,20 +42,6 @@ final class TradeLookup
 
         return is_null($persisted)
             ? $onNotFound()
-            : $onExists($this->buildConfirmationFromRecord($persisted));
-    }
-
-    private function buildConfirmationFromRecord(TradeRecord $persisted): Confirmation
-    {
-        return BuildNewConfirmation::from(
-            $persisted->securityInfo,
-            $persisted->tradeNumber,
-            $persisted->tradeAction,
-            $persisted->positionEffect,
-            $persisted->tradeQuantity,
-            $persisted->unitPrice,
-            $persisted->commission,
-            $persisted->usTax,
-        );
-    }
+            : $onExists(BuildConfirmationFromRecord::from($persisted));
+     }
 }

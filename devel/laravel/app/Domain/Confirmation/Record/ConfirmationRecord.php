@@ -19,7 +19,7 @@ use App\Domain\Security\{
     ValueObjects\SecurityInfo,
 };
 
-final class TradeRecord
+final class ConfirmationRecord
 {
     public function __construct(
         public readonly SecurityInfo $securityInfo,

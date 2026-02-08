@@ -14,11 +14,7 @@ use App\Domain\Confirmation\ValueObjects\{
 };
 
 use App\Domain\Kernel\{
-    Identifiers\SecurityNumber,
-    Identifiers\Symbol,
     Identifiers\TradeNumber,
-    Values\ExpirationDate,
-    Values\UnitType,
 };
 
 use App\Domain\Security\{

@@ -4,7 +4,7 @@ namespace App\Application\Contracts;
 
 use App\Domain\{
     Confirmation\Model\Confirmation,
-    Confirmation\Record\TradeRecord,
+    Confirmation\Record\ConfirmationRecord,
     Kernel\Identifiers\TradeNumber,
 };
 
@@ -14,5 +14,5 @@ interface TradeRepositoryContract
     public function insert(Confirmation $confirmation): void;
 
     // Queries
-    public function findByTradeNumber(TradeNumber $tradeNumber): ?TradeRecord;
+    public function findByTradeNumber(TradeNumber $tradeNumber): ?ConfirmationRecord;
 }

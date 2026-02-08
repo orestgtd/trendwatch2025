@@ -8,7 +8,7 @@ use App\Application\Contracts\{
 
 use App\Domain\{
     Confirmation\Model\Confirmation,
-    Confirmation\Record\TradeRecord,
+    Confirmation\Record\ConfirmationRecord,
     Kernel\Identifiers\TradeNumber,
     Security\Expiration\ExpirationRule,
     Security\ValueObjects\SecurityInfo,
@@ -20,12 +20,12 @@ use App\Infrastructure\Laravel\Eloquent\Trade\{
 
 class EloquentTradeRepository implements TradeRepositoryContract
 {
-    public function findByTradeNumber(TradeNumber $tradeNumber): ?TradeRecord
+    public function findByTradeNumber(TradeNumber $tradeNumber): ?ConfirmationRecord
     {
         $eloquent = EloquentTrade::where('trade_number', (string) $tradeNumber)->first();
 
         return $eloquent
-            ? new TradeRecord(
+            ? new ConfirmationRecord(
                 SecurityInfo::from(
                     $eloquent->security_number,
                     $eloquent->symbol,
