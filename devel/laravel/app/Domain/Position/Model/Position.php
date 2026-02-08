@@ -33,7 +33,6 @@ use App\Domain\RealizedGain\{
 };
 
 use App\Domain\Security\{
-    Expiration\ExpirationRule,
     ValueObjects\Description,
     ValueObjects\SecurityInfo,
 };

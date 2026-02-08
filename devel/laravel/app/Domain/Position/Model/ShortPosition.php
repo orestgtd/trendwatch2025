@@ -14,6 +14,7 @@ use App\Domain\Kernel\{
 
 use App\Domain\Position\{
     Model\Position,
+    Record\PositionRecord,
     ValueObjects\BaseQuantity,
     ValueObjects\PositionQuantity,
     ValueObjects\ProceedsBase,
@@ -56,23 +57,20 @@ final class ShortPosition extends Position
         );
     }
 
-    public static function fromPersisted(
-        SecurityInfo $securityInfo,
-        PositionQuantity $positionQuantity,
-        CostAmount $totalCost,
-        ProceedsAmount $totalProceeds,
+    public static function fromRecord(
+        PositionRecord $record
     ): self {
 
         $instance = new self(
-            $securityInfo,
-            $positionQuantity,
-            $totalProceeds,
+            $record->securityInfo,
+            $record->positionQuantity,
+            $record->totalProceeds,
         );
 
         $instance->proceedsBase = ProceedsBase::fromPersisted(
-            BaseQuantity::fromPositionQuantity($positionQuantity),
-            $totalProceeds,
-            $totalCost
+            BaseQuantity::fromPositionQuantity($record->positionQuantity),
+            $record->totalProceeds,
+            $record->totalCost
         );
 
         return $instance;

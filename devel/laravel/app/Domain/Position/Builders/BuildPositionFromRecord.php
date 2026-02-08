@@ -14,16 +14,8 @@ final class BuildPositionFromRecord
     public static function from(PositionRecord $record): Position
     {
         return $record->positionType->delegate(
-            onLong: fn () => LongPosition::fromPersisted(
-                $record->securityInfo,
-                $record->positionQuantity,
-                $record->totalCost, $record->totalProceeds
-            ),
-            onShort: fn () => ShortPosition::fromPersisted(
-                $record->securityInfo,
-                $record->positionQuantity,
-                $record->totalCost, $record->totalProceeds
-            )
+            onLong: fn () => LongPosition::fromRecord($record),
+            onShort: fn () => ShortPosition::fromRecord($record),
         );
     }
 }

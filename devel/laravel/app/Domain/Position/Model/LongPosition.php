@@ -18,7 +18,7 @@ use App\Domain\Position\{
 use App\Domain\Kernel\{
     Values\PositionType,
 };
-
+use App\Domain\Position\Record\PositionRecord;
 use App\Domain\Security\{
     ValueObjects\SecurityInfo,
 };
@@ -56,23 +56,20 @@ final class LongPosition extends Position
         );
     }
 
-    public static function fromPersisted(
-        SecurityInfo $securityInfo,
-        PositionQuantity $positionQuantity,
-        CostAmount $totalCost,
-        ProceedsAmount $totalProceeds,
+    public static function fromRecord(
+        PositionRecord $record
     ): self {
 
         $instance = new self(
-            $securityInfo,
-            $positionQuantity,
-            $totalCost,
+            $record->securityInfo,
+            $record->positionQuantity,
+            $record->totalCost,
         );
 
         $instance->costBase = CostBase::fromPersisted(
-            BaseQuantity::fromPositionQuantity($positionQuantity),
-            $totalCost,
-            $totalProceeds
+            BaseQuantity::fromPositionQuantity($record->positionQuantity),
+            $record->totalCost,
+            $record->totalProceeds
         );
     
         return $instance;
