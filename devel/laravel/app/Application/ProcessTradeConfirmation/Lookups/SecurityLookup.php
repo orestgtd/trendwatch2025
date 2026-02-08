@@ -8,7 +8,7 @@ use App\Application\Contracts\{
 
 use App\Domain\{
     Kernel\Identifiers\SecurityNumber,
-    Security\Builders\BuildSecurityFrom,
+    Security\Builders\BuildSecurityFromRecord,
     Security\Expiration\ExpirationRule,
     Security\Model\Security,
     Security\Outcome\SecurityOutcome,
@@ -45,15 +45,6 @@ final class SecurityLookup
 
     private function buildSecurityFromRecord(SecurityRecord $record): Security
     {
-        return BuildSecurityFrom::from(
-            SecurityInfo::from(
-                $record->securityNumber,
-                $record->symbol,
-                $record->canonicalDescription,
-                $record->unitType,
-                ExpirationRule::fromNullableDate($record->expirationDate)
-            ),
-            $record->variations,
-        );
+        return BuildSecurityFromRecord::from($record);
     }
 }
