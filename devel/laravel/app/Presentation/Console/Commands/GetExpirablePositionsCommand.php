@@ -13,7 +13,10 @@ use App\Presentation\{
     Console\Renderers\ConsolePositionRowRenderer,
 };
 
-use App\Foundation\Date;
+use App\Foundation\{
+    Collection,
+    Date,
+};
 
 use Illuminate\Console\Command;
 
@@ -76,13 +79,14 @@ class GetExpirablePositionsCommand extends Command
         ];
 
         /** @var array<int, array<int, string>> $rows */
-        $rows = array_map(
+        $rows = Collection::from($positions)
+        ->map(
             fn (Position $position) =>
                 $this->renderer->render(
                     $this->presenter->present($position)
-                ),
-            $positions
-        );
+                )
+            )
+        ->toArray();
 
         // Display table
         $this->table($headers, $rows);
