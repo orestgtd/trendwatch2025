@@ -6,7 +6,7 @@ use App\Application\ProcessTradeConfirmation\Dto\{
     ParsedSecurityRequestDto,
     ValidatedSecurityDto
 };
-use App\Shared\Result;
+use App\Foundation\Result;
 
 final class SecurityParser
 {

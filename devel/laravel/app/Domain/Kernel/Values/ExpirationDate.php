@@ -2,7 +2,7 @@
 
 namespace App\Domain\Kernel\Values;
 
-use App\Shared\{
+use App\Foundation\{
     Date,
     Result,
 };

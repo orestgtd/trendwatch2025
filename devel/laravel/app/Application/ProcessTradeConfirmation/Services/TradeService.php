@@ -12,7 +12,7 @@ use App\Domain\Confirmation\{
     Outcome\ConfirmationOutcome,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 class TradeService
 {

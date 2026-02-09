@@ -12,11 +12,12 @@ use App\Domain\Position\{
     Behaviour\CreateLongPosition,
     Behaviour\CreateShortPosition,
     Behaviour\SellToDecrease,
+    Behaviour\SellToIncrease,
     Model\Position,
     Outcome\PositionOutcome,
 };
-use App\Domain\Position\Behaviour\SellToIncrease;
-use App\Shared\Result;
+
+use App\Foundation\Result;
 
 final class PositionManager
 {

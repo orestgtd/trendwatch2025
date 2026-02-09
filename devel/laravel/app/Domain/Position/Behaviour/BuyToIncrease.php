@@ -9,7 +9,7 @@ use App\Domain\{
     Position\Outcome\IncreasedHolding,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 final class BuyToIncrease
 {

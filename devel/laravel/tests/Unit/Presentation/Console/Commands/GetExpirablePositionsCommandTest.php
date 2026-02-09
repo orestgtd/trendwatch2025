@@ -16,7 +16,7 @@ use App\Presentation\{
     Console\Commands\GetExpirablePositionsCommand,
 };
 
-use App\Shared\{
+use App\Foundation\{
     Date,
     Result,
 };

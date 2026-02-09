@@ -10,7 +10,7 @@ use App\Domain\Security\{
     Model\Security,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 final class UpdateExistingSecurity
 {

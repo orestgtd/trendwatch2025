@@ -14,7 +14,7 @@ use App\Domain\{
     Security\Outcome\SecurityOutcome,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 class SecurityService
 {

@@ -10,7 +10,7 @@ use App\Application\ProcessTradeConfirmation\{
     Services\RegistrationService,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 final class OutcomeProcessor
 {

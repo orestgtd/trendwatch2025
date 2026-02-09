@@ -19,7 +19,7 @@ use App\Domain\Security\{
     ValueObjects\Variations\VariationsInterface,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 final class BuildNewSecurity
 {

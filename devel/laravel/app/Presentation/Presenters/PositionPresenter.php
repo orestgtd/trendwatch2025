@@ -12,7 +12,7 @@ use App\Presentation\ViewModels\{
     Values\MoneyView,
 };
 
-use App\Shared\Date;
+use App\Foundation\Date;
 
 final class PositionPresenter
 {

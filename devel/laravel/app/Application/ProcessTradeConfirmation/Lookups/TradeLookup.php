@@ -18,7 +18,7 @@ use App\Infrastructure\{
      Laravel\Eloquent\Trade\Repositories\EloquentTradeRepository as TradeRepository,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 final class TradeLookup
 {

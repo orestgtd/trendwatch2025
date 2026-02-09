@@ -9,7 +9,7 @@ use App\Domain\{
     Position\Outcome\NewPositionCreated,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 final class CreateLongPosition
 {

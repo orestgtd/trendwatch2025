@@ -9,7 +9,7 @@ use App\Domain\{
     Position\ValueObjects\PositionQuantity,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 final class CreateShortPosition
 {

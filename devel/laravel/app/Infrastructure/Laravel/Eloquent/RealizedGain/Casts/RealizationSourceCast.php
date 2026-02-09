@@ -11,7 +11,7 @@ use App\Domain\RealizedGain\{
     ValueObjects\RealizationSourceType,
 };
 
-use App\Shared\Date;
+use App\Foundation\Date;
 
 use Illuminate\{
     Contracts\Database\Eloquent\CastsAttributes,

@@ -13,7 +13,7 @@ use App\Domain\Security\{
     ValueObjects\Variations\NoVariations,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 final class CreateNewSecurity
 {

@@ -28,7 +28,7 @@ use App\Domain\Security\{
     ValueObjects\SecurityInfo,
 };
 
-use App\Shared\{
+use App\Foundation\{
     Collection,
     Result
 };

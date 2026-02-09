@@ -8,7 +8,7 @@ use App\Domain\{
     Support\ValueObjects\Abstract\AbstractIntValueObject,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 final class PositionQuantity extends AbstractIntValueObject
 {

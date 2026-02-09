@@ -6,7 +6,7 @@ use App\Application\GetExpirablePositions\{
     Queries\GetExpirablePositionsQuery,
 };
 
-use App\Shared\{
+use App\Foundation\{
     Date,
     Result,
 };

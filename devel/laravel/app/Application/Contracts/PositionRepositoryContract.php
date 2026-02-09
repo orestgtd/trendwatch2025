@@ -2,7 +2,7 @@
 
 namespace App\Application\Contracts;
 
-use App\Shared\Date;
+use App\Foundation\Date;
 
 use App\Domain\{
     Kernel\Identifiers\SecurityNumber,

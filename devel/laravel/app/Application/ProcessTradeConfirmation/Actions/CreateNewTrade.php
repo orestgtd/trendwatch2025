@@ -12,11 +12,7 @@ use App\Domain\Confirmation\{
     Outcome\NewConfirmationCreated,
 };
 
-use App\Domain\Security\{
-    ValueObjects\SecurityInfo,
-};
-
-use App\Shared\Result;
+use App\Foundation\Result;
 
 final class CreateNewTrade
 {

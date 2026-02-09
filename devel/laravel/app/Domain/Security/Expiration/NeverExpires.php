@@ -7,7 +7,7 @@ use App\Domain\{
     Security\Expiration\ExpirationRule,
 };
 
-use App\Shared\Date;
+use App\Foundation\Date;
 
 final class NeverExpires extends ExpirationRule
 {

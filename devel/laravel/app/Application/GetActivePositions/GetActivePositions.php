@@ -6,7 +6,7 @@ use App\Application\GetActivePositions\{
     Queries\GetActivePositionsQuery,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 final class GetActivePositions
 {

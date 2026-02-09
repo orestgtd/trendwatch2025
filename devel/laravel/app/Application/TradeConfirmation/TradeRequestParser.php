@@ -11,7 +11,7 @@ use App\Application\TradeConfirmation\Dto\{
     ParsedTradeData,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 final class TradeRequestParser
 {

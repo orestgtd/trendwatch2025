@@ -9,7 +9,7 @@ use App\Domain\{
 };
 
 
-use App\Shared\Date;
+use App\Foundation\Date;
 
 abstract class ExpirationRule
 {

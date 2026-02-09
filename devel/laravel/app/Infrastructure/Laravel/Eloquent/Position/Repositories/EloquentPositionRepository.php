@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Position\Repositories;
 
-use App\Shared\Date;
+use App\Foundation\Date;
 
 use App\Application\Contracts\{
     PositionRepositoryContract,

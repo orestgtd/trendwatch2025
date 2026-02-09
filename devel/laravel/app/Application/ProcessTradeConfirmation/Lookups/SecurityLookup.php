@@ -16,7 +16,7 @@ use App\Domain\{
     Security\Record\SecurityRecord,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 final class SecurityLookup
 {

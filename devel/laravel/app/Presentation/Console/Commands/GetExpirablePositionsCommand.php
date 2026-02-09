@@ -13,7 +13,7 @@ use App\Presentation\{
     Console\Renderers\ConsolePositionRowRenderer,
 };
 
-use App\Shared\Date;
+use App\Foundation\Date;
 
 use Illuminate\Console\Command;
 

@@ -10,7 +10,7 @@ use App\Infrastructure\Imports\{
     ConfirmationImport,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 class ImportTradeConfirmations
 {

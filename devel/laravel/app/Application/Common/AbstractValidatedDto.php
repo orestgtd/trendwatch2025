@@ -2,7 +2,7 @@
 
 namespace App\Application\Common;
 
-use App\Shared\{
+use App\Foundation\{
     Collection,
     Result,
 };

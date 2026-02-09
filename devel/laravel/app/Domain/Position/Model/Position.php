@@ -37,7 +37,7 @@ use App\Domain\Security\{
     ValueObjects\SecurityInfo,
 };
 
-use App\Shared\Date;
+use App\Foundation\Date;
 
 abstract class Position
 {

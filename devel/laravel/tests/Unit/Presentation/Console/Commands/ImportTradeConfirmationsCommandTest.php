@@ -8,7 +8,7 @@ use Tests\TestCase;
 use App\Application\ImportTradeConfirmations;
 use App\Presentation\Console\Commands\ImportTradeConfirmationsCommand;
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 class ImportTradeConfirmationsCommandTest extends TestCase
 {

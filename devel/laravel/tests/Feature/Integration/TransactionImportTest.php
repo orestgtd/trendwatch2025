@@ -21,7 +21,7 @@ use Illuminate\{
     Support\Facades\Storage,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 class TransactionImportTest extends TestCase
 {

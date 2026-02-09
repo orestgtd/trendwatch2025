@@ -9,7 +9,7 @@ use App\Domain\Kernel\Money\{
     MoneyAmount,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 abstract class AbstractMoney implements Monetary
 {

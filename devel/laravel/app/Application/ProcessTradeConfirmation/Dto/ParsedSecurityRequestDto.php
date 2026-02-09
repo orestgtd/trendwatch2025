@@ -15,7 +15,7 @@ use App\Domain\Security\ValueObjects\{
     Description,
 };
 
-use App\Shared\{
+use App\Foundation\{
     Collection,
     Result
 };

@@ -2,7 +2,7 @@
 
 namespace App\Application\GetExpirablePositions\Queries;
 
-use App\Shared\Date;
+use App\Foundation\Date;
 
 use App\Domain\Position\{
     Builders\BuildPositionFromRecord,

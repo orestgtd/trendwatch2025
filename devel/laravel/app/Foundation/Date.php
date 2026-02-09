@@ -1,8 +1,15 @@
 <?php
 
-namespace App\Shared;
+/**
+ * App\Foundation
+ *
+ * Language-level primitives and control-flow abstractions.
+ * These types are domain-agnostic and may be used in any layer.
+ */
 
-use App\Shared\Result;
+namespace App\Foundation;
+
+use App\Foundation\Result;
 use Carbon\Carbon;
 
 class Date

@@ -2,11 +2,6 @@
 
 namespace App\Domain\Position\ValueObjects;
 
-use App\Domain\Confirmation\{
-    ValueObjects\CostAmount,
-    ValueObjects\ProceedsAmount,
-};
-
 use App\Domain\{
     Kernel\Identifiers\SecurityNumber,
     Kernel\Identifiers\Symbol,
@@ -18,7 +13,7 @@ use App\Domain\{
     Security\ValueObjects\SecurityInfo,
 };
 
-use App\Shared\Date;
+use App\Foundation\Date;
 
 final class PositionInfo
 {

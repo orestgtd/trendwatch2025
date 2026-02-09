@@ -6,7 +6,7 @@ use App\Application\ProcessTradeConfirmation\Dto\{
     ParsedTradeRequestDto,
     ValidatedTradeDto
 };
-use App\Shared\Result;
+use App\Foundation\Result;
 
 final class TradeParser
 {

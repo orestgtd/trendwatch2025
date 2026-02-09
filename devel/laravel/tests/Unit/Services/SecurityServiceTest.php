@@ -21,7 +21,7 @@ use App\Infrastructure\Laravel\Eloquent\{
     Security\Repositories\EloquentSecurityRepository as SecurityRepository,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 class SecurityServiceTest extends TestCase
 {

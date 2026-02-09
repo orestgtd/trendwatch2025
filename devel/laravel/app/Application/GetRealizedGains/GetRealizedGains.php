@@ -6,7 +6,7 @@ use App\Application\GetRealizedGains\{
     Queries\GetAllRealizedGainsQuery,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 final class GetRealizedGains
 {

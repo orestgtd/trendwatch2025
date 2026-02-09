@@ -13,7 +13,7 @@ use App\Domain\{
     Position\Outcome\PositionOutcome,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 final class PositionProcessor
 {

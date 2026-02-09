@@ -21,7 +21,7 @@ use App\Infrastructure\Laravel\Eloquent\{
     Position\Repositories\EloquentPositionRepository as PositionRepository,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 use Tests\Unit\Support\{
     Builders\ConfirmationBuilder,

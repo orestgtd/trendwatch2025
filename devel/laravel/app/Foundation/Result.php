@@ -1,6 +1,13 @@
 <?php
 
-namespace App\Shared;
+/**
+ * App\Foundation
+ *
+ * Language-level primitives and control-flow abstractions.
+ * These types are domain-agnostic and may be used in any layer.
+ */
+
+namespace App\Foundation;
 
 /**
  * @template-covariant T

@@ -6,7 +6,7 @@ use App\Domain\Support\{
     ValueObjects\Abstract\AbstractStringValueObject,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 final class TradeNumber extends AbstractStringValueObject
 {

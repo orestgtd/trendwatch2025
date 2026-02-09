@@ -10,7 +10,7 @@ use App\Application\{
     GetRealizedGains\GetRealizedGains,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 class RealizedGainsController
 {

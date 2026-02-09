@@ -11,7 +11,7 @@ use App\Domain\{
     RealizedGain\ValueObjects\RealizationSource,
 };
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 final class SellToDecrease
 {

@@ -2,7 +2,7 @@
 
 namespace App\Domain\Support\ValueObjects\Abstract;
 
-use App\Shared\Result;
+use App\Foundation\Result;
 
 abstract class AbstractStringValueObject extends AbstractValueObject
 {
