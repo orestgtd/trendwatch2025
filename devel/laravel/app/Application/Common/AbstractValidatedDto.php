@@ -28,7 +28,7 @@ abstract class AbstractValidatedDto
      * Factory for building the DTO from an input source such as request.
      * 
      * @param array<?string> $input
-     * @return Result<string>
+     * @return Result<static>
      */
     public static function fromArray(array $input): Result
     {

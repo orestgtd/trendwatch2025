@@ -7,7 +7,12 @@ use \Illuminate\Support\Collection as LaravelCollection;
 /**
  * @template TKey of array-key
  * @template TValue
- * @mixin LaravelCollection<TKey,TValue>
+ *
+ * @mixin \Illuminate\Support\Collection<TKey, TValue>
+ *
+ * @method Collection<TKey, mixed> map(callable(TValue, TKey): mixed $callback)
+ * @method mixed reduce(callable(mixed, TValue, TKey): mixed $callback, mixed $initial)
+ * @method int count()
  */
 class Collection
 {
@@ -15,40 +20,28 @@ class Collection
      * @param LaravelCollection<TKey, TValue> $collection
      */
     private function __construct(
-        private LaravelCollection $collection
+        private readonly LaravelCollection $collection
     ) {}
 
-    public function __call($method, $arguments) {
-        return $this->collection->$method(...$arguments);
-    }
-
-   /**
+    /**
+     * Named constructor — the only public entry point
+     *
      * @param array<TKey, TValue> $items
      * @return self<TKey, TValue>
      */
     public static function from(array $items): self
     {
-        return new self(collect($items));
+        return new self(new LaravelCollection($items));
     }
 
-   /**
-     * @template TKey2 of array-key
-     * @template TValue2
-     * @param callable(TValue, TKey): array<TKey2, TValue2> $callback
-     * @return Collection<TKey2, TValue2>
-     */
-    public function mapWithKeys(callable $callback): self
+    public function __call(string $method, array $arguments)
     {
-        return new self($this->collection->mapWithKeys($callback));
-    }
+        $returnValue = $this->collection->$method(...$arguments);
 
-   /**
-     * @param callable(TValue, TKey, mixed $carry): mixed $callback
-     * @param mixed $initial
-     * @return mixed
-     */
-     public function reduce(callable $callback, mixed $initial = null): mixed
-    {
-        return $this->collection->reduce($callback, $initial);
+        if ($returnValue instanceof LaravelCollection) {
+            return new self($returnValue);
+        }
+
+        return $returnValue;
     }
 }
