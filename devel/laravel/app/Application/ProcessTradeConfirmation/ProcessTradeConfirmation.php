@@ -5,7 +5,8 @@ namespace App\Application\ProcessTradeConfirmation;
 use App\Application\ProcessTradeConfirmation\{
     Services\OutcomeProcessor,
     Services\TradeServiceCoordinator,
-    Summary\OutcomeSummary,
+    Outcomes\TradeRequestOutcomes,
+    Outcomes\TradeProcessingOutcomes,
 };
 
 use App\Application\TradeConfirmation\{
@@ -25,7 +26,7 @@ final class ProcessTradeConfirmation
         private TradeRequestParser $parser,
     ) {}
 
-    /** @return Result<OutcomeSummary> */
+    /** @return Result<TradeProcessingOutcomes> */
     public function handle(array $request): Result
     {
         // Step 1: Parse and process request
@@ -33,7 +34,7 @@ final class ProcessTradeConfirmation
         ->bind(
             fn (ParsedTradeData $parsed) => $this->processRequest($parsed)
         )->bind(
-            fn (OutcomeSummary $summary) => $this->computePositionOutcome($summary)
+            fn (TradeRequestOutcomes $outcomes) => $this->computeProcessingOutcome($outcomes)
         );
 
         if ($resultOutcomes->isFailure()) {
@@ -45,7 +46,7 @@ final class ProcessTradeConfirmation
         return $this->outcomeProcessor->process($outcomeSummary);
     }
 
-    /** @return Result<OutcomeSummary> */
+    /** @return Result<TradeRequestOutcomes> */
     private function processRequest(ParsedTradeData $parsed): Result
     {
         $resultConfirmationOutcome = $this->coordinator->processConfirmationRequest($parsed->trade);
@@ -59,20 +60,20 @@ final class ProcessTradeConfirmation
         }
 
         return Result::success(
-            new OutcomeSummary(
+            new TradeRequestOutcomes(
                 $resultConfirmationOutcome->getValue(),
                 $resultSecurityOutcome->getValue()
             )
         );
     }
 
-    /** @return Result<OutcomeSummary> */
-    private function computePositionOutcome(OutcomeSummary $summary): Result
+    /** @return Result<TradeProcessingOutcomes> */
+    private function computeProcessingOutcome(TradeRequestOutcomes $requestOutcomes): Result
     {
         return $this->coordinator->computePositionOutcome(
-            $summary->getConfirmation()
+            $requestOutcomes->getConfirmation(),
         )->map(
-            fn (PositionOutcome $outcome) => $summary->withPositionOutcome($outcome)
+            fn (PositionOutcome $po) => new TradeProcessingOutcomes($requestOutcomes, $po)
         );
     }
 }

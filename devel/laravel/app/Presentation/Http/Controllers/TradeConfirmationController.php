@@ -8,12 +8,8 @@ use Illuminate\Http\{
 };
 
 use App\Application\ProcessTradeConfirmation\{
-    Summary\OutcomeSummary,
+    Outcomes\TradeProcessingOutcomes,
     ProcessTradeConfirmation,
-};
-
-use App\Infrastructure\Laravel\Eloquent\{
-    UnitOfWork,
 };
 
 use App\Presentation\Http\Presenters\SummaryPresenter;
@@ -22,7 +18,6 @@ final class TradeConfirmationController extends Controller
 {
     public function __construct(
         private ProcessTradeConfirmation $usecase,
-        private UnitOfWork $unitOfWork,
         private SummaryPresenter $presenter,
     ) {}
 
@@ -30,18 +25,19 @@ final class TradeConfirmationController extends Controller
     {
         return $this->usecase->handle($request->all())
         ->match(
-            fn (OutcomeSummary $outcome) => $this->success($outcome),
+            fn (TradeProcessingOutcomes $outcomes) => $this->success($outcomes),
             fn (string $error) => $this->failure($error)
         );
     }
 
-    private function success(OutcomeSummary $summary): JsonResponse
+    private function success(TradeProcessingOutcomes $outcomes): JsonResponse
     {
         return response()->json([
                 'status' => 'ok',
                 'thing' => $this->presenter->toArray(
-                    $summary->confirmationOutcome,
-                    $summary->securityOutcome
+                    $outcomes->getConfirmationOutcome(),
+                    $outcomes->getSecurityOutcome(),
+                    $outcomes->getPositionOutcome()
                 ),
         ]);
     }

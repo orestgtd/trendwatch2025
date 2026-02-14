@@ -3,10 +3,7 @@
 namespace App\Application\ProcessTradeConfirmation\Services;
 
 use App\Application\ProcessTradeConfirmation\{
-    Summary\OutcomeSummary,
-};
-
-use App\Application\ProcessTradeConfirmation\{
+    Outcomes\TradeProcessingOutcomes,
     Services\RegistrationService,
 };
 
@@ -18,30 +15,22 @@ final class OutcomeProcessor
         private readonly RegistrationService $registration,
     ) {}
 
-    /** @return Result<OutcomeSummary> */
-    public function process(OutcomeSummary $summary): Result
+    /** @return Result<TradeProcessingOutcomes> */
+    public function process(TradeProcessingOutcomes $outcomes): Result
     {
-        $confirmationOutcome = $summary->confirmationOutcome;
-        $securityOutcome = $summary->securityOutcome;
-        $positionOutcome = $summary->positionOutcome;
+        $confirmationOutcome = $outcomes->getConfirmationOutcome();
+        $securityOutcome = $outcomes->getSecurityOutcome();
+        $positionOutcome = $outcomes->getPositionOutcome();
         $realizedGainOutcome = $positionOutcome->getRealizedGainOutcome();
 
-        // Step 1: Register results
         $this->registration
             ->registerConfirmation($confirmationOutcome)
             ->registerPosition($positionOutcome)
             ->registerSecurity($securityOutcome)
-            ->registerRealizedGainBasis($realizedGainOutcome);
-
-        // Step 2: Persist all registrations
-        $this->registration->persist();
+            ->registerRealizedGainBasis($realizedGainOutcome)
+            ->persist();
 
         // Step 4: Summarize and return
-        return Result::success(
-            new OutcomeSummary(
-                $confirmationOutcome,
-                $securityOutcome
-            )
-        );
+        return Result::success($outcomes);
     }
 }
