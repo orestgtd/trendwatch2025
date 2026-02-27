@@ -104,9 +104,24 @@ class Result
      * @param callable(T):void $fn
      * @return self<T>
      */
-    public function tap(callable $fn): self
+    public function onSuccess(callable $fn): self
     {
         if ($this->isSuccess()) {
+            $fn($this->value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Tap: perform a side-effect on the value if Result is failure.
+     *
+     * @param callable(T):void $fn
+     * @return self<T>
+     */
+    public function onFailure(callable $fn): self
+    {
+        if ($this->isFailure()) {
             $fn($this->value);
         }
 
