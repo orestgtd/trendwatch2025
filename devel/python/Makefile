@@ -1,4 +1,4 @@
-.PHONY: hello load
+.PHONY: hello load positions realized_gains
 .PHONY: test
 
 hello:
@@ -9,3 +9,9 @@ test:
 
 load:
 	python3 loader/load_trades.py --file $(FILE)
+
+positions:
+	python3 positions.py
+
+realized_gains:
+	python3 realized_gains.py
