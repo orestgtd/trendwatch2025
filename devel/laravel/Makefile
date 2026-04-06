@@ -1,4 +1,4 @@
-.PHONY: arch test serve autoload stan
+.PHONY: arch test serve autoload stan fresh
 
 ### Testing
 
@@ -39,3 +39,8 @@ autoload dump reload:
 
 stan:
 	./vendor/bin/phpstan analyse --memory-limit=2G
+
+### Database
+
+fresh:
+	php artisan migrate:fresh
