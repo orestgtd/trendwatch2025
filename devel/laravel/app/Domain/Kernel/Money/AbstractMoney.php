@@ -68,4 +68,13 @@ abstract class AbstractMoney implements Monetary
     {
         return $this->currency;
     }
+
+    public function __toString(): string
+    {
+        return sprintf(
+            '%s %s',
+            $this->currency,
+            $this->amount
+        );
+    }
 }
