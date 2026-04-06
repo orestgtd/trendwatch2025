@@ -6,15 +6,19 @@ use App\Application\GetRealizedGains\{
     Queries\GetAllRealizedGainsQuery,
 };
 
+use App\Domain\RealizedGain\{
+    Record\RealizedGainBasisRecord,
+};
+
 use App\Foundation\Result;
 
-final class GetRealizedGains
+class GetRealizedGains
 {
     public function __construct(
         private readonly GetAllRealizedGainsQuery $query
     ) {}
 
-    /** @return Result<array> */
+    /** @return Result<RealizedGainBasisRecord[]> */
     public function handle(): Result
     {
         return Result::success(

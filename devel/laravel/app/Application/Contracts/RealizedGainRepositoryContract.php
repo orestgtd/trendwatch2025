@@ -2,17 +2,22 @@
 
 namespace App\Application\Contracts;
 
-use App\Domain\{
-    RealizedGain\Model\RealizedGainBasis,
+use App\Domain\RealizedGain\{
+    Model\RealizedGainBasis,
 };
 
-// use App\Infrastructure\Laravel\Eloquent\RealizedGain\Model\RealizedGainRecord;
+use App\Infrastructure\{
+    Laravel\Eloquent\RealizedGain\Dto\PersistedRealizedGainBasisDto,
+};
 
 interface RealizedGainRepositoryContract
 {
     // Commands
+
     public function insert(RealizedGainBasis $basis): void;
 
     // Queries
-    // public function findByTradeNumber(TradeNumber $tradeNumber): ?RealizedGainRecord;
+
+    /** @return PersistedRealizedGainBasisDto[] */
+    public function all(): array;
 }

@@ -37,4 +37,9 @@ final class RealizationSource
     {
         return $this->reference;
     }
+
+    public function __toString(): string
+    {
+        return("{$this->type} {$this->reference}");
+    }
 }

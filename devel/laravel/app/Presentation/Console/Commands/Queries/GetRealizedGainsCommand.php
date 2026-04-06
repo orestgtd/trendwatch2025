@@ -2,7 +2,15 @@
 
 namespace App\Presentation\Console\Commands\Queries;
 
-use App\Application\GetRealizedGains\GetRealizedGains;
+use App\Application\{
+    GetRealizedGains\GetRealizedGains,
+};
+
+use App\Presentation\{
+    Presenters\RealizedGainPresenter,
+    Console\Renderers\ConsoleRealizedGainRowRenderer,
+};
+
 use Illuminate\Console\Command;
 
 class GetRealizedGainsCommand extends Command
@@ -25,7 +33,9 @@ class GetRealizedGainsCommand extends Command
      * Create a new command instance.
      */
     public function __construct(
-        private readonly GetRealizedGains $useCase
+        private readonly GetRealizedGains $useCase,
+        private readonly RealizedGainPresenter $presenter,
+        private readonly ConsoleRealizedGainRowRenderer $renderer,
     ) {
         parent::__construct();
     }
@@ -50,15 +60,6 @@ class GetRealizedGainsCommand extends Command
             return Command::SUCCESS;
         }
 
-    // "id" => 6
-    //     "security_number" => "MSFT"
-    //     "trade_number" => "T-4001"
-    //     "base_quantity" => 100
-    //     "trade_quantity" => 100
-    //     "unit_type" => "SHARES"
-    //     "cost" => 28500.0
-    //     "proceeds" => 30250.0
-
         // Define table headers
         $headers = [
             'ID',
@@ -72,18 +73,15 @@ class GetRealizedGainsCommand extends Command
         ];
 
         // Map positions to rows for table display
-        $rows = array_map(function ($realizedGains) {
-            return [
-                $realizedGains['id'],
-                $realizedGains['security_number'],
-                $realizedGains['trade_number'],
-                $realizedGains['base_quantity'],
-                $realizedGains['trade_quantity'],
-                $realizedGains['unit_type'],
-                number_format($realizedGains['cost'], 0, 2),
-                number_format($realizedGains['proceeds'], 0, 2),
-            ];
-        }, $realizedGains);
+
+        /** @var array<int, array<int, string>> $rows */
+        $rows = array_map(
+            fn ($rg) =>
+                $this->renderer->render(
+                    $this->presenter->present($rg)
+            ),
+            $realizedGains
+        );
 
         // Display table
         $this->table($headers, $rows);

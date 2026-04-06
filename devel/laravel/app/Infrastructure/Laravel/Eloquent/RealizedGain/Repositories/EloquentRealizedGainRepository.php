@@ -12,6 +12,7 @@ use App\Infrastructure\Laravel\Eloquent\RealizedGain\{
 
 class EloquentRealizedGainRepository implements RealizedGainRepositoryContract
 {
+    /** @return PersistedRealizedGainBasisDto[] */
     public function all(): array
     {
         return EloquentRealizedGainBasis::all()
