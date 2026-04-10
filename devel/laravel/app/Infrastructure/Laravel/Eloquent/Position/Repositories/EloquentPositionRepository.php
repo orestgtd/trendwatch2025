@@ -2,27 +2,25 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\Position\Repositories;
 
-use App\Foundation\Date;
-
 use App\Application\Contracts\{
     PositionRepositoryContract,
 };
 
 use App\Domain\{
+    Confirmation\ValueObjects\CostAmount,
     Kernel\Identifiers\SecurityNumber,
-    Outcome\Persistence\PersistenceScope,
     Position\Model\Position,
     Position\Record\PositionRecord,
-};
-
-use App\Domain\Security\{
-    Expiration\ExpirationRule,
-    ValueObjects\SecurityInfo,
+    Position\ValueObjects\PositionQuantity,
+    Security\Expiration\ExpirationRule,
+    Security\ValueObjects\SecurityInfo,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Position\{
     Model\Position as EloquentPosition,
 };
+
+use App\Foundation\Date;
 
 class EloquentPositionRepository implements PositionRepositoryContract
 {
@@ -89,39 +87,44 @@ class EloquentPositionRepository implements PositionRepositoryContract
             ->toArray();
     }
 
-    public function save(Position $position): void
+    // public function save(Position $position): void
+    // {
+    //     $this
+    //         ->toEloquent($position)
+    //         ->save();
+    // }
+
+    public function insert(Position $position): void
     {
         $this
             ->toEloquent($position)
             ->save();
     }
 
-    public function insert(Position $position): void
+    public function update(SecurityNumber $securityNumber, PositionQuantity $quantity, CostAmount $totalCost): void
     {
-        $this->save($position);
+        // $toUpdate = collect($scope->fields())
+        //     ->mapWithKeys(fn(string $field) => [
+        //         $field => match ($field) {
+        //             'position_quantity' => $position->getPositionQuantity(),
+        //             'total_cost' => $position->getTotalCost(),
+        //         },
+        //     ])
+        //     ->toArray();
+
+        // $security_number = (string) $position->getSecurityNumber();
+
+        EloquentPosition::where('security_number', $securityNumber)->first()
+            ->update([
+                'position_quantity' => $quantity,
+                'total_cost' => $totalCost,
+            ]);
     }
 
-    public function update(Position $position, PersistenceScope $scope): void
-    {
-        $toUpdate = collect($scope->fields())
-            ->mapWithKeys(fn(string $field) => [
-                $field => match ($field) {
-                    'position_quantity' => $position->getPositionQuantity(),
-                    'total_cost' => $position->getTotalCost(),
-                },
-            ])
-            ->toArray();
-
-        $security_number = (string) $position->getSecurityNumber();
-
-        EloquentPosition::where('security_number', $security_number)->first()
-            ->update($toUpdate);
-    }
-
-    public function upsert(Position $position): void
-    {
-        $this->save($position);
-    }
+    // public function upsert(Position $position): void
+    // {
+    //     $this->save($position);
+    // }
 
     public function delete(Position $position): void
     {

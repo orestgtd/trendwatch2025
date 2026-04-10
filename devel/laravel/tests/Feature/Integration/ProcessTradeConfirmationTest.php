@@ -117,6 +117,10 @@ class ProcessTradeConfirmationTest extends DatabaseTestCase
                 'total_cost_currency' => 'USD',
             ],
         ]);
+
+        $this->thenTheDatabaseContainsEvents([
+            ['aggregate_type' => 'trade'],
+        ]);
     }
 
     #[Test]

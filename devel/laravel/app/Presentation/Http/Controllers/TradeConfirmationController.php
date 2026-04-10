@@ -12,33 +12,40 @@ use App\Application\ProcessTradeConfirmation\{
     ProcessTradeConfirmation,
 };
 
-use App\Presentation\Http\Presenters\SummaryPresenter;
+use App\Application\TradeConfirmation\{
+    Dto\ParsedTradeData,
+    TradeRequestParser,
+};
+
+// use App\Presentation\{
+//     Http\Presenters\SummaryPresenter,
+// };
 
 final class TradeConfirmationController extends Controller
 {
     public function __construct(
         private ProcessTradeConfirmation $usecase,
-        private SummaryPresenter $presenter,
+        private TradeRequestParser $parser,
+        // private SummaryPresenter $presenter,
     ) {}
 
     public function store(Request $request): JsonResponse
     {
-        return $this->usecase->handle($request->all())
-        ->match(
-            fn (TradeProcessingOutcomes $outcomes) => $this->success($outcomes),
-            fn (string $error) => $this->failure($error)
+        return $this->parser->parse($request->all())
+            ->bind(
+                fn (ParsedTradeData $parsed) => $this->usecase->handle($parsed)
+            )
+            ->match(
+                fn (TradeProcessingOutcomes $outcome) => $this->success($outcome),
+                fn (string $error) => $this->failure($error)
         );
     }
 
-    private function success(TradeProcessingOutcomes $outcomes): JsonResponse
+    private function success(TradeProcessingOutcomes $outcome): JsonResponse
     {
         return response()->json([
                 'status' => 'ok',
-                'thing' => $this->presenter->toArray(
-                    $outcomes->getConfirmationOutcome(),
-                    $outcomes->getSecurityOutcome(),
-                    $outcomes->getPositionOutcome()
-                ),
+                'confirmation' => $outcome,
         ]);
     }
 

@@ -6,14 +6,12 @@ use App\Application\{
     Contracts\SecurityRepositoryContract,
 };
 
-use App\Domain\Outcome\{
-    Persistence\PersistenceScope,
-};
-
 use App\Domain\{
     Kernel\Identifiers\SecurityNumber,
     Security\Model\Security,
     Security\Record\SecurityRecord,
+    Security\ValueObjects\Description,
+    Security\ValueObjects\Variations\Variations,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Security\{
@@ -45,20 +43,16 @@ class EloquentSecurityRepository implements SecurityRepositoryContract
             ->save();
     }
 
-    public function update(Security $security, PersistenceScope $scope): void
+    public function updateVariations(SecurityNumber $securityNumber, Variations $variations): void
     {
-        $toUpdate = collect($scope->fields())
-            ->mapWithKeys(fn(string $field) => [
-                $field => match ($field) {
-                    'variations' => $security->getVariations()
-                },
-            ])
-            ->toArray();
+        EloquentSecurity::where('security_number', (string) $securityNumber)->first()
+            ->update(['variations' => $variations]);
+    }
 
-        $security_number = (string) $security->getSecurityNumber();
-
-        EloquentSecurity::where('security_number', $security_number)->first()
-            ->update($toUpdate);
+    public function updateDescription(SecurityNumber $securityNumber, Description $description): void
+    {
+        EloquentSecurity::where('security_number', (string) $securityNumber)->first()
+            ->update(['canonical_description' => (string) $description]);
     }
 
     private function toEloquent(Security $security): EloquentSecurity

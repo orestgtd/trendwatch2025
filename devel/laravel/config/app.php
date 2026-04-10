@@ -157,6 +157,7 @@ return [
         App\Infrastructure\Laravel\Providers\AppServiceProvider::class,
         App\Infrastructure\Laravel\Providers\RouteServiceProvider::class,
         App\Infrastructure\Laravel\Providers\DomainServiceProvider::class,
+        App\Infrastructure\Laravel\Providers\EventServiceProvider::class,
     ],
 
 ];

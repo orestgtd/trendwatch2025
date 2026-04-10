@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\RealizedGain\Repositories;
 
+use App\Application\Contracts\RealizedGainRepositoryContract;
 use App\Domain\RealizedGain\Model\RealizedGainBasis;
 
 use App\Infrastructure\Laravel\Eloquent\RealizedGain\{
@@ -9,7 +10,7 @@ use App\Infrastructure\Laravel\Eloquent\RealizedGain\{
     Dto\PersistedRealizedGainBasisDto,
 };
 
-class EloquentRealizedGainRepository
+class EloquentRealizedGainRepository implements RealizedGainRepositoryContract
 {
     public function all(): array
     {

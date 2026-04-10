@@ -24,7 +24,7 @@ final class SecurityLookup
         private readonly SecurityRepositoryContract $repository
     ){}
 
-        /**
+    /**
      * @param callable(Security): Result<SecurityOutcome> $onExists
      * @param callable(): Result<SecurityOutcome> $onNotFound
      *

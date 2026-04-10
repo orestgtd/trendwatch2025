@@ -70,4 +70,11 @@ trait ConfirmationsApiGivenWhenThen
             $this->assertDatabaseHas('realized_gain_basis', $realizedGainBasis);
         }
     }
+
+    protected function thenTheDatabaseContainsEvents(array $expectedEvents): void
+    {
+        foreach ($expectedEvents as $expected) {
+            $this->assertDatabaseHas('eventstore', $expected);
+        }
+    }
 }
