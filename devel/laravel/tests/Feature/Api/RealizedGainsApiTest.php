@@ -14,6 +14,7 @@ it('returns a list of realized gains', function () {
                 '*' => [
                     'id',
                     'security_number',
+                    'realization_date',
                     'trade_number',
                     'base_quantity',
                     'trade_quantity',

@@ -14,6 +14,10 @@ use App\Domain\{
     RealizedGain\Record\RealizedGainBasisRecord,
 };
 
+use App\Presentation\{
+    Http\Presenters\RealizedGainPresenter,
+};
+
 use App\Foundation\Result;
 
 class RealizedGainsController
@@ -25,9 +29,12 @@ class RealizedGainsController
     public function index(): JsonResponse
     {
         return $this->handleRealizedGains()->match(
-            onSuccess: fn(array $positions) => response()->json([
-                'data' => $positions,
-                'count' => count($positions)
+            onSuccess: fn(array $records) => response()->json([
+                'data' => array_map(
+                    fn (RealizedGainBasisRecord $record) => RealizedGainPresenter::toArray($record),
+                    $records
+                ),
+                'count' => count($records),
             ]),
             onFailure: fn(string $error) => response()->json([
                 'error' => $error
