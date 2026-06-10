@@ -1,0 +1,3 @@
+- broker/raw/   -> broker exports (not committed)
+- processed/    -> loader outputs (not committed)
+- test/         -> small reproducible datasets (committed)
