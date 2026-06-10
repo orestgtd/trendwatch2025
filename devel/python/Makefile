@@ -1,4 +1,4 @@
-.PHONY: hello
+.PHONY: hello load
 .PHONY: test
 
 hello:
@@ -6,3 +6,6 @@ hello:
 
 test:
 	python3 -m pytest -v
+
+load:
+	python3 loader/load_trades.py --file $(FILE)
