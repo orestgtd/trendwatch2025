@@ -73,7 +73,7 @@ final class ApplyTradeToPosition
 
     private function updatePosition(Position $position): void
     {
-        $this->position_repository->update(
+        $this->position_repository->updateHolding(
             $position->getSecurityNumber(),
             $position->getPositionQuantity(),
             $position->getTotalCost()

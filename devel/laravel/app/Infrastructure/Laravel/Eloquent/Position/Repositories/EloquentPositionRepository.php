@@ -87,13 +87,6 @@ class EloquentPositionRepository implements PositionRepositoryContract
             ->toArray();
     }
 
-    // public function save(Position $position): void
-    // {
-    //     $this
-    //         ->toEloquent($position)
-    //         ->save();
-    // }
-
     public function insert(Position $position): void
     {
         $this
@@ -101,30 +94,14 @@ class EloquentPositionRepository implements PositionRepositoryContract
             ->save();
     }
 
-    public function update(SecurityNumber $securityNumber, PositionQuantity $quantity, CostAmount $totalCost): void
+    public function updateHolding(SecurityNumber $securityNumber, PositionQuantity $quantity, CostAmount $totalCost): void
     {
-        // $toUpdate = collect($scope->fields())
-        //     ->mapWithKeys(fn(string $field) => [
-        //         $field => match ($field) {
-        //             'position_quantity' => $position->getPositionQuantity(),
-        //             'total_cost' => $position->getTotalCost(),
-        //         },
-        //     ])
-        //     ->toArray();
-
-        // $security_number = (string) $position->getSecurityNumber();
-
         EloquentPosition::where('security_number', $securityNumber)->first()
             ->update([
                 'position_quantity' => $quantity,
                 'total_cost' => $totalCost,
             ]);
     }
-
-    // public function upsert(Position $position): void
-    // {
-    //     $this->save($position);
-    // }
 
     public function delete(Position $position): void
     {
