@@ -14,7 +14,7 @@ use App\Infrastructure\Laravel\Eloquent\Position\{
     Repositories\EloquentPositionRepository,
 };
 
-final class GetExpirablePositionsQuery
+class GetExpirablePositionsQuery
 {
     public function __construct(
         private readonly EloquentPositionRepository $repository

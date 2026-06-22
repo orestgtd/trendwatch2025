@@ -23,6 +23,11 @@ trait ConfirmationsApiGivenWhenThen
         $this->response = $this->postJson('/api/beta/trades/import', $this->tradePayload);
     }
 
+    protected function whenExpiringPositions(string $asOf): void
+    {
+        $this->response = $this->postJson('/api/beta/positions/expire', ['asof' => $asOf]);
+    }
+
     /** ---------------- THEN ---------------- */
 
     protected function thenTheResponseIsSuccessful(): void

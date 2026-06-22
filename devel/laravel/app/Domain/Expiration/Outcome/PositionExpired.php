@@ -5,7 +5,6 @@ namespace App\Domain\Expiration\Outcome;
 use App\Domain\{
     Outcome\Persistence\PersistenceIntent,
     Position\Model\Position,
-    Position\ValueObjects\PositionQuantity,
     RealizedGain\Model\RealizedGainBasis,
     RealizedGain\Outcome\NewRealizedGainCreated,
 };

@@ -103,6 +103,14 @@ class EloquentPositionRepository implements PositionRepositoryContract
             ]);
     }
 
+    public function updateQuantity(SecurityNumber $securityNumber, PositionQuantity $quantity): void
+    {
+        EloquentPosition::where('security_number', $securityNumber)->first()
+            ->update([
+                'position_quantity' => $quantity,
+            ]);
+    }
+
     public function delete(Position $position): void
     {
         EloquentPosition::where('security_number', (string) $position->getSecurityNumber())->delete();

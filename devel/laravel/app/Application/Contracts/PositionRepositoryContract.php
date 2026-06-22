@@ -18,6 +18,7 @@ interface PositionRepositoryContract
     public function delete(Position $position): void;
     public function insert(Position $position): void;
     public function updateHolding(SecurityNumber $securityNumber, PositionQuantity $quantity, CostAmount $totalCost): void;
+    public function updateQuantity(SecurityNumber $securityNumber, PositionQuantity $quantity): void;
 
     // Queries
     public function active(): array;
