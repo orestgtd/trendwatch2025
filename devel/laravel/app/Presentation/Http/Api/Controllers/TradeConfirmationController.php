@@ -13,6 +13,10 @@ use App\Application\Procedures\ProcessTradeConfirmation\{
     ProcessTradeConfirmation,
 };
 
+use App\Domain\{
+    Confirmation\Model\Confirmation,
+};
+
 use App\Presentation\{
     Parsers\TradeRequestParser,
 };
@@ -41,11 +45,15 @@ final class TradeConfirmationController
         );
     }
 
-    private function success(TradeProcessingOutcomes $outcome): JsonResponse
+    private function success(TradeProcessingOutcomes $outcomes): JsonResponse
     {
         return response()->json([
                 'status' => 'ok',
-                'confirmation' => $outcome,
+                'confirmation' => $this->mapConfirmation(
+                    $outcomes
+                        ->getConfirmationOutcome()
+                        ->getConfirmation()
+                ),
         ]);
     }
 
@@ -57,5 +65,17 @@ final class TradeConfirmationController
             ],
             $code
         );
+    }
+
+    /** @return array<string, string> */
+    private function mapConfirmation(Confirmation $confirmation): array
+    {
+        return [
+            'trade_number' => (string) $confirmation->getTradeNumber(),
+            'security_number' => (string) $confirmation->getSecurityNumber(),
+            'symbol' => (string) $confirmation->getSymbol(),
+            'description' => (string) $confirmation->getDescription(),
+            'transaction_date' => (string) $confirmation->getTransactionDate(),
+        ];
     }
 }
