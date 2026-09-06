@@ -13,7 +13,7 @@ use App\Application\{
 };
 
 use App\Presentation\{
-    Console\Commands\GetExpirablePositionsCommand,
+    Console\Commands\Queries\GetExpirablePositionsCommand,
 };
 
 use App\Foundation\{

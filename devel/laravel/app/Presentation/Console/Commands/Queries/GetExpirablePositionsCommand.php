@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Presentation\Console\Commands;
+namespace App\Presentation\Console\Commands\Queries;
 
 use App\Application\{
     GetExpirablePositions\GetExpirablePositions,
