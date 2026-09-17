@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Support\Builders;
+namespace Tests\Support\Builders;
 
 use App\Application\ProcessTradeConfirmation\Dto\{
     ParsedTradeRequestDto,

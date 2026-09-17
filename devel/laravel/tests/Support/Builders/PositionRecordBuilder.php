@@ -1,15 +1,14 @@
 <?php
 
-namespace Tests\Unit\Support\Builders;
+namespace Tests\Support\Builders;
  
-use App\Domain\Confirmation\ValueObjects\{
-    CostAmount,
-    ProceedsAmount,
+use App\Domain\Confirmation\{
+    ValueObjects\CostAmount,
+    ValueObjects\ProceedsAmount,
 };
 
 use App\Domain\Position\{
-    Builders\BuildPositionFromRecord,
-    Model\Position,
+    Record\PositionRecord,
     ValueObjects\PositionQuantity,
 };
 
@@ -22,7 +21,7 @@ use App\Domain\Kernel\{
     Values\PositionType,
     Values\UnitType,
 };
-use App\Domain\Position\Record\PositionRecord;
+
 use App\Domain\Security\{
     Expiration\ExpirationRule,
     ValueObjects\Description,
@@ -31,7 +30,7 @@ use App\Domain\Security\{
 
 use App\Foundation\Date;
 
-final class PositionBuilder
+final class PositionRecordBuilder
 {
     private function __construct(
         private SecurityNumber $securityNumber,
@@ -45,12 +44,42 @@ final class PositionBuilder
         private ExpirationRule $expirationRule,
     ) {}
 
-    public static function LongCall(Date $expirationDate): self
+    public static function YYZ(): self
     {
         return new self(
             SecurityNumber::fromString('2112'),
             Symbol::fromString('YYZ'),
             Description::fromString('Security Under Pressure'),
+            PositionType::long(),
+            PositionQuantity::fromInt(0),
+            UnitType::shares(),
+            CostAmount::zero(Currency::default()),
+            ProceedsAmount::zero(Currency::default()),
+            ExpirationRule::neverExpires()
+        );
+    }
+
+    public static function YYZShort(): self
+    {
+        return new self(
+            SecurityNumber::fromString('2112'),
+            Symbol::fromString('YYZ'),
+            Description::fromString('Security Under Pressure'),
+            PositionType::short(),
+            PositionQuantity::fromInt(0),
+            UnitType::shares(),
+            CostAmount::zero(Currency::default()),
+            ProceedsAmount::zero(Currency::default()),
+            ExpirationRule::neverExpires()
+        );
+    }
+
+    public static function LongCall(Date $expirationDate): self
+    {
+        return new self(
+            SecurityNumber::fromString('2112.R40'),
+            Symbol::fromString('YYZ'),
+            Description::fromString('CALL Security Under Pressure'),
             PositionType::long(),
             PositionQuantity::fromInt(1),
             UnitType::contracts(),
@@ -58,12 +87,6 @@ final class PositionBuilder
             ProceedsAmount::zero(Currency::default()),
             ExpirationRule::expiresOn(ExpirationDate::from($expirationDate)),
         );
-    }
-
-    public function withSecurityNumber(string $value): self
-    {
-        $this->securityNumber = SecurityNumber::fromString($value);
-        return $this;
     }
 
     public function withQuantity(int $value): self
@@ -90,12 +113,7 @@ final class PositionBuilder
         return $this;
     }
 
-    public function build(): Position
-    {
-        return BuildPositionFromRecord::from($this->buildPositionRecord());
-    }
-
-    private function buildPositionRecord(): PositionRecord
+    public function build(): PositionRecord
     {
         return new PositionRecord(
             SecurityInfo::from(
@@ -104,7 +122,7 @@ final class PositionBuilder
                 $this->description,
                 $this->unitType,
                 $this->expirationRule
-            ), 
+            ),
             $this->positionType,
             $this->positionQuantity,
             $this->totalCost,

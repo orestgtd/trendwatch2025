@@ -3,6 +3,12 @@
 namespace Tests\Unit\Application\Position\Service;
 
 use PHPUnit\Framework\Attributes\Test;
+use Tests\{
+    Support\Builders\ConfirmationBuilder,
+    Support\Builders\PositionRecordBuilder,
+    Unit\Support\Helpers\MockObject,
+    Unit\Support\PositionTestCase,
+};
 
 use App\Application\ProcessTradeConfirmation\{
     Services\PositionProcessor,
@@ -23,13 +29,6 @@ use App\Infrastructure\Laravel\Eloquent\{
 };
 
 use App\Foundation\Result;
-
-use Tests\Unit\Support\{
-    Builders\ConfirmationBuilder,
-    Builders\PositionRecordBuilder,
-    Helpers\MockObject,
-    PositionTestCase,
-};
 
 /**
  * 

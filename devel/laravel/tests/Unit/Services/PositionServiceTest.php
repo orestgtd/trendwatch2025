@@ -4,10 +4,10 @@ namespace Tests\Unit\Services;
 
 use Mockery;
 use PHPUnit\Framework\Attributes\Test;
-use Tests\TestCase;
-use Tests\Unit\Support\{
-    Builders\ConfirmationBuilder,
-    Builders\PositionRecordBuilder,
+use Tests\{
+    Support\Builders\ConfirmationBuilder,
+    Support\Builders\PositionRecordBuilder,
+    TestCase,
 };
 
 use App\Application\ProcessTradeConfirmation\{

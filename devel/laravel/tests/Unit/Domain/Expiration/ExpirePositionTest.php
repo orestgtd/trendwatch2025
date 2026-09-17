@@ -3,6 +3,10 @@
 namespace Tests\Unit\Domain\Expiration;
 
 use PHPUnit\Framework\Attributes\Test;
+use Tests\{
+    Support\Builders\PositionBuilder,
+    Unit\Support\PositionTestCase,
+};
 
 use App\Domain\{
     Expiration\Outcome\PositionExpired,
@@ -12,11 +16,6 @@ use App\Domain\{
 };
 
 use App\Foundation\Date;
-
-use Tests\Unit\Support\{
-    Builders\PositionBuilder,
-    PositionTestCase,
-};
 
 final class ExpirePositionTest extends PositionTestCase
 {

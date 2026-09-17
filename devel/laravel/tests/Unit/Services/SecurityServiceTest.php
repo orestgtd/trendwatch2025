@@ -3,10 +3,10 @@
 namespace Tests\Unit\Services;
 
 use Mockery;
-use Tests\TestCase;
-use Tests\Unit\Support\{
-    Builders\SecurityRecordBuilder,
-    Builders\SecurityRequestBuilder,
+use Tests\{
+    Support\Builders\SecurityRecordBuilder,
+    Support\Builders\SecurityRequestBuilder,
+    TestCase,
 };
 
 use PHPUnit\Framework\Attributes\Test;

@@ -3,9 +3,9 @@
 namespace Tests\Unit\Services;
 
 use Mockery;
-use Tests\TestCase;
-use Tests\Unit\Support\{
-    Builders\TradeRequestBuilder,
+use Tests\{
+    Support\Builders\TradeRequestBuilder,
+    TestCase,
 };
 
 use PHPUnit\Framework\Attributes\Test;

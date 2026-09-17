@@ -4,8 +4,8 @@ namespace Tests\Unit\Presentation\Console\Commands;
 
 use Mockery;
 use Tests\{
+    Support\Builders\PositionBuilder,
     TestCase,
-    Unit\Support\Builders\PositionBuilder,
 };
 
 use App\Application\{
