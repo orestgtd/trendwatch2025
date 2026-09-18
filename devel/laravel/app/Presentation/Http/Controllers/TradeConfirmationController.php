@@ -8,13 +8,13 @@ use Illuminate\Http\{
 };
 
 use App\Application\Procedures\ProcessTradeConfirmation\{
+    Dto\ParsedTradeData,
     Outcomes\TradeProcessingOutcomes,
     ProcessTradeConfirmation,
 };
 
-use App\Application\TradeConfirmation\{
-    Dto\ParsedTradeData,
-    TradeRequestParser,
+use App\Presentation\{
+    Parsers\TradeRequestParser,
 };
 
 // use App\Presentation\{

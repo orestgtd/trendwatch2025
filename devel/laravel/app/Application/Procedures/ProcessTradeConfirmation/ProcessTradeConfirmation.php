@@ -6,8 +6,7 @@ use App\Application\{
     Contracts\EventPersistenceContract,
     Procedures\ProcessTradeConfirmation\Events\TradeConfirmationCreated,
     Procedures\ProcessTradeConfirmation\Outcomes\TradeProcessingOutcomes,
-    TradeConfirmation\Dto\ParsedTradeData,
-    TradeConfirmation\TradeWorkflow,
+    Procedures\ProcessTradeConfirmation\Dto\ParsedTradeData,
 };
 
 use App\Domain\{

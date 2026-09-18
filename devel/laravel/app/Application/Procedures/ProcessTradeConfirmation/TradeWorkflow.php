@@ -1,17 +1,14 @@
 <?php
 
-namespace App\Application\TradeConfirmation;
+namespace App\Application\Procedures\ProcessTradeConfirmation;
 
 use App\Application\Procedures\ProcessTradeConfirmation\{
+    Dto\ParsedTradeData,
     Outcomes\TradeProcessingOutcomes,
     Outcomes\TradeRequestOutcomes,
     Services\PositionProcessor,
     Services\SecurityService,
     Services\TradeService,
-};
-
-use App\Application\TradeConfirmation\{
-    Dto\ParsedTradeData,
 };
 
 use App\Domain\{

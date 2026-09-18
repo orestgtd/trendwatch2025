@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Application\TradeConfirmation;
+namespace App\Presentation\Parsers;
 
 use App\Application\Procedures\ProcessTradeConfirmation\{
+    Dto\ParsedTradeData,
     Services\Parser\TradeParser,
     Services\Parser\SecurityParser,
-};
-
-use App\Application\TradeConfirmation\Dto\{
-    ParsedTradeData,
 };
 
 use App\Foundation\Result;

@@ -1,11 +1,7 @@
 <?php
 
-namespace App\Application\TradeConfirmation\Dto;
+namespace App\Application\Procedures\ProcessTradeConfirmation\Dto;
 
-use App\Application\Procedures\ProcessTradeConfirmation\Dto\{
-    ParsedSecurityRequestDto,
-    ParsedTradeRequestDto,
-};
 use App\Domain\Kernel\Identifiers\SecurityNumber;
 
 final class ParsedTradeData
