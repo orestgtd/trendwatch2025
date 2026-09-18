@@ -3,7 +3,7 @@
 namespace App\Presentation\Console\Commands\Queries;
 
 use App\Application\{
-    GetActivePositions\GetActivePositions,
+    Reports\GetActivePositions\GetActivePositions,
 };
 
 use App\Presentation\{

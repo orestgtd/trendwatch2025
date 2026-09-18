@@ -2,7 +2,7 @@
 
 namespace App\Application\TradeConfirmation\Dto;
 
-use App\Application\ProcessTradeConfirmation\Dto\{
+use App\Application\Procedures\ProcessTradeConfirmation\Dto\{
     ParsedSecurityRequestDto,
     ParsedTradeRequestDto,
 };

@@ -10,7 +10,7 @@ use Tests\{
 
 use PHPUnit\Framework\Attributes\Test;
 
-use App\Application\ProcessTradeConfirmation\{
+use App\Application\Procedures\ProcessTradeConfirmation\{
     Services\TradeService,
 };
 

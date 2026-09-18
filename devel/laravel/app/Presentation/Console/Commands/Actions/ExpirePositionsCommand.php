@@ -3,7 +3,7 @@
 namespace App\Presentation\Console\Commands\Actions;
 
 use App\Application\{
-    Expiration\ExpirePositions,
+    Procedures\Expiration\ExpirePositions,
 };
 
 use App\Foundation\Date;

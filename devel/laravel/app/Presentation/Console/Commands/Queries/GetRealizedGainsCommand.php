@@ -3,7 +3,7 @@
 namespace App\Presentation\Console\Commands\Queries;
 
 use App\Application\{
-    GetRealizedGains\GetRealizedGains,
+    Reports\GetRealizedGains\GetRealizedGains,
 };
 
 use App\Presentation\{

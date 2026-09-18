@@ -7,7 +7,7 @@ use Illuminate\Http\{
     Request,
 };
 
-use App\Application\Expiration\ExpirePositions;
+use App\Application\Procedures\Expiration\ExpirePositions;
 
 use App\Foundation\Date;
 

@@ -8,7 +8,7 @@ use Tests\{
     TestCase,
 };
 
-use App\Application\{
+use App\Application\Reports\{
     GetExpirablePositions\GetExpirablePositions,
 };
 

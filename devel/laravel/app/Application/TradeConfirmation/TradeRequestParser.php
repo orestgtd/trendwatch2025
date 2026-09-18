@@ -2,7 +2,7 @@
 
 namespace App\Application\TradeConfirmation;
 
-use App\Application\ProcessTradeConfirmation\{
+use App\Application\Procedures\ProcessTradeConfirmation\{
     Services\Parser\TradeParser,
     Services\Parser\SecurityParser,
 };

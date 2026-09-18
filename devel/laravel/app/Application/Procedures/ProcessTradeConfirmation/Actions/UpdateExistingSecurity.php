@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Application\Procedures\ProcessTradeConfirmation\Actions;
+
+use App\Application\{
+    Procedures\ProcessTradeConfirmation\Dto\ParsedSecurityRequestDto,
+};
+
+use App\Domain\Security\{
+    Model\Security,
+};
+
+use App\Foundation\Result;
+
+final class UpdateExistingSecurity
+{
+    /** @return Result<\App\Domain\Security\Outcome\SecurityOutcome> */
+    public function updateSecurityFromDto(Security $security, ParsedSecurityRequestDto $requestDto): Result
+    {
+        return Result::success(
+            $security->recordDescription($requestDto->description)
+        );
+    }
+}

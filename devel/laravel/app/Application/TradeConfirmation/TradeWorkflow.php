@@ -2,7 +2,7 @@
 
 namespace App\Application\TradeConfirmation;
 
-use App\Application\ProcessTradeConfirmation\{
+use App\Application\Procedures\ProcessTradeConfirmation\{
     Outcomes\TradeProcessingOutcomes,
     Outcomes\TradeRequestOutcomes,
     Services\PositionProcessor,

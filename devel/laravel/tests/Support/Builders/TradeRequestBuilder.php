@@ -2,7 +2,7 @@
 
 namespace Tests\Support\Builders;
 
-use App\Application\ProcessTradeConfirmation\Dto\{
+use App\Application\Procedures\ProcessTradeConfirmation\Dto\{
     ParsedTradeRequestDto,
     ValidatedTradeDto,
 };

@@ -7,7 +7,7 @@ use Illuminate\Http\{
     Request,
 };
 
-use App\Application\ProcessTradeConfirmation\{
+use App\Application\Procedures\ProcessTradeConfirmation\{
     Outcomes\TradeProcessingOutcomes,
     ProcessTradeConfirmation,
 };

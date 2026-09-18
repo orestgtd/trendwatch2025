@@ -7,7 +7,7 @@ use Illuminate\Http\{
 };
 
 use App\Application\{
-    GetRealizedGains\GetRealizedGains,
+    Reports\GetRealizedGains\GetRealizedGains,
 };
 
 use App\Foundation\Result;

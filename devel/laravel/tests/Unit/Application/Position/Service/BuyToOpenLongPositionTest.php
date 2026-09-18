@@ -10,7 +10,7 @@ use Tests\{
     Unit\Support\PositionTestCase,
 };
 
-use App\Application\ProcessTradeConfirmation\{
+use App\Application\Procedures\ProcessTradeConfirmation\{
     Services\PositionProcessor,
 };
 

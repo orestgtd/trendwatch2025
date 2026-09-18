@@ -7,7 +7,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use App\Foundation\Date;
 
-use App\Application\{
+use App\Application\Procedures\{
     Expiration\ExpirePositions,
     Expiration\ExpirePositionsResult,
 };

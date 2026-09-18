@@ -7,7 +7,7 @@ use Illuminate\Http\{
 };
 
 use App\Application\{
-    GetActivePositions\GetActivePositions,
+    Reports\GetActivePositions\GetActivePositions,
 };
 
 class PositionController
