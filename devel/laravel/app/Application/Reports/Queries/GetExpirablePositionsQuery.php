@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Application\Reports\GetActivePositions;
+namespace App\Application\Reports\Queries;
+
+use App\Foundation\Date;
 
 use App\Domain\Position\{
     Builders\BuildPositionFromRecord,
@@ -12,19 +14,19 @@ use App\Infrastructure\Laravel\Eloquent\Position\{
     Repositories\EloquentPositionRepository,
 };
 
-final class GetActivePositionsQuery
+class GetExpirablePositionsQuery
 {
     public function __construct(
         private readonly EloquentPositionRepository $repository
     ) {}
 
     /** @return Position[] */
-    public function all(): array
+    public function asOf(Date $asOf): array
     {
-        $persistedPositions = $this->repository->active();
+        $persistedPositions = $this->repository->expiredAsOf($asOf);
 
         return array_map(
-            fn(PositionRecord $record) => BuildPositionFromRecord::from($record),
+            fn(PositionRecord $persisted) => BuildPositionFromRecord::from($persisted),
             $persistedPositions
         );
     }

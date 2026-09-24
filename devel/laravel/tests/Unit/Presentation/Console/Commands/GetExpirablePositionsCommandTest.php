@@ -8,8 +8,8 @@ use Tests\{
     TestCase,
 };
 
-use App\Application\Reports\{
-    GetExpirablePositions\GetExpirablePositions,
+use App\Application\{
+    Reports\GetExpirablePositions,
 };
 
 use App\Presentation\{

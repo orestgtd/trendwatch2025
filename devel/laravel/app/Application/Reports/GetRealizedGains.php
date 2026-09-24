@@ -1,6 +1,10 @@
 <?php
 
-namespace App\Application\Reports\GetRealizedGains;
+namespace App\Application\Reports;
+
+use App\Application\{
+    Reports\Queries\GetAllRealizedGainsQuery,
+};
 
 use App\Domain\RealizedGain\{
     Record\RealizedGainBasisRecord,

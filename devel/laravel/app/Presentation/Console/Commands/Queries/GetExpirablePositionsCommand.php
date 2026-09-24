@@ -3,7 +3,7 @@
 namespace App\Presentation\Console\Commands\Queries;
 
 use App\Application\{
-    Reports\GetExpirablePositions\GetExpirablePositions,
+    Reports\GetExpirablePositions,
 };
 
 use App\Domain\Position\Model\Position;

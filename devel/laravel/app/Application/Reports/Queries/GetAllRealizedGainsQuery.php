@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Reports\GetRealizedGains;
+namespace App\Application\Reports\Queries;
 
 use App\Application\{
     Contracts\RealizedGainRepositoryContract,

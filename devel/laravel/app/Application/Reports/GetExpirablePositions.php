@@ -1,6 +1,10 @@
 <?php
 
-namespace App\Application\Reports\GetExpirablePositions;
+namespace App\Application\Reports;
+
+use App\Application\{
+    Reports\Queries\GetExpirablePositionsQuery,
+};
 
 use App\Foundation\{
     Date,

@@ -1,6 +1,10 @@
 <?php
 
-namespace App\Application\Reports\GetActivePositions;
+namespace App\Application\Reports;
+
+use App\Application\{
+    Reports\Queries\GetActivePositionsQuery,
+};
 
 use App\Foundation\Result;
 

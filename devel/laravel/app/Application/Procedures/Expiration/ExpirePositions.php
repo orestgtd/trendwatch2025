@@ -4,7 +4,7 @@ namespace App\Application\Procedures\Expiration;
 
 use App\Application\{
     Procedures\Expiration\Events\PositionExpired as PositionExpiredEvent,
-    Reports\GetExpirablePositions\GetExpirablePositionsQuery,
+    Reports\Queries\GetExpirablePositionsQuery,
 };
 
 use App\Domain\{
