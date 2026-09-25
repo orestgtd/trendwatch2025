@@ -3,6 +3,7 @@
 namespace App\Application\Procedures\Expiration;
 
 use App\Application\{
+    EventManager,
     Procedures\Expiration\Events\PositionExpired as PositionExpiredEvent,
     Reports\Queries\GetExpirablePositionsQuery,
 };
@@ -22,6 +23,7 @@ class ExpirePositions
 {
     public function __construct(
         private readonly GetExpirablePositionsQuery $query,
+        private readonly EventManager $eventManager,
     ) {}
 
     public function handle(Date $asOf): ExpirePositionsResult
@@ -45,7 +47,8 @@ class ExpirePositions
 
     private function tapExpiration(PositionExpired $outcome): void
     {
-        $event = new PositionExpiredEvent($outcome);
-        event($event);
+        $this->eventManager->record(
+            new PositionExpiredEvent($outcome)
+        );
     }
 }

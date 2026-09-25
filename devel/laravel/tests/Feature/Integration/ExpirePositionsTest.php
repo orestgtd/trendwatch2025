@@ -52,6 +52,10 @@ class ExpirePositionsTest extends DatabaseTestCase
                 'unit_type' => 'CONTRACTS',
             ],
         ]);
+
+        $this->thenTheDatabaseContainsEvents([
+            ['aggregate_type' => 'trade'],
+        ]);
     }
 
     #[Test]

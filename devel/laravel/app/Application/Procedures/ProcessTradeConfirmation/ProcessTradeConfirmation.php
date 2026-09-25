@@ -3,7 +3,7 @@
 namespace App\Application\Procedures\ProcessTradeConfirmation;
 
 use App\Application\{
-    Contracts\EventPersistenceContract,
+    EventManager,
     Procedures\ProcessTradeConfirmation\Events\TradeConfirmationCreated,
     Procedures\ProcessTradeConfirmation\Outcomes\TradeProcessingOutcomes,
     Procedures\ProcessTradeConfirmation\Dto\ParsedTradeData,
@@ -18,8 +18,8 @@ use App\Foundation\Result;
 final class ProcessTradeConfirmation
 {
     public function __construct(
-         private readonly TradeWorkflow $workflow,
-         private readonly EventPersistenceContract $eventPersistence,
+        private readonly TradeWorkflow $workflow,
+        private readonly EventManager $eventManager,
     ) {}
 
     /** @return Result<TradeProcessingOutcomes> */
@@ -34,7 +34,6 @@ final class ProcessTradeConfirmation
         $confirmation = $outcome->getConfirmation();
         $event = new TradeConfirmationCreated($confirmation);
 
-        $this->eventPersistence->insert($event);
-        event($event);
+        $this->eventManager->record($event);
     }
 }
