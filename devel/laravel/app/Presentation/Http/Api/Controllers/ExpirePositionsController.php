@@ -24,7 +24,7 @@ class ExpirePositionsController
         $result = $this->usecase->handle($asOf);
 
         return response()->json([
-            'data' => $result,
+            'expired_count' => $result->expiredCount(),
         ]);
     }
 }
