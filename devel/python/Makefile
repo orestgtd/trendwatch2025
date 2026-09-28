@@ -1,5 +1,11 @@
-.PHONY: hello load positions realized_gains
-.PHONY: test
+.PHONY: expire load positions realized_gains
+.PHONY: hello test
+.PHONY: asof
+
+ASOF ?= $(shell date +%Y-%m-%d)
+
+expire:
+	python3 expire.py --asof $(ASOF)
 
 hello:
 	python3 hello.py
@@ -15,3 +21,6 @@ positions:
 
 realized_gains:
 	python3 realized_gains.py
+
+asof:
+	echo $(ASOF)
