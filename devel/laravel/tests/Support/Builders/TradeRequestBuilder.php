@@ -15,6 +15,7 @@ use App\Domain\Confirmation\{
 use App\Domain\Kernel\{
     Values\UnitType,
 };
+use App\Domain\Kernel\Values\TransactionDate;
 
 final class TradeRequestBuilder
 {
@@ -23,6 +24,7 @@ final class TradeRequestBuilder
         private string $symbol,
         private string $description,
         private string $tradeNumber,
+        private string $transactionDate,
         private string $tradeAction,
         private string $positionEffect,
         private int $tradeQuantity,
@@ -40,6 +42,7 @@ final class TradeRequestBuilder
             'YYZ',
             'Security Under Pressure',
             'T12345',
+            '1976-03-24',
             TradeAction::BUY,
             PositionEffect::OPEN,
             100,
@@ -65,6 +68,7 @@ final class TradeRequestBuilder
                 'symbol' => $this->symbol,
                 'description' => $this->description,
                 'trade_number' => $this->tradeNumber,
+                'transaction_date' => $this->transactionDate,
                 'trade_action' => $this->tradeAction,
                 'position_effect' => $this->positionEffect,
                 'trade_quantity' => $this->tradeQuantity,

@@ -16,6 +16,7 @@ use App\Domain\Kernel\{
     Identifiers\Symbol,
     Identifiers\TradeNumber,
     Values\ExpirationDate,
+    Values\TransactionDate,
     Values\UnitType,
 };
 
@@ -32,6 +33,7 @@ use App\Infrastructure\Laravel\Eloquent\Trade\Casts\{
     PositionEffectCast,
     TradeActionCast,
     TradeNumberCast,
+    TransactionDateCast,
     TradeQuantityCast,
     UnitPriceCast,
     CommissionCast,
@@ -52,6 +54,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Symbol         $symbol
  * @property Description    $description
  * @property TradeNumber    $trade_number
+ * @property TransactionDate $transaction_date
  * @property TradeAction    $trade_action
  * @property PositionEffect $position_effect
  * @property TradeQuantity  $trade_quantity
@@ -71,6 +74,7 @@ class Trade extends Model
         'symbol',
         'description',
         'trade_number',
+        'transaction_date',
         'trade_action',
         'position_effect',
         'trade_quantity',
@@ -86,6 +90,7 @@ class Trade extends Model
         'symbol' => SymbolCast::class,
         'description' => DescriptionCast::class,
         'trade_number' => TradeNumberCast::class,
+        'transaction_date' => TransactionDateCast::class,
         'trade_action' => TradeActionCast::class,
         'position_effect' => PositionEffectCast::class,
         'trade_quantity' => TradeQuantityCast::class,

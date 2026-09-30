@@ -20,6 +20,7 @@ use App\Domain\Kernel\{
     Money\Currency,
     Money\MoneyAmount,
     Values\ExpirationDate,
+    Values\TransactionDate,
     Values\UnitType,
 };
 
@@ -29,11 +30,16 @@ use App\Domain\Security\{
     ValueObjects\SecurityInfo,
 };
 
+use App\Foundation\{
+    Date,
+};
+
 final class ConfirmationBuilder
 {
     private function __construct(
         private SecurityInfo $securityInfo,
         private TradeNumber $tradeNumber,
+        private TransactionDate $transactionDate,
         private TradeAction $tradeAction,
         private PositionEffect $positionEffect,
         private TradeQuantity $tradeQuantity,
@@ -53,6 +59,7 @@ final class ConfirmationBuilder
                 ExpirationRule::neverExpires()
             ),
             TradeNumber::fromString('T000'),
+            self::makeTransactionDate('1976-05-18'),
             TradeAction::buy(),
             PositionEffect::open(),
             TradeQuantity::fromInt(100),
@@ -73,6 +80,7 @@ final class ConfirmationBuilder
                 ExpirationRule::neverExpires()
             ),
             TradeNumber::fromString('T000'),
+            self::makeTransactionDate('1976-05-18'),
             TradeAction::sell(),
             PositionEffect::open(),
             TradeQuantity::fromInt(100),
@@ -93,6 +101,7 @@ final class ConfirmationBuilder
                 ExpirationRule::neverExpires()
             ),
             TradeNumber::fromString('T000'),
+            self::makeTransactionDate('1976-05-18'),
             TradeAction::buy(),
             PositionEffect::close(),
             TradeQuantity::fromInt(100),
@@ -113,6 +122,7 @@ final class ConfirmationBuilder
                 ExpirationRule::neverExpires()
             ),
             TradeNumber::fromString('T000'),
+            self::makeTransactionDate('1976-05-18'),
             TradeAction::sell(),
             PositionEffect::close(),
             TradeQuantity::fromInt(100),
@@ -166,12 +176,20 @@ final class ConfirmationBuilder
         return Confirmation::create(
             $this->securityInfo,
             $this->tradeNumber,
+            $this->transactionDate,
             $this->tradeAction,
             $this->positionEffect,
             $this->tradeQuantity,
             $this->unitPrice,
             $this->commission,
             $this->usTax,
+        );
+    }
+
+    private static function makeTransactionDate(string $value): TransactionDate
+    {
+        return TransactionDate::from(
+            Date::fromString(($value))
         );
     }
 }

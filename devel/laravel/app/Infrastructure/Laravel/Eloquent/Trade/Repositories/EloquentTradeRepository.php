@@ -34,6 +34,7 @@ class EloquentTradeRepository implements TradeRepositoryContract
                     ExpirationRule::fromNullableDate($eloquent->expiration_date)
                 ),
                 $eloquent->trade_number,
+                $eloquent->transaction_date,
                 $eloquent->trade_action,
                 $eloquent->position_effect,
                 $eloquent->trade_quantity,
@@ -59,6 +60,7 @@ class EloquentTradeRepository implements TradeRepositoryContract
         $eloquent->symbol = $confirmation->getSymbol();
         $eloquent->description = $confirmation->getDescription();
         $eloquent->trade_number = $confirmation->getTradeNumber();
+        $eloquent->transaction_date = $confirmation->getTransactionDate();
         $eloquent->trade_action = $confirmation->getTradeAction();
         $eloquent->position_effect = $confirmation->getPositionEffect();
         $eloquent->trade_quantity = $confirmation->getTradeQuantity();

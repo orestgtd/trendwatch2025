@@ -14,6 +14,7 @@ final class BuildConfirmationFromRecord
         return Confirmation::create(
             $record->securityInfo,
             $record->tradeNumber,
+            $record->transactionDate,
             $record->tradeAction,
             $record->positionEffect,
             $record->tradeQuantity,

@@ -25,6 +25,7 @@ use App\Domain\Kernel\{
     Identifiers\Symbol,
     Identifiers\TradeNumber,
     Values\ExpirationDate,
+    Values\TransactionDate,
     Values\UnitType,
 };
 
@@ -38,6 +39,7 @@ final class Confirmation
     private function __construct(
         private SecurityInfo $securityInfo,
         private TradeNumber $tradeNumber,
+        private TransactionDate $transactionDate,
         private TradeAction $tradeAction,
         private PositionEffect $positionEffect,
         private TradeQuantity $tradeQuantity,
@@ -47,7 +49,7 @@ final class Confirmation
     ) {
         $this->securityInfo = $securityInfo;
         $this->tradeNumber = $tradeNumber;
-        $this->tradeAction = $tradeAction;
+        $this->transactionDate = $transactionDate;
         $this->positionEffect = $positionEffect;
         $this->tradeQuantity = $tradeQuantity;
         $this->unitPrice = $unitPrice;
@@ -58,6 +60,7 @@ final class Confirmation
     public static function create(
         SecurityInfo $securityInfo,
         TradeNumber $tradeNumber,
+        TransactionDate $transactionDate,
         TradeAction $tradeAction,
         PositionEffect $positionEffect,
         TradeQuantity $tradeQuantity,
@@ -68,6 +71,7 @@ final class Confirmation
         return new self(
             $securityInfo,
             $tradeNumber,
+            $transactionDate,
             $tradeAction,
             $positionEffect,
             $tradeQuantity,
@@ -84,6 +88,7 @@ final class Confirmation
     public function getSymbol(): Symbol { return $this->securityInfo->symbol; }
     public function getDescription(): Description { return $this->securityInfo->canonicalDescription; }
     public function getTradeNumber(): TradeNumber { return $this->tradeNumber; }
+    public function getTransactionDate(): TransactionDate { return $this->transactionDate; }
     public function getPositionEffect(): PositionEffect { return $this->positionEffect; }
     public function getTradeAction(): TradeAction { return $this->tradeAction; }
     public function getTradeQuantity(): TradeQuantity { return $this->tradeQuantity; }

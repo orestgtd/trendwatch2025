@@ -4,6 +4,7 @@ namespace App\Domain\Confirmation\Record;
 
 use App\Domain\Kernel\{
     Identifiers\TradeNumber,
+    Values\TransactionDate,
 };
 
 use App\Domain\Confirmation\ValueObjects\{
@@ -24,6 +25,7 @@ final class ConfirmationRecord
     public function __construct(
         public readonly SecurityInfo $securityInfo,
         public readonly TradeNumber $tradeNumber,
+        public readonly TransactionDate $transactionDate,
         public readonly TradeAction $tradeAction,
         public readonly PositionEffect $positionEffect,
         public readonly TradeQuantity $tradeQuantity,

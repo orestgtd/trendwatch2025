@@ -19,6 +19,7 @@ use App\Domain\Kernel\{
     Identifiers\TradeNumber,
     Money\Currency,
     Values\ExpirationDate,
+    Values\TransactionDate,
     Values\UnitType,
 };
 
@@ -38,6 +39,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
     private function __construct(
         public readonly SecurityInfo $securityInfo,
         public readonly TradeNumber $tradeNumber,
+        public readonly TransactionDate $transactionDate,
         public readonly TradeAction $tradeAction,
         public readonly PositionEffect $positionEffect,
         public readonly TradeQuantity $tradeQuantity,
@@ -54,6 +56,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
             'symbol'           => Symbol::tryFrom($validatedDto->symbol),
             'description'      => Description::tryFrom($validatedDto->description),
             'trade_number'     => TradeNumber::tryFrom($validatedDto->tradeNumber),
+            'transaction_date' => TransactionDate::tryFrom($validatedDto->transactionDate),
             'trade_action'     => TradeAction::tryFrom($validatedDto->tradeAction),
             'position_effect'  => PositionEffect::tryFrom($validatedDto->positionEffect),
             'trade_quantity'   => TradeQuantity::tryFrom($validatedDto->tradeQuantity),
@@ -74,6 +77,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
                     ExpirationRule::fromNullableDate($values['expiration_date'])
                 ),
                 $values['trade_number'],
+                $values['transaction_date'],
                 $values['trade_action'],
                 $values['position_effect'],
                 $values['trade_quantity'],

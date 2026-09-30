@@ -63,6 +63,7 @@ class ProcessTradeConfirmationTest extends DatabaseTestCase
         $this->thenTheDatabaseContainsTrades([
             [
                 'trade_number' => '001733',
+                'transaction_date' => '2022-05-16',
                 'security_number' => '7653ZG',
                 'symbol' => 'SPX',
                 'trade_action' => 'BUY',
@@ -78,6 +79,7 @@ class ProcessTradeConfirmationTest extends DatabaseTestCase
             ],
             [
                 'trade_number' => '333499',
+                'transaction_date' => '2022-05-23',
                 'security_number' => '151447',
                 'symbol' => 'CVE',
                 'trade_action' => 'BUY',
@@ -175,6 +177,7 @@ class ProcessTradeConfirmationTest extends DatabaseTestCase
         $this->thenTheDatabaseContainsTrades([
             [
                 'trade_number' => '001733',
+                'transaction_date' => '2022-05-16',
                 'security_number' => '7653ZG',
                 'trade_action' => 'BUY',
                 'position_effect' => 'OPEN',

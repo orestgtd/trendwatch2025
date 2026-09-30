@@ -15,6 +15,7 @@ use App\Domain\Confirmation\ValueObjects\{
 
 use App\Domain\Kernel\{
     Identifiers\TradeNumber,
+    Values\TransactionDate,
 };
 
 use App\Domain\Security\{
@@ -26,6 +27,7 @@ final class BuildNewConfirmation
     public static function from(
         SecurityInfo $securityInfo,
         TradeNumber $tradeNumber,
+        TransactionDate $transactionDate,
         TradeAction $tradeAction,
         PositionEffect $positionEffect,
         TradeQuantity $tradeQuantity,
@@ -36,6 +38,7 @@ final class BuildNewConfirmation
         return Confirmation::create(
             $securityInfo,
             $tradeNumber,
+            $transactionDate,
             $tradeAction,
             $positionEffect,
             $tradeQuantity,

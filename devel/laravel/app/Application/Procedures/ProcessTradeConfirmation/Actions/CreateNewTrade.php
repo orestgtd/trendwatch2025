@@ -24,6 +24,7 @@ final class CreateNewTrade
                 BuildNewConfirmation::from(
                     $dto->securityInfo,
                     $dto->tradeNumber,
+                    $dto->transactionDate,
                     $dto->tradeAction,
                     $dto->positionEffect,
                     $dto->tradeQuantity,

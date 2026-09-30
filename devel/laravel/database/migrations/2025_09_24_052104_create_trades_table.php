@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('symbol');
             $table->string('description');
             $table->string('trade_number')->unique();
+            $table->date('transaction_date');
             $table->string('trade_action');
             $table->string('position_effect');
             $table->integer('trade_quantity');
