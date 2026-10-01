@@ -5,6 +5,7 @@ namespace App\Domain\Position\Behaviour;
 use App\Domain\{
     Confirmation\Model\Confirmation,
     Kernel\Values\PositionType,
+    Kernel\Values\RealizationDate,
     Position\Model\ShortPosition,
     Position\Model\Position,
     Position\Outcome\DecreasedHolding,
@@ -29,6 +30,9 @@ final class BuyToDecrease
     private function buyToDecreaseShortPosition(Confirmation $confirmation, ShortPosition $short): Result
     {
         $securityNumber = $confirmation->getSecurityNumber();
+        $realizationDate = RealizationDate::fromTransactionDate(
+            $confirmation->getTransactionDate()
+        );
         $tradeNumber = $confirmation->getTradeNumber();
         $tradeQuantity = $confirmation->getTradeQuantity();
         $baseQuantity = $short->getBaseQuantity();
@@ -40,6 +44,7 @@ final class BuyToDecrease
 
         $realizedGainBasis = RealizedGainBasis::create(
             $securityNumber,
+            $realizationDate,
             PositionType::short(),
             RealizationSource::trade($tradeNumber),
             $baseQuantity,

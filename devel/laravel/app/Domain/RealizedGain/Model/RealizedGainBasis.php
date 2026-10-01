@@ -5,6 +5,7 @@ namespace App\Domain\RealizedGain\Model;
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
     Values\PositionType,
+    Values\RealizationDate,
     Values\UnitType,
 };
 
@@ -25,6 +26,7 @@ final class RealizedGainBasis
 {
     private function __construct(
         private readonly SecurityNumber $securityNumber,
+        private readonly RealizationDate $realizationDate,
         private readonly PositionType $positionType,
         private readonly RealizationSource $realizationSource,
         private readonly BaseQuantity $baseQuantity,
@@ -37,6 +39,7 @@ final class RealizedGainBasis
 
     public static function create(
         SecurityNumber $securityNumber,
+        RealizationDate $realizationDate,
         PositionType $positionType,
         RealizationSource $realizationSource,
         BaseQuantity $baseQuantity,
@@ -47,6 +50,7 @@ final class RealizedGainBasis
     ): self {
         return new self(
             $securityNumber,
+            $realizationDate,
             $positionType,
             $realizationSource,
             $baseQuantity,
@@ -58,6 +62,7 @@ final class RealizedGainBasis
     }
 
     public function getSecurityNumber(): SecurityNumber { return $this->securityNumber; }
+    public function getRealizationDate(): RealizationDate { return $this->realizationDate; }
     public function getPositionType(): PositionType { return $this->positionType; }
     public function getRealizationSource(): RealizationSource { return $this->realizationSource; }
     public function getBaseQuantity(): BaseQuantity { return $this->baseQuantity; }

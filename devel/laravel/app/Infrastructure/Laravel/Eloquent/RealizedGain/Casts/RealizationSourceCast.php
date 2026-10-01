@@ -4,14 +4,13 @@ namespace App\Infrastructure\Laravel\Eloquent\RealizedGain\Casts;
 
 use App\Domain\Kernel\{
     Identifiers\TradeNumber,
+    Values\ExpirationDate,
 };
 
 use App\Domain\RealizedGain\{
     ValueObjects\RealizationSource,
     ValueObjects\RealizationSourceType,
 };
-
-use App\Foundation\Date;
 
 use Illuminate\{
     Contracts\Database\Eloquent\CastsAttributes,
@@ -56,7 +55,11 @@ final class RealizationSourceCast implements CastsAttributes
 
             RealizationSourceType::EXPIRATION =>
                 RealizationSource::expiration(
-                    Date::fromString($reference)
+                    ExpirationDate::tryFrom($reference)
+                    ->match(
+                        fn (ExpirationDate $expirationDate) => $expirationDate,
+                        fn (string $error) => throw new \LogicException($error)
+                    )
                 ),
 
             default =>

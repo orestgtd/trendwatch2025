@@ -17,6 +17,7 @@ final class ConsoleRealizedGainRowRenderer
     {
         return [
             $vm->securityNumber,
+            $vm->realizationDate,
             $vm->positionType,
             $vm->baseQuantity,
             $vm->tradeQuantity,

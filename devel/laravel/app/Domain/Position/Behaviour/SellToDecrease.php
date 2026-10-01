@@ -5,6 +5,7 @@ namespace App\Domain\Position\Behaviour;
 use App\Domain\{
     Confirmation\Model\Confirmation,
     Kernel\Values\PositionType,
+    Kernel\Values\RealizationDate,
     Position\Model\LongPosition,
     Position\Model\Position,
     Position\Outcome\DecreasedHolding,
@@ -29,6 +30,9 @@ final class SellToDecrease
     private function sellToCloseLongPosition(Confirmation $confirmation, LongPosition $position): Result
     {
         $securityNumber = $confirmation->getSecurityNumber();
+        $realizationDate = RealizationDate::fromTransactionDate(
+            $confirmation->getTransactionDate()
+        );
         $tradeNumber = $confirmation->getTradeNumber();
         $tradeQuantity = $confirmation->getTradeQuantity();
         $baseQuantity = $position->getBaseQuantity();
@@ -40,6 +44,7 @@ final class SellToDecrease
 
         $realizedGainBasis = RealizedGainBasis::create(
             $securityNumber,
+            $realizationDate,
             PositionType::long(),
             RealizationSource::trade($tradeNumber),
             $baseQuantity,

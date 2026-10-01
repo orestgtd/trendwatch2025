@@ -17,6 +17,7 @@ final class RealizedGainPresenter
     {
         return new RealizedGainRowViewModel(
             securityNumber: $record->securityNumber,
+            realizationDate: $record->realizationDate,
             positionType: $record->positionType,
             baseQuantity: $record->baseQuantity->toInt(),
             tradeQuantity: $record->tradeQuantity->toInt(),

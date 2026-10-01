@@ -18,6 +18,7 @@ use App\Domain\Kernel\{
     Identifiers\Symbol,
     Values\ExpirationDate,
     Values\PositionType,
+    Values\RealizationDate,
     Values\UnitType,
 };
 
@@ -81,6 +82,9 @@ abstract class Position
 
         $realizedGainBasis = RealizedGainBasis::create(
             $this->getSecurityNumber(),
+            RealizationDate::fromExpirationDate(
+                $this->getExpirationDate()
+            ),
             $this->getPositionType(),
             RealizationSource::expiration($this->getExpirationDate()),
             $this->getBaseQuantity(),

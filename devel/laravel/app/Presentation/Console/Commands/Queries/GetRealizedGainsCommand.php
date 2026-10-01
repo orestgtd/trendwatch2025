@@ -7,8 +7,9 @@ use App\Application\{
 };
 
 use App\Presentation\{
-    Presenters\RealizedGainPresenter,
     Console\Renderers\ConsoleRealizedGainRowRenderer,
+    Presenters\RealizedGainPresenter,
+    ViewModels\RealizedGainRowViewModel,
 };
 
 use Illuminate\Console\Command;
@@ -61,16 +62,7 @@ class GetRealizedGainsCommand extends Command
         }
 
         // Define table headers
-        $headers = [
-            'ID',
-            'Security',
-            'Trade',
-            'Base Qty',
-            'Trade Qty',
-            'Unit Type',
-            'Cost',
-            'Proceeds',
-        ];
+        $headers = RealizedGainRowViewModel::headers();
 
         // Map positions to rows for table display
 
@@ -85,7 +77,6 @@ class GetRealizedGainsCommand extends Command
 
         // Display table
         $this->table($headers, $rows);
-
         $this->info(count($realizedGains) . ' realized gains listed.');
 
         return Command::SUCCESS;

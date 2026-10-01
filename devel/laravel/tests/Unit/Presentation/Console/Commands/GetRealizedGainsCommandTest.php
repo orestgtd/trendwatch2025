@@ -12,6 +12,7 @@ use Tests\{
 use App\Application\{
     Contracts\RealizedGainRepositoryContract,
 };
+use App\Presentation\ViewModels\RealizedGainRowViewModel;
 
 class GetRealizedGainsCommandTest extends TestCase
 {
@@ -27,6 +28,9 @@ class GetRealizedGainsCommandTest extends TestCase
         // Arrange
 
         $gain = RealizedGainBasisBuilder::gainFromBuyToCloseLongPosition()
+            ->withRealizationDate('2026-09-30')
+            ->withCost('28500.00')
+            ->withProceeds('30250.00')
             ->buildPersistedDto();
 
         $mockRepository = Mockery::mock(RealizedGainRepositoryContract::class);
@@ -34,10 +38,28 @@ class GetRealizedGainsCommandTest extends TestCase
             ->once()
             ->andReturn([$gain]);
 
+        $expectedHeader = RealizedGainRowViewModel::headers();
+
+        $expectedBody = [
+            [
+                'MSFT',
+                '2026-09-30',
+                'LONG',
+                '100',
+                '100',
+                'SHARES',
+                'USD $28500.00',
+                'USD $30250.00',
+                'TRADE T0001',
+            ],
+        ];
+
         $this->app->instance(RealizedGainRepositoryContract::class, $mockRepository);
 
         // Act & Assert
+
         $this->artisan('list:realized_gains')
+            ->expectsTable($expectedHeader, $expectedBody)
             ->expectsOutput('1 realized gains listed.')
             ->assertExitCode(0);
     }

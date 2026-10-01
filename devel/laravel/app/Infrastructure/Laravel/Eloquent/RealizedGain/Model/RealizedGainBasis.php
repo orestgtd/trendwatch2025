@@ -14,6 +14,7 @@ use App\Domain\Confirmation\{
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
     Values\PositionType,
+    Values\RealizationDate,
     Values\UnitType,
 };
 
@@ -31,6 +32,7 @@ use App\Infrastructure\Laravel\Eloquent\{
     Position\Casts\PositionTypeCast,
     Position\Casts\ProceedsAmountCast,
     RealizedGain\Casts\BaseQuantityCast,
+    RealizedGain\Casts\RealizationDateCast,
     RealizedGain\Casts\RealizationSourceCast,
     Security\Casts\SecurityNumberCast,
     Trade\Casts\TradeQuantityCast,
@@ -40,6 +42,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property SecurityNumber $security_number
+ * @property RealizationDate $realization_date
  * @property PositionType $position_type
  * @property RealizationSource $realization_source
  * @property BaseQuantity $base_quantity
@@ -55,6 +58,7 @@ class RealizedGainBasis extends Model
 
     protected $fillable = [
         'security_number',
+        'realization_date',
         'position_type',
         'realization_source',
         'base_quantity',
@@ -66,6 +70,7 @@ class RealizedGainBasis extends Model
 
     protected $casts = [
         'security_number' => SecurityNumberCast::class,
+        'realization_date' => RealizationDateCast::class,
         'position_type' => PositionTypeCast::class,
         'realization_source' => RealizationSourceCast::class,
         'base_quantity' => BaseQuantityCast::class,

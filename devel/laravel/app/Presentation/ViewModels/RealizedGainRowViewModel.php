@@ -10,6 +10,7 @@ final class RealizedGainRowViewModel
 {
     public function __construct(
         public readonly string $securityNumber,
+        public readonly string $realizationDate,
         public readonly string $positionType,
         public readonly int $baseQuantity,
         public readonly int $tradeQuantity,
@@ -18,5 +19,20 @@ final class RealizedGainRowViewModel
         public readonly MoneyView $proceeds,
         public readonly string $reference,
     ) {
+    }
+
+    public static function headers(): array
+    {
+        return [
+            'Security',
+            'Realization Date',
+            'Position Type',
+            'Base Qty',
+            'Trade Qty',
+            'Unit Type',
+            'Cost',
+            'Proceeds',
+            'Realization Source',
+        ];
     }
 }

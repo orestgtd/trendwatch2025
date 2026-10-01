@@ -35,6 +35,7 @@ final class GetAllRealizedGainsQuery
     {
         return new RealizedGainBasisRecord(
             $dto->securityNumber,
+            $dto->realizationDate,
             $dto->positionType,
             $dto->realizationSource,
             $dto->baseQuantity,

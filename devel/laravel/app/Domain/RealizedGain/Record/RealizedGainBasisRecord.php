@@ -11,6 +11,7 @@ use App\Domain\Confirmation\{
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
     Values\PositionType,
+    Values\RealizationDate,
     Values\UnitType,
 };
 
@@ -26,6 +27,7 @@ final class RealizedGainBasisRecord
 {
     public function __construct(
         public readonly SecurityNumber $securityNumber,
+        public readonly RealizationDate $realizationDate,
         public readonly PositionType $positionType,
         public readonly RealizationSource $realizationSource,
         public readonly BaseQuantity $baseQuantity,
