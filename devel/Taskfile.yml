@@ -87,3 +87,12 @@ tasks:
         date=$(date +%Y-%m-%d)
         git bundle create "${name}-${date}.bundle" "${name}"
     silent: true
+
+  load-2022:
+    desc: "Load 2022 into a clean database"
+    cmds:
+      - '{{.docker_cmd}} exec php make fresh'
+      - '{{.docker_cmd}} exec notebook make load FILE=/data/broker/raw/2022/2022.csv'
+      - '{{.docker_cmd}} exec notebook make expire ASOF=2022-12-31'
+      - '{{.docker_cmd}} exec notebook make positions'
+      - '{{.docker_cmd}} exec notebook make realized_gains'
