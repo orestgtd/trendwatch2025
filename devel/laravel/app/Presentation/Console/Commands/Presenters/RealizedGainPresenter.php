@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Presentation\Presenters;
+namespace App\Presentation\Console\Commands\Presenters;
 
 use App\Domain\RealizedGain\{
     Record\RealizedGainBasisRecord,
@@ -22,15 +22,8 @@ final class RealizedGainPresenter
             baseQuantity: $record->baseQuantity->toInt(),
             tradeQuantity: $record->tradeQuantity->toInt(),
             unitType: $record->unitType,
-
-            cost: new MoneyView(
-                $record->cost->getCurrency()->getValue(),
-                (string) $record->cost->getAmount(),
-            ),
-            proceeds: new MoneyView(
-                $record->proceeds->getCurrency()->getValue(),
-                (string) $record->proceeds->getAmount(),
-            ),
+            cost: MoneyView::fromMonetary($record->cost),
+            proceeds: MoneyView::fromMonetary($record->proceeds),
             reference: $record->realizationSource,
         );
     }

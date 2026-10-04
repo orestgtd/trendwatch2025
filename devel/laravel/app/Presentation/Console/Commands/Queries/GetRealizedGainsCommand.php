@@ -7,8 +7,8 @@ use App\Application\{
 };
 
 use App\Presentation\{
+    Console\Commands\Presenters\RealizedGainPresenter,
     Console\Renderers\ConsoleRealizedGainRowRenderer,
-    Presenters\RealizedGainPresenter,
     ViewModels\RealizedGainRowViewModel,
 };
 
