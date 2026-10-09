@@ -18,6 +18,11 @@ tasks:
     cmds:
       - '{{.docker_cmd}} build'
 
+  build:python:
+    desc: "Build Python container"
+    cmds:
+      - '{{.docker_cmd}} build notebook'
+
   up:
     desc: "Start Docker/Lima containers"
     cmds:
@@ -42,6 +47,11 @@ tasks:
     desc: "Open a shell into the PHP container"
     cmds:
       - '{{.docker_cmd}} exec -it php /bin/bash || true'
+
+  pysh:
+    desc: "Open a shell into the Python container"
+    cmds:
+      - '{{.docker_cmd}} exec -it notebook /bin/bash || true'
 
   install-laravel:
     desc: Install Laravel into the PHP container
