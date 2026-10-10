@@ -4,13 +4,13 @@ This project uses Docker Compose for development and deployment. It is designed 
 
 ## Developer Guide
 
-- 🛠 [Environment Setup](docs/env-setup.md): `.env` file, `DOCKER_CMD`, and usage
-- 📦 [Elm Container Setup](docs/elm-container.md): Shell access, working directory, and volume notes
-- 📝 [Commit Message Conventions](docs/COMMIT_CONVENTIONS.md): Prefixes and formatting guidelines
+- 🛠 [Environment Setup](env-setup.md): `.env` file, `DOCKER_CMD`, and usage
+- 📦 [Elm Container Setup](elm-container.md): Shell access, working directory, and volume notes
+- 📝 [Commit Message Conventions](COMMIT_CONVENTIONS.md): Prefixes and formatting guidelines
 
 ## Business Rules
-- [Business Rules for Positions](docs/position-business-rules.md): 
+- [Business Rules for Positions](position-business-rules.md): Core business rules governing the behaviour of security positions
 
 ## Architecture & Design
-- 🧩 [Pipeline Design](docs/pipeline-design.md): Principles for building pure, testable pipelines
-- 🧱 [Architecture Conventions](docs/architecture-conventions.md): Naming, layering, and immutability rules
+- 🧩 [Pipeline Design](pipeline-design.md): Principles for building pure, testable pipelines
+- 🧱 [Architecture Conventions](architecture-conventions.md): Naming, layering, and immutability rules
