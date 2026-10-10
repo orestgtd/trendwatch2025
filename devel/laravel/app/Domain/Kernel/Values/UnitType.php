@@ -37,6 +37,7 @@ final class UnitType extends AbstractStringValueObject
         return match($this->value) {
             self::SHARES => 1,
             self::CONTRACTS => 100,
+            default => 0,
         };
     }
 

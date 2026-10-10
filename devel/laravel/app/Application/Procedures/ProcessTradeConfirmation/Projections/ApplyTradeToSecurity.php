@@ -73,6 +73,7 @@ final class ApplyTradeToSecurity
             VariationAdded::class => $this->repository->updateVariations(
                 $outcome->getSecurity()->getSecurityNumber(),
                 $outcome->getSecurity()->getVariations()),
+            default => null,
         };
     }
 }

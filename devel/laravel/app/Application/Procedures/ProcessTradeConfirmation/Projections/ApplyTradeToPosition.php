@@ -68,6 +68,7 @@ final class ApplyTradeToPosition
             DecreasedHolding::class => $this->updatePosition($position),
             IncreasedHolding::class => $this->updatePosition($position),
             NewPositionCreated::class => $this->position_repository->insert($position),
+            default => null,
         };
     }
 
@@ -85,6 +86,7 @@ final class ApplyTradeToPosition
         match(get_class($outcome)) {
             NoRealizedGain::class => null,
             NewRealizedGainCreated::class => $this->realized_gain_repository->insert($outcome->getRealizedGainBasis()),
+            default => null,
         };
     }
 }

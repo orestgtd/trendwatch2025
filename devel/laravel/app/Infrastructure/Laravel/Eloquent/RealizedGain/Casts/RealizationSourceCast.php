@@ -12,6 +12,10 @@ use App\Domain\RealizedGain\{
     ValueObjects\RealizationSourceType,
 };
 
+use App\Foundation\{
+    Date,
+};
+
 use Illuminate\{
     Contracts\Database\Eloquent\CastsAttributes,
     Database\Eloquent\Model,
@@ -39,7 +43,7 @@ final class RealizationSourceCast implements CastsAttributes
         $typeKey   = $key . '_type';
         $referenceKey = $key . '_reference';
 
-        $type  = $attributes[$typeKey]  ?? null;
+        $type  = $attributes[$typeKey] ?? null;
         $reference = $attributes[$referenceKey] ?? null;
 
 
@@ -55,10 +59,8 @@ final class RealizationSourceCast implements CastsAttributes
 
             RealizationSourceType::EXPIRATION =>
                 RealizationSource::expiration(
-                    ExpirationDate::tryFrom($reference)
-                    ->match(
-                        fn (ExpirationDate $expirationDate) => $expirationDate,
-                        fn (string $error) => throw new \LogicException($error)
+                    ExpirationDate::from(
+                        Date::fromString($reference)
                     )
                 ),
 
@@ -70,7 +72,7 @@ final class RealizationSourceCast implements CastsAttributes
     /**
      * @param  Model  $model
      * @param  string $key
-     * @param  RealizationSource $value
+     * @param  mixed $value
      * @param  array<string, mixed> $attributes
      * @return array<string, mixed>
      */

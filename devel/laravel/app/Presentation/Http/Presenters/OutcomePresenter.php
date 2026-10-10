@@ -16,6 +16,7 @@ final class OutcomePresenter
         return match($kind) {
             OutcomeKind::CONFIRMATION => ConfirmationPresenter::toArray($outcome),
             OutcomeKind::SECURITY => SecurityPresenter::toArray($outcome),
+            default => [],
         };
     }
 
