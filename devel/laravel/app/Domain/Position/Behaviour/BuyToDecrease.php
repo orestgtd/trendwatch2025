@@ -21,7 +21,7 @@ final class BuyToDecrease
     public function do (Confirmation $confirmation, Position $position): Result
     {
         return $position->matchPositionType(
-            onShort: fn () => $this->buyToDecreaseShortPosition($confirmation, $position),
+            onShort: fn (ShortPosition $short) => $this->buyToDecreaseShortPosition($confirmation, $short),
             onLong: fn () => $this->buyToDecreaseLongPosition($confirmation)
         );
     }

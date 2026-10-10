@@ -2,20 +2,20 @@
 
 namespace App\Presentation\Http\Presenters;
 
-use App\Domain\Outcome\Outcome;
-use App\Domain\Outcome\OutcomeKind;
-
+use App\Domain\{
+    Confirmation\Outcome\ConfirmationOutcome,
+    Outcome\Outcome,
+    Security\Outcome\SecurityOutcome
+};
 use Illuminate\Http\JsonResponse;
 
 final class OutcomePresenter
 {
     public static function toArray(Outcome $outcome): array
     {
-        $kind = $outcome->kind();
-
-        return match($kind) {
-            OutcomeKind::CONFIRMATION => ConfirmationPresenter::toArray($outcome),
-            OutcomeKind::SECURITY => SecurityPresenter::toArray($outcome),
+        return match(true) {
+            $outcome instanceof ConfirmationOutcome => ConfirmationPresenter::toArray($outcome),
+            $outcome instanceof SecurityOutcome => SecurityPresenter::toArray($outcome),
             default => [],
         };
     }

@@ -11,7 +11,7 @@ use App\Domain\{
     Security\Model\Security,
     Security\Record\SecurityRecord,
     Security\ValueObjects\Description,
-    Security\ValueObjects\Variations\Variations,
+    Security\ValueObjects\Variations\VariationsInterface,
 };
 
 use App\Infrastructure\Laravel\Eloquent\Security\{
@@ -43,7 +43,7 @@ class EloquentSecurityRepository implements SecurityRepositoryContract
             ->save();
     }
 
-    public function updateVariations(SecurityNumber $securityNumber, Variations $variations): void
+    public function updateVariations(SecurityNumber $securityNumber, VariationsInterface $variations): void
     {
         EloquentSecurity::where('security_number', (string) $securityNumber)->first()
             ->update(['variations' => $variations]);

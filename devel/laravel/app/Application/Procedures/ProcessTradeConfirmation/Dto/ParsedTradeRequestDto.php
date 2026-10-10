@@ -59,7 +59,7 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
             'transaction_date' => TransactionDate::tryFrom($validatedDto->transactionDate),
             'trade_action'     => TradeAction::tryFrom($validatedDto->tradeAction),
             'position_effect'  => PositionEffect::tryFrom($validatedDto->positionEffect),
-            'trade_quantity'   => TradeQuantity::tryFrom($validatedDto->tradeQuantity),
+            'trade_quantity'   => self::parseTradeQuantity($validatedDto->tradeQuantity),
             'trade_unit_type'  => UnitType::tryFrom($validatedDto->tradeUnitType),
             'unit_price'       => UnitPrice::tryFrom($validatedDto->unitPrice, Currency::default()),
             'commission'       => Commission::tryFromOrZero($validatedDto->commission, Currency::default()),
@@ -86,5 +86,24 @@ final class ParsedTradeRequestDto extends AbstractParsedRequestDto
                 $values['us_tax'],
             )
         );
+    }
+
+    /** @return Result<TradeQuantity> */
+    private static function parseTradeQuantity(string $value): Result
+    {
+        return self::parseInteger($value)->match(
+            onSuccess: fn (int $quantity) => Result::success(TradeQuantity::fromInt($quantity)),
+            onFailure: fn (string $error) => Result::failure($error)
+        );
+    }
+
+    /** @return Result<int> */
+    private static function parseInteger(string $value): Result
+    {
+        $integer = filter_var($value, FILTER_VALIDATE_INT);
+
+        return $integer === false
+            ? Result::failure("Invalid integer value: {$value}")
+            : Result::success($integer);
     }
 }

@@ -44,15 +44,20 @@ final class PositionType extends AbstractStringValueObject
 
     /**
      * @template T
-     * @param callable():T $onLong
-     * @param callable():T $onShort
+     * @template TLongArgs
+     * @template TShortArgs
+     *
+     * @param callable(TLongArgs):T $onLong
+     * @param callable(TShortArgs):T $onShort
+     * @param mixed ...$args
+     *
      * @return T
      */
-    public function delegate(callable $onLong, callable $onShort)
+    public function delegate(callable $onLong, callable $onShort, ...$args)
     {
         return match ($this->value()) {
-            self::LONG => $onLong(),
-            self::SHORT => $onShort(),
+            self::LONG => $onLong(...$args),
+            self::SHORT => $onShort(...$args),
             default => throw new \LogicException("Unhandled PositionType: {$this->value()}"),
         };
     }
