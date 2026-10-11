@@ -5,7 +5,6 @@ namespace App\Domain\Expiration\Outcome;
 use App\Domain\{
     Outcome\AbstractOutcome,
     Outcome\OutcomeKind,
-    Outcome\Persistence\PersistenceIntent,
     Position\Model\Position,
     Position\ValueObjects\PositionQuantity,
     RealizedGain\Outcome\RealizedGainOutcome,
@@ -21,10 +20,8 @@ implements ExpirationOutcome
 
     protected function __construct(
         Position $position,
-        PersistenceIntent $persistenceIntent,
     ) {
         $this->position = $position;
-        parent::__construct($persistenceIntent);
     }
 
     public function kind(): OutcomeKind

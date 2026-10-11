@@ -3,7 +3,6 @@
 namespace App\Domain\Position\Outcome;
  
 use App\Domain\{
-    Outcome\Persistence\PersistenceIntent,
     Position\Model\Position,
     Position\Outcome\AbstractPositionOutcome,
 };
@@ -15,7 +14,6 @@ final class IncreasedHolding extends AbstractPositionOutcome
     ) {
         parent::__construct(
             $position,
-            PersistenceIntent::update(['position_quantity', 'total_cost'])
         );
     }
 }

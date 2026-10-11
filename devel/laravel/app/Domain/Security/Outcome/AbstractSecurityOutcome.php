@@ -5,7 +5,6 @@ namespace App\Domain\Security\Outcome;
 use App\Domain\{
     Outcome\AbstractOutcome,
     Outcome\OutcomeKind,
-    Outcome\Persistence\PersistenceIntent,
     Security\Model\Security,
 };
 
@@ -17,10 +16,8 @@ implements SecurityOutcome
 
     protected function __construct(
         Security $security,
-        PersistenceIntent $persistenceIntent,
     ) {
         $this->security = $security;
-        parent::__construct($persistenceIntent);
     }
 
     public function kind(): OutcomeKind

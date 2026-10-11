@@ -2,10 +2,6 @@
  
 namespace App\Domain\Position\Outcome;
  
-use App\Domain\Outcome\{
-    Persistence\PersistenceIntent,
-};
- 
 use App\Domain\Position\{
     Model\Position,
     Outcome\AbstractPositionOutcome,
@@ -18,7 +14,6 @@ final class NewPositionCreated extends AbstractPositionOutcome
     ) {
         parent::__construct(
             $position,
-            PersistenceIntent::insertAll()
         );
     }
 }

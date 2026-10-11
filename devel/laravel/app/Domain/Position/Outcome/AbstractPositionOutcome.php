@@ -5,7 +5,6 @@ namespace App\Domain\Position\Outcome;
 use App\Domain\{
     Outcome\AbstractOutcome,
     Outcome\OutcomeKind,
-    Outcome\Persistence\PersistenceIntent,
     Position\Model\Position,
     RealizedGain\Model\MaybeRealizedGainBasis,
     RealizedGain\Outcome\RealizedGainOutcome,
@@ -20,11 +19,9 @@ implements PositionOutcome
 
     protected function __construct(
         Position $position,
-        PersistenceIntent $persistenceIntent,
     ) {
         $this->position = $position;
         $this->maybeRealizedGainBasis = MaybeRealizedGainBasis::create();
-        parent::__construct($persistenceIntent);
     }
 
     public function kind(): OutcomeKind

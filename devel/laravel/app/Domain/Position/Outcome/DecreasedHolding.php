@@ -2,10 +2,6 @@
  
 namespace App\Domain\Position\Outcome;
 
-use App\Domain\Outcome\{
-    Persistence\PersistenceIntent,
-};
- 
 use App\Domain\Position\{
     Model\Position,
     Outcome\AbstractPositionOutcome,
@@ -26,7 +22,6 @@ final class DecreasedHolding extends AbstractPositionOutcome
     ) {
         parent::__construct(
             $position,
-            PersistenceIntent::update(['position_quantity', 'total_cost']),
         );
 
         $this->maybeRealizedGainBasis = MaybeRealizedGainBasis::create($realizedGainBasis);

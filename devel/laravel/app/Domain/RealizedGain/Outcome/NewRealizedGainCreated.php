@@ -2,15 +2,9 @@
 
 namespace App\Domain\RealizedGain\Outcome;
 
-use App\Domain\Kernel\Identifiers\{
-    TradeNumber,
-};
-
 use App\Domain\RealizedGain\{
     ValueObjects\RealizationSource,
 };
-
-use App\Domain\Outcome\Persistence\PersistenceIntent;
 
 use App\Domain\RealizedGain\{
     Model\RealizedGainBasis,
@@ -21,10 +15,7 @@ final class NewRealizedGainCreated extends AbstractRealizedGainOutcome
 {
     private function __construct(
         private readonly RealizedGainBasis $realizedGainBasis
-    )
-    {
-        parent::__construct(PersistenceIntent::insertAll());
-    }
+    ) {}
 
     public static function create(
         RealizedGainBasis $realizedGainBasis,

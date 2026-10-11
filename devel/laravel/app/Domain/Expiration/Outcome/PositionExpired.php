@@ -3,7 +3,6 @@
 namespace App\Domain\Expiration\Outcome;
 
 use App\Domain\{
-    Outcome\Persistence\PersistenceIntent,
     Position\Model\Position,
     RealizedGain\Model\RealizedGainBasis,
     RealizedGain\Outcome\NewRealizedGainCreated,
@@ -17,7 +16,6 @@ final class PositionExpired extends AbstractExpirationOutcome
     ) {
         parent::__construct(
             $position,
-            PersistenceIntent::update(['position_quantity'])
         );
     }
 
