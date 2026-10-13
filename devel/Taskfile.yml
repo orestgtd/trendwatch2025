@@ -18,6 +18,11 @@ tasks:
     cmds:
       - '{{.docker_cmd}} build'
 
+  build:php:
+    desc: "Build php container"
+    cmds:
+      - '{{.docker_cmd}} build php'
+
   build:python:
     desc: "Build Python container"
     cmds:
