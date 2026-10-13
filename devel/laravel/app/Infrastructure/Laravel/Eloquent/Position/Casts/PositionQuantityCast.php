@@ -6,6 +6,7 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
 use App\Domain\Position\ValueObjects\PositionQuantity;
 
+/** @implements CastsAttributes<PositionQuantity, string> */
 final class PositionQuantityCast implements CastsAttributes
 {
     public function get($model, string $key, $value, array $attributes): PositionQuantity
@@ -15,9 +16,6 @@ final class PositionQuantityCast implements CastsAttributes
 
     public function set($model, string $key, $value, array $attributes): string
     {
-        return match (true) {
-            ($value instanceof PositionQuantity) => (string) $value,
-            default => $value,
-        };
+        return (string) $value;
     }
 }

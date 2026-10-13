@@ -19,7 +19,7 @@ abstract class AbstractValidatedDto
     /**
      * Build a concrete DTO instance from sanitized/validated values.
      *
-     * @param array $allValues
+     * @param mixed[] $allValues
      * @return self
      */
     abstract protected static function build(array $allValues): self;

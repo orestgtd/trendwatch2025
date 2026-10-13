@@ -10,6 +10,7 @@ use App\Foundation\Result;
 
 final class TradeQuantity extends AbstractIntValueObject
 {
+    /** @return Result<self> */
     public static function tryFrom(int $value): Result
     {
         return $value > 0

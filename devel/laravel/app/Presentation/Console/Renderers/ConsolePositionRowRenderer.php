@@ -13,6 +13,7 @@ final class ConsolePositionRowRenderer
         private readonly MoneyFormatter $moneyFormatter
     ) {}
 
+    /** @return array<string|int> */
     public function render(PositionRowViewModel $vm): array
     {
         return [

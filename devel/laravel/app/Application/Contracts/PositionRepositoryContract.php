@@ -21,7 +21,12 @@ interface PositionRepositoryContract
     public function updateQuantity(SecurityNumber $securityNumber, PositionQuantity $quantity): void;
 
     // Queries
+
+    /** @return mixed[] */
     public function active(): array;
+
+    /** @return mixed[] */
     public function expiredAsOf(Date $asOf): array;
+
     public function findBySecurityNumber(SecurityNumber $securityNumber): ?PositionRecord;
 }

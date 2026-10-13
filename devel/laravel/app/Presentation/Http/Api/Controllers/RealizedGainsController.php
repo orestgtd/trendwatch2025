@@ -10,6 +10,10 @@ use App\Application\{
     Reports\GetRealizedGains,
 };
 
+use App\Domain\{
+    RealizedGain\Record\RealizedGainBasisRecord,
+};
+
 use App\Foundation\Result;
 
 class RealizedGainsController
@@ -31,7 +35,7 @@ class RealizedGainsController
         );
     }
 
-    /** @return Result<array> */
+    /** @return Result<RealizedGainBasisRecord[]> */
     private function handleRealizedGains(): Result
     {
         return $this->getRealizedGains->handle();

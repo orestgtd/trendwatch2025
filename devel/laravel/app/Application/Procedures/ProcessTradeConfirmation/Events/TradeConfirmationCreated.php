@@ -28,6 +28,7 @@ final class TradeConfirmationCreated implements DomainEvent
         return 'TradeConfirmationCreated';
     }
 
+    /** @return array<string, string> */
     public function payload(): array
     {
         return [

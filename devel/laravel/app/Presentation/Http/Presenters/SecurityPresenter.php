@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 
 final class SecurityPresenter
 {
+    /** @return string[] */
     public static function toArray(SecurityOutcome $outcome): array
     {
         $security = $outcome->getSecurity();

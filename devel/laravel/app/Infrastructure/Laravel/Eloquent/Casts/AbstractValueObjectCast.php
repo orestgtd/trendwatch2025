@@ -4,6 +4,7 @@ namespace App\Infrastructure\Laravel\Eloquent\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
+/** @implements CastsAttributes<object, mixed> */
 abstract class AbstractValueObjectCast implements CastsAttributes
 {
     /**

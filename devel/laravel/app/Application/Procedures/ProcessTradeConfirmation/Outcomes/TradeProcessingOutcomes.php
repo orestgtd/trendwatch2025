@@ -34,6 +34,7 @@ final class TradeProcessingOutcomes
         return $this->positionOutcome;
     }
 
+    /** @return array<string, mixed> */
     public function toArray(): array
     {
         return [

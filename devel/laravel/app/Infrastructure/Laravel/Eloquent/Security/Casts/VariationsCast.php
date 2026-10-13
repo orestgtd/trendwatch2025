@@ -13,6 +13,7 @@ use App\Domain\Security\ValueObjects\Variations\{
 
 // TODO: add test coverage for variations deserialization from persisted JSON
 
+/** @implements CastsAttributes<VariationsInterface, string> */
 final class VariationsCast implements CastsAttributes
 {
     public function get($model, string $key, $value, array $attributes): VariationsInterface
@@ -20,12 +21,13 @@ final class VariationsCast implements CastsAttributes
         return $this->decode($value);
     }
 
+    /**
+     * @param VariationsInterface|string|null $value
+     * @return array<string, string|null>
+     */
     public function set($model, string $key, $value, array $attributes): array
     {
-        return match (true) {
-            ($value instanceof VariationsInterface) => $this->encode($key, $value),
-            default => dd($value),
-        };
+        return $this->encode($key, $value);
     }
 
     private function decode(?string $value): VariationsInterface
@@ -41,6 +43,7 @@ final class VariationsCast implements CastsAttributes
             : NoVariations::create();
     }
 
+    /** @return array<string, string|null> */
     private function encode(string $key, VariationsInterface $variations): array
     {
         return match (true) {

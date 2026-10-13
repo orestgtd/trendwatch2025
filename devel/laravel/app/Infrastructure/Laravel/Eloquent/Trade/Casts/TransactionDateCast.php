@@ -8,6 +8,7 @@ use App\Domain\{
     Kernel\Values\TransactionDate,
 };
 
+/** @implements CastsAttributes<TransactionDate, string> */
 final class TransactionDateCast implements CastsAttributes
 {
     public function get($model, string $key, $value, array $attributes): TransactionDate
@@ -21,10 +22,8 @@ final class TransactionDateCast implements CastsAttributes
 
     public function set($model, string $key, $value, array $attributes): ?string
     {
-        return match (true) {
-            is_null($value) => null,
-            ($value instanceof TransactionDate) => (string) $value,
-            default => $value,
-        };
+        return is_null($value)
+            ? null
+            : (string) $value;
     }
 }

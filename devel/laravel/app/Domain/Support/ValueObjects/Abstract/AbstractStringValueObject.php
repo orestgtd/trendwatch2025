@@ -16,6 +16,7 @@ abstract class AbstractStringValueObject extends AbstractValueObject
         return new static($value);
     }
 
+    /** @return Result<static> */
     protected static function tryKind(string $kind, string $value): Result
     {
         $trimmed = trim($value);
@@ -25,5 +26,6 @@ abstract class AbstractStringValueObject extends AbstractValueObject
             : Result::success(new static($trimmed));
     }
 
+    /** @return Result<static> */
     abstract public static function tryFrom(string $value): Result;
 }

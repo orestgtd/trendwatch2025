@@ -10,6 +10,11 @@ use App\Foundation\Result;
 
 final class TradeParser
 {
+    /**
+     * @param string[] $input
+     *
+     * @return Result<ParsedTradeRequestDto>
+     */
     public function parse(array $input): Result
     {
         return ValidatedTradeDto::fromArray($input)

@@ -8,6 +8,7 @@ use App\Domain\Kernel\Identifiers\{
     SecurityNumber,
 };
 
+/** @implements CastsAttributes<SecurityNumber, string> */
 final class SecurityNumberCast implements CastsAttributes
 {
     public function get($model, string $key, $value, array $attributes): SecurityNumber
@@ -17,9 +18,6 @@ final class SecurityNumberCast implements CastsAttributes
 
     public function set($model, string $key, $value, array $attributes): string
     {
-        return match (true) {
-            ($value instanceof SecurityNumber) => (string) $value,
-            default => $value,
-        };
+        return (string) $value;
     }
 }

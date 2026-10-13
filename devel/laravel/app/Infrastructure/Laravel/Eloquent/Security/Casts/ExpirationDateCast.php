@@ -6,9 +6,9 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
 use App\Domain\{
     Kernel\Values\ExpirationDate,
-    Security\Expiration\ExpirationRule,
 };
 
+/** @implements CastsAttributes<ExpirationDate, string> */
 final class ExpirationDateCast implements CastsAttributes
 {
     public function get($model, string $key, $value, array $attributes): ?ExpirationDate
@@ -26,11 +26,8 @@ final class ExpirationDateCast implements CastsAttributes
 
     public function set($model, string $key, $value, array $attributes): ?string
     {
-        return match (true) {
-            is_null($value) => null,
-            ($value instanceof ExpirationDate) => (string) $value,
-            ($value instanceof ExpirationRule) => (string) $value,
-            default => $value,
-        };
+        return is_null($value)
+            ? null
+            : (string) $value;
     }
 }

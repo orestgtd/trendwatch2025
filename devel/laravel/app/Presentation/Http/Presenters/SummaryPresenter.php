@@ -16,6 +16,7 @@ use App\Presentation\Http\Presenters\{
 
 final class SummaryPresenter
 {
+    /** @return array<string[]> */
     public function toArray(
         ConfirmationOutcome $confirmationOutcome,
         SecurityOutcome $securityOutcome,

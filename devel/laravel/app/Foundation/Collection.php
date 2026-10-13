@@ -41,6 +41,11 @@ class Collection
         return new self(new LaravelCollection($items));
     }
 
+    /**
+     * @param mixed[] $arguments
+     *
+     * @return mixed
+     */
     public function __call(string $method, array $arguments)
     {
         $returnValue = $this->collection->$method(...$arguments);

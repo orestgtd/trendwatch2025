@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 
 final class OutcomePresenter
 {
+    /** @return string[] */
     public static function toArray(Outcome $outcome): array
     {
         return match(true) {

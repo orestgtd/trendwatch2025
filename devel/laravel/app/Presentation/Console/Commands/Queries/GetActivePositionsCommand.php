@@ -6,6 +6,10 @@ use App\Application\{
     Reports\GetActivePositions,
 };
 
+use App\Domain\{
+    Position\Model\Position,
+};
+
 use App\Presentation\{
     Presenters\PositionPresenter,
     Console\Renderers\ConsolePositionRowRenderer,
@@ -53,6 +57,7 @@ class GetActivePositionsCommand extends Command
             );
     }
 
+    /** @param Position[] $positions */
     private function onSuccess(array $positions): int
     {
         if (empty($positions)) {

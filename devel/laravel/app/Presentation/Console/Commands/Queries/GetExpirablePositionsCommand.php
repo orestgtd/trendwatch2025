@@ -6,7 +6,9 @@ use App\Application\{
     Reports\GetExpirablePositions,
 };
 
-use App\Domain\Position\Model\Position;
+use App\Domain\{
+    Position\Model\Position,
+};
 
 use App\Presentation\{
     Presenters\PositionPresenter,
@@ -60,6 +62,7 @@ class GetExpirablePositionsCommand extends Command
             );
     }
 
+    /** @param Position[] $positions */
     private function onSuccess(array $positions): int
     {
         if (empty($positions)) {

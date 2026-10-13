@@ -8,6 +8,7 @@ use App\Domain\Kernel\Identifiers\{
     TradeNumber,
 };
 
+/** @implements CastsAttributes<TradeNumber, string> */
 final class TradeNumberCast implements CastsAttributes
 {
     public function get($model, string $key, $value, array $attributes): TradeNumber
@@ -17,9 +18,6 @@ final class TradeNumberCast implements CastsAttributes
 
     public function set($model, string $key, $value, array $attributes): string
     {
-        return match (true) {
-            ($value instanceof TradeNumber) => (string) $value,
-            default => $value,
-        };
+        return (string) $value;
     }
 }

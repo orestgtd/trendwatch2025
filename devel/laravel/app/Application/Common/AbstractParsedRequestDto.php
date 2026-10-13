@@ -22,7 +22,7 @@ abstract class AbstractParsedRequestDto
 {
     /**
      * @param Collection<string, Result<mixed>> $collection
-     * @return Result<array>
+     * @return Result<mixed[]>
      */
     protected static function processCollection(Collection $collection): Result
     {
@@ -34,9 +34,9 @@ abstract class AbstractParsedRequestDto
     }
 
     /**
-     * @param $resSanitized Result<array>
-     * @param $resValueObject Result<mixed>
-     * @return Result<array>
+     * @param Result<mixed[]> $resSanitized
+     * @param Result<mixed> $resValueObject
+     * @return Result<mixed[]>
      */
     private static function mergeParsedValues(Result $resSanitized, Result $resValueObject, string $key): Result
     {
@@ -47,8 +47,8 @@ abstract class AbstractParsedRequestDto
     }
 
     /**
-     * @param $resSanitized Result<array>
-     * @return Result<array>
+     * @param Result<mixed[]> $resSanitized
+     * @return Result<mixed[]>
      */
     private static function insertParsedValue(Result $resSanitized, mixed $valueObject, string $key): Result
     {
@@ -57,6 +57,10 @@ abstract class AbstractParsedRequestDto
         );
     }
 
+    /**
+     * @param mixed[] $a
+     * @return mixed[]
+     */
     private static function push(array $a, mixed $valueObject, string $key): array
     {
         $a[$key] = $valueObject;

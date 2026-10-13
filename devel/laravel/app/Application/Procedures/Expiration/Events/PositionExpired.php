@@ -28,6 +28,7 @@ final class PositionExpired implements DomainEvent
         return 'PositionExpired';
     }
 
+    /** @return mixed[] */
     public function payload(): array
     {
         // determine the minimum historical data needed to reconstruct

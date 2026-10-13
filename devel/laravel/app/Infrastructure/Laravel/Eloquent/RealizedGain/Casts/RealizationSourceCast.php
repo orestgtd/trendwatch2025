@@ -21,6 +21,7 @@ use Illuminate\{
     Database\Eloquent\Model,
 };
 
+/** @implements CastsAttributes<RealizationSource, string> */
 final class RealizationSourceCast implements CastsAttributes
 {
     /**

@@ -6,6 +6,10 @@ use App\Application\{
     Reports\GetRealizedGains,
 };
 
+use App\Domain\{
+    RealizedGain\Record\RealizedGainBasisRecord,
+};
+
 use App\Presentation\{
     Console\Commands\Presenters\RealizedGainPresenter,
     Console\Renderers\ConsoleRealizedGainRowRenderer,
@@ -54,6 +58,7 @@ class GetRealizedGainsCommand extends Command
             );
     }
 
+    /** @param RealizedGainBasisRecord[] $realizedGains */
     private function onSuccess(array $realizedGains): int
     {
         if (empty($realizedGains)) {

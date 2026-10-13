@@ -6,8 +6,10 @@ use App\Domain\Security\ValueObjects\Description;
 
 final class Variations implements VariationsInterface
 {
+    /** @var Description[] $variations */
     private array $variations;
 
+    /** @param Description[] $variations */
     private function __construct(array $variations)
     {
         $this->variations = $variations;
@@ -25,6 +27,8 @@ final class Variations implements VariationsInterface
     /**
      * Build a Variations object from an array of description strings.
      * Returns NoVariations if the array is empty.
+     *
+     * @param string[] $strings
      */
     public static function fromStrings(array $strings): VariationsInterface
     {
@@ -49,6 +53,7 @@ final class Variations implements VariationsInterface
         );
     }
 
+    /** @return Description[] */
     public function all(): array
     {
         return $this->variations;

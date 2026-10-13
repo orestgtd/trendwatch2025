@@ -13,6 +13,7 @@ final class TradeAction extends AbstractStringValueObject
     public const BUY = 'BUY';
     public const SELL = 'SELL';
 
+    /** @return Result<self> */
     public static function tryFrom(string $value): Result
     {
         $allowed = [self::BUY, self::SELL];

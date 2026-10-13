@@ -6,6 +6,7 @@ use App\Foundation\Result;
 
 abstract class AbstractIntValueObject extends AbstractValueObject
 {
+    /** @return Result<static> */
     abstract public static function tryFrom(int $value): Result;
 
     final protected function __construct(int $value)

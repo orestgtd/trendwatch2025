@@ -11,7 +11,7 @@ final class EventManager
         private readonly EventPersistenceContract $eventPersistence,
     ) {}
 
-    public function record(DomainEvent $event)
+    public function record(DomainEvent $event): void
     {
         $this->eventPersistence->insert($event);
         event($event);

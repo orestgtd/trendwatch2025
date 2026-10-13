@@ -12,6 +12,7 @@ use App\Foundation\Result;
 
 final class PositionQuantity extends AbstractIntValueObject
 {
+    /** @return Result<self> */
     public static function tryFrom(int $value): Result
     {
         return $value >= 0

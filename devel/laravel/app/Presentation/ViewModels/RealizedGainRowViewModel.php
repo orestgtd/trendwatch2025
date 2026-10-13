@@ -21,6 +21,7 @@ final class RealizedGainRowViewModel
     ) {
     }
 
+    /** @return string[] */
     public static function headers(): array
     {
         return [

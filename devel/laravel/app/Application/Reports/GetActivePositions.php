@@ -6,6 +6,10 @@ use App\Application\{
     Reports\Queries\GetActivePositionsQuery,
 };
 
+use App\Domain\{
+    Position\Model\Position,
+};
+
 use App\Foundation\Result;
 
 final class GetActivePositions
@@ -14,7 +18,7 @@ final class GetActivePositions
         private readonly GetActivePositionsQuery $query
     ) {}
 
-    /** @return Result<array> */
+    /** @return Result<Position[]> */
     public function handle(): Result
     {
         return Result::success(

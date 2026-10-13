@@ -11,6 +11,10 @@ use App\Foundation\Result;
 
 final class SecurityParser
 {
+    /**
+     * @param string[] $input
+     * @return Result<ParsedSecurityRequestDto>
+     */
     public function parse(array $input): Result
     {
         return ValidatedSecurityDto::fromArray($input)

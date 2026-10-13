@@ -13,6 +13,7 @@ final class PositionEffect extends AbstractStringValueObject
     public const OPEN = 'OPEN';
     public const CLOSE = 'CLOSE';
 
+    /** @return Result<self> */
     public static function tryFrom(string $value): Result
     {
         $allowed = [self::OPEN, self::CLOSE];

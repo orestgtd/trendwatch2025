@@ -6,6 +6,7 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
 use App\Domain\Position\ValueObjects\BaseQuantity;
 
+/** @implements CastsAttributes<BaseQuantity, string> */
 final class BaseQuantityCast implements CastsAttributes
 {
     public function get($model, string $key, $value, array $attributes): BaseQuantity
@@ -15,9 +16,6 @@ final class BaseQuantityCast implements CastsAttributes
 
     public function set($model, string $key, $value, array $attributes): string
     {
-        return match (true) {
-            ($value instanceof BaseQuantity) => (string) $value,
-            default => $value,
-        };
+        return (string) $value;
     }
 }

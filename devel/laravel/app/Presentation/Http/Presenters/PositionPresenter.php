@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 
 final class PositionPresenter
 {
+    /** @return string[] */
     public static function toArray(PositionOutcome $outcome): array
     {
         $position = $outcome->getPosition();

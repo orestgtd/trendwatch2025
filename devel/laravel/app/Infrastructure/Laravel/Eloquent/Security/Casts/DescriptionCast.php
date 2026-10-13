@@ -6,6 +6,7 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
 use App\Domain\Security\ValueObjects\Description;
 
+/** @implements CastsAttributes<Description, string> */
 final class DescriptionCast implements CastsAttributes
 {
     public function get($model, string $key, $value, array $attributes): Description
@@ -15,9 +16,6 @@ final class DescriptionCast implements CastsAttributes
 
     public function set($model, string $key, $value, array $attributes): string
     {
-        return match (true) {
-            ($value instanceof Description) => (string) $value,
-            default => $value,
-        };
+        return (string) $value;
     }
 }

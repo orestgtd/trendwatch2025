@@ -20,12 +20,13 @@ class Result
         private ?string $error = null
     ) {}
 
-
+    /** @return Result<T> */
     public static function success(mixed $value = null): self
     {
         return new self(true, $value);
     }
 
+    /** @return Result<T> */
     public static function failure(string $error): self
     {
         return new self(false, null, $error);

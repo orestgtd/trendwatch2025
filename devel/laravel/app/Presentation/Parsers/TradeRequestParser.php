@@ -20,9 +20,10 @@ final class TradeRequestParser
     /**
      * Parse a normalized trade request into parsed trade data.
      *
+     * @param string[] $request
+     *
      * @return Result<ParsedTradeData>
      */
-
     public function parse(array $request): Result
     {
         // Parse trade

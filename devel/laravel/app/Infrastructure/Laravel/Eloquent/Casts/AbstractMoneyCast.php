@@ -9,6 +9,7 @@ use App\Domain\Kernel\Money\{
     MoneyAmount,
 };
 
+/** @implements CastsAttributes<?Monetary, array<string, mixed>> */
 abstract class AbstractMoneyCast implements CastsAttributes
 {
     /**
@@ -35,6 +36,7 @@ abstract class AbstractMoneyCast implements CastsAttributes
         );
     }
 
+    /** @return array<string, mixed> */
     public function set($model, string $key, $value, array $attributes): array
     {
 

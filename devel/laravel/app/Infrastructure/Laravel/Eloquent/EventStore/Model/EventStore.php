@@ -33,6 +33,7 @@ class EventStore extends Model
         'external_id',
     ];
 
+    /** @return Attribute<SecurityInfo, never> */
     protected function securityInfo(): Attribute
     {
         $makeAttribute = function(array $attributes): SecurityInfo

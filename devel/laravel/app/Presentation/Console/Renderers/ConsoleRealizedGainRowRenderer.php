@@ -13,6 +13,7 @@ final class ConsoleRealizedGainRowRenderer
         private readonly MoneyFormatter $moneyFormatter
     ) {}
 
+    /** @return array<string|int> */
     public function render(RealizedGainRowViewModel $vm): array
     {
         return [
