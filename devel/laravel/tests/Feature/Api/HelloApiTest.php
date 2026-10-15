@@ -1,19 +1,9 @@
 <?php
 
-namespace Tests\Feature\Api;
+it('returns a hello message', function () {
+    $response = $this->get('/api/beta/hello');
 
-use Tests\TestCase;
-use PHPUnit\Framework\Attributes\Test;
-
-class HelloApiTest extends TestCase
-{
-    #[Test]
-    public function it_returns_a_hello_message()
-    {
-        $response = $this->get('/api/beta/hello');
-
-        $response
-            ->assertStatus(200)
-            ->assertJson(['message' => 'Hello from Laravel!']);
-    }
-}
+    $response
+        ->assertStatus(200)
+        ->assertJson(['message' => 'Hello from Laravel!']);
+});
