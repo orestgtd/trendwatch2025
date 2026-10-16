@@ -3,22 +3,19 @@
 namespace Tests\Feature\Integration\Console;
 
 use Mockery;
-use PHPUnit\Framework\Attributes\Test;
 
-use App\Foundation\Date;
-
-use App\Application\Procedures\{
-    Expiration\ExpirePositions,
-    Expiration\ExpirePositionsResult,
+use App\Application\{
+    Procedures\Expiration\ExpirePositions,
+    Procedures\Expiration\ExpirePositionsResult,
 };
 
-use Tests\TestCase;
+use App\Foundation\{
+    Date,
+};
 
-final class ExpirePositionsCommandTest extends TestCase
-{
-    #[Test]
-    public function it_invokes_the_use_case_with_the_supplied_as_of_date()
-    {
+it(
+    'invokes the use case with the supplied as of date',
+    function() {
         $useCase = Mockery::mock(ExpirePositions::class);
 
         $useCase
@@ -39,7 +36,7 @@ final class ExpirePositionsCommandTest extends TestCase
         $this->artisan('positions:expire', [
             '--as-of' => '2026-01-31',
         ])
-            ->expectsOutput('Expired 3 positions.')
-            ->assertSuccessful();
+        ->expectsOutput('Expired 3 positions.')
+        ->assertSuccessful();
     }
-}
+);
