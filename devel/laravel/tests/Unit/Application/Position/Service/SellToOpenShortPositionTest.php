@@ -2,16 +2,18 @@
 
 namespace Tests\Unit\Application\Position\Service;
 
-use PHPUnit\Framework\Attributes\Test;
 use Tests\{
     Support\Builders\ConfirmationBuilder,
     Support\Builders\PositionRecordBuilder,
-    Unit\Support\Helpers\MockObject,
-    Unit\Support\PositionTestCase,
 };
 
 use App\Application\Procedures\ProcessTradeConfirmation\{
     Services\PositionProcessor,
+};
+
+use App\Domain\Confirmation\{
+    ValueObjects\CostAmount,
+    ValueObjects\ProceedsAmount,
 };
 
 use App\Domain\Position\{
@@ -19,13 +21,8 @@ use App\Domain\Position\{
     Outcome\DecreasedHolding,
     Outcome\IncreasedHolding,
     Outcome\NewPositionCreated,
+    ValueObjects\PositionQuantity,
 };
-
-use App\Infrastructure\Laravel\Eloquent\{
-    Position\Repositories\EloquentPositionRepository as PositionRepository,
-};
-
-use App\Foundation\Result;
 
 /**
  * it_creates_a_new_short_position_when_open_effect()
@@ -33,163 +30,157 @@ use App\Foundation\Result;
  * it_updates_an_existing_short_position_when_close_effect()
  */
 
-class SellToOpenShortPositionTest extends PositionTestCase
-{
-    #[Test]
-    public function it_creates_a_new_short_position_when_open_effect()
-    {
-        // Given position not found in repository.
-        $this->givenPositionIsNotFoundInRepository();
+it('creates a new short position when open effect', function () {
 
-        // When we sell to open shares
+    // Given position not found in repository.
+    givenPositionIsNotFoundInRepository();
 
-        /** @var SecurityService $service */
-        $service = app(PositionProcessor::class);
+    // When we sell to open shares
 
-        $result = $service->computePositionOutcome(
-            ConfirmationBuilder::sellToOpenShares()
+    /** @var PositionProcessor $service */
+    $service = app(PositionProcessor::class);
+    $result = $service->computePositionOutcome(
+        ConfirmationBuilder::sellToOpenShares()
+        ->withQuantity(100)
+        ->withUnitPrice('25')
+        ->withCommission('5')
+        ->withUsTax('1')
+        ->build()
+    );
+    expect($result)->toBeSuccessfulResult();
+
+    // Then the outcome should be a newly created short position 
+
+    $outcome = $result->getValue();
+    expect($outcome)->toBeInstanceOf(NewPositionCreated::class);
+
+    $position = $outcome->getPosition();
+    expect($position)->toBeInstanceOf(ShortPosition::class);
+
+    // And the position quantity should have the correct value
+    expect($position->getPositionQuantity())->toBeQuantity(
+        PositionQuantity::class,
+        100,
+    );
+
+    // And the total proceeds should be correctly calculated
+    $totalProceeds = $position->getTotalProceeds();
+    expect($totalProceeds)->toBeMonetary(
+        ProceedsAmount::class,
+        '2494.00', 'USD',
+    );
+
+    // And the total cost should be zero
+    $totalCost = $position->getTotalCost();
+    expect($totalCost)->toBeMonetary(
+        CostAmount::class,
+        '0.00', 'USD',
+    );
+});
+
+it('updates an existing short position when open effect', function () {
+
+    // Given an existing position.
+    givenPositionFoundInRepository(
+        PositionRecordBuilder::YYZShort()
+            ->withQuantity(250)
+            ->withTotalProceeds('1000')
+            ->build()
+    );
+
+    // When we sell to open shares
+
+    /** @var PositionProcessor $service */
+    $service = app(PositionProcessor::class);
+    $result = $service->computePositionOutcome(
+        ConfirmationBuilder::sellToOpenShares()
+        ->withQuantity(50)
+        ->withUnitPrice('25')
+        ->withCommission('5')
+        ->withUsTax('1')
+        ->build()
+    );
+    expect($result)->toBeSuccessfulResult();
+
+    // Then the outcome should be an increased holding of a short position
+
+    $outcome = $result->getValue();
+    expect($outcome)->toBeInstanceOf(IncreasedHolding::class);
+
+    $position = $outcome->getPosition();
+    expect($position)->toBeInstanceOf(ShortPosition::class);
+
+    // And the position quantity should have the correct value
+    expect($position->getPositionQuantity())->toBeQuantity(
+        PositionQuantity::class,
+        300,
+    );
+
+    // And the total proceeds should be correctly calculated
+    $totalProceeds = $position->getTotalProceeds();
+    expect($totalProceeds)->toBeMonetary(
+        ProceedsAmount::class,
+        '2244.00', 'USD',
+    );
+
+    // And the total costs should still be zero
+    $totalCost = $position->getTotalCost();
+    expect($totalCost)->toBeMonetary(
+        CostAmount::class,
+        '0.00', 'USD',
+    );
+});
+
+it('updates an existing short position when close effect', function () {
+
+    // Given an existing position.
+    givenPositionFoundInRepository(
+        PositionRecordBuilder::YYZShort()
             ->withQuantity(100)
-            ->withUnitPrice('25')
-            ->withCommission('5')
-            ->withUsTax('1')
+            ->withTotalProceeds('1000.00')
             ->build()
-        );
+    );
 
-        // Then the outcome should be a newly created short position 
+    // When we buy to close shares
 
-        $this->assertInstanceOf(Result::class, $result);
-        $this->assertTrue($result->isSuccess());
-        $outcome = $result->getValue();
-        $this->assertInstanceOf(NewPositionCreated::class, $outcome);
+    /** @var PositionProcessor $service */
+    $service = app(PositionProcessor::class);
+    $result = $service->computePositionOutcome(
+        ConfirmationBuilder::buyToCloseShares()
+        ->withQuantity(25)
+        ->withUnitPrice('4')
+        ->withCommission('5')
+        ->withUsTax('1')
+        ->build()
+        // cost = 25 * 4 + 5 + 1 => 106
+    );
+    expect($result)->toBeSuccessfulResult();
 
-        /** @var ShortPosition $position */
-        $position = $outcome->getPosition();
-        $this->assertInstanceOf(ShortPosition::class, $position);
+    // Then the outcome should be a decreased holding of a short position
 
-        // And the position quantity should have the correct value
-        $this->assertEquals(100, $position->getPositionQuantity()->value());
+    $outcome = $result->getValue();
+    expect($outcome)->toBeInstanceOf(DecreasedHolding::class);
 
-        // And the total proceeds should be correctly calculated
-        $totalProceeds = $position->getTotalProceeds();
-        $this->assertAmount('2494.00', $totalProceeds->getAmount());
-        $this->assertCurrency('USD', $totalProceeds->getCurrency());
+    $position = $outcome->getPosition();
+    expect($position)->toBeInstanceOf(ShortPosition::class);
 
-        // And the total cost should be zero
-        $totalCost = $position->getTotalCost();
-        $this->assertAmount('0.00', $totalCost->getAmount());
-        $this->assertCurrency('USD', $totalCost->getCurrency());
-    }
+    // And the position quantity should have the correct value
+    expect($position->getPositionQuantity())->toBeQuantity(
+        PositionQuantity::class,
+        75,
+    );
 
-    #[Test]
-    public function it_updates_an_existing_short_position_when_open_effect()
-    {
-        // Given an existing position.
-        MockObject::mock(
-            PositionRepository::class,
-            'findBySecurityNumber',
-                PositionRecordBuilder::YYZShort()
-                    ->withQuantity(250)
-                    ->withTotalProceeds('1000')
-                    ->build()
-        );
+    // And the total cost should be calculated correctly
+    $totalCost = $position->getTotalCost();
+    expect($totalCost)->toBeMonetary(
+        CostAmount::class,
+        '106.00', 'USD',
+    );
 
-        // When we sell to open shares
-
-        /** @var PositionService $service */
-        $service = app(PositionProcessor::class);
-
-        $result = $service->computePositionOutcome(
-            ConfirmationBuilder::sellToOpenShares()
-            ->withQuantity(50)
-            ->withUnitPrice('25')
-            ->withCommission('5')
-            ->withUsTax('1')
-            ->build()
-        );
-
-        // Then the outcome should be an increased holding of a short position
-
-        $this->assertInstanceOf(Result::class, $result);
-        $this->assertTrue($result->isSuccess());
-        $outcome = $result->getValue();
-        $this->assertInstanceOf(IncreasedHolding::class, $outcome);
-
-        /** @var ShortPosition $position */
-        $position = $outcome->getPosition();
-        $this->assertInstanceOf(ShortPosition::class, $position);
-
-        // And the position quantity should have the correct value
-        $this->assertEquals(300, $position->getPositionQuantity()->value());
-
-        // And the total proceeds should be correctly calculated
-        $totalProceeds = $position->getTotalProceeds();
-        $this->assertAmount('2244.00', $totalProceeds->getAmount());
-        $this->assertCurrency('USD', $totalProceeds->getCurrency());
-
-        // And the total costs should still be zero
-        $totalCost = $position->getTotalCost();
-        $this->assertAmount('0.00', $totalCost->getAmount());
-        $this->assertCurrency('USD', $totalCost->getCurrency());
-    }
-
-    #[Test]
-    public function it_updates_an_existing_short_position_when_close_effect()
-    {
-        // Given an existing position.
-        MockObject::mock(
-            PositionRepository::class,
-            'findBySecurityNumber',
-                PositionRecordBuilder::YYZShort()
-                    ->withQuantity(100)
-                    ->withTotalProceeds('1000.00')
-                    ->build()
-        );
-
-        // When we buy to close shares
-
-        /** @var PositionService $service */
-        $service = app(PositionProcessor::class);
-
-        $result = $service->computePositionOutcome(
-            ConfirmationBuilder::buyToCloseShares()
-            ->withQuantity(25)
-            ->withUnitPrice('4')
-            ->withCommission('5')
-            ->withUsTax('1')
-            ->build()
-        );
-
-        // Then the outcome should be a decreased holding of a short position
-
-        $this->assertInstanceOf(Result::class, $result);
-        $this->assertTrue($result->isSuccess());
-        $outcome = $result->getValue();
-        $this->assertInstanceOf(DecreasedHolding::class, $outcome);
-
-        /** @var ShortPosition $position */
-        $position = $outcome->getPosition();
-        $this->assertInstanceOf(ShortPosition::class, $position);
-
-        // And the position quantity should have the correct value
-        $this->assertEquals(75, $position->getPositionQuantity()->value());
-
-        // And the total cost should be unchanged
-        // $totalCost = $position->getTotalCost();
-        // $this->assertAmount('1000.00', $totalCost->getAmount());
-        // $this->assertCurrency('USD', $totalCost->getCurrency());
-
-        // And the total proceeds should be calculated correctly
-        // $totalProceeds = $position->getTotalProceeds();
-        // $this->assertAmount('1494.00', $totalProceeds->getAmount());
-        // $this->assertCurrency('USD', $totalProceeds->getCurrency());
-    }
-
-    private function givenPositionIsNotFoundInRepository()
-    {
-        MockObject::mock(
-            PositionRepository::class,
-            'findBySecurityNumber',
-            null
-        );
-    }
-}
+    // And the total proceeds should be unchanged
+    $totalProceeds = $position->getTotalProceeds();
+    expect($totalProceeds)->toBeMonetary(
+        ProceedsAmount::class,
+        '1000.00', 'USD',
+    );
+});

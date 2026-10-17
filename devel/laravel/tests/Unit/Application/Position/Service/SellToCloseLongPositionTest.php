@@ -2,32 +2,26 @@
 
 namespace Tests\Unit\Application\Position\Service;
 
-use PHPUnit\Framework\Attributes\Test;
 use Tests\{
     Support\Builders\ConfirmationBuilder,
     Support\Builders\PositionRecordBuilder,
-    Unit\Support\Helpers\MockObject,
-    Unit\Support\PositionTestCase,
 };
 
 use App\Application\Procedures\ProcessTradeConfirmation\{
     Services\PositionProcessor,
 };
-
+use App\Domain\Confirmation\ValueObjects\CostAmount;
+use App\Domain\Confirmation\ValueObjects\ProceedsAmount;
+use App\Domain\Confirmation\ValueObjects\TradeQuantity;
 use App\Domain\Position\{
     Model\LongPosition,
     Outcome\DecreasedHolding,
 };
-
+use App\Domain\Position\ValueObjects\BaseQuantity;
+use App\Domain\Position\ValueObjects\PositionQuantity;
 use App\Domain\RealizedGain\{
     Outcome\NewRealizedGainCreated,
 };
-
-use App\Infrastructure\Laravel\Eloquent\{
-    Position\Repositories\EloquentPositionRepository as PositionRepository,
-};
-
-use App\Foundation\Result;
 
 /**
  * 
@@ -37,154 +31,155 @@ use App\Foundation\Result;
 */
 
 
-class SellToCloseLongPositionTest extends PositionTestCase
-{
-    #[Test]
-    public function it_updates_an_existing_long_position_when_close_effect()
-    {
-        // Given an existing position.
-        MockObject::mock(
-            PositionRepository::class,
-            'findBySecurityNumber',
-                PositionRecordBuilder::YYZ()
-                    ->withQuantity(100)
-                    ->withTotalCost('1000.00')
-                    ->build()
-        );
+it('updates an existing long position when close effect', function () {
 
-        // When we sell to close shares
-
-        /** @var PositionService $service */
-        $service = app(PositionProcessor::class);
-
-        $result = $service->computePositionOutcome(
-            ConfirmationBuilder::sellToCloseShares()
-            ->withQuantity(25)
-            ->withUnitPrice('60')
-            ->withCommission('5')
-            ->withUsTax('1')
+    // Given an existing position.
+    givenPositionFoundInRepository(
+        PositionRecordBuilder::YYZ()
+            ->withQuantity(100)
+            ->withTotalCost('1000.00')
             ->build()
-        );
+    );
 
-        // Then the outcome should be a decreased holding of a long position
+    // When we sell to close shares
 
-        $this->assertInstanceOf(Result::class, $result);
-        $this->assertTrue($result->isSuccess());
-        $outcome = $result->getValue();
-        $this->assertInstanceOf(DecreasedHolding::class, $outcome);
+    /** @var PositionProcessor $service */
+    $service = app(PositionProcessor::class);
+    $result = $service->computePositionOutcome(
+        ConfirmationBuilder::sellToCloseShares()
+        ->withQuantity(25)
+        ->withUnitPrice('60')
+        ->withCommission('5')
+        ->withUsTax('1')
+        ->build()
+    );
 
-        /** @var LongPosition $position */
-        $position = $outcome->getPosition();
-        $this->assertInstanceOf(LongPosition::class, $position);
+    // Then the outcome should be a decreased holding of a long position
 
-        // And the position quantity should have the correct value
-        $this->assertEquals(75, $position->getPositionQuantity()->value());
+    expect($result)->toBeSuccessfulResult();
 
-        // And the total cost should be unchanged
-        $totalCost = $position->getTotalCost();
-        $this->assertAmount('1000.00', $totalCost->getAmount());
-        $this->assertCurrency('USD', $totalCost->getCurrency());
+    $outcome = $result->getValue();
+    expect($outcome)->toBeInstanceOf(DecreasedHolding::class);
 
-        // And the total proceeds should be calculated correctly
-        $totalProceeds = $position->getTotalProceeds();
-        $this->assertAmount('1494.00', $totalProceeds->getAmount());
-        $this->assertCurrency('USD', $totalProceeds->getCurrency());
-    }
+    $position = $outcome->getPosition();
+    expect($position)->toBeInstanceOf(LongPosition::class);
 
-    #[Test]
-    public function it_triggers_realized_gain_when_close_effect()
-    {
-        // Given an existing position.
-        MockObject::mock(
-            PositionRepository::class,
-            'findBySecurityNumber',
-                PositionRecordBuilder::YYZ()
-                    ->withQuantity(100)
-                    ->withTotalCost('1000.00')
-                    ->build()
-        );
+    // And the position quantity should have the correct value
+    expect($position->getPositionQuantity())->toBeQuantity(
+        PositionQuantity::class,
+        75
+    );
 
-        // When we sell to close shares
+    // And the total cost should be unchanged
+    $totalCost = $position->getTotalCost();
+    expect($totalCost)->toBeMonetary(
+        CostAmount::class,
+        '1000.00', 'USD',
+    );
 
-        /** @var PositionService $service */
-        $service = app(PositionProcessor::class);
+    // And the total proceeds should be calculated correctly
+    $totalProceeds = $position->getTotalProceeds();
+    expect($totalProceeds)->toBeMonetary(
+        ProceedsAmount::class,
+        '1494.00', 'USD',
+    );
+});
 
-        $result = $service->computePositionOutcome(
-            ConfirmationBuilder::sellToCloseShares()
-            ->withQuantity(25)
-            ->withUnitPrice('60')
-            ->withCommission('5')
-            ->withUsTax('1')
+it('triggers realized gain when close effect', function () {
+
+    // Given an existing position.
+    givenPositionFoundInRepository(
+        PositionRecordBuilder::YYZ()
+            ->withQuantity(100)
+            ->withTotalCost('1000.00')
             ->build()
-        );
+    );
 
-        // Then trade should trigger a realized gain
-        $outcome = $this->assertResultIsDecreasedHolding($result);
-        $realizedGainOutcome = $outcome->getRealizedGainOutcome();
-        $this->assertInstanceOf(NewRealizedGainCreated::class, $realizedGainOutcome);
-        $realizedGainBasis = $realizedGainOutcome->getRealizedGainBasis();
-        $this->assertNotNull($realizedGainBasis);
+    // When we sell to close shares
 
-        /* Realized gain shoud have correct base quantity */
-        $this->assertEquals(100, $realizedGainBasis->getBaseQuantity()->value());
+    /** @var PositionProcessor $service */
+    $service = app(PositionProcessor::class);
+    $result = $service->computePositionOutcome(
+        ConfirmationBuilder::sellToCloseShares()
+        ->withQuantity(25)
+        ->withUnitPrice('60')
+        ->withCommission('5')
+        ->withUsTax('1')
+        ->build()
+    );
+    expect($result)->toBeSuccessfulResult();
 
-        /* And realized gain shoud have correct trade quantity */
-        $this->assertEquals(25, $realizedGainBasis->getTradeQuantity()->value());
+    // Then trade should trigger a realized gain
+    $outcome = $result->getValue();
+    expect($outcome)->toBeInstanceOf(DecreasedHolding::class);
 
-        /* And realized gain shoud have correct cost */
-        $cost = $realizedGainBasis->getCost();
-        $this->assertAmount('1000.00', $cost->getAmount());
-        $this->assertCurrency('USD', $cost->getCurrency());
+    $realizedGainOutcome = $outcome->getRealizedGainOutcome();
+    expect($realizedGainOutcome)->toBeInstanceOf(NewRealizedGainCreated::class);
 
-        /* And realized gain shoud have correct proceeds */
-        $proceeds = $realizedGainBasis->getProceeds();
-        $this->assertAmount('1494.00', $proceeds->getAmount());
-        $this->assertCurrency('USD', $proceeds->getCurrency());
-    }
+    $realizedGainBasis = $realizedGainOutcome->getRealizedGainBasis();
+    expect($realizedGainBasis)->not()->toBeNull();
 
-    #[Test]
-    public function it_preserves_existing_proceeds_when_rebuilding_from_persistence()
-    {
-        // Given an existing position that already has proceeds from a previous sale
-        MockObject::mock(
-            PositionRepository::class,
-            'findBySecurityNumber',
-            PositionRecordBuilder::YYZ()
-                ->withQuantity(75)
-                ->withTotalCost('1000.00')
-                ->withTotalProceeds('500.00')  // Already has proceeds!
-                ->build()
-        );
+    /* Realized gain should have correct base quantity */
+    expect($realizedGainBasis->getBaseQuantity())->toBeQuantity(
+        BaseQuantity::class,
+        100,
+    );
 
-        // When we sell more shares
-        /** @var PositionService $service */
-        $service = app(PositionProcessor::class);
+    /* And realized gain should have correct trade quantity */
+    expect($realizedGainBasis->getTradeQuantity())->toBeQuantity(
+        TradeQuantity::class,
+        25,
+    );
 
-        $result = $service->computePositionOutcome(
-            ConfirmationBuilder::sellToCloseShares()
-            ->withQuantity(25)
-            ->withUnitPrice('20')
-            ->withCommission('5')
-            ->withUsTax('1')
+    /* And realized gain shoud have correct cost */
+    $cost = $realizedGainBasis->getCost();
+    expect($cost)->toBeMonetary(
+        CostAmount::class,
+        '1000.00', 'USD',
+    );
+
+    /* And realized gain shoud have correct proceeds */
+    $proceeds = $realizedGainBasis->getProceeds();
+    expect($proceeds)->toBeMonetary(
+        ProceedsAmount::class,
+        '1494.00', 'USD',
+    );
+});
+
+it('preserves existing proceeds when rebuilding from persistence', function () {
+
+    // Given an existing position that already has proceeds from a previous sale
+    givenPositionFoundInRepository(
+        PositionRecordBuilder::YYZ()
+            ->withQuantity(75)
+            ->withTotalCost('1000.00')
+            ->withTotalProceeds('500.00')  // Already has proceeds!
             ->build()
-        );
+    );
 
-        // Then the existing proceeds should be preserved and added to
-        $outcome = $this->assertResultIsDecreasedHolding($result);
-        $position = $outcome->getPosition();
-        
-        $totalProceeds = $position->getTotalProceeds();
-        // 500 (existing) + 494 (new sale: 25 * 20 - 5 - 1) = 994
-        $this->assertAmount('994.00', $totalProceeds->getAmount());
-    }
+    // When we sell more shares
+    /** @var PositionProcessor $service */
+    $service = app(PositionProcessor::class);
+    $result = $service->computePositionOutcome(
+        ConfirmationBuilder::sellToCloseShares()
+        ->withQuantity(25)
+        ->withUnitPrice('20')
+        ->withCommission('5')
+        ->withUsTax('1')
+        ->build()
+    );
+    expect($result)->toBeSuccessfulResult();
 
-    private function assertResultIsDecreasedHolding(Result $result): DecreasedHolding
-    {
-        $this->assertInstanceOf(Result::class, $result);
-        $this->assertTrue($result->isSuccess());
-        $outcome = $result->getValue();
-        $this->assertInstanceOf(DecreasedHolding::class, $outcome);
+    // Then the existing proceeds should be preserved and added to
+    $outcome = $result->getValue();
+    expect($outcome)->toBeInstanceOf(DecreasedHolding::class);
 
-        return $outcome;
-    }
- }
+    $position = $outcome->getPosition();
+    $totalProceeds = $position->getTotalProceeds();
+    
+    // 500 (existing) + 494 (new sale: 25 * 20 - 5 - 1) = 994
+    expect($totalProceeds)->toBeMonetary(
+        ProceedsAmount::class,
+        '994.00', 'USD',
+    );
+});

@@ -1,6 +1,18 @@
 <?php
 
-use Tests\TestCase;
+use Tests\{
+    TestCase,
+    Unit\Support\Helpers\MockObject,
+};
+
+use App\Domain\{
+    Kernel\Money\Monetary,
+    Support\ValueObjects\Abstract\AbstractIntValueObject,
+};
+
+use App\Foundation\{
+    Result,
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +28,9 @@ use Tests\TestCase;
 pest()->extend(TestCase::class)
     ->in('Feature');
 
+uses(Tests\Unit\Support\PositionTestCase::class)
+    ->in('Unit/Application/Position/Service');
+
 /*
 |--------------------------------------------------------------------------
 | Expectations
@@ -27,9 +42,48 @@ pest()->extend(TestCase::class)
 |
 */
 
-// expect()->extend('toBeOne', function () {
-//     return $this->toBe(1);
-// });
+expect()->extend('toBeSuccessfulResult', function () {
+    $result = $this->value;
+
+    expect($result)->toBeInstanceOf(Result::class);
+
+    /** @var Result $result */
+    expect($result->isSuccess())->toBeTrue();
+
+    return $this;
+});
+
+expect()->extend('toBeMonetary', function (
+    string $expectedClassname,
+    string $expectedMoneyAmount,
+    string $expectedCurrency
+) {
+    $monetary = $this->value;
+
+    expect($monetary)->toBeInstanceOf(Monetary::class);
+    expect($monetary)->toBeInstanceOf($expectedClassname);
+
+    /** @var Monetary $monetary */
+    expect($monetary->getAmount()->value())->toBe($expectedMoneyAmount);
+    expect($monetary->getCurrency()->value())->toBe($expectedCurrency);
+
+    return $this;
+});
+
+expect()->extend('toBeQuantity', function (
+    string $expectedClassname,
+    int $expectedQuantity,
+) {
+    $quantity = $this->value;
+
+    expect($quantity)->toBeInstanceOf(AbstractIntValueObject::class);
+    expect($quantity)->toBeInstanceOf($expectedClassname);
+
+    /** @var AbstractIntValueObject $quantity */
+    expect($quantity->toInt())->toBe($expectedQuantity);
+
+    return $this;
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -42,7 +96,12 @@ pest()->extend(TestCase::class)
 |
 */
 
-// function something()
-// {
-//     // ..
-// }
+function givenPositionIsNotFoundInRepository(): void
+{
+    MockObject::findPositionBySecurityNumber(null);
+}
+
+function givenPositionFoundInRepository(mixed $returnValue): void
+{
+    MockObject::findPositionBySecurityNumber($returnValue);
+}
