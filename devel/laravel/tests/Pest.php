@@ -7,6 +7,7 @@ use Tests\{
 
 use App\Domain\{
     Kernel\Money\Monetary,
+    RealizedGain\ValueObjects\RealizationSource,
     Support\ValueObjects\Abstract\AbstractIntValueObject,
 };
 
@@ -81,6 +82,18 @@ expect()->extend('toBeQuantity', function (
 
     /** @var AbstractIntValueObject $quantity */
     expect($quantity->toInt())->toBe($expectedQuantity);
+
+    return $this;
+});
+
+expect()->extend('toBeRealizationSource', function (
+    string $expectedSourceType,
+) {
+    $source = $this->value;
+
+    /** @var RealizationSource $source */
+    expect($source)->toBeInstanceOf(RealizationSource::class);
+    expect($source->getType()->value())->toBe($expectedSourceType);
 
     return $this;
 });
