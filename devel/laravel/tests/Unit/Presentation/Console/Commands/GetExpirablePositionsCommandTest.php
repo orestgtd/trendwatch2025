@@ -2,14 +2,9 @@
 
 namespace Tests\Unit\Presentation\Console\Commands;
 
-use Mockery;
 use Tests\{
     Support\Builders\PositionBuilder,
     TestCase,
-};
-
-use App\Application\{
-    Reports\GetExpirablePositions,
 };
 
 use App\Presentation\{
@@ -21,74 +16,61 @@ use App\Foundation\{
     Result,
 };
 
-class GetExpirablePositionsCommandTest extends TestCase
-{
-    protected function tearDown(): void
-    {
-        Mockery::close();
-        parent::tearDown();
-    }
+pest()->extend(TestCase::class);
 
-    public function test_one_item(): void
-    {
-        // Arrange
+it('lists one expirable position', function () {
 
-        $position1 = PositionBuilder::LongCall(Date::fromString('2022-08-19'))
-            ->withSecurityNumber('R40')
-            ->build();
+    // Arrange one position
 
-        $mockUseCase = Mockery::mock(GetExpirablePositions::class);
-        $mockUseCase->shouldReceive('handle')
-            ->andReturn(Result::success([
-                $position1,
-            ]));
-        
-        $this->app->instance(GetExpirablePositions::class, $mockUseCase);
-        
-        // Act & Assert
-        $this->artisan(GetExpirablePositionsCommand::class)
-            ->expectsOutput('1 positions listed.')
-            ->assertExitCode(0);
-    }
+    $position1 = PositionBuilder::LongCall(
+        expirationDate: Date::fromString('2022-08-19')
+    )
+        ->withSecurityNumber('R40')
+        ->build();
 
-    public function test_two_items(): void
-    {
-        // Arrange
+    givenExpirablePositionHandles(
+        Result::success([$position1])
+    );
 
-        $position1 = PositionBuilder::LongCall(Date::fromString('2022-08-19'))
-            ->withSecurityNumber('R40')
-            ->build();
-        $position2 = PositionBuilder::LongCall(Date::fromString('2022-08-19'))
-            ->withSecurityNumber('R50')
-            ->build();
+    // Act & Assert
+    $this->artisan(GetExpirablePositionsCommand::class)
+        ->expectsOutput('1 positions listed.')
+        ->assertExitCode(0);
+});
 
-        $mockUseCase = Mockery::mock(GetExpirablePositions::class);
-        $mockUseCase->shouldReceive('handle')
-            ->andReturn(Result::success([
-                $position1,
-                $position2,
-            ]));
-        
-        $this->app->instance(GetExpirablePositions::class, $mockUseCase);
-        
-        // Act & Assert
-        $this->artisan(GetExpirablePositionsCommand::class)
-            ->expectsOutput('2 positions listed.')
-            ->assertExitCode(0);
-    }
+it('lists two expirable positions', function () {
 
-    public function test_zero_items(): void
-    {
-        // Arrange
-        $mockUseCase = Mockery::mock(GetExpirablePositions::class);
-        $mockUseCase->shouldReceive('handle')
-            ->andReturn(Result::success([]));
-        
-        $this->app->instance(GetExpirablePositions::class, $mockUseCase);
-        
-        // Act & Assert
-        $this->artisan(GetExpirablePositionsCommand::class)
-            ->expectsOutput('No expired positions found.')
-            ->assertExitCode(0);
-    }
-}
+    // Arrange two positions
+
+    $position1 = PositionBuilder::LongCall(Date::fromString('2022-08-19'))
+        ->withSecurityNumber('R40')
+        ->build();
+    $position2 = PositionBuilder::LongCall(Date::fromString('2022-08-19'))
+        ->withSecurityNumber('R50')
+        ->build();
+
+    givenExpirablePositionHandles(
+        Result::success([
+            $position1,
+            $position2,
+        ])
+    );
+
+    // Act & Assert
+    $this->artisan(GetExpirablePositionsCommand::class)
+        ->expectsOutput('2 positions listed.')
+        ->assertExitCode(0);
+});
+
+it('reports when no expired positions are found', function () {
+
+    // Arrange zero positions
+    givenExpirablePositionHandles(
+        Result::success([])
+    );
+
+    // Act & Assert
+    $this->artisan(GetExpirablePositionsCommand::class)
+        ->expectsOutput('No expired positions found.')
+        ->assertExitCode(0);
+});

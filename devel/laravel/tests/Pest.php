@@ -2,7 +2,8 @@
 
 use Tests\{
     TestCase,
-    Unit\Support\Helpers\MockObject,
+    Unit\Support\Helpers\MockHandler,
+    Unit\Support\Helpers\MockRepository,
 };
 
 use App\Domain\{
@@ -109,12 +110,22 @@ expect()->extend('toBeRealizationSource', function (
 |
 */
 
-function givenPositionIsNotFoundInRepository(): void
+function givenExpirablePositionHandles(mixed $result): void
 {
-    MockObject::findPositionBySecurityNumber(null);
+    MockHandler::handleExpirablePositions($result);
 }
 
 function givenPositionFoundInRepository(mixed $returnValue): void
 {
-    MockObject::findPositionBySecurityNumber($returnValue);
+    MockRepository::findPositionBySecurityNumber($returnValue);
+}
+
+function givenPositionIsNotFoundInRepository(): void
+{
+    MockRepository::findPositionBySecurityNumber(null);
+}
+
+function givenRealizedGainsFoundInRepository(mixed $returnValue): void
+{
+    MockRepository::findAllRealizedGains($returnValue);
 }
