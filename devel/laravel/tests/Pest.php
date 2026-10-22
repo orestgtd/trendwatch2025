@@ -44,6 +44,10 @@ uses(Tests\Unit\Support\PositionTestCase::class)
 |
 */
 
+/**
+ * @template T
+ * @method static toBeSuccessfulResult(Result<T>)
+ */
 expect()->extend('toBeSuccessfulResult', function () {
     $result = $this->value;
 
@@ -55,6 +59,22 @@ expect()->extend('toBeSuccessfulResult', function () {
     return $this;
 });
 
+/**
+ * @template T
+ * @method static toBeFailureResult(Result<T>)
+ */
+expect()->extend('toBeFailureResult', function () {
+    $result = $this->value;
+
+    expect($result)->toBeInstanceOf(Result::class);
+
+    /** @var Result $result */
+    expect($result->isFailure())->toBeTrue();
+
+    return $this;
+});
+
+/** @method static toBeMonetary(string $className, string $moneyAmount, string $currency) */
 expect()->extend('toBeMonetary', function (
     string $expectedClassname,
     string $expectedMoneyAmount,
@@ -72,6 +92,7 @@ expect()->extend('toBeMonetary', function (
     return $this;
 });
 
+/** @method static toBeQuantity(string $classname, int $quantity) */
 expect()->extend('toBeQuantity', function (
     string $expectedClassname,
     int $expectedQuantity,
@@ -87,6 +108,7 @@ expect()->extend('toBeQuantity', function (
     return $this;
 });
 
+/** @method static toBeRealizationSource(string $sourceType) */
 expect()->extend('toBeRealizationSource', function (
     string $expectedSourceType,
 ) {
@@ -125,7 +147,17 @@ function givenPositionIsNotFoundInRepository(): void
     MockRepository::findPositionBySecurityNumber(null);
 }
 
+function givenTradeIsNotFoundInRepository(): void
+{
+    MockRepository::findTradeByTradeNumber(null);
+}
+
 function givenRealizedGainsFoundInRepository(mixed $returnValue): void
 {
     MockRepository::findAllRealizedGains($returnValue);
+}
+
+function givenSecurityFoundInRepository(mixed $returnValue): void
+{
+    MockRepository::findSecurityBySecurityNumber($returnValue);
 }

@@ -2,86 +2,58 @@
 
 namespace Tests\Unit\Services;
 
-use Mockery;
 use Tests\{
     Support\Builders\SecurityRecordBuilder,
     Support\Builders\SecurityRequestBuilder,
-    TestCase,
 };
-
-use PHPUnit\Framework\Attributes\Test;
 
 use App\Application\Procedures\ProcessTradeConfirmation\{
     Services\SecurityService,
 };
 
-use App\Domain\Security\Outcome\NewSecurityCreated;
-use App\Domain\Security\Outcome\VariationAdded;
-use App\Infrastructure\Laravel\Eloquent\{
-    Security\Repositories\EloquentSecurityRepository as SecurityRepository,
+use App\Domain\{
+    Security\Outcome\NewSecurityCreated,
+    Security\Outcome\VariationAdded,
 };
 
-use App\Foundation\Result;
+it('creates a new security', function() {
 
-class SecurityServiceTest extends TestCase
-{
-    protected function tearDown(): void
-    {
-        Mockery::close();
-        parent::tearDown();
-    }
+    // Given security does not already exist
+    givenSecurityFoundInRepository(null);
 
-    #[Test]
-    public function it_creates_a_new_security()
-    {
-        // Given
-        $mockRepository = Mockery::mock(SecurityRepository::class);
-        $this->app->instance(SecurityRepository::class, $mockRepository);
-        $mockRepository
-            ->shouldReceive('findBySecurityNumber')
-            ->andReturn(
-                null
-            );
+    // When we process a security request
 
-        /** @var SecurityService $service */
-        $service = app(SecurityService::class);
+    /** @var SecurityService $service */
+    $service = app(SecurityService::class);
+    $result = $service->processSecurityRequest(
+        SecurityRequestBuilder::YYZ()->build()
+    );
+    expect($result)->toBeSuccessfulResult();
 
-        // When
-        $result = $service->processSecurityRequest(
-            SecurityRequestBuilder::YYZ()->build()
-        );
+    // Then a new security is created
+    $outcome = $result->getValue();
+    expect($outcome)->toBeInstanceOf(NewSecurityCreated::class);
+});
 
-        // Then
-        $this->assertInstanceOf(Result::class, $result);
-        $this->assertTrue($result->isSuccess());
-        $this->assertInstanceOf(NewSecurityCreated::class, $result->getValue());
-    }
+it('records a variation', function() {
 
-    #[Test]
-    public function it_records_a_variation()
-    {
-        // Given
-        $mockRepository = Mockery::mock(SecurityRepository::class);
-        $this->app->instance(SecurityRepository::class, $mockRepository);
-        $mockRepository
-            ->shouldReceive('findBySecurityNumber')
-            ->andReturn(
-                SecurityRecordBuilder::YYZ()
-            );
+    // Given security already exists
+    givenSecurityFoundInRepository(
+        SecurityRecordBuilder::YYZ()
+    );
 
-        /** @var SecurityService $service */
-        $service = app(SecurityService::class);
+    // When we process a security request with a new description
 
-        // When
-        $result = $service->processSecurityRequest(
-            SecurityRequestBuilder::YYZ()
-                ->withDescription('PROMISE OF ADVENTURE')
-                ->build()
-        );
+    /** @var SecurityService $service */
+    $service = app(SecurityService::class);
+    $result = $service->processSecurityRequest(
+        SecurityRequestBuilder::YYZ()
+            ->withDescription('PROMISE OF ADVENTURE')
+            ->build()
+    );
+    expect($result)->toBeSuccessfulResult();
 
-        // Then
-        $this->assertInstanceOf(Result::class, $result);
-        $this->assertTrue($result->isSuccess());
-        $this->assertInstanceOf(VariationAdded::class, $result->getValue());
-    }
-}
+    // Then a new variation is added
+    $outcome = $result->getValue();
+    expect($outcome)->toBeInstanceOf(VariationAdded::class);
+});

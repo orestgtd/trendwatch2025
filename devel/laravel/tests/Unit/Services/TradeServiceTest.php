@@ -2,57 +2,32 @@
 
 namespace Tests\Unit\Services;
 
-use Mockery;
 use Tests\{
     Support\Builders\TradeRequestBuilder,
-    TestCase,
 };
 
-use PHPUnit\Framework\Attributes\Test;
-
-use App\Application\Procedures\ProcessTradeConfirmation\{
-    Services\TradeService,
+use App\Application\{
+    Procedures\ProcessTradeConfirmation\Services\TradeService,
 };
 
-use App\Domain\Confirmation\Outcome\NewConfirmationCreated;
-
-use App\Infrastructure\Laravel\Eloquent\{
-    Trade\Repositories\EloquentTradeRepository as TradeRepository,
+use App\Domain\{
+    Confirmation\Outcome\NewConfirmationCreated,
 };
 
-use App\Foundation\Result;
+it('creates a new trade', function() {
 
-class TradeServiceTest extends TestCase
-{
-    protected function tearDown(): void
-    {
-        Mockery::close();
-        parent::tearDown();
-    }
+    // Given a trade that is not already in the repository
+    givenTradeIsNotFoundInRepository();
 
-    #[Test]
-    public function it_creates_a_new_trade()
-    {
-        // Given
-        $mockRepository = Mockery::mock(TradeRepository::class);
-        $this->app->instance(TradeRepository::class, $mockRepository);
-        $mockRepository
-            ->shouldReceive('findByTradeNumber')
-            ->andReturn(
-                null
-            );
+    // When we process a new trade
 
-        /** @var TradeService $service */
-        $service = app(TradeService::class);
+    /** @var TradeService $service */
+    $service = app(TradeService::class);
+    $result = $service->processConfirmationRequest(
+        TradeRequestBuilder::YYZ()->build()
+    );
+    expect($result)->toBeSuccessfulResult();
 
-        // When
-        $result = $service->processConfirmationRequest(
-            TradeRequestBuilder::YYZ()->build()
-        );
-
-        // Then
-        $this->assertInstanceOf(Result::class, $result);
-        $this->assertTrue($result->isSuccess());
-        $this->assertInstanceOf(NewConfirmationCreated::class, $result->getValue());
-    }
-}
+    // Then a new trade confirmation is created
+    expect($result->getValue())->toBeInstanceOf(NewConfirmationCreated::class);
+});
