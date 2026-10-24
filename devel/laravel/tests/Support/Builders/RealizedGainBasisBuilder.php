@@ -9,26 +9,24 @@ use App\Domain\Confirmation\ValueObjects\{
 
 use App\Domain\Kernel\{
     Identifiers\SecurityNumber,
+    Identifiers\TradeNumber,
     Money\Currency,
     Money\MoneyAmount,
     Values\PositionType,
     Values\RealizationDate,
     Values\UnitType,
 };
+
 use App\Domain\{
     Confirmation\ValueObjects\TradeQuantity,
-    Kernel\Identifiers\TradeNumber,
     Position\ValueObjects\BaseQuantity,
     RealizedGain\Model\RealizedGainBasis,
+    RealizedGain\Record\RealizedGainBasisRecord,
     RealizedGain\ValueObjects\RealizationSource,
 };
 
 use App\Foundation\{
     Date,
-};
-
-use App\Infrastructure\{
-    Laravel\Eloquent\RealizedGain\Dto\PersistedRealizedGainBasisDto,
 };
 
 final class RealizedGainBasisBuilder
@@ -105,9 +103,9 @@ final class RealizedGainBasisBuilder
         );
     }
 
-    public function buildPersistedDto(): PersistedRealizedGainBasisDto
+    public function buildRecord(): RealizedGainBasisRecord
     {
-        return new PersistedRealizedGainBasisDto(
+        return new RealizedGainBasisRecord(
             $this->securityNumber,
             $this->realizationDate,
             $this->positionType,

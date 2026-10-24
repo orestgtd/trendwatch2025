@@ -4,10 +4,7 @@ namespace App\Application\Contracts;
 
 use App\Domain\RealizedGain\{
     Model\RealizedGainBasis,
-};
-
-use App\Infrastructure\{
-    Laravel\Eloquent\RealizedGain\Dto\PersistedRealizedGainBasisDto,
+    Record\RealizedGainBasisRecord,
 };
 
 interface RealizedGainRepositoryContract
@@ -18,6 +15,6 @@ interface RealizedGainRepositoryContract
 
     // Queries
 
-    /** @return PersistedRealizedGainBasisDto[] */
+    /** @return RealizedGainBasisRecord[] */
     public function all(): array;
 }

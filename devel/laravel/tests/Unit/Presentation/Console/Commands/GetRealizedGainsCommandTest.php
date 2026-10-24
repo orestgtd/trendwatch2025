@@ -14,7 +14,7 @@ it('lists realized gains', function() {
     // Arrange
 
     $gain = RealizedGainBasisBuilder::gainFromBuyToCloseLongPosition()
-        ->buildPersistedDto();
+        ->buildRecord();
 
     givenRealizedGainsFoundInRepository([
         $gain

@@ -2,21 +2,26 @@
 
 namespace App\Infrastructure\Laravel\Eloquent\RealizedGain\Repositories;
 
-use App\Application\Contracts\RealizedGainRepositoryContract;
-use App\Domain\RealizedGain\Model\RealizedGainBasis;
+use App\Application\{
+    Contracts\RealizedGainRepositoryContract,
+};
+
+use App\Domain\{
+    RealizedGain\Model\RealizedGainBasis,
+    RealizedGain\Record\RealizedGainBasisRecord,
+};
 
 use App\Infrastructure\Laravel\Eloquent\RealizedGain\{
     Model\RealizedGainBasis as EloquentRealizedGainBasis,
-    Dto\PersistedRealizedGainBasisDto,
 };
 
 class EloquentRealizedGainRepository implements RealizedGainRepositoryContract
 {
-    /** @return PersistedRealizedGainBasisDto[] */
+    /** @return RealizedGainBasisRecord[] */
     public function all(): array
     {
         return EloquentRealizedGainBasis::all()
-            ->map(fn(EloquentRealizedGainBasis $eloquent) => new PersistedRealizedGainBasisDto(
+            ->map(fn(EloquentRealizedGainBasis $eloquent) => new RealizedGainBasisRecord(
                 $eloquent->security_number,
                 $eloquent->realization_date,
                 $eloquent->position_type,
