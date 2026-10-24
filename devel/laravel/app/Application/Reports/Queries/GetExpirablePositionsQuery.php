@@ -2,7 +2,9 @@
 
 namespace App\Application\Reports\Queries;
 
-use App\Foundation\Date;
+use App\Application\{
+    Contracts\PositionRepositoryContract,
+};
 
 use App\Domain\Position\{
     Builders\BuildPositionFromRecord,
@@ -10,14 +12,12 @@ use App\Domain\Position\{
     Record\PositionRecord,
 };
 
-use App\Infrastructure\Laravel\Eloquent\Position\{
-    Repositories\EloquentPositionRepository,
-};
+use App\Foundation\Date;
 
 class GetExpirablePositionsQuery
 {
     public function __construct(
-        private readonly EloquentPositionRepository $repository
+        private readonly PositionRepositoryContract $repository
     ) {}
 
     /** @return Position[] */

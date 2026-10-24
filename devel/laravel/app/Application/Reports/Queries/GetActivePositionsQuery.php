@@ -2,20 +2,20 @@
 
 namespace App\Application\Reports\Queries;
 
+use App\Application\{
+    Contracts\PositionRepositoryContract,
+};
+
 use App\Domain\Position\{
     Builders\BuildPositionFromRecord,
     Model\Position,
     Record\PositionRecord,
 };
 
-use App\Infrastructure\Laravel\Eloquent\Position\{
-    Repositories\EloquentPositionRepository,
-};
-
 final class GetActivePositionsQuery
 {
     public function __construct(
-        private readonly EloquentPositionRepository $repository
+        private readonly PositionRepositoryContract $repository
     ) {}
 
     /** @return Position[] */

@@ -1,4 +1,9 @@
-.PHONY: test serve autoload stan
+.PHONY: arch test serve autoload stan
+
+### Testing
+
+arch:
+	php artisan test tests/Architecture
 
 test:
 	php artisan test $(if $(TEST),--filter=$(TEST))
@@ -22,6 +27,8 @@ integration:
 
 coverage:
 	php -d pcov.enabled=1 ./vendor/bin/phpunit --coverage-html coverage
+
+### General
 
 serve:
 	php artisan serve
