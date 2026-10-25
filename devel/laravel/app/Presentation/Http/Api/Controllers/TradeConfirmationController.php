@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Presentation\Http\Controllers;
+namespace App\Presentation\Http\Api\Controllers;
 
 use Illuminate\Http\{
     JsonResponse,
@@ -21,7 +21,7 @@ use App\Presentation\{
 //     Http\Presenters\SummaryPresenter,
 // };
 
-final class TradeConfirmationController extends Controller
+final class TradeConfirmationController
 {
     public function __construct(
         private ProcessTradeConfirmation $usecase,

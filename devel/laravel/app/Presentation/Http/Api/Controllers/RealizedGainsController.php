@@ -1,24 +1,26 @@
 <?php
 
-namespace App\Presentation\Http\Controllers;
+namespace App\Presentation\Http\Api\Controllers;
 
 use Illuminate\Http\{
     JsonResponse,
 };
 
 use App\Application\{
-    Reports\GetActivePositions,
+    Reports\GetRealizedGains,
 };
 
-class PositionController
+use App\Foundation\Result;
+
+class RealizedGainsController
 {
     public function __construct(
-        private readonly GetActivePositions $getPositions
+        private readonly GetRealizedGains $getRealizedGains
     ) {}
 
     public function index(): JsonResponse
     {
-        return $this->getPositions->handle()->match(
+        return $this->handleRealizedGains()->match(
             onSuccess: fn(array $positions) => response()->json([
                 'data' => $positions,
                 'count' => count($positions)
@@ -27,5 +29,11 @@ class PositionController
                 'error' => $error
             ], 500)
         );
+    }
+
+    /** @return Result<array> */
+    private function handleRealizedGains(): Result
+    {
+        return $this->getRealizedGains->handle();
     }
 }

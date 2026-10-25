@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 // use Illuminate\Http\Request;
 
-use \App\Presentation\Http\Controllers\{
+use \App\Presentation\Http\Api\Controllers\{
     ExpirePositionsController,
     HelloController,
     PositionController,

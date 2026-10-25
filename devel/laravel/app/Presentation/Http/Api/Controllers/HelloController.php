@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Presentation\Http\Controllers;
+namespace App\Presentation\Http\Api\Controllers;
 
-use App\Presentation\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 
-class HelloController extends Controller
+class HelloController
 {
     public function index(): JsonResponse
     {
